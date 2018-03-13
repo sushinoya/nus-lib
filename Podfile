@@ -6,6 +6,7 @@ target 'NUSLib' do
   use_frameworks!
 
   # Pods for NUSLib
+  pod 'Neon'
 
   target 'NUSLibTests' do
     inherit! :search_paths
