@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '58D38E52A5B391BC5CB15792A72ACB6A'
-               BlueprintName = 'SkyFloatingLabelTextField'
+               BlueprintIdentifier = '43B48BED66D97A5345A1F50C17BB3F94'
+               BlueprintName = 'ZFRippleButton'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SkyFloatingLabelTextField.framework'>
+               BuildableName = 'ZFRippleButton.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

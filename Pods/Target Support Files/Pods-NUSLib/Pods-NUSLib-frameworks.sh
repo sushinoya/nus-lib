@@ -92,11 +92,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FontAwesome.swift/FontAwesome_swift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Neon/Neon.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/ZFRippleButton/ZFRippleButton.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FontAwesome.swift/FontAwesome_swift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Neon/Neon.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/ZFRippleButton/ZFRippleButton.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

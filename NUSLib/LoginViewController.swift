@@ -10,6 +10,7 @@ import UIKit
 import Neon
 import SkyFloatingLabelTextField
 import FontAwesome_swift
+import ZFRippleButton
 
 class LoginViewController: UIViewController {
     
@@ -21,7 +22,7 @@ class LoginViewController: UIViewController {
     let studentId = SkyFloatingLabelTextFieldWithIcon()
     let studentPassword = SkyFloatingLabelTextFieldWithIcon()
     
-    let loginButton = UIButton()
+    let loginButton = ZFRippleButton()
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -88,6 +89,8 @@ class LoginViewController: UIViewController {
         loginButton.layer.shadowRadius = 10
         loginButton.layer.shadowOpacity = 0.5
         loginButton.layer.masksToBounds = false
+        loginButton.rippleColor = UIColor.white.withAlphaComponent(0.2)
+        loginButton.rippleBackgroundColor = UIColor.clear
     }
 
 }

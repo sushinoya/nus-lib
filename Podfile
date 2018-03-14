@@ -9,6 +9,7 @@ target 'NUSLib' do
   pod 'Neon'
   pod 'SkyFloatingLabelTextField', '~> 3.0'
   pod 'FontAwesome.swift'
+  pod 'ZFRippleButton', '~> 0.6'
 
   target 'NUSLibTests' do
     inherit! :search_paths
