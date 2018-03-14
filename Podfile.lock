@@ -1,12 +1,18 @@
 PODS:
+  - FontAwesome.swift (1.3.2)
   - Neon (0.4.0)
+  - SkyFloatingLabelTextField (3.4.0)
 
 DEPENDENCIES:
+  - FontAwesome.swift
   - Neon
+  - SkyFloatingLabelTextField (~> 3.0)
 
 SPEC CHECKSUMS:
+  FontAwesome.swift: b4e4c8ccbbecb12f9b592bc533ff237af3706667
   Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
+  SkyFloatingLabelTextField: 703aa1420b697392b1e7dba25571180dde018477
 
-PODFILE CHECKSUM: e301f624c54f0e32bb1807f1eb241d7f86da45da
+PODFILE CHECKSUM: bb3a2c810492eaba3aafdd0c773bee531f7a9fdc
 
 COCOAPODS: 1.2.0

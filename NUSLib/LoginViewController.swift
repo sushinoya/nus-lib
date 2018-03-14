@@ -8,14 +8,20 @@
 
 import UIKit
 import Neon
+import SkyFloatingLabelTextField
+import FontAwesome_swift
 
 class LoginViewController: UIViewController {
     
     let texture = UIView()
     let logo = UIImageView()
     
-    let studentId = UITextField()
-    let studentPassword = UITextField()
+    let loginTitle = UILabel()
+    
+    let studentId = SkyFloatingLabelTextFieldWithIcon()
+    let studentPassword = SkyFloatingLabelTextFieldWithIcon()
+    
+    let loginButton = UIButton()
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -24,15 +30,19 @@ class LoginViewController: UIViewController {
         
         // align in the center, then offset by 100px upwards
         logo.anchorInCenter(width: 300, height: 202)
-        logo.frame = logo.frame.offsetBy(dx: 0, dy: -100)
+        logo.frame = logo.frame.offsetBy(dx: 0, dy: -150)
         
         studentId.align(.underCentered, relativeTo: logo, padding: 15, width: 400, height: 50)
         studentPassword.align(.underCentered, relativeTo: studentId, padding: 15, width: 400, height: 50)
+        
+        loginButton.align(.underCentered, relativeTo: studentPassword, padding: 30, width: 200, height: 50)
         
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.hideKeyboardWhenTappedAround()
 
         view.backgroundColor = UIColor("#092140")
         
@@ -43,20 +53,41 @@ class LoginViewController: UIViewController {
         logo.image = #imageLiteral(resourceName: "logo")
         
         view.addSubview(studentId)
-        studentId.placeholder = "Student ID"
-        studentId.setLeftPaddingPoints(15)
-        studentId.setRightPaddingPoints(15)
-        studentId.layer.cornerRadius = 15
-        studentId.layer.backgroundColor = UIColor.white.cgColor
+        studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
+        studentId.iconText = String.fontAwesomeIcon(name: .idCard)
+        studentId.autocapitalizationType = .allCharacters
+        studentId.placeholder = "Matric Number"
+        studentId.title = "Matric Number"
+        studentId.tintColor = UIColor.white // the color of the blinking cursor
+        studentId.textColor = UIColor.white
+        studentId.lineColor = UIColor.white
+        studentId.selectedTitleColor = UIColor("#F2C777")
+        studentId.selectedLineColor = UIColor("#F2C777")
+        studentId.delegate = self
+        studentId.tag = 0
         
         view.addSubview(studentPassword)
+        studentPassword.iconFont = UIFont.fontAwesome(ofSize: 15)
+        studentPassword.iconText = String.fontAwesomeIcon(name: .lock)
         studentPassword.placeholder = "Password"
-        studentPassword.setLeftPaddingPoints(15)
-        studentPassword.setRightPaddingPoints(15)
-        studentPassword.layer.cornerRadius = 15
-        studentPassword.layer.backgroundColor = UIColor.white.cgColor
+        studentPassword.title = "Password"
+        studentPassword.textColor = UIColor.white
+        studentPassword.lineColor = UIColor.white
+        studentPassword.selectedTitleColor = UIColor("#F2C777")
+        studentPassword.selectedLineColor = UIColor("#F2C777")
         studentPassword.isSecureTextEntry = true
+        studentPassword.delegate = self
+        studentPassword.tag = 1
         
+        view.addSubview(loginButton)
+        loginButton.setTitle("LOGIN", for: .normal)
+        loginButton.backgroundColor = UIColor("#213753")
+        loginButton.layer.cornerRadius = 25
+        loginButton.layer.shadowColor = UIColor.black.cgColor
+        loginButton.layer.shadowOffset = CGSize(width: 1.5, height: 1.5)
+        loginButton.layer.shadowRadius = 10
+        loginButton.layer.shadowOpacity = 0.5
+        loginButton.layer.masksToBounds = false
     }
 
 }
@@ -81,15 +112,31 @@ extension UIColor {
     }
 }
 
-extension UITextField {
-    func setLeftPaddingPoints(_ amount:CGFloat){
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
-        self.leftView = paddingView
-        self.leftViewMode = .always
+// Put this piece of code anywhere you like
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
-    func setRightPaddingPoints(_ amount:CGFloat) {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
-        self.rightView = paddingView
-        self.rightViewMode = .always
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension UIViewController: UITextFieldDelegate {
+    
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+        }
+        // Do not add a line break
+        return false
     }
 }

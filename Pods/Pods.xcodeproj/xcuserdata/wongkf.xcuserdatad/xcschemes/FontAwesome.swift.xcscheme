@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DEE5C6544DF132A26643906171B6A5B8"
-               BuildableName = "Pods_NUSLib.framework"
-               BlueprintName = "Pods-NUSLib"
+               BlueprintIdentifier = "CD11672B6619C297B6AEE3DFB8213C59"
+               BuildableName = "FontAwesome_swift.framework"
+               BlueprintName = "FontAwesome.swift"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,9 +47,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DEE5C6544DF132A26643906171B6A5B8"
-            BuildableName = "Pods_NUSLib.framework"
-            BlueprintName = "Pods-NUSLib"
+            BlueprintIdentifier = "CD11672B6619C297B6AEE3DFB8213C59"
+            BuildableName = "FontAwesome_swift.framework"
+            BlueprintName = "FontAwesome.swift"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
