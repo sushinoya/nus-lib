@@ -45,7 +45,7 @@ class LoginViewController: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
 
-        view.backgroundColor = UIColor("#092140")
+        view.backgroundColor = UIColor(Constants.Colors.backgroundColor)
         
         view.addSubview(texture)
         texture.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "crissxcross"))
@@ -62,8 +62,8 @@ class LoginViewController: UIViewController {
         studentId.tintColor = UIColor.white // the color of the blinking cursor
         studentId.textColor = UIColor.white
         studentId.lineColor = UIColor.white
-        studentId.selectedTitleColor = UIColor("#F2C777")
-        studentId.selectedLineColor = UIColor("#F2C777")
+        studentId.selectedTitleColor = UIColor(Constants.Colors.titleColor)
+        studentId.selectedLineColor = UIColor(Constants.Colors.titleColor)
         studentId.delegate = self
         studentId.tag = 0
         
@@ -74,8 +74,8 @@ class LoginViewController: UIViewController {
         studentPassword.title = "Password"
         studentPassword.textColor = UIColor.white
         studentPassword.lineColor = UIColor.white
-        studentPassword.selectedTitleColor = UIColor("#F2C777")
-        studentPassword.selectedLineColor = UIColor("#F2C777")
+        studentPassword.selectedTitleColor = UIColor(Constants.Colors.titleColor)
+        studentPassword.selectedLineColor = UIColor(Constants.Colors.titleColor)
         studentPassword.isSecureTextEntry = true
         studentPassword.delegate = self
         studentPassword.tag = 1
