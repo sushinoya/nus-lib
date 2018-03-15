@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum Constants {
+struct Constants {
 
     enum Colors {
         static let titleColor = "#F2C777"

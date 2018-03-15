@@ -13,7 +13,7 @@ import Foundation
  be the image thumbnail associated with this object, and rating holds a rating of this item, if any.
  */
 
-protocol Item {
+protocol DisplayableItem {
 
     func getTitle()
     func getThumbNail()
