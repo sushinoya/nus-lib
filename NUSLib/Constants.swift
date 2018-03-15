@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum Constants {
 
@@ -15,4 +16,32 @@ enum Constants {
         static let backgroundColor = "#092140"
     }
     
+}
+
+// app theme & color branding
+extension UIColor{
+    // primary
+    static let navyBlue = UIColor("#092140")
+    static let primary = UIColor.navyBlue
+    
+    // primary tint
+    static let navyBlueTint1 = UIColor("#213753")
+    static let primaryTint1 = UIColor.navyBlueTint1
+    
+    // accents
+    static let elfGreen = UIColor("#024959")
+    static let accent1 = UIColor.elfGreen
+    
+    static let custardYellow = UIColor("#F2C777")
+    static let accent2 = UIColor.custardYellow
+    
+    static let milkyWhite = UIColor("#E6E7E8")
+    static let accent3 = UIColor.milkyWhite
+    
+    static let lipstickRed = UIColor("#BF2A2A")
+    static let accent4 = UIColor.lipstickRed
+}
+
+extension UIFont{
+    static let primary = UIFont(name: "Avenir", size: 32)
 }
