@@ -1,6 +1,0 @@
-framework module Pods_NUSLibUITests {
-  umbrella header "Pods-NUSLibUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}
