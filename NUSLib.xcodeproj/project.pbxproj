@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		052BADAF5CECEAEF346C1969 /* Pods_NUSLibTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FF39C242A3B7800FDBA616D /* Pods_NUSLibTests.framework */; };
 		269F0CB1CC62BAC4F440660D /* Pods_NUSLibUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666FB9F204EC2BC45FAFDC80 /* Pods_NUSLibUITests.framework */; };
+		4251F6D2205D152600F5687B /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4251F6D1205D152600F5687B /* BookItem.swift */; };
 		42758D5B205988B4007C5629 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42758D5A205988B4007C5629 /* UserProfile.swift */; };
-		42758D5D20598BA8007C5629 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42758D5C20598BA8007C5629 /* Item.swift */; };
+		42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42758D5C20598BA8007C5629 /* DisplayableItem.swift */; };
 		4275CD0C20598FFD00943195 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275CD0B20598FFD00943195 /* Constants.swift */; };
 		4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6150012057E6FC005AA59B /* AppDelegate.swift */; };
 		4A6150072057E6FC005AA59B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6150052057E6FC005AA59B /* Main.storyboard */; };
@@ -44,8 +45,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4251F6D1205D152600F5687B /* BookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItem.swift; sourceTree = "<group>"; };
 		42758D5A205988B4007C5629 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-		42758D5C20598BA8007C5629 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		42758D5C20598BA8007C5629 /* DisplayableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableItem.swift; sourceTree = "<group>"; };
 		4275CD0B20598FFD00943195 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4A614FFE2057E6FC005AA59B /* NUSLib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NUSLib.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A6150012057E6FC005AA59B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,7 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				42758D5A205988B4007C5629 /* UserProfile.swift */,
-				42758D5C20598BA8007C5629 /* Item.swift */,
+				42758D5C20598BA8007C5629 /* DisplayableItem.swift */,
+				4251F6D1205D152600F5687B /* BookItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -533,11 +536,12 @@
 			files = (
 				4AE79FBF205AAAD400309D02 /* UIViewController+Helper.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
-				42758D5D20598BA8007C5629 /* Item.swift in Sources */,
+				42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */,
 				42758D5B205988B4007C5629 /* UserProfile.swift in Sources */,
 				4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */,
 				4AE79FC8205AABAD00309D02 /* LoginViewController.swift in Sources */,
 				4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */,
+				4251F6D2205D152600F5687B /* BookItem.swift in Sources */,
 				4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */,
 				4275CD0C20598FFD00943195 /* Constants.swift in Sources */,
 			);
