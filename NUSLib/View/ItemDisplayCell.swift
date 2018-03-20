@@ -22,8 +22,7 @@ class ItemDisplayCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
-        
+        setupViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -45,7 +44,7 @@ class ItemDisplayCell: UICollectionViewCell {
         applyGradation(imageView)
     }
     
-    private func configure() {
+    private func setupViews() {
         imageView = UIImageView()
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.contentMode = .scaleAspectFill

@@ -30,6 +30,7 @@
 		ECA32801206146F3002E584B /* ItemDisplayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA32800206146F3002E584B /* ItemDisplayCell.swift */; };
 		ECA328042061475B002E584B /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA328032061475B002E584B /* BookItem.swift */; };
 		ECA3280620614813002E584B /* FavouriteViewController + CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */; };
+		ECAE28482061660600457417 /* SearchViewController + Tableview.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE28472061660600457417 /* SearchViewController + Tableview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		ECA32800206146F3002E584B /* ItemDisplayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDisplayCell.swift; sourceTree = "<group>"; };
 		ECA328032061475B002E584B /* BookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItem.swift; sourceTree = "<group>"; };
 		ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteViewController + CollectionView.swift"; sourceTree = "<group>"; };
+		ECAE28472061660600457417 /* SearchViewController + Tableview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchViewController + Tableview.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,7 +244,7 @@
 		4AF3479D206122A200B576C2 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				4AF3479E206122B000B576C2 /* SearchViewController.swift */,
+				ECAE28492061674B00457417 /* SearchMainScreen */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -274,6 +276,15 @@
 				ECA32800206146F3002E584B /* ItemDisplayCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		ECAE28492061674B00457417 /* SearchMainScreen */ = {
+			isa = PBXGroup;
+			children = (
+				4AF3479E206122B000B576C2 /* SearchViewController.swift */,
+				ECAE28472061660600457417 /* SearchViewController + Tableview.swift */,
+			);
+			path = SearchMainScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -587,6 +598,7 @@
 				4AE79FBF205AAAD400309D02 /* UIViewController+Helper.swift in Sources */,
 				4AF3479F206122B000B576C2 /* SearchViewController.swift in Sources */,
 				ECA328042061475B002E584B /* BookItem.swift in Sources */,
+				ECAE28482061660600457417 /* SearchViewController + Tableview.swift in Sources */,
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
 				42758D5D20598BA8007C5629 /* Item.swift in Sources */,
