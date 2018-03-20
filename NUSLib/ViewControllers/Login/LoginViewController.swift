@@ -14,9 +14,7 @@ import ZFRippleButton
 import RxSwift
 import RxCocoa
 
-class LoginViewController: UIViewController {
-    
-    let disposeBag = DisposeBag()
+class LoginViewController: BaseViewController {
     
     let texture = UIView()
     let logo = UIImageView()
@@ -51,6 +49,7 @@ class LoginViewController: UIViewController {
         
         view.addSubview(texture)
         texture.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "crissxcross"))
+        view.sendSubview(toBack: texture)
         
         view.addSubview(logo)
         logo.image = #imageLiteral(resourceName: "logo")
@@ -95,5 +94,4 @@ class LoginViewController: UIViewController {
         loginButton.rippleBackgroundColor = UIColor.clear
     
     }
-
 }
