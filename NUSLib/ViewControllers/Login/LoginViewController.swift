@@ -93,11 +93,7 @@ class LoginViewController: UIViewController {
         loginButton.layer.masksToBounds = false
         loginButton.rippleColor = UIColor.white.withAlphaComponent(0.2)
         loginButton.rippleBackgroundColor = UIColor.clear
-        
-        loginButton.rx.tap.bind {
-            self.performSegue(withIdentifier: "loginSegue", sender: self.loginButton)
-            }
-            .disposed(by: disposeBag)
+    
     }
 
 }
