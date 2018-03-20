@@ -13,6 +13,7 @@ target 'NUSLib' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxGesture'
+  pod 'SideMenu'
 
   target 'NUSLibTests' do
     inherit! :search_paths

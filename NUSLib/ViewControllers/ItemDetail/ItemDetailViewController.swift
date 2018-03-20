@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ItemDetailViewController: UIViewController{
+class ItemDetailViewController: BaseViewController{
     
 }
 

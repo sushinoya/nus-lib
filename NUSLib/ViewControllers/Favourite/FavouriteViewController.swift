@@ -8,6 +8,12 @@
 
 import UIKit
 
-class FavouriteViewController: UIViewController{
+class FavouriteViewController: BaseViewController{
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        print("OMG")
+        
+    }
 }

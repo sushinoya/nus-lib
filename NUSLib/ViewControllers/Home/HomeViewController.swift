@@ -8,28 +8,32 @@
 
 import UIKit
 import Neon
+import ZFRippleButton
+import RxSwift
+import RxCocoa
+import RxGesture
+import SideMenu
 
-class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class HomeViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     let popularTitle = UILabel()
     
+    let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     var collectionview: UICollectionView!
-    var cellId = "PopularCell"
     
     let recommendTitle = UILabel()
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        popularTitle.anchorAndFillEdge(.top, xPad: 15, yPad: 15, otherSize: 100)
+        popularTitle.anchorAndFillEdge(.top, xPad: 15, yPad: 35, otherSize: 100)
         collectionview.alignAndFillWidth(align: .underCentered, relativeTo: popularTitle, padding: 0, height: 100, offset: 0)
         recommendTitle.alignAndFillWidth(align: .underCentered, relativeTo: collectionview, padding: 15, height: 100)
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.addSubview(popularTitle)
         popularTitle.textColor = UIColor.primary
         popularTitle.text = "POPULAR"
@@ -38,20 +42,19 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         // Create an instance of UICollectionViewFlowLayout since you cant
         // Initialize UICollectionView without a layout
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: view.frame.width, height: 100)
         layout.scrollDirection = .horizontal
         
         collectionview = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        view.addSubview(collectionview)
         collectionview.dataSource = self
         collectionview.delegate = self
-        collectionview.register(PopularCell.self, forCellWithReuseIdentifier: cellId)
+        collectionview.register(PopularCell.self, forCellWithReuseIdentifier: "PopularCell")
         collectionview.showsVerticalScrollIndicator = false
         collectionview.showsHorizontalScrollIndicator = false
         collectionview.backgroundColor = UIColor.white
         collectionview.isPagingEnabled = true
-        view.addSubview(collectionview)
         
         view.addSubview(recommendTitle)
         recommendTitle.textColor = UIColor.primary
@@ -69,7 +72,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionview.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PopularCell
+        let cell = collectionview.dequeueReusableCell(withReuseIdentifier: "PopularCell", for: indexPath) as! PopularCell
         cell.addViews()
         return cell
     }

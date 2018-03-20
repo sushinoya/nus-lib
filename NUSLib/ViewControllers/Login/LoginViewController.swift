@@ -14,9 +14,7 @@ import ZFRippleButton
 import RxSwift
 import RxCocoa
 
-class LoginViewController: UIViewController {
-    
-    let disposeBag = DisposeBag()
+class LoginViewController: BaseViewController {
     
     let texture = UIView()
     let logo = UIImageView()
@@ -45,12 +43,13 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.hideKeyboardWhenTappedAround()
+        hideKeyboardWhenTappedAround()
 
         view.backgroundColor = UIColor.primary
         
         view.addSubview(texture)
         texture.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "crissxcross"))
+        view.sendSubview(toBack: texture)
         
         view.addSubview(logo)
         logo.image = #imageLiteral(resourceName: "logo")
@@ -94,6 +93,16 @@ class LoginViewController: UIViewController {
         loginButton.rippleColor = UIColor.white.withAlphaComponent(0.2)
         loginButton.rippleBackgroundColor = UIColor.clear
     
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
 }
