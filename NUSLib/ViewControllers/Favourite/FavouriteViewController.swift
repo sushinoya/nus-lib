@@ -10,10 +10,4 @@ import UIKit
 
 class FavouriteViewController: BaseViewController{
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        print("OMG")
-        
-    }
 }

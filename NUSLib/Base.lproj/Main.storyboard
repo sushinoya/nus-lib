@@ -45,7 +45,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="show" id="cEs-5P-nbd"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" identifier="" id="cEs-5P-nbd"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="i9Z-V5-iOD" detailTextLabel="Pe8-ye-lDk" style="IBUITableViewCellStyleValue1" id="AQe-WL-YzQ">
@@ -72,7 +72,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="iMp-51-Lnq" kind="show" id="ZRQ-PA-wGZ"/>
+                                            <segue destination="iMp-51-Lnq" kind="show" identifier="" id="ZRQ-PA-wGZ"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="c9Z-Gc-oy6" detailTextLabel="SsH-2e-U51" style="IBUITableViewCellStyleValue1" id="s16-Ag-2i2">
@@ -99,7 +99,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="URd-eG-Tyh" kind="show" id="QjH-Gp-eXD"/>
+                                            <segue destination="URd-eG-Tyh" kind="show" identifier="" id="QjH-Gp-eXD"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -167,7 +167,7 @@
                         <viewLayoutGuide key="safeArea" id="BWI-aO-Et0"/>
                     </view>
                     <connections>
-                        <segue destination="hgM-Xp-iER" kind="show" id="Cdz-AH-HxY"/>
+                        <segue destination="hgM-Xp-iER" kind="show" identifier="FavouriteToItemDetail" id="Cdz-AH-HxY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3W9-GT-9DW" userLabel="First Responder" sceneMemberID="firstResponder"/>
