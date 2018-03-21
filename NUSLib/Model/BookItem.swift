@@ -23,7 +23,7 @@ class BookItem: DisplayableItem {
     }
     
     convenience init(name title: String, image: UIImage) {
-        
+        self.init(name: title, author: "Unknown", image: image, rating: 5)
     }
     
     func getTitle() -> String {

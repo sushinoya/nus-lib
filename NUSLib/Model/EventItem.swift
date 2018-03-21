@@ -24,5 +24,9 @@ class EventItem: DisplayableItem {
     func getThumbNail() -> UIImage {
         return self.thumbNail
     }
+    
+    func getRating() -> Int {
+        return -1
+    }
 
 }

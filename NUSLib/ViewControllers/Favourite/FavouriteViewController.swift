@@ -28,12 +28,14 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        searchBar.anchorToEdge(.top, padding: 20, width: view.frame.width, height: 60)
+        searchBar.anchorAndFillEdge(.top, xPad: 0, yPad: 60, otherSize: 50)
         collectionview.alignAndFill(align: .underCentered, relativeTo: searchBar, padding: 0, offset: 0)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Favourite"
         
         searchBar = UISearchBar()
         view.addSubview(searchBar)
@@ -50,13 +52,13 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
         for index in 0..<18 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
-            let item = BookItem(title: name, image: image!)
+            let item = BookItem(name: name, image: image!)
             bookListForSection0.append(item)
         }
         for index in 18..<30 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
-            let item = BookItem(title: name, image: image!)
+            let item = BookItem(name: name, image: image!)
             bookListForSection1.append(item)
         }
     }
@@ -75,5 +77,4 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
         collectionview.backgroundColor = UIColor.white
         view.addSubview(collectionview)
     }
-
-
+}

@@ -50,14 +50,15 @@ extension FavouriteViewController {
         
         if indexPath.section == 0 {
             let book = bookListForSection0[indexPath.row]
-            cell.imageView.image = book.image
+            cell.imageView.image = book.getThumbNail()
             cell.backgroundColor = UIColor.blue
-            cell.titleLabel.text = book.title
+            cell.titleLabel.text = book.getTitle()
         } else {
             let book = bookListForSection1[indexPath.row]
-            cell.imageView.image = book.image
+            cell.imageView.image = book.getThumbNail()
             cell.backgroundColor = UIColor.yellow
-            cell.titleLabel.text = book.title
+            cell.titleLabel.text = book.getTitle()
+
         }
         return cell
     }

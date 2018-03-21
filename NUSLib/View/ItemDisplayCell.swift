@@ -2,7 +2,7 @@
 //  ItemDisplayCell.swift
 //  NUSLib
 //
-//  Created by Liang on 20/3/18.
+//  Created by Liang on 21/3/18.
 //  Copyright © 2018 nus.cs3217.nuslib. All rights reserved.
 //
 

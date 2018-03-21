@@ -30,10 +30,8 @@
 		4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A2206122FC00B576C2 /* ItemDetailViewController.swift */; };
 		4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A420614B3E00B576C2 /* BaseViewController.swift */; };
 		79C50AAFE6CF31ECDAB5784F /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61E94F1CBF6A562FA7C87542 /* Pods_NUSLib.framework */; };
-		ECA32801206146F3002E584B /* ItemDisplayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA32800206146F3002E584B /* ItemDisplayCell.swift */; };
-		ECA328042061475B002E584B /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA328032061475B002E584B /* BookItem.swift */; };
 		ECA3280620614813002E584B /* FavouriteViewController + CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */; };
-		ECAE28482061660600457417 /* SearchViewController + Tableview.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE28472061660600457417 /* SearchViewController + Tableview.swift */; };
+		ECAE284D2061E2AF00457417 /* ItemDisplayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE284C2061E2AF00457417 /* ItemDisplayCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,10 +87,8 @@
 		B8D6203348E7610B7B820315 /* Pods-NUSLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.release.xcconfig"; sourceTree = "<group>"; };
 		C5457901C8712742ABDB56BD /* Pods-NUSLibTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.release.xcconfig"; sourceTree = "<group>"; };
 		E2A1E2B7DFB0FAA6A653ED10 /* Pods-NUSLibTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.debug.xcconfig"; sourceTree = "<group>"; };
-		ECA32800206146F3002E584B /* ItemDisplayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDisplayCell.swift; sourceTree = "<group>"; };
-		ECA328032061475B002E584B /* BookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItem.swift; sourceTree = "<group>"; };
 		ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteViewController + CollectionView.swift"; sourceTree = "<group>"; };
-		ECAE28472061660600457417 /* SearchViewController + Tableview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchViewController + Tableview.swift"; sourceTree = "<group>"; };
+		ECAE284C2061E2AF00457417 /* ItemDisplayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDisplayCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,15 +133,10 @@
 			isa = PBXGroup;
 			children = (
 				42758D5A205988B4007C5629 /* UserProfile.swift */,
-<<<<<<< HEAD
-				42758D5C20598BA8007C5629 /* Item.swift */,
-				ECA328032061475B002E584B /* BookItem.swift */,
-=======
 				42758D5C20598BA8007C5629 /* DisplayableItem.swift */,
 				4251F6D320616B9B00F5687B /* EventItem.swift */,
 				4251F6D520616BAE00F5687B /* PaperItem.swift */,
 				4251F6D1205D152600F5687B /* BookItem.swift */,
->>>>>>> c11e7be642010cce2f2cd8c41603fc74026a343d
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -286,7 +277,7 @@
 		ECA3280220614702002E584B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				ECA32800206146F3002E584B /* ItemDisplayCell.swift */,
+				ECAE284C2061E2AF00457417 /* ItemDisplayCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -295,7 +286,6 @@
 			isa = PBXGroup;
 			children = (
 				4AF3479E206122B000B576C2 /* SearchViewController.swift */,
-				ECAE28472061660600457417 /* SearchViewController + Tableview.swift */,
 			);
 			path = SearchMainScreen;
 			sourceTree = "<group>";
@@ -454,7 +444,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5C141EEF578B1086BBF0AE86 /* [CP] Embed Pods Frameworks */ = {
@@ -487,7 +477,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		77594202A028FF02EB9B700A /* [CP] Copy Pods Resources */ = {
@@ -520,7 +510,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		929A43DF3C6ACAEC851402F9 /* [CP] Copy Pods Resources */ = {
@@ -551,6 +541,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxGesture/RxGesture.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/ZFRippleButton/ZFRippleButton.framework",
 			);
@@ -562,6 +553,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxGesture.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZFRippleButton.framework",
 			);
@@ -607,15 +599,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
-				ECA32801206146F3002E584B /* ItemDisplayCell.swift in Sources */,
-				4AE79FBF205AAAD400309D02 /* UIViewController+Helper.swift in Sources */,
-=======
 				4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */,
->>>>>>> c11e7be642010cce2f2cd8c41603fc74026a343d
 				4AF3479F206122B000B576C2 /* SearchViewController.swift in Sources */,
-				ECA328042061475B002E584B /* BookItem.swift in Sources */,
-				ECAE28482061660600457417 /* SearchViewController + Tableview.swift in Sources */,
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
 				42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */,
@@ -626,6 +611,7 @@
 				4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */,
 				4251F6D2205D152600F5687B /* BookItem.swift in Sources */,
 				4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */,
+				ECAE284D2061E2AF00457417 /* ItemDisplayCell.swift in Sources */,
 				ECA3280620614813002E584B /* FavouriteViewController + CollectionView.swift in Sources */,
 				4275CD0C20598FFD00943195 /* Constants.swift in Sources */,
 				4251F6D620616BAE00F5687B /* PaperItem.swift in Sources */,
