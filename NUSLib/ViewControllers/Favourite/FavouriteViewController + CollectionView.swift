@@ -104,4 +104,20 @@ extension FavouriteViewController {
     func scrollTrigerPaddingInCollectionView(_ collectionView: UICollectionView) -> UIEdgeInsets {
         return UIEdgeInsetsMake(collectionView.contentInset.top, 0, collectionView.contentInset.bottom, 0)
     }
+    
+    //MARK: - Add Search Bar
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 40)
+    }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCellId", for: indexPath)
+        header.addSubview(searchBar)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.leftAnchor.constraint(equalTo: header.leftAnchor).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: header.rightAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: header.topAnchor).isActive = true
+        searchBar.bottomAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        return header
+    }
+    
 }

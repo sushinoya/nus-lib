@@ -97,6 +97,7 @@ class SearchViewController: UIViewController {
         view.addSubview(tableView)
     }
     
+    //MARK: - Setup Search Bar
     func setupSearchBar() {
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.backgroundColor = UIColor.blue
@@ -107,32 +108,5 @@ class SearchViewController: UIViewController {
 }
 
 
-class TopSeachTableCell: UITableViewCell {
-    
-    var topSearchLabel: UILabel!
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupViews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-   
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        topSearchLabel.frame = bounds
-        topSearchLabel.anchorAndFillEdge(.left, xPad: 0, yPad: 0, otherSize: self.width)
-    }
-    
-    
-    func setupViews() {
-        topSearchLabel = UILabel()
-        topSearchLabel.textAlignment = .center
-        contentView.addSubview(topSearchLabel)
-    }
-    
-}
+
 

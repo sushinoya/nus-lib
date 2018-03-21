@@ -13,7 +13,7 @@ import RAReorderableLayout
 class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource {
     
     //Search Bar
-    var searchBar: UISearchBar!
+    var searchBar : UISearchBar!
     
     //Collection View
     var collectionview: UICollectionView!
@@ -27,9 +27,7 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        searchBar.anchorAndFillEdge(.top, xPad: 0, yPad: 60, otherSize: 50)
-        collectionview.alignAndFill(align: .underCentered, relativeTo: searchBar, padding: 0, offset: 0)
+        collectionview.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
     }
     
     override func viewDidLoad() {
@@ -37,11 +35,9 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
         
         self.title = "Favourite"
         
-        searchBar = UISearchBar()
-        view.addSubview(searchBar)
-        
         setupData()
         setupCollectionView()
+        setupSearchBar()
         
     }
     
@@ -77,4 +73,16 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
         collectionview.backgroundColor = UIColor.white
         view.addSubview(collectionview)
     }
+    
+    // MARK: - Setup SearchBar
+    func setupSearchBar() {
+        searchBar = UISearchBar()
+        searchBar.placeholder = "Search Title"
+        searchBar.tintColor = .white
+        collectionview.contentOffset = CGPoint(x: 0, y: searchBar.frame.size.height)
+        searchBar.sizeToFit()
+        
+        collectionview.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerCellId")
+    }
+    
 }
