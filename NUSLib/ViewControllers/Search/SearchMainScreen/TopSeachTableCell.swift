@@ -27,7 +27,7 @@ class TopSeachTableCell: UITableViewCell {
         topSearchLabel.anchorAndFillEdge(.left, xPad: 0, yPad: 0, otherSize: self.width)
     }
     
-    func setupViews() {
+    private func setupViews() {
         topSearchLabel = UILabel()
         topSearchLabel.textAlignment = .center
         contentView.addSubview(topSearchLabel)

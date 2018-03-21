@@ -10,10 +10,13 @@ import UIKit
 import Neon
 import RAReorderableLayout
 
-class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource {
+class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource, UISearchBarDelegate {
     
     //Search Bar
-    var searchBar : UISearchBar!
+    var searchController: UISearchController!
+    var filtered:[BookItem] = []
+    var searchBarActive : Bool = false
+    
     
     //Collection View
     var collectionview: UICollectionView!
@@ -22,18 +25,20 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
     var bookListForSection0: [BookItem] = []
     var bookListForSection1: [BookItem] = []
     
-    var imagesForSection0: [UIImage] = []
-    var imagesForSection1: [UIImage] = []
+    var filteredBookListForSecion0: [BookItem] = []
+    var filteredBookListForSecion1: [BookItem] = []
+    
+    var isFiltering: Bool = false
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionview.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
+        collectionview.fillSuperview()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Favourite"
+        navigationItem.title = "Favourite"
         
         setupData()
         setupCollectionView()
@@ -63,6 +68,7 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
     func setupCollectionView() {
         let layout: RAReorderableLayout = RAReorderableLayout()
         layout.itemSize = CGSize(width: view.frame.width, height: 300)
+        layout.sectionHeadersPinToVisibleBounds = true
         
         collectionview = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionview.dataSource = self
@@ -76,13 +82,52 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
     
     // MARK: - Setup SearchBar
     func setupSearchBar() {
-        searchBar = UISearchBar()
-        searchBar.placeholder = "Search Title"
-        searchBar.tintColor = .white
-        collectionview.contentOffset = CGPoint(x: 0, y: searchBar.frame.size.height)
-        searchBar.sizeToFit()
+        searchController = UISearchController(searchResultsController: nil)
+//        searchController.delegate = self
+        searchController.searchBar.delegate = self
+        searchController.hidesNavigationBarDuringPresentation = false
         
-        collectionview.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerCellId")
+        searchController.searchBar.placeholder = "Search Title"
+        searchController.searchBar.tintColor = .blue
+        searchController.searchBar.sizeToFit()
+    
+        collectionview.addSubview(searchController.searchBar)
+        
+    }
+    
+    
+    func filter(searchTerm: String) {
+        if searchTerm.isEmpty {
+            isFiltering = false
+            filteredBookListForSecion0.removeAll()
+            filteredBookListForSecion1.removeAll()
+        } else {
+            isFiltering = true
+            
+            filteredBookListForSecion0 = bookListForSection0.filter({
+                return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)
+            })
+            
+            filteredBookListForSecion1 = bookListForSection1.filter({
+                return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)
+            })
+        }
+    }
+
+    func objectForSection0(at indexPath: IndexPath) -> BookItem {
+        if isFiltering {
+            return filteredBookListForSecion0[indexPath.item]
+        } else {
+            return bookListForSection0[indexPath.item]
+        }
+    }
+    
+    func objectForSection1(at indexPath: IndexPath) -> BookItem {
+        if isFiltering {
+            return filteredBookListForSecion1[indexPath.item]
+        } else {
+            return bookListForSection1[indexPath.item]
+        }
     }
     
 }

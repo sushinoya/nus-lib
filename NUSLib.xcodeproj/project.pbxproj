@@ -31,6 +31,10 @@
 		4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A420614B3E00B576C2 /* BaseViewController.swift */; };
 		79C50AAFE6CF31ECDAB5784F /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61E94F1CBF6A562FA7C87542 /* Pods_NUSLib.framework */; };
 		ECA04971206229B700015C36 /* TopSeachTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA04970206229B700015C36 /* TopSeachTableCell.swift */; };
+		ECA049732062495200015C36 /* TItlePictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA049722062495200015C36 /* TItlePictureCell.swift */; };
+		ECA0497520624FC700015C36 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA0497420624FC700015C36 /* ReviewCell.swift */; };
+		ECA049772062707F00015C36 /* BookShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA049762062707F00015C36 /* BookShelfViewController.swift */; };
+		ECA04979206270E700015C36 /* BookShelfTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA04978206270E700015C36 /* BookShelfTableCell.swift */; };
 		ECA3280620614813002E584B /* FavouriteViewController + CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */; };
 		ECAE284D2061E2AF00457417 /* ItemDisplayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE284C2061E2AF00457417 /* ItemDisplayCell.swift */; };
 /* End PBXBuildFile section */
@@ -89,6 +93,10 @@
 		C5457901C8712742ABDB56BD /* Pods-NUSLibTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.release.xcconfig"; sourceTree = "<group>"; };
 		E2A1E2B7DFB0FAA6A653ED10 /* Pods-NUSLibTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ECA04970206229B700015C36 /* TopSeachTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSeachTableCell.swift; sourceTree = "<group>"; };
+		ECA049722062495200015C36 /* TItlePictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TItlePictureCell.swift; sourceTree = "<group>"; };
+		ECA0497420624FC700015C36 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		ECA049762062707F00015C36 /* BookShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookShelfViewController.swift; sourceTree = "<group>"; };
+		ECA04978206270E700015C36 /* BookShelfTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookShelfTableCell.swift; sourceTree = "<group>"; };
 		ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteViewController + CollectionView.swift"; sourceTree = "<group>"; };
 		ECAE284C2061E2AF00457417 /* ItemDisplayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDisplayCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -243,6 +251,8 @@
 			children = (
 				4AF3479B206121F100B576C2 /* FavouriteViewController.swift */,
 				ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */,
+				ECA049762062707F00015C36 /* BookShelfViewController.swift */,
+				ECA04978206270E700015C36 /* BookShelfTableCell.swift */,
 			);
 			path = Favourite;
 			sourceTree = "<group>";
@@ -259,6 +269,8 @@
 			isa = PBXGroup;
 			children = (
 				4AF347A2206122FC00B576C2 /* ItemDetailViewController.swift */,
+				ECA049722062495200015C36 /* TItlePictureCell.swift */,
+				ECA0497420624FC700015C36 /* ReviewCell.swift */,
 			);
 			path = ItemDetail;
 			sourceTree = "<group>";
@@ -603,13 +615,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */,
+				ECA0497520624FC700015C36 /* ReviewCell.swift in Sources */,
 				4AF3479F206122B000B576C2 /* SearchViewController.swift in Sources */,
+				ECA04979206270E700015C36 /* BookShelfTableCell.swift in Sources */,
 				ECA04971206229B700015C36 /* TopSeachTableCell.swift in Sources */,
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
 				42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */,
+				ECA049732062495200015C36 /* TItlePictureCell.swift in Sources */,
 				42758D5B205988B4007C5629 /* UserProfile.swift in Sources */,
 				4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */,
+				ECA049772062707F00015C36 /* BookShelfViewController.swift in Sources */,
 				4AF3479C206121F100B576C2 /* FavouriteViewController.swift in Sources */,
 				4AE79FC8205AABAD00309D02 /* LoginViewController.swift in Sources */,
 				4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */,

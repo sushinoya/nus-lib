@@ -1,8 +1,8 @@
 //
-//  SearchViewController.swift
+//  BookShelfViewController.swift
 //  NUSLib
 //
-//  Created by wongkf on 20/3/18.
+//  Created by Liang on 21/3/18.
 //  Copyright © 2018 nus.cs3217.nuslib. All rights reserved.
 //
 
@@ -11,19 +11,19 @@ import Neon
 import RxSwift
 import RxCocoa
 
-class SearchViewController: UIViewController {
+class BookShelfViewController: UIViewController {
     
     var searchController: UISearchController!
     
     var tableView: UITableView!
-    let tableViewCellID = "tableViewCellID"
+    let tableViewCellID = "bookShelfCellID"
     
     var searchValue: Variable<String> = Variable("")
-    var topSearchList: Variable<[String]> = Variable([])
+    var bookList: Variable<[String]> = Variable([])
     var filterResult: Variable<[String]> = Variable([])
     
     lazy var searchValueObservable: Observable<String> = self.searchValue.asObservable()
-    lazy var topSearchListObservable: Observable<[String]> = self.topSearchList.asObservable()
+    lazy var bookListObservable: Observable<[String]> = self.bookList.asObservable()
     lazy var filterResultObservable: Observable<[String]> = self.filterResult.asObservable()
     
     let disposeBag = DisposeBag()
@@ -38,7 +38,7 @@ class SearchViewController: UIViewController {
         setupSearchBar()
         setupRxSwiftTable()
         setupRxSwfitSearch()
-
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -47,21 +47,21 @@ class SearchViewController: UIViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     }
     
-
+    
     //MARK: - Fake Data
     func setupData() {
-        topSearchList.value.append("CS3217")
-        topSearchList.value.append("NUS")
-        topSearchList.value.append("HARRY PORTER")
-        topSearchList.value.append("CS")
-        topSearchList.value.append("SOC")
+        bookList.value.append("CS3217")
+        bookList.value.append("NUS")
+        bookList.value.append("HARRY PORTER")
+        bookList.value.append("CS")
+        bookList.value.append("SOC")
     }
     
     //MARK: - Setup TableView
     func setupTableView() {
         
         tableView = UITableView(frame: view.frame, style: .plain)
-        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: tableViewCellID)
+        tableView.register(BookShelfTableCell.self, forCellReuseIdentifier: tableViewCellID)
         
         view.addSubview(tableView)
     }
@@ -69,17 +69,16 @@ class SearchViewController: UIViewController {
     //MARK: - Setup Search Bar
     func setupSearchBar() {
         searchController = UISearchController(searchResultsController: nil)
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.tintColor = UIColor.blue
+        searchController.searchBar.backgroundColor = UIColor.blue
         searchController.searchBar.placeholder = "Please Enter"
         tableView.tableHeaderView = searchController.searchBar
     }
     
     //MARK: - Setup RxSwift Table
     func setupRxSwiftTable() {
-        filterResult.asObservable().bind(to: tableView.rx.items(cellIdentifier: tableViewCellID, cellType: TopSeachTableCell.self)) {
+        filterResult.asObservable().bind(to: tableView.rx.items(cellIdentifier: tableViewCellID, cellType: BookShelfTableCell.self)) {
             (row, element, cell) in
-            cell.topSearchLabel.text = element
+            cell.titleLabel.text = element
             }.disposed(by: disposeBag)
         
         //Action after an element in datamModel is selected
@@ -91,7 +90,7 @@ class SearchViewController: UIViewController {
             
             //Pass String to ItemDetail ViewController
             self.selectedString = element
-            self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
+            self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
             
         }).disposed(by: disposeBag)
     }
@@ -100,10 +99,10 @@ class SearchViewController: UIViewController {
     func setupRxSwfitSearch() {
         let searchBar = searchController.searchBar
         searchBar.rx.text.orEmpty.distinctUntilChanged().debug().bind(to: searchValue).disposed(by: disposeBag)
-    
+        
         searchValueObservable.subscribe(onNext: { (value) in
             print("Search value received: \(value)")
-            self.topSearchListObservable.map({$0.filter({text in
+            self.bookListObservable.map({$0.filter({text in
                 if value.isEmpty {return true}
                 return text.lowercased().contains(value.lowercased())
             })
@@ -118,7 +117,3 @@ class SearchViewController: UIViewController {
         }
     }
 }
-
-
-
-

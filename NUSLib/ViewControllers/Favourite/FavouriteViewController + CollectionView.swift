@@ -34,27 +34,40 @@ extension FavouriteViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
         return UIEdgeInsetsMake(0, 0, 2.0, 0)
     }
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return bookListForSection0.count
-        }else {
-            return bookListForSection1.count
+        
+        if isFiltering {
+            if section == 0 {
+                return filteredBookListForSecion0.count
+            }else {
+                return filteredBookListForSecion1.count
+            }
+        } else {
+            if section == 0 {
+                return bookListForSection0.count
+            }else {
+                return bookListForSection1.count
+            }
         }
+        
+       
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemDisplayCell
         
         if indexPath.section == 0 {
-            let book = bookListForSection0[indexPath.row]
+            let book = objectForSection0(at: indexPath)
             cell.imageView.image = book.getThumbNail()
             cell.backgroundColor = UIColor.blue
             cell.titleLabel.text = book.getTitle()
         } else {
-            let book = bookListForSection1[indexPath.row]
+            let book = objectForSection1(at: indexPath)
             cell.imageView.image = book.getThumbNail()
             cell.backgroundColor = UIColor.yellow
             cell.titleLabel.text = book.getTitle()
@@ -106,18 +119,36 @@ extension FavouriteViewController {
     }
     
     //MARK: - Add Search Bar
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 40)
     }
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCellId", for: indexPath)
-        header.addSubview(searchBar)
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.leftAnchor.constraint(equalTo: header.leftAnchor).isActive = true
-        searchBar.rightAnchor.constraint(equalTo: header.rightAnchor).isActive = true
-        searchBar.topAnchor.constraint(equalTo: header.topAnchor).isActive = true
-        searchBar.bottomAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
-        return header
+    
+    // MARK: UISearchbar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filter(searchTerm: searchText)
+        collectionview.reloadData()
     }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        
+    filter(searchTerm: "")
+       collectionview.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
 }
