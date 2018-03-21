@@ -9,7 +9,7 @@
 import UIKit
 
 //Book Item
-class BookItem {
+class BookItem: DisplayableItem {
     var title: String
     var author: String
     var image: UIImage?
@@ -23,5 +23,21 @@ class BookItem {
     
     convenience init(title: String, image: UIImage) {
         self.init(title: title, author: "Unknown", image: image)
+    }
+    
+    func getTitle() -> String {
+        return title
+    }
+    
+    //Return NIL image
+    func getThumbNail() -> UIImage {
+        if let image = image {
+            return image
+        }
+        return UIImage()
+    }
+    
+    func getRating() -> Int {
+        return rating
     }
 }
