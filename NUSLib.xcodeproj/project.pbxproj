@@ -23,6 +23,9 @@
 		4A61500C2057E6FC005AA59B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A61500A2057E6FC005AA59B /* LaunchScreen.storyboard */; };
 		4A6150172057E6FC005AA59B /* NUSLibTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6150162057E6FC005AA59B /* NUSLibTests.swift */; };
 		4A6150222057E6FC005AA59B /* NUSLibUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6150212057E6FC005AA59B /* NUSLibUITests.swift */; };
+		4A6FA483206281F9005B0681 /* SierraApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6FA482206281F9005B0681 /* SierraApi.swift */; };
+		4A6FA48520628A16005B0681 /* SierraApi.json in Resources */ = {isa = PBXBuildFile; fileRef = 4A6FA48420628A16005B0681 /* SierraApi.json */; };
+		4A6FA4872062D938005B0681 /* SierraApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6FA4862062D938005B0681 /* SierraApiClient.swift */; };
 		4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */; };
 		4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FC4205AAB9000309D02 /* HomeViewController.swift */; };
 		4AE79FC8205AABAD00309D02 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FC6205AABAD00309D02 /* LoginViewController.swift */; };
@@ -82,6 +85,9 @@
 		4A61501D2057E6FC005AA59B /* NUSLibUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NUSLibUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A6150212057E6FC005AA59B /* NUSLibUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NUSLibUITests.swift; sourceTree = "<group>"; };
 		4A6150232057E6FC005AA59B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4A6FA482206281F9005B0681 /* SierraApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SierraApi.swift; sourceTree = "<group>"; };
+		4A6FA48420628A16005B0681 /* SierraApi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SierraApi.json; sourceTree = "<group>"; };
+		4A6FA4862062D938005B0681 /* SierraApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SierraApiClient.swift; sourceTree = "<group>"; };
 		4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
 		4AE79FC4205AAB9000309D02 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		4AE79FC6205AABAD00309D02 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +192,7 @@
 		4A6150002057E6FC005AA59B /* NUSLib */ = {
 			isa = PBXGroup;
 			children = (
+				4A6FA481206281AF005B0681 /* Api */,
 				4AE79FC1205AAAD900309D02 /* Helpers+Extensions */,
 				4AE79FBC205AAA6300309D02 /* ViewControllers */,
 				42758D5920598876007C5629 /* Model */,
@@ -217,6 +224,16 @@
 				4A6150232057E6FC005AA59B /* Info.plist */,
 			);
 			path = NUSLibUITests;
+			sourceTree = "<group>";
+		};
+		4A6FA481206281AF005B0681 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				4A6FA4862062D938005B0681 /* SierraApiClient.swift */,
+				4A6FA482206281F9005B0681 /* SierraApi.swift */,
+				4A6FA48420628A16005B0681 /* SierraApi.json */,
+			);
+			path = Api;
 			sourceTree = "<group>";
 		};
 		4AE79FBC205AAA6300309D02 /* ViewControllers */ = {
@@ -438,6 +455,7 @@
 			files = (
 				4A61500C2057E6FC005AA59B /* LaunchScreen.storyboard in Resources */,
 				4A6150092057E6FC005AA59B /* Assets.xcassets in Resources */,
+				4A6FA48520628A16005B0681 /* SierraApi.json in Resources */,
 				4A6150072057E6FC005AA59B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,6 +652,7 @@
 				4AF3479F206122B000B576C2 /* SearchViewController.swift in Sources */,
 				ECA04979206270E700015C36 /* BookShelfTableCell.swift in Sources */,
 				ECA04971206229B700015C36 /* TopSeachTableCell.swift in Sources */,
+				4A6FA4872062D938005B0681 /* SierraApiClient.swift in Sources */,
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
 				42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */,
@@ -648,6 +667,7 @@
 				4AE79FC8205AABAD00309D02 /* LoginViewController.swift in Sources */,
 				4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */,
 				4251F6D82062A95400F5687B /* LibraryAPI.swift in Sources */,
+				4A6FA483206281F9005B0681 /* SierraApi.swift in Sources */,
 				4251F6D2205D152600F5687B /* BookItem.swift in Sources */,
 				4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */,
 				ECAE284D2061E2AF00457417 /* ItemDisplayCell.swift in Sources */,
