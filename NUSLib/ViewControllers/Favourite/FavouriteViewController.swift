@@ -8,15 +8,13 @@
 
 import UIKit
 import Neon
-import RAReorderableLayout
 
-class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource, UISearchBarDelegate {
-    
+class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource {
+        
     //Search Bar
     var searchController: UISearchController!
     var filtered:[BookItem] = []
     var searchBarActive : Bool = false
-    
     
     //Collection View
     var collectionview: UICollectionView!
@@ -66,7 +64,8 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
     
     //MARK: - Setup Collectionview
     func setupCollectionView() {
-        let layout: RAReorderableLayout = RAReorderableLayout()
+        
+        let layout = RAReorderableLayout()
         layout.itemSize = CGSize(width: view.frame.width, height: 300)
         layout.sectionHeadersPinToVisibleBounds = true
         
@@ -83,7 +82,6 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
     // MARK: - Setup SearchBar
     func setupSearchBar() {
         searchController = UISearchController(searchResultsController: nil)
-//        searchController.delegate = self
         searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
         

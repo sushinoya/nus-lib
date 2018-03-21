@@ -8,8 +8,8 @@
 
 import UIKit
 
-extension FavouriteViewController {
-    // RAReorderableLayout delegate datasource
+extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
         let threePiecesWidth = floor(screenWidth / 3.0 - ((2.0 / 3) * 2))
@@ -55,7 +55,6 @@ extension FavouriteViewController {
             }
         }
         
-       
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -113,42 +112,11 @@ extension FavouriteViewController {
             return 0.3
         }
     }
-    
+
     func scrollTrigerPaddingInCollectionView(_ collectionView: UICollectionView) -> UIEdgeInsets {
         return UIEdgeInsetsMake(collectionView.contentInset.top, 0, collectionView.contentInset.bottom, 0)
     }
     
-    //MARK: - Add Search Bar
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 40)
-    }
     
-    // MARK: UISearchbar
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filter(searchTerm: searchText)
-        collectionview.reloadData()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
-        
-    filter(searchTerm: "")
-       collectionview.reloadData()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = true
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-    }
 }

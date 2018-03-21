@@ -32,6 +32,7 @@ class ItemDetailViewController: BaseViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Item Detail"
         setupTableView()
     }
     

@@ -32,7 +32,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = "Search"
         setupData()
         setupTableView()
         setupSearchBar()
@@ -70,6 +70,7 @@ class SearchViewController: UIViewController {
     func setupSearchBar() {
         searchController = UISearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.tintColor = UIColor.blue
         searchController.searchBar.placeholder = "Please Enter"
         tableView.tableHeaderView = searchController.searchBar
@@ -91,6 +92,9 @@ class SearchViewController: UIViewController {
             
             //Pass String to ItemDetail ViewController
             self.selectedString = element
+            
+            self.searchValue = Variable("")
+            
             self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
             
         }).disposed(by: disposeBag)

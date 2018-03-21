@@ -35,6 +35,8 @@
 		ECA0497520624FC700015C36 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA0497420624FC700015C36 /* ReviewCell.swift */; };
 		ECA049772062707F00015C36 /* BookShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA049762062707F00015C36 /* BookShelfViewController.swift */; };
 		ECA04979206270E700015C36 /* BookShelfTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA04978206270E700015C36 /* BookShelfTableCell.swift */; };
+		ECA0497C2062AB2D00015C36 /* FavouriteViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA0497B2062AB2D00015C36 /* FavouriteViewController + Search.swift */; };
+		ECA0497F2062CCAD00015C36 /* RAReorderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA0497E2062CCAD00015C36 /* RAReorderProtocol.swift */; };
 		ECA3280620614813002E584B /* FavouriteViewController + CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */; };
 		ECAE284D2061E2AF00457417 /* ItemDisplayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE284C2061E2AF00457417 /* ItemDisplayCell.swift */; };
 /* End PBXBuildFile section */
@@ -97,6 +99,8 @@
 		ECA0497420624FC700015C36 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		ECA049762062707F00015C36 /* BookShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookShelfViewController.swift; sourceTree = "<group>"; };
 		ECA04978206270E700015C36 /* BookShelfTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookShelfTableCell.swift; sourceTree = "<group>"; };
+		ECA0497B2062AB2D00015C36 /* FavouriteViewController + Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteViewController + Search.swift"; sourceTree = "<group>"; };
+		ECA0497E2062CCAD00015C36 /* RAReorderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RAReorderProtocol.swift; sourceTree = "<group>"; };
 		ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteViewController + CollectionView.swift"; sourceTree = "<group>"; };
 		ECAE284C2061E2AF00457417 /* ItemDisplayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDisplayCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -249,8 +253,10 @@
 		4AF3479A2061218300B576C2 /* Favourite */ = {
 			isa = PBXGroup;
 			children = (
+				ECA0497E2062CCAD00015C36 /* RAReorderProtocol.swift */,
 				4AF3479B206121F100B576C2 /* FavouriteViewController.swift */,
 				ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */,
+				ECA0497B2062AB2D00015C36 /* FavouriteViewController + Search.swift */,
 				ECA049762062707F00015C36 /* BookShelfViewController.swift */,
 				ECA04978206270E700015C36 /* BookShelfTableCell.swift */,
 			);
@@ -622,7 +628,9 @@
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
 				42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */,
+				ECA0497C2062AB2D00015C36 /* FavouriteViewController + Search.swift in Sources */,
 				ECA049732062495200015C36 /* TItlePictureCell.swift in Sources */,
+				ECA0497F2062CCAD00015C36 /* RAReorderProtocol.swift in Sources */,
 				42758D5B205988B4007C5629 /* UserProfile.swift in Sources */,
 				4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */,
 				ECA049772062707F00015C36 /* BookShelfViewController.swift in Sources */,
