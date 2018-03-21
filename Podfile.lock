@@ -8,6 +8,7 @@ PODS:
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
   - RxSwift (4.1.1)
+  - SideMenu (3.1.5)
   - SkyFloatingLabelTextField (3.4.0)
   - ZFRippleButton (0.6)
 
@@ -18,6 +19,7 @@ DEPENDENCIES:
   - RxCocoa
   - RxGesture
   - RxSwift
+  - SideMenu
   - SkyFloatingLabelTextField (~> 3.0)
   - ZFRippleButton (~> 0.6)
 
@@ -28,9 +30,11 @@ SPEC CHECKSUMS:
   RxCocoa: fd0862fd2df95fa55562ad28ffd2522c25eb4a85
   RxGesture: c278eb05b187abd47e11e65464ae4de53ab71d95
   RxSwift: c6e3b1c7b325c7d121cd4327e9d98b7ed746b570
+  SideMenu: 47dbf9e4d878062d8994aed43f6e4bf6c1fea30b
   SkyFloatingLabelTextField: 703aa1420b697392b1e7dba25571180dde018477
   ZFRippleButton: 62ea35e209757704dea697d66489fe69c13d7b77
 
-PODFILE CHECKSUM: dc3ecf91749714b841abcd275e732f13f977ecc2
+PODFILE CHECKSUM: e16631cb582b0f3559817364d8a6931eb643c2e9
 
-COCOAPODS: 1.4.0
+
+COCOAPODS: 1.2.0

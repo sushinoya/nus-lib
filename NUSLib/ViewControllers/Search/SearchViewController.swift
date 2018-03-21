@@ -1,5 +1,5 @@
 //
-//  ItemDetailViewController.swift
+//  SearchViewController.swift
 //  NUSLib
 //
 //  Created by wongkf on 20/3/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ItemDetailViewController: BaseViewController{
+class SearchViewController: BaseViewController{
     
 }
 

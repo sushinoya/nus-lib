@@ -75,5 +75,5 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
         collectionview.backgroundColor = UIColor.white
         view.addSubview(collectionview)
     }
-}
+
 
