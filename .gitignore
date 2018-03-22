@@ -25,5 +25,7 @@ DerivedData/
 !default.perspectivev3
 
 Pods/
+Podfile.lock
 
 SierraApi.json
+.DS_Store
