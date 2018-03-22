@@ -9,8 +9,10 @@
 import Moya
 
 enum SierraApi {
-    case items(limit: Int)
-    case branches(limit: Int)
+    case bib(id: String)
+    case bibs(limit: Int, offset: Int)
+    case bibsSearch(limit: Int, offset: Int, index: String, text: String)
+    case branches(limit: Int, offset: Int)
 }
 
 extension SierraApi: TargetType, AccessTokenAuthorizable {
@@ -21,34 +23,43 @@ extension SierraApi: TargetType, AccessTokenAuthorizable {
     
     var path: String {
         switch self {
-        case .items(_): return "/items"
+        case .bib(let id): return "/bibs/\(id)"
+        case .bibs(_): return "/bibs"
+        case .bibsSearch(_): return "/bibs/search"
         case .branches(_): return "/branches"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .items, .branches:
+        case .bib, .bibs, .bibsSearch, .branches:
             return .get
         }
     }
     
     var sampleData: Data {
         switch self {
-        case .items(_): return "items.".data(using: .utf8)!
+        case .bib(_): return "bib.".data(using: .utf8)!
+        case .bibs(_): return "bibs.".data(using: .utf8)!
+        case .bibsSearch(_): return "bibsSearch.".data(using: .utf8)!
         case .branches(_): return "branches.".data(using: .utf8)!
         }
     }
     
     var task: Task {
         switch self {
-        case let .items(limit): return .requestParameters(parameters: ["limit": limit], encoding: URLEncoding.queryString)
-        case let .branches(limit): return .requestParameters(parameters: ["limit": limit], encoding: URLEncoding.queryString)
+        case .bib(_): return .requestParameters(parameters: [:], encoding: URLEncoding.queryString)
+        case let .bibs(limit, offset): return .requestParameters(parameters: ["limit": limit, "offset": offset], encoding: URLEncoding.queryString)
+        case let .bibsSearch(limit, offset, index, text): return .requestParameters(parameters: ["limit": limit, "offset": offset, "index": index, "text": text], encoding: URLEncoding.queryString)
+        case let .branches(limit, offset): return .requestParameters(parameters: ["limit": limit, "offset": offset], encoding: URLEncoding.queryString)
         }
     }
     
     var headers: [String : String]? {
-        return ["Content-Type": "application/x-www-form-urlencoded"]
+        switch self {
+        default:
+            return ["Content-Type": "application/x-www-form-urlencoded"]
+        }
     }
     
     var authorizationType: AuthorizationType {
@@ -56,4 +67,3 @@ extension SierraApi: TargetType, AccessTokenAuthorizable {
     }
     
 }
-
