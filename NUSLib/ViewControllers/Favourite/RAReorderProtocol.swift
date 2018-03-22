@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Ryo Aoyama. All rights reserved.
 //
 
+//Code obtained from https://github.com/ra1028/RAReorderableLayout
+
 import UIKit
 
 public protocol RAReorderableLayoutDelegate: UICollectionViewDelegateFlowLayout {

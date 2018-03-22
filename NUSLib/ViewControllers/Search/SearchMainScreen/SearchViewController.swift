@@ -13,7 +13,8 @@ import RxCocoa
 
 class SearchViewController: UIViewController {
     
-    var searchController: UISearchController!
+    var searchController: NoCancelButtonSearchController!
+    var isFiltering: Bool = false
     
     var tableView: UITableView!
     let tableViewCellID = "tableViewCellID"
@@ -38,6 +39,7 @@ class SearchViewController: UIViewController {
         setupSearchBar()
         setupRxSwiftTable()
         setupRxSwfitSearch()
+        self.definesPresentationContext = true;
 
     }
     
@@ -68,9 +70,10 @@ class SearchViewController: UIViewController {
     
     //MARK: - Setup Search Bar
     func setupSearchBar() {
-        searchController = UISearchController(searchResultsController: nil)
+        searchController = NoCancelButtonSearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.showsCancelButton = false
         searchController.searchBar.tintColor = UIColor.blue
         searchController.searchBar.placeholder = "Please Enter"
         tableView.tableHeaderView = searchController.searchBar
@@ -93,8 +96,6 @@ class SearchViewController: UIViewController {
             //Pass String to ItemDetail ViewController
             self.selectedString = element
             
-            self.searchValue = Variable("")
-            
             self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
             
         }).disposed(by: disposeBag)
@@ -102,8 +103,7 @@ class SearchViewController: UIViewController {
     
     //MARK: - Setup RxSwift Search
     func setupRxSwfitSearch() {
-        let searchBar = searchController.searchBar
-        searchBar.rx.text.orEmpty.distinctUntilChanged().debug().bind(to: searchValue).disposed(by: disposeBag)
+        searchController.searchBar.rx.text.orEmpty.distinctUntilChanged().bind(to: searchValue).disposed(by: disposeBag)
     
         searchValueObservable.subscribe(onNext: { (value) in
             print("Search value received: \(value)")
@@ -123,6 +123,15 @@ class SearchViewController: UIViewController {
     }
 }
 
+
+class NoCancelButtonSearchController: UISearchController {
+    let noCancelButtonSearchBar = NoCancelButtonSearchBar()
+    override var searchBar: UISearchBar { return noCancelButtonSearchBar }
+}
+
+class NoCancelButtonSearchBar: UISearchBar {
+    override func setShowsCancelButton(_ showsCancelButton: Bool, animated: Bool) { /* void */ }
+}
 
 
 

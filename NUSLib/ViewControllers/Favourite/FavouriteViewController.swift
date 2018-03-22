@@ -14,7 +14,6 @@ class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RA
     //Search Bar
     var searchController: UISearchController!
     var filtered:[BookItem] = []
-    var searchBarActive : Bool = false
     
     //Collection View
     var collectionview: UICollectionView!
