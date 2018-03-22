@@ -7,7 +7,7 @@ PODS:
   - RxGesture (1.2.1):
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
-  - RxSwift (4.1.1)
+  - RxSwift (4.1.2)
   - SideMenu (3.1.5)
   - SkyFloatingLabelTextField (3.4.0)
   - ZFRippleButton (0.6)
@@ -15,7 +15,6 @@ PODS:
 DEPENDENCIES:
   - FontAwesome.swift
   - Neon
-  - RAReorderableLayout
   - RxCocoa
   - RxGesture
   - RxSwift
@@ -26,10 +25,9 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   FontAwesome.swift: b4e4c8ccbbecb12f9b592bc533ff237af3706667
   Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
-  RAReorderableLayout: 5b6b87dd4022ee1747fd475623b14f5df940f754
   RxCocoa: fd0862fd2df95fa55562ad28ffd2522c25eb4a85
   RxGesture: c278eb05b187abd47e11e65464ae4de53ab71d95
-  RxSwift: c6e3b1c7b325c7d121cd4327e9d98b7ed746b570
+  RxSwift: e49536837d9901277638493ea537394d4b55f570
   SideMenu: 47dbf9e4d878062d8994aed43f6e4bf6c1fea30b
   SkyFloatingLabelTextField: 703aa1420b697392b1e7dba25571180dde018477
   ZFRippleButton: 62ea35e209757704dea697d66489fe69c13d7b77
