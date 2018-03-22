@@ -156,10 +156,10 @@
             </objects>
             <point key="canvasLocation" x="5433" y="1012"/>
         </scene>
-        <!--View Controller-->
+        <!--Favourite View Controller-->
         <scene sceneID="JgE-Rr-qv8">
             <objects>
-                <viewController id="iMp-51-Lnq" sceneMemberID="viewController">
+                <viewController id="iMp-51-Lnq" customClass="FavouriteViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mPY-ea-hA3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -250,6 +250,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="kBR-rO-YCH"/>
+        <segue reference="Cdz-AH-HxY"/>
     </inferredMetricsTieBreakers>
 </document>

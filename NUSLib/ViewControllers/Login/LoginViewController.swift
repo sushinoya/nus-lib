@@ -39,6 +39,10 @@ class LoginViewController: BaseViewController {
         loginButton.align(.underCentered, relativeTo: studentPassword, padding: 30, width: 200, height: 50)
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
