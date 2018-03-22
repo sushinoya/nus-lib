@@ -9,7 +9,7 @@
 import UIKit
 import Neon
 
-class FavouriteViewController: BaseViewController, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource {
+class FavouriteViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
         
     //Search Bar
     var searchController: UISearchController!
@@ -18,6 +18,8 @@ class FavouriteViewController: BaseViewController, RAReorderableLayoutDelegate, 
     //Collection View
     var collectionview: UICollectionView!
     var cellId = "itemCell"
+    
+    var longPressGesture: UILongPressGestureRecognizer!
     
     var bookListForSection0: [BookItem] = []
     var bookListForSection1: [BookItem] = []
@@ -63,7 +65,7 @@ class FavouriteViewController: BaseViewController, RAReorderableLayoutDelegate, 
     //MARK: - Setup Collectionview
     func setupCollectionView() {
         
-        let layout = RAReorderableLayout()
+        let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: view.frame.width, height: 300)
         layout.sectionHeadersPinToVisibleBounds = true
         
@@ -75,6 +77,27 @@ class FavouriteViewController: BaseViewController, RAReorderableLayoutDelegate, 
         collectionview.showsHorizontalScrollIndicator = false
         collectionview.backgroundColor = UIColor.white
         view.addSubview(collectionview)
+        
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
+        collectionview.addGestureRecognizer(longPressGesture)
+    
+    }
+    
+    @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+            
+        case .began:
+            guard let selectedIndexPath = collectionview.indexPathForItem(at: gesture.location(in: collectionview)) else {
+                break
+            }
+            collectionview.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            collectionview.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case .ended:
+            collectionview.endInteractiveMovement()
+        default:
+            collectionview.cancelInteractiveMovement()
+        }
     }
     
     // MARK: - Setup SearchBar

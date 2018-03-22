@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension FavouriteViewController {
+extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
@@ -75,48 +75,23 @@ extension FavouriteViewController {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, allowMoveAt indexPath: IndexPath) -> Bool {
-        if collectionView.numberOfItems(inSection: indexPath.section) <= 1 {
-            return false
-        }
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func collectionView(_ collectionView: UICollectionView, at: IndexPath, willMoveTo toIndexPath: IndexPath) {
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, at atIndexPath: IndexPath, didMoveTo toIndexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         var book: BookItem
-        if atIndexPath.section == 0 {
-            book = bookListForSection0.remove(at: atIndexPath.item)
+        if sourceIndexPath.section == 0 {
+            book = bookListForSection0.remove(at: sourceIndexPath.item)
         }else {
-            book = bookListForSection1.remove(at: atIndexPath.item)
+            book = bookListForSection1.remove(at: sourceIndexPath.item)
         }
-        
-        if toIndexPath.section == 0 {
-            bookListForSection0.insert(book, at: toIndexPath.item)
+
+        if destinationIndexPath.section == 0 {
+            bookListForSection0.insert(book, at: destinationIndexPath.item)
         }else {
-            bookListForSection1.insert(book, at: toIndexPath.item)
-        }
-    }
-    
-    func scrollTrigerEdgeInsetsInCollectionView(_ collectionView: UICollectionView) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(100.0, 100.0, 100.0, 100.0)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, reorderingItemAlphaInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0
-        }else {
-            return 0.3
+            bookListForSection1.insert(book, at: destinationIndexPath.item)
         }
     }
 
-    func scrollTrigerPaddingInCollectionView(_ collectionView: UICollectionView) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(collectionView.contentInset.top, 0, collectionView.contentInset.bottom, 0)
-    }
-    
-    
-    
 }
