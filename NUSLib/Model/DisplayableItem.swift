@@ -17,5 +17,6 @@ protocol DisplayableItem {
 
     func getTitle() -> String
     func getThumbNail() -> UIImage
+    func getRating() -> Int
     
 }
