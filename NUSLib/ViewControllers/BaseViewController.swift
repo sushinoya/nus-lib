@@ -32,7 +32,6 @@ class BaseViewController: UIViewController{
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
-    
     }
     
     override var prefersStatusBarHidden: Bool {

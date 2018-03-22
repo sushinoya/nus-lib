@@ -42,28 +42,18 @@ class SierraApiClient{
     
     
     private var accessToken: String {
-        guard let accessToken = accessTokenStore.retrieveAccessToken()?.accessToken else {
-            return NO_ACCESSTOKEN_FOUND
-        }
-        
-        return accessToken
+        return accessTokenStore.retrieveAccessToken()?.accessToken ?? NO_ACCESSTOKEN_FOUND
     }
     
     private lazy var accessTokenPlugin = AccessTokenPlugin(tokenClosure: self.accessToken)
     
     lazy var provider: MoyaProvider<SierraApi> = MoyaProvider<SierraApi>( requestClosure: { (endpoint, done) in
-        if self.accessToken == self.NO_ACCESSTOKEN_FOUND {
-            // no accesstoken found, initiate OAuth
-            Heimdallr(tokenURL: self.accessTokenUrl, credentials: self.credentials, accessTokenStore: self.accessTokenStore)
-                .requestAccessToken(grantType: "client_credentials", parameters: [:]) { result in
-                    print("INFO: Requested new accesstoken.")
-                    done(Result<URLRequest, MoyaError>(value: try! endpoint.urlRequest()))
-            }
-        }else{
-            // already has accesstoken, proceed to request for resource directly
-            done(Result<URLRequest, MoyaError>(value: try! endpoint.urlRequest()))
+        Heimdallr(tokenURL: self.accessTokenUrl, credentials: self.credentials, accessTokenStore: self.accessTokenStore)
+            .requestAccessToken(grantType: "client_credentials", parameters: [:]) { result in
+                print("INFO: Requested new accesstoken.\n\(self.accessToken)")
+                done(Result<URLRequest, MoyaError>(value: try! endpoint.urlRequest()))
         }
-    }, plugins: [accessTokenPlugin])
+    }, stubClosure: MoyaProvider.neverStub, plugins: [accessTokenPlugin])
     
     private init(){
         // singleton to restrict creating multiple instances of this class
