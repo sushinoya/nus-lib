@@ -9,7 +9,7 @@
 import UIKit
 import Neon
 
-class FavouriteViewController: UIViewController, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource {
+class FavouriteViewController: BaseViewController, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource {
         
     //Search Bar
     var searchController: UISearchController!

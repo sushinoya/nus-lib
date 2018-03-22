@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
+extension FavouriteViewController {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width

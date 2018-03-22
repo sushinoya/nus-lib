@@ -30,7 +30,7 @@ class BaseViewController: UIViewController{
         // transparent navigation bar
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
     
     }

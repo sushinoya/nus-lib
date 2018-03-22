@@ -11,7 +11,7 @@ import Neon
 import RxSwift
 import RxCocoa
 
-class SearchViewController: UIViewController {
+class SearchViewController: BaseViewController {
     
     var searchController: NoCancelButtonSearchController!
     var isFiltering: Bool = false
@@ -26,8 +26,6 @@ class SearchViewController: UIViewController {
     lazy var searchValueObservable: Observable<String> = self.searchValue.asObservable()
     lazy var topSearchListObservable: Observable<[String]> = self.topSearchList.asObservable()
     lazy var filterResultObservable: Observable<[String]> = self.filterResult.asObservable()
-    
-    let disposeBag = DisposeBag()
     
     var selectedString: String?
     
@@ -64,8 +62,9 @@ class SearchViewController: UIViewController {
         
         tableView = UITableView(frame: view.frame, style: .plain)
         tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: tableViewCellID)
-        
+        tableView.tableFooterView = UIView()
         view.addSubview(tableView)
+        
     }
     
     //MARK: - Setup Search Bar
