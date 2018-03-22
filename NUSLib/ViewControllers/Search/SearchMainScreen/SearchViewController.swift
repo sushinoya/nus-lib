@@ -47,6 +47,9 @@ class SearchViewController: BaseViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = true
+    }
 
     //MARK: - Fake Data
     func setupData() {
