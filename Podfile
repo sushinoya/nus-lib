@@ -14,7 +14,8 @@ target 'NUSLib' do
   pod 'RxCocoa'
   pod 'RxGesture'
   pod 'SideMenu'
-  pod 'RAReorderableLayout'
+  pod 'Moya/RxSwift', '~> 11.0'
+  pod 'Heimdallr', '~> 3.6.1'
 
   target 'NUSLibTests' do
     inherit! :search_paths
