@@ -35,8 +35,7 @@ class FavouriteViewController: BaseViewController, RAReorderableLayoutDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Favourite"
-        
+        navigationItem.title = "Favourite"        
         setupData()
         setupCollectionView()
         setupSearchBar()
