@@ -63,12 +63,10 @@ extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
         if indexPath.section == 0 {
             let book = objectForSection0(at: indexPath)
             cell.imageView.image = book.getThumbNail()
-            cell.backgroundColor = UIColor.blue
             cell.titleLabel.text = book.getTitle()
         } else {
             let book = objectForSection1(at: indexPath)
             cell.imageView.image = book.getThumbNail()
-            cell.backgroundColor = UIColor.yellow
             cell.titleLabel.text = book.getTitle()
 
         }

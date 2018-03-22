@@ -37,13 +37,24 @@ class FavouriteViewController: BaseViewController, UICollectionViewDelegate, UIC
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Favourite"        
+        navigationItem.title = "Favourite"
+
+        setupNavigationBar()
         setupData()
         setupCollectionView()
         setupSearchBar()
         
     }
     
+    func setupNavigationBar() {
+        let listButton = UIButton(type: .system)
+        listButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
+        listButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        
+        listButton.addTarget(self, action: #selector(switchToListView), for: .touchUpInside)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
+    }
     
     //MARK: - Fake Data
     func setupData() {
@@ -105,7 +116,7 @@ class FavouriteViewController: BaseViewController, UICollectionViewDelegate, UIC
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
-        
+        searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Title"
         searchController.searchBar.tintColor = .blue
         searchController.searchBar.sizeToFit()
@@ -149,4 +160,8 @@ class FavouriteViewController: BaseViewController, UICollectionViewDelegate, UIC
         }
     }
     
+    @objc func switchToListView(sender: UIButton) {
+//        present(BookShelfViewController(), animated: true, completion: nil)
+        self.navigationController?.pushViewController(BookShelfViewController(), animated: true)
+    }
 }

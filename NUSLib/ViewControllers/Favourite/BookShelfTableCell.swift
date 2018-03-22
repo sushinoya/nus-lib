@@ -39,5 +39,4 @@ class BookShelfTableCell: UITableViewCell {
         titleLabel = UILabel()
         addSubview(titleLabel)
     }
-    
 }

@@ -11,34 +11,33 @@ import Neon
 import RxSwift
 import RxCocoa
 
-class BookShelfViewController: UIViewController {
+class BookShelfViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     var searchController: UISearchController!
     
     var tableView: UITableView!
     let tableViewCellID = "bookShelfCellID"
     
-    var searchValue: Variable<String> = Variable("")
-    var bookList: Variable<[String]> = Variable([])
-    var filterResult: Variable<[String]> = Variable([])
+
+    var bookListForSection0: [BookItem] = []
+    var bookListForSection1: [BookItem] = []
     
-    lazy var searchValueObservable: Observable<String> = self.searchValue.asObservable()
-    lazy var bookListObservable: Observable<[String]> = self.bookList.asObservable()
-    lazy var filterResultObservable: Observable<[String]> = self.filterResult.asObservable()
+    var filteredBookListForSecion0: [BookItem] = []
+    var filteredBookListForSecion1: [BookItem] = []
     
-    let disposeBag = DisposeBag()
-    
-    var selectedString: String?
+    var isFiltering: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
+        setupNavigationBar()
         setupData()
         setupTableView()
         setupSearchBar()
-        setupRxSwiftTable()
-        setupRxSwfitSearch()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -47,14 +46,31 @@ class BookShelfViewController: UIViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     }
     
+    func setupNavigationBar() {
+        let listButton = UIButton(type: .system)
+        listButton.setImage(#imageLiteral(resourceName: "grid"), for: .normal)
+        listButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        
+        listButton.addTarget(self, action: #selector(switchToGridView), for: .touchUpInside)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
+    }
     
     //MARK: - Fake Data
     func setupData() {
-        bookList.value.append("CS3217")
-        bookList.value.append("NUS")
-        bookList.value.append("HARRY PORTER")
-        bookList.value.append("CS")
-        bookList.value.append("SOC")
+        
+        for index in 0..<18 {
+            let name = "Sample\(index).jpg"
+            let image = UIImage(named: name)
+            let item = BookItem(name: name, image: image!)
+            bookListForSection0.append(item)
+        }
+        for index in 18..<30 {
+            let name = "Sample\(index).jpg"
+            let image = UIImage(named: name)
+            let item = BookItem(name: name, image: image!)
+            bookListForSection1.append(item)
+        }
     }
     
     //MARK: - Setup TableView
@@ -62,6 +78,8 @@ class BookShelfViewController: UIViewController {
         
         tableView = UITableView(frame: view.frame, style: .plain)
         tableView.register(BookShelfTableCell.self, forCellReuseIdentifier: tableViewCellID)
+        tableView.delegate = self
+        tableView.dataSource = self
         
         view.addSubview(tableView)
     }
@@ -69,51 +87,115 @@ class BookShelfViewController: UIViewController {
     //MARK: - Setup Search Bar
     func setupSearchBar() {
         searchController = UISearchController(searchResultsController: nil)
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.backgroundColor = UIColor.blue
         searchController.searchBar.placeholder = "Please Enter"
+        searchController.searchBar.delegate = self
+        searchController.searchBar.returnKeyType = .done
+        searchController.searchBar.sizeToFit()
         tableView.tableHeaderView = searchController.searchBar
     }
     
-    //MARK: - Setup RxSwift Table
-    func setupRxSwiftTable() {
-        filterResult.asObservable().bind(to: tableView.rx.items(cellIdentifier: tableViewCellID, cellType: BookShelfTableCell.self)) {
-            (row, element, cell) in
-            cell.titleLabel.text = element
-            }.disposed(by: disposeBag)
-        
-        //Action after an element in datamModel is selected
-        tableView.rx.modelSelected(String.self).subscribe(onNext:  { element in
-            print("Model Value Received: \(element)")
-            if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
-                self.tableView.deselectRow(at: selectedRowIndexPath, animated: true)
-            }
-            
-            //Pass String to ItemDetail ViewController
-            self.selectedString = element
-            self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
-            
-        }).disposed(by: disposeBag)
-    }
-    
-    //MARK: - Setup RxSwift Search
-    func setupRxSwfitSearch() {
-        let searchBar = searchController.searchBar
-        searchBar.rx.text.orEmpty.distinctUntilChanged().debug().bind(to: searchValue).disposed(by: disposeBag)
-        
-        searchValueObservable.subscribe(onNext: { (value) in
-            print("Search value received: \(value)")
-            self.bookListObservable.map({$0.filter({text in
-                if value.isEmpty {return true}
-                return text.lowercased().contains(value.lowercased())
-            })
-            }).bind(to: self.filterResult).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
-    }
-    
-    //MARK: - Perform Segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let itemDetailVC = segue.destination as? ItemDetailViewController {
-            itemDetailVC.selectedString = selectedString
+    func objectForSection0(at indexPath: IndexPath) -> BookItem {
+        if isFiltering {
+            return filteredBookListForSecion0[indexPath.item]
+        } else {
+            return bookListForSection0[indexPath.item]
         }
+    }
+    
+    func objectForSection1(at indexPath: IndexPath) -> BookItem {
+        if isFiltering {
+            return filteredBookListForSecion1[indexPath.item]
+        } else {
+            return bookListForSection1[indexPath.item]
+        }
+    }
+    
+    func filter(searchTerm: String) {
+        if searchTerm.isEmpty {
+            isFiltering = false
+            filteredBookListForSecion0.removeAll()
+            filteredBookListForSecion1.removeAll()
+        } else {
+            isFiltering = true
+            
+            filteredBookListForSecion0 = bookListForSection0.filter({
+                return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)
+            })
+            
+            filteredBookListForSecion1 = bookListForSection1.filter({
+                return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)
+            })
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+            if section == 0 {
+                return filteredBookListForSecion0.count
+            }else {
+                return filteredBookListForSecion1.count
+            }
+        } else {
+            if section == 0 {
+                return bookListForSection0.count
+            }else {
+                return bookListForSection1.count
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! BookShelfTableCell
+        
+        if indexPath.section == 0 {
+            let book = objectForSection0(at: indexPath)
+            cell.thumbImageView.image = book.getThumbNail()
+            cell.titleLabel.text = book.getTitle()
+        } else {
+            let book = objectForSection1(at: indexPath)
+            cell.thumbImageView.image = book.getThumbNail()
+            cell.titleLabel.text = book.getTitle()
+            
+        }
+        return cell
+    }
+    
+    // MARK: UISearchbar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filter(searchTerm: searchText)
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        
+        filter(searchTerm: "")
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
+    
+    @objc func switchToGridView(sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
 }
