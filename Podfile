@@ -16,6 +16,7 @@ target 'NUSLib' do
   pod 'SideMenu'
   pod 'Moya/RxSwift', '~> 11.0'
   pod 'Heimdallr', '~> 3.6.1'
+  pod 'Kingfisher', '~> 4.0'
 
   target 'NUSLibTests' do
     inherit! :search_paths
