@@ -30,16 +30,14 @@ class LoginViewController: BaseViewController {
         setupStudentLoginIDView()
         setupStudentLoginPasswordView()
         setupLoginButton()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.isTranslucent = false
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
         texture.fillSuperview()
         
         // align in the center, then offset by 100px upwards

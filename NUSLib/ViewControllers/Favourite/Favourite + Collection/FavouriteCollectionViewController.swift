@@ -9,7 +9,7 @@
 import UIKit
 import Neon
 
-class FavouriteCollectionViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class FavouriteCollectionViewController: BaseViewController {
     
     var searchController: UISearchController!
     var filtered:[BookItem] = []
@@ -33,6 +33,7 @@ class FavouriteCollectionViewController: BaseViewController, UICollectionViewDel
         setupData()
         setupCollectionView()
         setupSearchBar()
+        self.definesPresentationContext = true;
     }
     
     override func viewWillLayoutSubviews() {
@@ -47,6 +48,7 @@ class FavouriteCollectionViewController: BaseViewController, UICollectionViewDel
         listButton.addTarget(self, action: #selector(switchToListView), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
         navigationItem.title = Constants.NavigationBarTitle.FavouriteTitle
+        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     func setupData() {
@@ -74,8 +76,6 @@ class FavouriteCollectionViewController: BaseViewController, UICollectionViewDel
         collectionview.dataSource = self
         collectionview.delegate = self
         collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
-        collectionview.showsVerticalScrollIndicator = false
-        collectionview.showsHorizontalScrollIndicator = false
         collectionview.backgroundColor = UIColor.white
         
         //Gesture for dragging and reordering of cell

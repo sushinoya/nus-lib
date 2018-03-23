@@ -28,8 +28,6 @@ class BaseViewController: UIViewController{
         SideMenuManager.default.menuAnimationBackgroundColor = UIColor.clear
         
         // transparent navigation bar
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
     }
