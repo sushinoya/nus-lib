@@ -1,5 +1,5 @@
 //
-//  Favourite.swift
+//  FavouriteCollectionViewController.swift
 //  NUSLib
 //
 //  Created by wongkf on 20/3/18.
@@ -9,7 +9,7 @@
 import UIKit
 import Neon
 
-class FavouriteViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class FavouriteCollectionViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
         
     //Search Bar
     var searchController: UISearchController!
@@ -83,7 +83,7 @@ class FavouriteViewController: BaseViewController, UICollectionViewDelegate, UIC
         collectionview = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionview.dataSource = self
         collectionview.delegate = self
-        collectionview.register(ItemDisplayCell.self, forCellWithReuseIdentifier: cellId)
+        collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionview.showsVerticalScrollIndicator = false
         collectionview.showsHorizontalScrollIndicator = false
         collectionview.backgroundColor = UIColor.white
@@ -143,25 +143,25 @@ class FavouriteViewController: BaseViewController, UICollectionViewDelegate, UIC
             })
         }
     }
+    
+    func getBookItem(at indexPath: IndexPath) -> BookItem {
+        
+        if isFiltering {
+            switch indexPath.section {
+            case 1: return filteredBookListForSecion1[indexPath.item]
+            default:
+                return filteredBookListForSecion0[indexPath.item]
+            }
+        } else {
+            switch indexPath.section {
+            case 1: return bookListForSection1[indexPath.item]
+            default:
+                return bookListForSection0[indexPath.item]
+            }
+        }
+    }
 
-    func objectForSection0(at indexPath: IndexPath) -> BookItem {
-        if isFiltering {
-            return filteredBookListForSecion0[indexPath.item]
-        } else {
-            return bookListForSection0[indexPath.item]
-        }
-    }
-    
-    func objectForSection1(at indexPath: IndexPath) -> BookItem {
-        if isFiltering {
-            return filteredBookListForSecion1[indexPath.item]
-        } else {
-            return bookListForSection1[indexPath.item]
-        }
-    }
-    
     @objc func switchToListView(sender: UIButton) {
-//        present(BookShelfViewController(), animated: true, completion: nil)
-        self.navigationController?.pushViewController(BookShelfViewController(), animated: true)
+        self.navigationController?.pushViewController(FavouriteTableViewController(), animated: true)
     }
 }

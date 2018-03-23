@@ -1,5 +1,5 @@
 //
-//  FavouriteViewController + CollectionView.swift
+//  FavouriteCollectionViewController + CollectionView.swift
 //  NUSLib
 //
 //  Created by Liang on 20/3/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
+extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
@@ -58,18 +58,12 @@ extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemDisplayCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BookCollectionViewCell
         
-        if indexPath.section == 0 {
-            let book = objectForSection0(at: indexPath)
-            cell.imageView.image = book.getThumbNail()
-            cell.titleLabel.text = book.getTitle()
-        } else {
-            let book = objectForSection1(at: indexPath)
-            cell.imageView.image = book.getThumbNail()
-            cell.titleLabel.text = book.getTitle()
+        let book = getBookItem(at: indexPath)
+        cell.imageView.image = book.getThumbNail()
+        cell.titleLabel.text = book.getTitle()
 
-        }
         return cell
     }
     

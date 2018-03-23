@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ItemDisplayCell: UICollectionViewCell {
+class BookCollectionViewCell: UICollectionViewCell {
     var titleLabel: UILabel!
     var titleView: UIView!
     var imageView: UIImageView!

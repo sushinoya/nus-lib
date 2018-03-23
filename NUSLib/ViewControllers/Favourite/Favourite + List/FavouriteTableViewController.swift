@@ -1,5 +1,5 @@
 //
-//  BookShelfViewController.swift
+//  FavouriteTableViewController.swift
 //  NUSLib
 //
 //  Created by Liang on 21/3/18.
@@ -11,13 +11,12 @@ import Neon
 import RxSwift
 import RxCocoa
 
-class BookShelfViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class FavouriteTableViewController: BaseViewController {
     
     var searchController: UISearchController!
     
     var tableView: UITableView!
     let tableViewCellID = "bookShelfCellID"
-    
 
     var bookListForSection0: [BookItem] = []
     var bookListForSection1: [BookItem] = []
@@ -47,13 +46,7 @@ class BookShelfViewController: BaseViewController, UITableViewDelegate, UITableV
     }
     
     func setupNavigationBar() {
-        let listButton = UIButton(type: .system)
-        listButton.setImage(#imageLiteral(resourceName: "grid"), for: .normal)
-        listButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
-        listButton.addTarget(self, action: #selector(switchToGridView), for: .touchUpInside)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
+        self.navigationItem.rightBarButtonItem = editButtonItem
     }
     
     //MARK: - Fake Data
@@ -77,7 +70,7 @@ class BookShelfViewController: BaseViewController, UITableViewDelegate, UITableV
     func setupTableView() {
         
         tableView = UITableView(frame: view.frame, style: .plain)
-        tableView.register(BookShelfTableCell.self, forCellReuseIdentifier: tableViewCellID)
+        tableView.register(BookTableViewCell.self, forCellReuseIdentifier: tableViewCellID)
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -97,19 +90,20 @@ class BookShelfViewController: BaseViewController, UITableViewDelegate, UITableV
         tableView.tableHeaderView = searchController.searchBar
     }
     
-    func objectForSection0(at indexPath: IndexPath) -> BookItem {
-        if isFiltering {
-            return filteredBookListForSecion0[indexPath.item]
-        } else {
-            return bookListForSection0[indexPath.item]
-        }
-    }
+    func getBookItem(at indexPath: IndexPath) -> BookItem {
     
-    func objectForSection1(at indexPath: IndexPath) -> BookItem {
         if isFiltering {
-            return filteredBookListForSecion1[indexPath.item]
+            switch indexPath.section {
+            case 1: return filteredBookListForSecion1[indexPath.item]
+            default:
+                return filteredBookListForSecion0[indexPath.item]
+            }
         } else {
-            return bookListForSection1[indexPath.item]
+            switch indexPath.section {
+            case 1: return bookListForSection1[indexPath.item]
+            default:
+                return bookListForSection0[indexPath.item]
+            }
         }
     }
     
@@ -131,71 +125,12 @@ class BookShelfViewController: BaseViewController, UITableViewDelegate, UITableV
         }
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering {
-            if section == 0 {
-                return filteredBookListForSecion0.count
-            }else {
-                return filteredBookListForSecion1.count
-            }
-        } else {
-            if section == 0 {
-                return bookListForSection0.count
-            }else {
-                return bookListForSection1.count
-            }
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        if(editing && !tableView.isEditing){
+            tableView.setEditing(true, animated: true)
+        }else{
+            tableView.setEditing(false, animated: true)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! BookShelfTableCell
-        
-        if indexPath.section == 0 {
-            let book = objectForSection0(at: indexPath)
-            cell.thumbImageView.image = book.getThumbNail()
-            cell.titleLabel.text = book.getTitle()
-        } else {
-            let book = objectForSection1(at: indexPath)
-            cell.thumbImageView.image = book.getThumbNail()
-            cell.titleLabel.text = book.getTitle()
-            
-        }
-        return cell
-    }
-    
-    // MARK: UISearchbar
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filter(searchTerm: searchText)
-        tableView.reloadData()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
-        
-        filter(searchTerm: "")
-        tableView.reloadData()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = true
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-    }
-    
-    @objc func switchToGridView(sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
     }
 }

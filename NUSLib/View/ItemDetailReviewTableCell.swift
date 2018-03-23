@@ -1,5 +1,5 @@
 //
-//  ReviewCell.swift
+//  ItemDetailReviewTableCell.swift
 //  NUSLib
 //
 //  Created by Liang on 21/3/18.
@@ -9,7 +9,7 @@
 import UIKit
 import Neon
 
-class ReviewCell: UITableViewCell {
+class ItemDetailReviewTableCell: UITableViewCell {
     
     var reviewTextView: UITextView!
 
@@ -25,7 +25,6 @@ class ReviewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         reviewTextView.frame = bounds
-        
     }
     
     private func setupViews() {
@@ -35,34 +34,14 @@ class ReviewCell: UITableViewCell {
         reviewTextView.textAlignment = .justified
         reviewTextView.backgroundColor = UIColor.lightGray
         
-        // Use RGB colour
-        reviewTextView.backgroundColor = UIColor(red: 39/255, green: 53/255, blue: 182/255, alpha: 1)
-        
         // Update UITextView font size and colour
         reviewTextView.font = UIFont.systemFont(ofSize: 20)
         reviewTextView.textColor = UIColor.white
-        
-        reviewTextView.font = UIFont.boldSystemFont(ofSize: 20)
-        reviewTextView.font = UIFont(name: "Verdana", size: 17)
-        
-        // Capitalize all characters user types
-        reviewTextView.autocapitalizationType = UITextAutocapitalizationType.allCharacters
         
         // Make UITextView web links clickable
         reviewTextView.isSelectable = true
         reviewTextView.isEditable = false
         reviewTextView.dataDetectorTypes = UIDataDetectorTypes.link
-        
-        // Make UITextView corners rounded
-        reviewTextView.layer.cornerRadius = 10
-        
-        // Enable auto-correction and Spellcheck
-        reviewTextView.autocorrectionType = UITextAutocorrectionType.yes
-        reviewTextView.spellCheckingType = UITextSpellCheckingType.yes
-        // myTextView.autocapitalizationType = UITextAutocapitalizationType.None
-        
-        // Make UITextView Editable
-        reviewTextView.isEditable = true
         
         addSubview(reviewTextView)
     }

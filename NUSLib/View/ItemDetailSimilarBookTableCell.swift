@@ -1,5 +1,5 @@
 //
-//  SimilarBooksCell.swift
+//  ItemDetailSimilarBookTableCell.swift
 //  NUSLib
 //
 //  Created by Liang on 22/3/18.
@@ -9,19 +9,19 @@
 import UIKit
 import Neon
 
-class SimilarBookCell : UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class ItemDetailSimilarBookTableCell : UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
     let reuseableCell = "CellId"
     var cellHeight: CGFloat = 0
     
-    var data: [BookItem] = []
+    var books: [BookItem] = []
     
     var collectionView: UICollectionView!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseableCell)
         setupViews()
-        collectionView.register(similarBookCollectionCell.self, forCellWithReuseIdentifier: reuseableCell)
+        collectionView.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: reuseableCell)
         
     }
     
@@ -51,51 +51,16 @@ class SimilarBookCell : UITableViewCell, UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.count
+        return books.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseableCell, for: indexPath) as! similarBookCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseableCell, for: indexPath) as! BookCollectionViewCell
         
-        cell.titleLabel.text = data[indexPath.row].getTitle()
-        cell.imageView.image = data[indexPath.row].getThumbNail()
+        cell.titleLabel.text = books[indexPath.row].getTitle()
+        cell.imageView.image = books[indexPath.row].getThumbNail()
         
         return cell
     }
 }
 
-class similarBookCollectionCell: UICollectionViewCell {
-    var titleLabel: UILabel!
-    var imageView: UIImageView!
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        imageView.fillSuperview()
-        
-        titleLabel.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: 30)
-        titleLabel.textColor = UIColor.white
-        titleLabel.textAlignment = .center
-        
-    }
-    
-    private func setupViews() {
-        imageView = UIImageView()
-        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        addSubview(imageView)
-        
-        titleLabel = UILabel()
-        addSubview(titleLabel)
-    }
-}
