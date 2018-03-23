@@ -17,7 +17,7 @@ class SearchViewController: BaseViewController {
     var isFiltering: Bool = false
     
     var tableView: UITableView!
-    let tableViewCellID = "tableViewCellID"
+    let topSeachTableCellID = "topSeachTableCell"
     
     var searchValue: Variable<String> = Variable("")
     var topSearchList: Variable<[String]> = Variable([])
@@ -31,7 +31,6 @@ class SearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Search"
         setupData()
         setupTableView()
         setupSearchBar()
@@ -41,17 +40,20 @@ class SearchViewController: BaseViewController {
 
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         tableView.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.SearchTitle
     }
 
-    //MARK: - Fake Data
     private func setupData() {
         topSearchList.value.append("CS3217")
         topSearchList.value.append("NUS")
@@ -60,17 +62,15 @@ class SearchViewController: BaseViewController {
         topSearchList.value.append("SOC")
     }
     
-    //MARK: - Setup TableView
     private func setupTableView() {
         
         tableView = UITableView(frame: view.frame, style: .plain)
-        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: tableViewCellID)
+        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: topSeachTableCellID)
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
     }
     
-    //MARK: - Setup Search Bar
     private func setupSearchBar() {
         searchController = NoCancelButtonSearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
@@ -80,16 +80,13 @@ class SearchViewController: BaseViewController {
         tableView.tableHeaderView = searchController.searchBar
     }
     
-    //MARK: - Setup RxSwift Table
     private func setupRxSwiftTable() {
-        filterResult.asObservable().bind(to: tableView.rx.items(cellIdentifier: tableViewCellID, cellType: TopSeachTableCell.self)) {
+        filterResult.asObservable().bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) {
             (row, element, cell) in
             cell.topSearchLabel.text = element
             }.disposed(by: disposeBag)
         
-        //Action after an element in datamModel is selected
         tableView.rx.modelSelected(String.self).subscribe(onNext:  { element in
-            print("Model Value Received: \(element)")
             if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
                 self.tableView.deselectRow(at: selectedRowIndexPath, animated: true)
             }
@@ -101,13 +98,11 @@ class SearchViewController: BaseViewController {
             
         }).disposed(by: disposeBag)
     }
-    
-    //MARK: - Setup RxSwift Search
-    func setupRxSwfitSearch() {
+
+    private func setupRxSwfitSearch() {
         searchController.searchBar.rx.text.orEmpty.distinctUntilChanged().bind(to: searchValue).disposed(by: disposeBag)
     
         searchValueObservable.subscribe(onNext: { (value) in
-            print("Search value received: \(value)")
             self.topSearchListObservable.map({$0.filter({text in
                 if value.isEmpty {return true}
                 return text.lowercased().contains(value.lowercased())
@@ -115,15 +110,14 @@ class SearchViewController: BaseViewController {
             }).bind(to: self.filterResult).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
     }
-    
-    //MARK: - Perform Segue
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let itemDetailVC = segue.destination as? ItemDetailViewController {
+            // MARK: - TODO: Pass an item to ItemDetailViewController
             itemDetailVC.selectedString = selectedString
         }
     }
 }
-
 
 class NoCancelButtonSearchController: UISearchController {
     let noCancelButtonSearchBar = NoCancelButtonSearchBar()

@@ -30,7 +30,7 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! BookTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: bookTableViewCellID, for: indexPath) as! BookTableViewCell
         
         let book = getBookItem(at: indexPath)
         cell.thumbImageView.image = book.getThumbNail()

@@ -58,7 +58,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BookCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bookCollectionViewCellID, for: indexPath) as! BookCollectionViewCell
         
         let book = getBookItem(at: indexPath)
         cell.imageView.image = book.getThumbNail()

@@ -9,7 +9,7 @@
 import UIKit
 
 extension FavouriteTableViewController: UISearchBarDelegate {
-    // MARK: UISearchbar
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filter(searchTerm: searchText)
         tableView.reloadData()
@@ -36,4 +36,5 @@ extension FavouriteTableViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
     }
+    
 }

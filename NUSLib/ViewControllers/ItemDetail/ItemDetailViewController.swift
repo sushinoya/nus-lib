@@ -11,9 +11,9 @@ import UIKit
 class ItemDetailViewController: BaseViewController {
     
     var tableView: UITableView!
-    let titlePictureCellID = "titlePictureID"
-    let reviewCellID = "reviewCellID"
-    let similarBookCellID = "similarBookCellID"
+    let itemDetailTitlePictureTableCellID = "itemDetailTitlePictureTableCell"
+    let itemDetailReviewTableCellID = "itemDetailReviewTableCell"
+    let itemDetailSimilarBookTableCellID = "itemDetailSimilarBookTableCell"
     
     var selectedString: String?
     
@@ -25,14 +25,18 @@ class ItemDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Item Detail"
+        setupNavigationBar()
         setupTableView()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         tableView.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.ItemDetailTitle
     }
  
     private func setupTableView() {
@@ -40,9 +44,9 @@ class ItemDetailViewController: BaseViewController {
         tableView = UITableView(frame: view.frame, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(ItemDetailTitlePictureTableCell.self, forCellReuseIdentifier: titlePictureCellID)
-        tableView.register(ItemDetailReviewTableCell.self, forCellReuseIdentifier: reviewCellID)
-        tableView.register(ItemDetailSimilarBookTableCell.self, forCellReuseIdentifier: similarBookCellID)
+        tableView.register(ItemDetailTitlePictureTableCell.self, forCellReuseIdentifier: itemDetailTitlePictureTableCellID)
+        tableView.register(ItemDetailReviewTableCell.self, forCellReuseIdentifier: itemDetailReviewTableCellID)
+        tableView.register(ItemDetailSimilarBookTableCell.self, forCellReuseIdentifier: itemDetailSimilarBookTableCellID)
         tableView.rowHeight = UITableViewAutomaticDimension
         view.addSubview(tableView)
     } 

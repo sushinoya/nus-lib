@@ -10,14 +10,12 @@ import UIKit
 import Neon
 
 class FavouriteCollectionViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-        
-    //Search Bar
+    
     var searchController: UISearchController!
     var filtered:[BookItem] = []
     
-    //Collection View
     var collectionview: UICollectionView!
-    var cellId = "itemCell"
+    var bookCollectionViewCellID = "bookCollectionViewCell"
     
     var longPressGesture: UILongPressGestureRecognizer!
     
@@ -29,36 +27,29 @@ class FavouriteCollectionViewController: BaseViewController, UICollectionViewDel
     
     var isFiltering: Bool = false
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionview.fillSuperview()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.title = "Favourite"
-
         setupNavigationBar()
         setupData()
         setupCollectionView()
         setupSearchBar()
-        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionview.fillSuperview()
     }
     
     func setupNavigationBar() {
         let listButton = UIButton(type: .system)
         listButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
         listButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
         listButton.addTarget(self, action: #selector(switchToListView), for: .touchUpInside)
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
+        navigationItem.title = Constants.NavigationBarTitle.FavouriteTitle
     }
     
-    //MARK: - Fake Data
     func setupData() {
-        
         for index in 0..<18 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
@@ -73,9 +64,8 @@ class FavouriteCollectionViewController: BaseViewController, UICollectionViewDel
         }
     }
     
-    //MARK: - Setup Collectionview
-    func setupCollectionView() {
-        
+    private func setupCollectionView() {
+        //Layout for CollectionView
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: view.frame.width, height: 300)
         layout.sectionHeadersPinToVisibleBounds = true
@@ -83,36 +73,18 @@ class FavouriteCollectionViewController: BaseViewController, UICollectionViewDel
         collectionview = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionview.dataSource = self
         collectionview.delegate = self
-        collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
         collectionview.showsVerticalScrollIndicator = false
         collectionview.showsHorizontalScrollIndicator = false
         collectionview.backgroundColor = UIColor.white
-        view.addSubview(collectionview)
         
+        //Gesture for dragging and reordering of cell
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
         collectionview.addGestureRecognizer(longPressGesture)
-    
+        view.addSubview(collectionview)
     }
     
-    @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
-        switch(gesture.state) {
-            
-        case .began:
-            guard let selectedIndexPath = collectionview.indexPathForItem(at: gesture.location(in: collectionview)) else {
-                break
-            }
-            collectionview.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case .changed:
-            collectionview.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
-        case .ended:
-            collectionview.endInteractiveMovement()
-        default:
-            collectionview.cancelInteractiveMovement()
-        }
-    }
-    
-    // MARK: - Setup SearchBar
-    func setupSearchBar() {
+    private func setupSearchBar() {
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
@@ -120,7 +92,6 @@ class FavouriteCollectionViewController: BaseViewController, UICollectionViewDel
         searchController.searchBar.placeholder = "Search Title"
         searchController.searchBar.tintColor = .blue
         searchController.searchBar.sizeToFit()
-    
         collectionview.addSubview(searchController.searchBar)
         
     }
@@ -161,7 +132,30 @@ class FavouriteCollectionViewController: BaseViewController, UICollectionViewDel
         }
     }
 
-    @objc func switchToListView(sender: UIButton) {
+    @objc
+    func switchToListView(sender: UIButton) {
         self.navigationController?.pushViewController(FavouriteTableViewController(), animated: true)
+    }
+    
+    
+    /*
+        Gesture for moving and dragging cell
+     */
+    @objc
+    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+            
+        case .began:
+            guard let selectedIndexPath = collectionview.indexPathForItem(at: gesture.location(in: collectionview)) else {
+                break
+            }
+            collectionview.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            collectionview.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case .ended:
+            collectionview.endInteractiveMovement()
+        default:
+            collectionview.cancelInteractiveMovement()
+        }
     }
 }

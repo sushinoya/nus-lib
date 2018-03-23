@@ -63,7 +63,7 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func generateTableCellForTitlePicture(in tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: titlePictureCellID, for: indexPath) as! ItemDetailTitlePictureTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: itemDetailTitlePictureTableCellID, for: indexPath) as! ItemDetailTitlePictureTableCell
         let book = items[indexPath.section][indexPath.row] as! BookItem
         cell.thumbImageView.image = book.getThumbNail()
         cell.titleLabel.text = book.getTitle()
@@ -72,14 +72,14 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func generateTableCellForReview(in tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reviewCellID, for: indexPath) as! ItemDetailReviewTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: itemDetailReviewTableCellID, for: indexPath) as! ItemDetailReviewTableCell
         let reviewText = items[indexPath.section][indexPath.row] as! String
         cell.reviewTextView.text = reviewText
         return cell
     }
     
     private func generateTableCellForSimilarBook(in tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: similarBookCellID, for: indexPath) as! ItemDetailSimilarBookTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: itemDetailSimilarBookTableCellID, for: indexPath) as! ItemDetailSimilarBookTableCell
         let books = items[indexPath.section][indexPath.row] as! [BookItem]
         cell.books = books
         return cell

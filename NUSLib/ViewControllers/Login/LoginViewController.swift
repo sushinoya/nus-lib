@@ -16,13 +16,26 @@ import RxCocoa
 
 class LoginViewController: BaseViewController {
     
-    let texture = UIView()
-    let logo = UIImageView()
-
-    let studentId = SkyFloatingLabelTextFieldWithIcon()
-    let studentPassword = SkyFloatingLabelTextFieldWithIcon()
+    var texture: UIView!
+    var logo: UIImageView!
+    var studentId: SkyFloatingLabelTextFieldWithIcon!
+    var studentPassword: SkyFloatingLabelTextFieldWithIcon!
+    var loginButton: ZFRippleButton!
     
-    let loginButton = ZFRippleButton()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
+        setupNavigationBar()
+        setupLogoAndBackground()
+        setupStudentLoginIDView()
+        setupStudentLoginPasswordView()
+        setupLoginButton()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = true
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -32,33 +45,30 @@ class LoginViewController: BaseViewController {
         // align in the center, then offset by 100px upwards
         logo.anchorInCenter(width: 300, height: 202)
         logo.frame = logo.frame.offsetBy(dx: 0, dy: -150)
-        
+
         studentId.align(.underCentered, relativeTo: logo, padding: 15, width: 400, height: 50)
         studentPassword.align(.underCentered, relativeTo: studentId, padding: 15, width: 400, height: 50)
-        
         loginButton.align(.underCentered, relativeTo: studentPassword, padding: 30, width: 200, height: 50)
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isTranslucent = true
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.LoginTitle
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.hideKeyboardWhenTappedAround()
-
+    private func setupLogoAndBackground() {
+        texture = UIView()
         view.backgroundColor = UIColor.primary
-        
-        view.addSubview(texture)
         texture.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "crissxcross"))
         view.sendSubview(toBack: texture)
+        view.addSubview(texture)
         
-        view.addSubview(logo)
+        logo = UIImageView()
         logo.image = #imageLiteral(resourceName: "logo")
-        
-        view.addSubview(studentId)
+        view.addSubview(logo)
+    }
+    
+    private func setupStudentLoginIDView() {
+        studentId = SkyFloatingLabelTextFieldWithIcon()
         studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentId.iconText = String.fontAwesomeIcon(name: .idCard)
         studentId.autocapitalizationType = .allCharacters
@@ -71,8 +81,11 @@ class LoginViewController: BaseViewController {
         studentId.selectedLineColor = UIColor.accent2
         studentId.delegate = self
         studentId.tag = 0
-        
-        view.addSubview(studentPassword)
+        view.addSubview(studentId)
+    }
+    
+    private func setupStudentLoginPasswordView() {
+        studentPassword = SkyFloatingLabelTextFieldWithIcon()
         studentPassword.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentPassword.iconText = String.fontAwesomeIcon(name: .lock)
         studentPassword.placeholder = "Password"
@@ -84,8 +97,11 @@ class LoginViewController: BaseViewController {
         studentPassword.isSecureTextEntry = true
         studentPassword.delegate = self
         studentPassword.tag = 1
-        
-        view.addSubview(loginButton)
+        view.addSubview(studentPassword)
+    }
+    
+    private func setupLoginButton() {
+        loginButton = ZFRippleButton()
         loginButton.setTitle("LOGIN", for: .normal)
         loginButton.backgroundColor = UIColor.primaryTint1
         loginButton.layer.cornerRadius = 25
@@ -96,6 +112,6 @@ class LoginViewController: BaseViewController {
         loginButton.layer.masksToBounds = false
         loginButton.rippleColor = UIColor.white.withAlphaComponent(0.2)
         loginButton.rippleBackgroundColor = UIColor.clear
-    
+        view.addSubview(loginButton)
     }
 }

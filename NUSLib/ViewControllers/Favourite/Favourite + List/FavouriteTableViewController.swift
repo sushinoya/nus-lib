@@ -16,7 +16,7 @@ class FavouriteTableViewController: BaseViewController {
     var searchController: UISearchController!
     
     var tableView: UITableView!
-    let tableViewCellID = "bookShelfCellID"
+    let bookTableViewCellID = "bookTableViewCell"
 
     var bookListForSection0: [BookItem] = []
     var bookListForSection1: [BookItem] = []
@@ -28,7 +28,6 @@ class FavouriteTableViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         setupNavigationBar()
         setupData()
         setupTableView()
@@ -39,19 +38,18 @@ class FavouriteTableViewController: BaseViewController {
         self.navigationController?.navigationBar.isTranslucent = true
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         tableView.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     }
     
-    func setupNavigationBar() {
-        self.navigationItem.rightBarButtonItem = editButtonItem
+    private func setupNavigationBar() {
+        navigationItem.rightBarButtonItem = editButtonItem
+        navigationItem.title = Constants.NavigationBarTitle.FavouriteTitle
     }
     
-    //MARK: - Fake Data
-    func setupData() {
-        
+    private func setupData() {
         for index in 0..<18 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
@@ -66,19 +64,16 @@ class FavouriteTableViewController: BaseViewController {
         }
     }
     
-    //MARK: - Setup TableView
-    func setupTableView() {
+    private func setupTableView() {
         
         tableView = UITableView(frame: view.frame, style: .plain)
-        tableView.register(BookTableViewCell.self, forCellReuseIdentifier: tableViewCellID)
+        tableView.register(BookTableViewCell.self, forCellReuseIdentifier: bookTableViewCellID)
         tableView.delegate = self
         tableView.dataSource = self
-        
         view.addSubview(tableView)
     }
     
-    //MARK: - Setup Search Bar
-    func setupSearchBar() {
+    private func setupSearchBar() {
         searchController = UISearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
@@ -91,7 +86,6 @@ class FavouriteTableViewController: BaseViewController {
     }
     
     func getBookItem(at indexPath: IndexPath) -> BookItem {
-    
         if isFiltering {
             switch indexPath.section {
             case 1: return filteredBookListForSecion1[indexPath.item]

@@ -16,6 +16,14 @@ struct Constants {
         static let backgroundColor = "#092140"
     }
     
+    enum NavigationBarTitle {
+        static let ItemDetailTitle = "Item Detail"
+        static let SearchTitle = "Search"
+        static let FavouriteTitle = "Favourite"
+        static let LoginTitle = "Login"
+        static let HomeTitle = "Home"
+    }
+    
 }
 
 // app theme & color branding

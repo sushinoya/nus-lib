@@ -34,8 +34,8 @@
 		4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A2206122FC00B576C2 /* ItemDetailViewController.swift */; };
 		4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A420614B3E00B576C2 /* BaseViewController.swift */; };
 		79C50AAFE6CF31ECDAB5784F /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61E94F1CBF6A562FA7C87542 /* Pods_NUSLib.framework */; };
-		EC6CD12D2064A2B10058CA5A /* BookShelfViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12C2064A2B10058CA5A /* BookShelfViewController + Search.swift */; };
-		EC6CD12F2064A2FE0058CA5A /* BookShelfViewControlller + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12E2064A2FE0058CA5A /* BookShelfViewControlller + TableView.swift */; };
+		EC6CD12D2064A2B10058CA5A /* FavouriteTableViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */; };
+		EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */; };
 		EC6CD1312064CC200058CA5A /* ItemDetailViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1302064CC200058CA5A /* ItemDetailViewController + TableView.swift */; };
 		EC6CD1352064D5330058CA5A /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1342064D5320058CA5A /* BookTableViewCell.swift */; };
 		EC6CD1392064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1362064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift */; };
@@ -44,8 +44,8 @@
 		EC6CD13F2064D7090058CA5A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD13D2064D7080058CA5A /* SearchViewController.swift */; };
 		EC6CD1412064DE9B0058CA5A /* TopSeachTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1402064DE9B0058CA5A /* TopSeachTableCell.swift */; };
 		ECA049772062707F00015C36 /* FavouriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA049762062707F00015C36 /* FavouriteTableViewController.swift */; };
-		ECA0497C2062AB2D00015C36 /* FavouriteViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA0497B2062AB2D00015C36 /* FavouriteViewController + Search.swift */; };
-		ECA3280620614813002E584B /* FavouriteViewController + CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */; };
+		ECA0497C2062AB2D00015C36 /* FavouriteCollectionViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA0497B2062AB2D00015C36 /* FavouriteCollectionViewController + Search.swift */; };
+		ECA3280620614813002E584B /* FavouriteCollectionViewController + CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA3280520614813002E584B /* FavouriteCollectionViewController + CollectionView.swift */; };
 		ECAE284D2061E2AF00457417 /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE284C2061E2AF00457417 /* BookCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -106,8 +106,8 @@
 		B8D6203348E7610B7B820315 /* Pods-NUSLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.release.xcconfig"; sourceTree = "<group>"; };
 		C5457901C8712742ABDB56BD /* Pods-NUSLibTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.release.xcconfig"; sourceTree = "<group>"; };
 		E2A1E2B7DFB0FAA6A653ED10 /* Pods-NUSLibTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.debug.xcconfig"; sourceTree = "<group>"; };
-		EC6CD12C2064A2B10058CA5A /* BookShelfViewController + Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookShelfViewController + Search.swift"; sourceTree = "<group>"; };
-		EC6CD12E2064A2FE0058CA5A /* BookShelfViewControlller + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookShelfViewControlller + TableView.swift"; sourceTree = "<group>"; };
+		EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteTableViewController + Search.swift"; sourceTree = "<group>"; };
+		EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteTableViewController + TableView.swift"; sourceTree = "<group>"; };
 		EC6CD1302064CC200058CA5A /* ItemDetailViewController + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ItemDetailViewController + TableView.swift"; sourceTree = "<group>"; };
 		EC6CD1342064D5320058CA5A /* BookTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
 		EC6CD1362064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailTitlePictureTableCell.swift; sourceTree = "<group>"; };
@@ -116,8 +116,8 @@
 		EC6CD13D2064D7080058CA5A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		EC6CD1402064DE9B0058CA5A /* TopSeachTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSeachTableCell.swift; sourceTree = "<group>"; };
 		ECA049762062707F00015C36 /* FavouriteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTableViewController.swift; sourceTree = "<group>"; };
-		ECA0497B2062AB2D00015C36 /* FavouriteViewController + Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteViewController + Search.swift"; sourceTree = "<group>"; };
-		ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteViewController + CollectionView.swift"; sourceTree = "<group>"; };
+		ECA0497B2062AB2D00015C36 /* FavouriteCollectionViewController + Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteCollectionViewController + Search.swift"; sourceTree = "<group>"; };
+		ECA3280520614813002E584B /* FavouriteCollectionViewController + CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteCollectionViewController + CollectionView.swift"; sourceTree = "<group>"; };
 		ECAE284C2061E2AF00457417 /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -322,8 +322,8 @@
 			isa = PBXGroup;
 			children = (
 				4AF3479B206121F100B576C2 /* FavouriteCollectionViewController.swift */,
-				ECA3280520614813002E584B /* FavouriteViewController + CollectionView.swift */,
-				ECA0497B2062AB2D00015C36 /* FavouriteViewController + Search.swift */,
+				ECA3280520614813002E584B /* FavouriteCollectionViewController + CollectionView.swift */,
+				ECA0497B2062AB2D00015C36 /* FavouriteCollectionViewController + Search.swift */,
 			);
 			path = "Favourite + Collection";
 			sourceTree = "<group>";
@@ -332,8 +332,8 @@
 			isa = PBXGroup;
 			children = (
 				ECA049762062707F00015C36 /* FavouriteTableViewController.swift */,
-				EC6CD12E2064A2FE0058CA5A /* BookShelfViewControlller + TableView.swift */,
-				EC6CD12C2064A2B10058CA5A /* BookShelfViewController + Search.swift */,
+				EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */,
+				EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */,
 			);
 			path = "Favourite + List";
 			sourceTree = "<group>";
@@ -669,15 +669,15 @@
 			files = (
 				4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */,
 				4A6FA4872062D938005B0681 /* SierraApiClient.swift in Sources */,
-				EC6CD12D2064A2B10058CA5A /* BookShelfViewController + Search.swift in Sources */,
+				EC6CD12D2064A2B10058CA5A /* FavouriteTableViewController + Search.swift in Sources */,
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
 				42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */,
 				EC6CD13A2064D6E20058CA5A /* ItemDetailReviewTableCell.swift in Sources */,
 				EC6CD13F2064D7090058CA5A /* SearchViewController.swift in Sources */,
-				ECA0497C2062AB2D00015C36 /* FavouriteViewController + Search.swift in Sources */,
+				ECA0497C2062AB2D00015C36 /* FavouriteCollectionViewController + Search.swift in Sources */,
 				42758D5B205988B4007C5629 /* UserProfile.swift in Sources */,
-				EC6CD12F2064A2FE0058CA5A /* BookShelfViewControlller + TableView.swift in Sources */,
+				EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */,
 				EC6CD1412064DE9B0058CA5A /* TopSeachTableCell.swift in Sources */,
 				4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */,
 				EC6CD1392064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift in Sources */,
@@ -694,7 +694,7 @@
 				4251F6D2205D152600F5687B /* BookItem.swift in Sources */,
 				4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */,
 				ECAE284D2061E2AF00457417 /* BookCollectionViewCell.swift in Sources */,
-				ECA3280620614813002E584B /* FavouriteViewController + CollectionView.swift in Sources */,
+				ECA3280620614813002E584B /* FavouriteCollectionViewController + CollectionView.swift in Sources */,
 				4275CD0C20598FFD00943195 /* Constants.swift in Sources */,
 				4251F6D620616BAE00F5687B /* PaperItem.swift in Sources */,
 				4251F6D420616B9B00F5687B /* EventItem.swift in Sources */,
