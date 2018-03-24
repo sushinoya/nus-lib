@@ -1,5 +1,5 @@
 //
-//  BookShelfCell.swift
+//  ItemDetailTitlePictureTableCell.swift
 //  NUSLib
 //
 //  Created by Liang on 21/3/18.
@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Neon
 
-class BookShelfTableCell: UITableViewCell {
+class ItemDetailTitlePictureTableCell: UITableViewCell {
     
     var titleLabel: UILabel!
     var thumbImageView: UIImageView!
+    var ratingLabel: UILabel!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,9 +26,17 @@ class BookShelfTableCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         thumbImageView.anchorToEdge(.left, padding: 0, width: self.frame.width * 0.3, height: self.frame.height)
         
         titleLabel.alignAndFillWidth(align: .toTheRightMatchingTop, relativeTo: thumbImageView, padding: 8, height: 30)
+
+        ratingLabel.alignAndFillWidth(align: .toTheRightMatchingTop, relativeTo: thumbImageView, padding: 8, height: 30, offset: titleLabel.frame.height)
+        
+        
+        ratingLabel.textColor = UIColor.black
+        titleLabel.textColor = UIColor.black
+        
     }
     
     private func setupViews() {
@@ -38,6 +48,9 @@ class BookShelfTableCell: UITableViewCell {
         
         titleLabel = UILabel()
         addSubview(titleLabel)
+        
+        ratingLabel = UILabel()
+        addSubview(ratingLabel)
     }
     
 }

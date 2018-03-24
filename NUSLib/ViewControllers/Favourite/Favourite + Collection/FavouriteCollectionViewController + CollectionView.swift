@@ -1,5 +1,5 @@
 //
-//  FavouriteViewController + CollectionView.swift
+//  FavouriteCollectionViewController + CollectionView.swift
 //  NUSLib
 //
 //  Created by Liang on 20/3/18.
@@ -8,8 +8,7 @@
 
 import UIKit
 
-extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
-
+extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
         let threePiecesWidth = floor(screenWidth / 3.0 - ((2.0 / 3) * 2))
@@ -34,11 +33,9 @@ extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        return UIEdgeInsetsMake(0, 0, 2.0, 0)
+        return UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if isFiltering {
@@ -58,21 +55,29 @@ extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemDisplayCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bookCollectionViewCellID, for: indexPath) as! BookCollectionViewCell
         
-        if indexPath.section == 0 {
-            let book = objectForSection0(at: indexPath)
-            cell.imageView.image = book.getThumbNail()
-            cell.backgroundColor = UIColor.blue
-            cell.titleLabel.text = book.getTitle()
-        } else {
-            let book = objectForSection1(at: indexPath)
-            cell.imageView.image = book.getThumbNail()
-            cell.backgroundColor = UIColor.yellow
-            cell.titleLabel.text = book.getTitle()
-
-        }
+        let book = getBookItem(at: indexPath)
+        cell.imageView.image = book.getThumbNail()
+        cell.titleLabel.text = book.getTitle()
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if let selectedItems = collectionView.indexPathsForSelectedItems {
+            if selectedItems.contains(indexPath) {
+                collectionView.deselectItem(at: indexPath, animated: true)
+                return false
+            }
+        }
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if !isEditingMode {
+             self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
@@ -93,5 +98,6 @@ extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
             bookListForSection1.insert(book, at: destinationIndexPath.item)
         }
     }
-
 }
+
+

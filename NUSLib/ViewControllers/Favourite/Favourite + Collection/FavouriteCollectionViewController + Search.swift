@@ -1,5 +1,5 @@
 //
-//  FavouriteViewController + Search.swift
+//  FavouriteCollectionViewController + Search.swift
 //  NUSLib
 //
 //  Created by Liang on 21/3/18.
@@ -8,14 +8,16 @@
 
 import UIKit
 
-extension FavouriteViewController: UISearchBarDelegate {
+extension FavouriteCollectionViewController: UISearchBarDelegate {
     
-    //MARK: - Add Search Bar
+    /*
+        Add SearchBar as the header of CollectionView
+     */
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 40)
     }
     
-    // MARK: UISearchbar
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filter(searchTerm: searchText)
         collectionview.reloadData()

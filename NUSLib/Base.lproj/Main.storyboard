@@ -156,10 +156,10 @@
             </objects>
             <point key="canvasLocation" x="5433" y="1012"/>
         </scene>
-        <!--Favourite View Controller-->
+        <!--Favourite Collection View Controller-->
         <scene sceneID="JgE-Rr-qv8">
             <objects>
-                <viewController id="iMp-51-Lnq" customClass="FavouriteViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="iMp-51-Lnq" customClass="FavouriteCollectionViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mPY-ea-hA3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -168,11 +168,30 @@
                     </view>
                     <connections>
                         <segue destination="hgM-Xp-iER" kind="show" identifier="FavouriteToItemDetail" id="Cdz-AH-HxY"/>
+                        <segue destination="bCs-vN-pN5" kind="show" identifier="CollectionToList" id="Axc-vq-9ue"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3W9-GT-9DW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5433" y="1952"/>
+        </scene>
+        <!--Favourite Table View Controller-->
+        <scene sceneID="Lal-4K-DSg">
+            <objects>
+                <viewController id="bCs-vN-pN5" customClass="FavouriteTableViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hlF-BU-gf4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="yfy-qM-r2J"/>
+                    </view>
+                    <connections>
+                        <segue destination="hgM-Xp-iER" kind="show" identifier="detail" id="imQ-cf-fBl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C4b-6x-AgF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6324" y="1961"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="CAT-MI-p47">
