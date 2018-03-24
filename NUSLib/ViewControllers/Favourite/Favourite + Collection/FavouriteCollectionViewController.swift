@@ -142,15 +142,12 @@ class FavouriteCollectionViewController: BaseViewController {
         }
     }
     
-    /*
-        Now only can delete one
-     */
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        collectionview.allowsMultipleSelection = false
+        collectionview.allowsMultipleSelection = editing
         deleteButton.isHidden = !editing
     }
-
+    
     @objc
     func switchToListView(sender: UIButton) {
         self.navigationController?.pushViewController(FavouriteTableViewController(), animated: true)
@@ -180,7 +177,7 @@ class FavouriteCollectionViewController: BaseViewController {
     @objc
     func deleteCells() {
         if let indexpaths = collectionview?.indexPathsForSelectedItems {
-            for indexPath in indexpaths {
+            for indexPath in indexpaths.sorted().reversed() {
                 if isFiltering {
                     switch indexPath.section {
                     case 1: filteredBookListForSecion1.remove(at: indexPath.item)
