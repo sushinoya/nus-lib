@@ -109,7 +109,25 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.isScrollEnabled = false
         return this
     }()
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        scrollView.delegate = self
+        
+        scrollView.addSubview(popularTitle)
+        scrollView.addSubview(popularSeparator)
+        scrollView.addSubview(popularSubtitle)
+        scrollView.addSubview(popularCollection)
+        scrollView.addSubview(recommendTitle)
+        scrollView.addSubview(recommendSeparator)
+        scrollView.addSubview(recommendSubtitle)
+        scrollView.addSubview(recommendCollectionLeft)
+        scrollView.addSubview(recommendCollectionRight)
+        
+        view.addSubview(scrollView)
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -132,31 +150,17 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         popularSubtitle.bounds = popularSubtitle.frame.insetBy(dx: 20, dy: 0)
         recommendSeparator.bounds = recommendSeparator.frame.insetBy(dx: 20, dy: 0)
         recommendSubtitle.bounds = recommendSubtitle.frame.insetBy(dx: 20, dy: 0)
- 
+        
         // compaction
         scrollView.fitToContent()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        scrollView.delegate = self
-        
-        scrollView.addSubview(popularTitle)
-        scrollView.addSubview(popularSeparator)
-        scrollView.addSubview(popularSubtitle)
-        scrollView.addSubview(popularCollection)
-        scrollView.addSubview(recommendTitle)
-        scrollView.addSubview(recommendSeparator)
-        scrollView.addSubview(recommendSubtitle)
-        scrollView.addSubview(recommendCollectionLeft)
-        scrollView.addSubview(recommendCollectionRight)
-        
-        view.addSubview(scrollView)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.HomeTitle
     }
 
 }

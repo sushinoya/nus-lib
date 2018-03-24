@@ -333,10 +333,6 @@
 				4AF3479B206121F100B576C2 /* FavouriteCollectionViewController.swift */,
 				ECA3280520614813002E584B /* FavouriteCollectionViewController + CollectionView.swift */,
 				ECA0497B2062AB2D00015C36 /* FavouriteCollectionViewController + Search.swift */,
-				ECAE284C2061E2AF00457417 /* ItemDisplayCell.swift */,
-				4A729C382064DEE800B62D9F /* HorizontalCollectionView.swift */,
-				4A729C3A2064ECDD00B62D9F /* VerticalCollectionView.swift */,
-				4A729C3E2065619700B62D9F /* Separator.swift */,
 			);
 			path = "Favourite + Collection";
 			sourceTree = "<group>";
@@ -360,6 +356,9 @@
 				EC6CD1382064D6E20058CA5A /* ItemDetailSimilarBookTableCell.swift */,
 				EC6CD1362064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift */,
 				EC6CD1402064DE9B0058CA5A /* TopSeachTableCell.swift */,
+				4A729C382064DEE800B62D9F /* HorizontalCollectionView.swift */,
+				4A729C3A2064ECDD00B62D9F /* VerticalCollectionView.swift */,
+				4A729C3E2065619700B62D9F /* Separator.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -519,7 +518,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5C141EEF578B1086BBF0AE86 /* [CP] Embed Pods Frameworks */ = {
@@ -552,7 +551,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		77594202A028FF02EB9B700A /* [CP] Copy Pods Resources */ = {
@@ -585,7 +584,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		929A43DF3C6ACAEC851402F9 /* [CP] Copy Pods Resources */ = {
@@ -613,6 +612,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/FontAwesome.swift/FontAwesome_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/Heimdallr/Heimdallr.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
@@ -628,6 +628,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FontAwesome_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Heimdallr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Neon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
@@ -711,8 +712,6 @@
 				4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */,
 				ECAE284D2061E2AF00457417 /* BookCollectionViewCell.swift in Sources */,
 				ECA3280620614813002E584B /* FavouriteCollectionViewController + CollectionView.swift in Sources */,
-				ECAE284D2061E2AF00457417 /* ItemDisplayCell.swift in Sources */,
-				ECA3280620614813002E584B /* FavouriteViewController + CollectionView.swift in Sources */,
 				4A729C3F2065619700B62D9F /* Separator.swift in Sources */,
 				4275CD0C20598FFD00943195 /* Constants.swift in Sources */,
 				4251F6D620616BAE00F5687B /* PaperItem.swift in Sources */,

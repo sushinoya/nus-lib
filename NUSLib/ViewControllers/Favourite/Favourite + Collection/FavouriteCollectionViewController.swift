@@ -180,7 +180,7 @@ class FavouriteCollectionViewController: BaseViewController {
     @objc
     func deleteCells() {
         if let indexpaths = collectionview?.indexPathsForSelectedItems {
-            for indexPath in indexpaths() {
+            for indexPath in indexpaths {
                 if isFiltering {
                     switch indexPath.section {
                     case 1: filteredBookListForSecion1.remove(at: indexPath.item)
