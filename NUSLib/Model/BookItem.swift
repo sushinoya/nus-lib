@@ -39,3 +39,23 @@ class BookItem: DisplayableItem {
     }
  
 }
+
+extension BookItem: Codable {
+
+    private enum CodingKeys: String, CodingKey {
+        case title = "title"
+        case author = "author"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(title, forKey: .title)
+        try values.encode(author, forKey: .author)
+    }
+
+    convenience init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        title = try values.decode(String.self, forKey: .title)
+        author = try values.decode(String.self, forKey: .author)
+    }
+}

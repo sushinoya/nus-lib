@@ -26,6 +26,16 @@ class CentralLibrary: LibraryAPI {
     }
 
     func getBooksFromTitle(title: String) -> [BookItem] {
+        SierraApiClient.shared.provider.request(.bib(id: title)){ result in
+            switch result{
+            case let .success(moyaResponse):
+                let data = moyaResponse.data
+                let statusCode = moyaResponse.statusCode
+                print("\(statusCode):\(String(data: data, encoding: String.Encoding.utf8)!)")
+            case let .failure(error):
+                print(error.errorDescription!)
+            }
+        }
         return []
     }
 
