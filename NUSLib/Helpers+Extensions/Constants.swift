@@ -51,5 +51,6 @@ extension UIColor{
 }
 
 extension UIFont{
-    static let primary = UIFont(name: "Avenir", size: 32)
+    static let primary = UIFont(name: "Avenir-Heavy", size: 32)
+    static let subtitle = UIFont(name: "Avenir-Heavy", size: 12)
 }
