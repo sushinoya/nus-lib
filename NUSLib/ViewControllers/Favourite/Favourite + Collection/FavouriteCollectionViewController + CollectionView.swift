@@ -74,6 +74,12 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
         return true
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if !isEditingMode {
+             self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true
     }

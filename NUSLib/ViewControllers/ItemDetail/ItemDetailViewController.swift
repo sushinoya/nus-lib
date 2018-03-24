@@ -17,6 +17,10 @@ class ItemDetailViewController: BaseViewController {
     
     var selectedString: String?
     
+    var favouriteButton: UIButton!
+    
+    var isFavourited: Bool = false
+    
     var items: [[Any]] = [
         [BookItem(name: "Title1", image: #imageLiteral(resourceName: "Sample5"))],
         ["ReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReview", "ReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReview"],
@@ -36,6 +40,13 @@ class ItemDetailViewController: BaseViewController {
     }
     
     private func setupNavigationBar() {
+        favouriteButton = UIButton(type: .system)
+        favouriteButton.setImage(#imageLiteral(resourceName: "favourite"), for: .normal)
+        favouriteButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        favouriteButton.addTarget(self, action: #selector(addToFavouriteList), for: .touchUpInside)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: favouriteButton)
+        
         navigationItem.title = Constants.NavigationBarTitle.ItemDetailTitle
     }
  
@@ -49,7 +60,18 @@ class ItemDetailViewController: BaseViewController {
         tableView.register(ItemDetailSimilarBookTableCell.self, forCellReuseIdentifier: itemDetailSimilarBookTableCellID)
         tableView.rowHeight = UITableViewAutomaticDimension
         view.addSubview(tableView)
-    } 
+    }
+    
+    @objc func addToFavouriteList() {
+        if !isFavourited {
+            print("Add to Favourite")
+            favouriteButton.setImage(#imageLiteral(resourceName: "favourited"), for: .normal)
+        } else {
+            print("Remove from Favourite")
+            favouriteButton.setImage(#imageLiteral(resourceName: "favourite"), for: .normal)
+        }
+        isFavourited = !isFavourited
+    }
 }
 
 

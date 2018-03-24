@@ -39,6 +39,11 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !tableView.isEditing {
+            self.performSegue(withIdentifier: "detail", sender: self)
+        }
+    }
     
     /*
         Set to true so that the cell can move

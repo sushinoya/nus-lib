@@ -27,6 +27,7 @@ class FavouriteCollectionViewController: BaseViewController {
     var filteredBookListForSecion1: [BookItem] = []
     
     var isFiltering: Bool = false
+    var isEditingMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,13 +145,21 @@ class FavouriteCollectionViewController: BaseViewController {
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
+        isEditingMode = editing
         collectionview.allowsMultipleSelection = editing
         deleteButton.isHidden = !editing
+    }
+        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let itemDetailVC = segue.destination as? ItemDetailViewController {
+            // MARK: - TODO: Pass an item to ItemDetailViewController
+            itemDetailVC.selectedString = "selectedString"
+        }
     }
     
     @objc
     func switchToListView(sender: UIButton) {
-        self.navigationController?.pushViewController(FavouriteTableViewController(), animated: true)
+        self.performSegue(withIdentifier: "CollectionToList", sender: self)
     }
     
     /*

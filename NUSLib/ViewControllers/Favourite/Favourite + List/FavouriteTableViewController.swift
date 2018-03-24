@@ -25,6 +25,7 @@ class FavouriteTableViewController: BaseViewController {
     var filteredBookListForSecion1: [BookItem] = []
     
     var isFiltering: Bool = false
+    var isEditingMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,6 +147,13 @@ class FavouriteTableViewController: BaseViewController {
                 }
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let itemDetailVC = segue.destination as? ItemDetailViewController {
+            // MARK: - TODO: Pass an item to ItemDetailViewController
+            itemDetailVC.selectedString = "selectedString"
         }
     }
 }

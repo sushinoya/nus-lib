@@ -126,6 +126,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         scrollView.addSubview(recommendCollectionRight)
         
         view.addSubview(scrollView)
+
     }
     
     override func viewWillLayoutSubviews() {
