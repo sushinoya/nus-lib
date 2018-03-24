@@ -17,6 +17,7 @@ class FavouriteCollectionViewController: BaseViewController {
     var collectionview: UICollectionView!
     var bookCollectionViewCellID = "bookCollectionViewCell"
     
+    var deleteButton: UIButton!
     var longPressGesture: UILongPressGestureRecognizer!
     
     var bookListForSection0: [BookItem] = []
@@ -46,7 +47,15 @@ class FavouriteCollectionViewController: BaseViewController {
         listButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
         listButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         listButton.addTarget(self, action: #selector(switchToListView), for: .touchUpInside)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
+        
+        deleteButton = UIButton(type: .system)
+        deleteButton.setImage(#imageLiteral(resourceName: "delete"), for: .normal)
+        deleteButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        deleteButton.isHidden = !isEditing
+        deleteButton.addTarget(self, action: #selector(deleteCells), for: .touchUpInside)
+        
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: listButton), editButtonItem, UIBarButtonItem(customView: deleteButton)]
+        
         navigationItem.title = Constants.NavigationBarTitle.FavouriteTitle
         self.navigationController?.navigationBar.isTranslucent = true
     }
@@ -76,7 +85,6 @@ class FavouriteCollectionViewController: BaseViewController {
         collectionview.dataSource = self
         collectionview.delegate = self
         collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
-        collectionview.backgroundColor = UIColor.white
         
         //Gesture for dragging and reordering of cell
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
@@ -93,6 +101,8 @@ class FavouriteCollectionViewController: BaseViewController {
         searchController.searchBar.tintColor = .blue
         searchController.searchBar.sizeToFit()
         collectionview.addSubview(searchController.searchBar)
+        //Search Bar only appear when user pull the view down
+        collectionview.setContentOffset(CGPoint(x: 0, y: searchController.searchBar.height) , animated: true)
         
     }
     
@@ -131,12 +141,20 @@ class FavouriteCollectionViewController: BaseViewController {
             }
         }
     }
+    
+    /*
+        Now only can delete one
+     */
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        collectionview.allowsMultipleSelection = false
+        deleteButton.isHidden = !editing
+    }
 
     @objc
     func switchToListView(sender: UIButton) {
         self.navigationController?.pushViewController(FavouriteTableViewController(), animated: true)
     }
-    
     
     /*
         Gesture for moving and dragging cell
@@ -156,6 +174,28 @@ class FavouriteCollectionViewController: BaseViewController {
             collectionview.endInteractiveMovement()
         default:
             collectionview.cancelInteractiveMovement()
+        }
+    }
+    
+    @objc
+    func deleteCells() {
+        if let indexpaths = collectionview?.indexPathsForSelectedItems {
+            for indexPath in indexpaths() {
+                if isFiltering {
+                    switch indexPath.section {
+                    case 1: filteredBookListForSecion1.remove(at: indexPath.item)
+                    default:
+                        filteredBookListForSecion0.remove(at: indexPath.item)
+                    }
+                } else {
+                    switch indexPath.section {
+                    case 1: bookListForSection1.remove(at: indexPath.item)
+                    default:
+                        bookListForSection0.remove(at: indexPath.item)
+                    }
+                }
+            }
+            collectionview.deleteItems(at: indexpaths)
         }
     }
 }

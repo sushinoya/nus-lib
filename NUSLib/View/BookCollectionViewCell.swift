@@ -14,9 +14,17 @@ class BookCollectionViewCell: UICollectionViewCell {
     var imageView: UIImageView!
     var gradientLayer: CAGradientLayer?
     var hilightedCover: UIView!
+    
     override var isHighlighted: Bool {
         didSet {
             hilightedCover.isHidden = !isHighlighted
+        }
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            self.layer.borderWidth = 3.0
+            self.layer.borderColor = isSelected ? UIColor.blue.cgColor : UIColor.clear.cgColor
         }
     }
     

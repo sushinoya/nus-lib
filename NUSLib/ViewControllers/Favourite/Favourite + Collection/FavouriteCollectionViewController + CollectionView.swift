@@ -9,7 +9,6 @@
 import UIKit
 
 extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
-
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
         let threePiecesWidth = floor(screenWidth / 3.0 - ((2.0 / 3) * 2))
@@ -34,11 +33,9 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        return UIEdgeInsetsMake(0, 0, 2.0, 0)
+        return UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if isFiltering {
@@ -63,8 +60,18 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
         let book = getBookItem(at: indexPath)
         cell.imageView.image = book.getThumbNail()
         cell.titleLabel.text = book.getTitle()
-
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if let selectedItems = collectionView.indexPathsForSelectedItems {
+            if selectedItems.contains(indexPath) {
+                collectionView.deselectItem(at: indexPath, animated: true)
+                return false
+            }
+        }
+        return true
     }
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
@@ -85,5 +92,6 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
             bookListForSection1.insert(book, at: destinationIndexPath.item)
         }
     }
-
 }
+
+

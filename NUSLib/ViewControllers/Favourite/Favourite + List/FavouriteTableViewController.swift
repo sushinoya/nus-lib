@@ -83,6 +83,8 @@ class FavouriteTableViewController: BaseViewController {
         searchController.searchBar.returnKeyType = .done
         searchController.searchBar.sizeToFit()
         tableView.tableHeaderView = searchController.searchBar
+        //Search Bar only appear when user pull the view down
+        tableView.setContentOffset(CGPoint(x: 0, y: searchController.searchBar.height) , animated: true)
     }
     
     func getBookItem(at indexPath: IndexPath) -> BookItem {
@@ -125,6 +127,25 @@ class FavouriteTableViewController: BaseViewController {
             tableView.setEditing(true, animated: true)
         }else{
             tableView.setEditing(false, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if isFiltering {
+                switch indexPath.section {
+                case 1: filteredBookListForSecion1.remove(at: indexPath.item)
+                default:
+                    filteredBookListForSecion0.remove(at: indexPath.item)
+                }
+            } else {
+                switch indexPath.section {
+                case 1: bookListForSection1.remove(at: indexPath.item)
+                default:
+                    bookListForSection0.remove(at: indexPath.item)
+                }
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
