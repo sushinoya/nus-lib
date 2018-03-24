@@ -12,6 +12,16 @@ import Foundation
 class CentralLibrary: LibraryAPI {
 
     func getDisplayableItems() -> [DisplayableItem] {
+        SierraApiClient.shared.provider.request(.bibs(limit: 4, offset: 1)){ result in
+            switch result{
+            case let .success(moyaResponse):
+                let data = moyaResponse.data
+                let statusCode = moyaResponse.statusCode
+                print("\(statusCode):\(String(data: data, encoding: String.Encoding.utf8)!)")
+            case let .failure(error):
+                print(error.errorDescription!)
+            }
+        }
         return []
     }
 
