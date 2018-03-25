@@ -12,19 +12,7 @@ import Foundation
 class CentralLibrary: LibraryAPI {
 
     func getDisplayableItems() -> [DisplayableItem] {
-        SierraApiClient.shared.provider.request(.bibs(limit: 4, offset: 1)){ result in
-            switch result{
-            case let .success(moyaResponse):
-                let data = moyaResponse.data
-                //print("\(statusCode):\(String(data: data, encoding: String.Encoding.utf8)!)")
-            case let .failure(error):
-                print(error.errorDescription!)
-            }
-        }
-        return []
-    }
-
-    func getBooksFromTitle(title: String) -> [BookItem] {
+        var books = [BookItem]()
         SierraApiClient.shared.provider.request(.bibs(limit: 4, offset: 1)){ result in
             switch result{
             case let .success(moyaResponse):
@@ -35,8 +23,6 @@ class CentralLibrary: LibraryAPI {
                     if let rootDictionary = jsonObject as? [String: Any],
                         let items = rootDictionary["entries"] as? [[String: Any]] {
                         
-                        print("reached \n")
-                        var books = [BookItem]()
                         for item in items {
                             if let book = BookItem(json: item) {
                                 print("parsed... \(book)")
@@ -44,7 +30,37 @@ class CentralLibrary: LibraryAPI {
                             }
                         }
                     }
+                } catch {
                     
+                }
+                print("\(statusCode):\(String(data: data, encoding: String.Encoding.utf8)!)")
+            case let .failure(error):
+                print(error.errorDescription!)
+            }
+        }
+        
+        return books
+    }
+
+    func getBooksFromTitle(title: String) -> [BookItem] {
+        var books = [BookItem]()
+        SierraApiClient.shared.provider.request(.bib(id: title)){ result in
+            switch result{
+            case let .success(moyaResponse):
+                let data = moyaResponse.data
+                let statusCode = moyaResponse.statusCode
+                do {
+                    let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+                    if let rootDictionary = jsonObject as? [String: Any],
+                       let items = rootDictionary["entries"] as? [[String: Any]] {
+                        
+                        for item in items {
+                            if let book = BookItem(json: item) {
+                                print("parsed... \(book)")
+                                books.append(book)
+                            }
+                        }
+                    }
                 } catch {
                     
                 }
@@ -54,7 +70,7 @@ class CentralLibrary: LibraryAPI {
             }
         }
 
-        return []
+        return books
     }
 
     func getBooksFromISBN(barcode: String) -> [BookItem] {
