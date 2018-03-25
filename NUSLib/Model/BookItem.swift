@@ -39,6 +39,12 @@ struct BookItem: DisplayableItem {
         self.rating = -1
     }
 
+    init?(json: [String: Any], image: UIImage, rating: Int) {
+        self.init(json: json)
+        self.thumbNail = image
+        self.rating = rating
+    }
+
     func getTitle() -> String {
         return self.title
     }
