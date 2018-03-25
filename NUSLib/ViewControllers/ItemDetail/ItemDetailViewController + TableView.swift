@@ -73,6 +73,7 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     private func generateTableCellForReview(in tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: itemDetailReviewTableCellID, for: indexPath) as! ItemDetailReviewTableCell
+    
         let reviewText = items[indexPath.section][indexPath.row] as! String
         cell.reviewTextView.text = reviewText
         return cell

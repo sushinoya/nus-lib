@@ -20,14 +20,13 @@ class FavouriteCollectionViewController: BaseViewController {
     var deleteButton: UIButton!
     var longPressGesture: UILongPressGestureRecognizer!
     
-    var bookListForSection0: [BookItem] = []
-    var bookListForSection1: [BookItem] = []
-    
-    var filteredBookListForSecion0: [BookItem] = []
-    var filteredBookListForSecion1: [BookItem] = []
+    var bookLists: [[BookItem]] = [[]]
+    var filteredLists: [[BookItem]] = [[]]
     
     var isFiltering: Bool = false
     var isEditingMode = false
+    
+    var selectedItem: BookItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,17 +61,21 @@ class FavouriteCollectionViewController: BaseViewController {
     }
     
     func setupData() {
+        let books = [BookItem]()
+        
+        bookLists.append(books)
+        bookLists.append(books)
         for index in 0..<18 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
             let item = BookItem(name: name, image: image!)
-            bookListForSection0.append(item)
+            bookLists[0].append(item)
         }
         for index in 18..<30 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
             let item = BookItem(name: name, image: image!)
-            bookListForSection1.append(item)
+            bookLists[1].append(item)
         }
     }
     
@@ -111,35 +114,21 @@ class FavouriteCollectionViewController: BaseViewController {
     func filter(searchTerm: String) {
         if searchTerm.isEmpty {
             isFiltering = false
-            filteredBookListForSecion0.removeAll()
-            filteredBookListForSecion1.removeAll()
+            filteredLists.removeAll()
         } else {
             isFiltering = true
-            
-            filteredBookListForSecion0 = bookListForSection0.filter({
-                return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)
-            })
-            
-            filteredBookListForSecion1 = bookListForSection1.filter({
-                return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)
-            })
+            for section in 0..<filteredLists.count {
+                filteredLists[section] = bookLists[section].filter({return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)})
+            }
         }
     }
     
     func getBookItem(at indexPath: IndexPath) -> BookItem {
         
         if isFiltering {
-            switch indexPath.section {
-            case 1: return filteredBookListForSecion1[indexPath.item]
-            default:
-                return filteredBookListForSecion0[indexPath.item]
-            }
+            return filteredLists[indexPath.section][indexPath.item]
         } else {
-            switch indexPath.section {
-            case 1: return bookListForSection1[indexPath.item]
-            default:
-                return bookListForSection0[indexPath.item]
-            }
+           return bookLists[indexPath.section][indexPath.item]
         }
     }
     
@@ -154,6 +143,7 @@ class FavouriteCollectionViewController: BaseViewController {
         if let itemDetailVC = segue.destination as? ItemDetailViewController {
             // MARK: - TODO: Pass an item to ItemDetailViewController
             itemDetailVC.selectedString = "selectedString"
+            itemDetailVC.itemToDisplay = selectedItem
         }
     }
     
@@ -188,17 +178,11 @@ class FavouriteCollectionViewController: BaseViewController {
         if let indexpaths = collectionview?.indexPathsForSelectedItems {
             for indexPath in indexpaths.sorted().reversed() {
                 if isFiltering {
-                    switch indexPath.section {
-                    case 1: filteredBookListForSecion1.remove(at: indexPath.item)
-                    default:
-                        filteredBookListForSecion0.remove(at: indexPath.item)
-                    }
+                    
+                    filteredLists[indexPath.section].remove(at: indexPath.item)
+                   
                 } else {
-                    switch indexPath.section {
-                    case 1: bookListForSection1.remove(at: indexPath.item)
-                    default:
-                        bookListForSection0.remove(at: indexPath.item)
-                    }
+                    bookLists[indexPath.section].remove(at: indexPath.item)
                 }
             }
             collectionview.deleteItems(at: indexpaths)
