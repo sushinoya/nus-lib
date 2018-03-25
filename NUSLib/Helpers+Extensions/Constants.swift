@@ -23,7 +23,6 @@ struct Constants {
         static let LoginTitle = "Login"
         static let HomeTitle = "Home"
     }
-    
 }
 
 // app theme & color branding

@@ -29,7 +29,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return bookLists.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -39,17 +39,9 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if isFiltering {
-            if section == 0 {
-                return filteredBookListForSecion0.count
-            }else {
-                return filteredBookListForSecion1.count
-            }
+            return filteredLists[section].count
         } else {
-            if section == 0 {
-                return bookListForSection0.count
-            }else {
-                return bookListForSection1.count
-            }
+           return bookLists[section].count
         }
         
     }
@@ -76,7 +68,8 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !isEditingMode {
-             self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
+            selectedItem = getBookItem(at: indexPath)
+            self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
         }
     }
     
@@ -85,18 +78,10 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        var book: BookItem
-        if sourceIndexPath.section == 0 {
-            book = bookListForSection0.remove(at: sourceIndexPath.item)
-        }else {
-            book = bookListForSection1.remove(at: sourceIndexPath.item)
-        }
+        
+        let book = bookLists[sourceIndexPath.section].remove(at: sourceIndexPath.item)
+        bookLists[destinationIndexPath.section].insert(book, at: destinationIndexPath.item)
 
-        if destinationIndexPath.section == 0 {
-            bookListForSection0.insert(book, at: destinationIndexPath.item)
-        }else {
-            bookListForSection1.insert(book, at: destinationIndexPath.item)
-        }
     }
 }
 
