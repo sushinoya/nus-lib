@@ -19,13 +19,12 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
     // UI are initialized by closure for compactness.
     // This technique simplify the method in viewDidLoad(), as well as eliminating Optionals.
-    // It is similar to lazy operator but without the verbosity of method declaration
-    let scrollView: UIScrollView = {
+    lazy var scrollView: UIScrollView = {
         let this = UIScrollView(frame: UIScreen.main.bounds)
         return this
     }()
     
-    let popularTitle: UILabel = {
+    lazy var popularTitle: UILabel = {
         let this = UILabel()
         this.textColor = UIColor.primary
         this.text = "POPULAR"
@@ -34,12 +33,12 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    let popularSeparator: Separator = {
+    lazy var popularSeparator: Separator = {
         let this = Separator(width: UIScreen.main.bounds.width)
         return this
     }()
     
-    let popularSubtitle: UILabel = {
+    lazy var popularSubtitle: UILabel = {
         let this = UILabel()
         this.textColor = UIColor.gray
         this.text = "WHAT EVERYONE'S READING"
@@ -48,7 +47,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    let popularCollection: HorizontalCollectionView<ThumbnailCell> = {
+    lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = {
         let this = HorizontalCollectionView<ThumbnailCell>(frame: CGRect.zero,
                                                            cellCount: 10,
                                                            cellSize: CGSize(width: 320, height: 240),
@@ -61,7 +60,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    let recommendTitle: UILabel = {
+    lazy var recommendTitle: UILabel = {
         let this = UILabel()
         this.textColor = UIColor.primary
         this.text = "RECOMMEND"
@@ -70,12 +69,12 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    let recommendSeparator: Separator = {
+    lazy var recommendSeparator: Separator = {
         let this = Separator(width: UIScreen.main.bounds.width)
         return this
     }()
     
-    let recommendSubtitle: UILabel = {
+    lazy var recommendSubtitle: UILabel = {
         let this = UILabel()
         this.textColor = UIColor.gray
         this.text = "JUST FOR YOU"
@@ -84,7 +83,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    var recommendCollectionLeft: VerticalCollectionView<ThumbnailCell> = {
+    lazy var recommendCollectionLeft: VerticalCollectionView<ThumbnailCell> = {
         let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: UIScreen.main.bounds.width/2, height: UIScreen.main.bounds.height)),
                                                          cellCount: 5,
                                                          cellHeight: 600,
@@ -97,7 +96,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    var recommendCollectionRight: VerticalCollectionView<ThumbnailCell> = {
+    lazy var recommendCollectionRight: VerticalCollectionView<ThumbnailCell> = {
         let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: UIScreen.main.bounds.width/2, height: UIScreen.main.bounds.height)),
                                                           cellCount: 5,
                                                           cellHeight: 600,
@@ -168,7 +167,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
 
 class ThumbnailCell: UICollectionViewCell {
     
-    private let thumbnail: ZFRippleButton = {
+    private lazy var thumbnail: ZFRippleButton = {
         let this = ZFRippleButton()
         this.kf.setImage(with: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover\(Int(arc4random_uniform(30)+1)).jpg"),
                               for: .normal,
