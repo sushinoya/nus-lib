@@ -30,6 +30,7 @@ class FavouriteTableViewController: BaseViewController {
         setupData()
         setupTableView()
         setupSearchBar()
+        self.definesPresentationContext = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

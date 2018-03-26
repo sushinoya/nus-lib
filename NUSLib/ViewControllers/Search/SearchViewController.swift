@@ -28,16 +28,17 @@ class SearchViewController: BaseViewController {
     lazy var filterResultObservable: Observable<[String]> = self.filterResult.asObservable()
     
     var selectedString: String?
+    var selectedItem: BookItem?
+    
+    let api = CentralLibrary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupData()
         setupTableView()
         setupSearchBar()
         setupRxSwiftTable()
-        setupRxSwfitSearch()
         self.definesPresentationContext = true;
-
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -52,14 +53,6 @@ class SearchViewController: BaseViewController {
     
     func setupNavigationBar() {
         navigationItem.title = Constants.NavigationBarTitle.SearchTitle
-    }
-
-    private func setupData() {
-        topSearchList.value.append("CS3217")
-        topSearchList.value.append("NUS")
-        topSearchList.value.append("HARRY PORTER")
-        topSearchList.value.append("CS")
-        topSearchList.value.append("SOC")
     }
     
     private func setupTableView() {
@@ -81,40 +74,37 @@ class SearchViewController: BaseViewController {
     }
     
     private func setupRxSwiftTable() {
-        filterResult.asObservable().bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) {
-            (row, element, cell) in
-            cell.topSearchLabel.text = element
-            }.disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(String.self).subscribe(onNext:  { element in
+        searchController.searchBar.rx.text.orEmpty.debounce(0.5, scheduler: MainScheduler.instance).distinctUntilChanged().asObservable()
+            .map { ($0 ).lowercased() }
+            .flatMapLatest { request -> Observable<[BookItem]> in
+                return self.api.getBooksFromKeyword(keyword: request)
+            }
+            .bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
+                cell.topSearchLabel.text = model.getTitle()
+            }
+            .disposed(by: disposeBag)
+        
+        
+        tableView.rx.modelSelected(BookItem.self).subscribe(onNext:  { model in
             if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
                 self.tableView.deselectRow(at: selectedRowIndexPath, animated: true)
             }
             
             //Pass String to ItemDetail ViewController
-            self.selectedString = element
+            self.selectedString = model.getTitle()
+            self.selectedItem = model
             
             self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
             
         }).disposed(by: disposeBag)
     }
-
-    private func setupRxSwfitSearch() {
-        searchController.searchBar.rx.text.orEmpty.distinctUntilChanged().bind(to: searchValue).disposed(by: disposeBag)
     
-        searchValueObservable.subscribe(onNext: { (value) in
-            self.topSearchListObservable.map({$0.filter({text in
-                if value.isEmpty {return true}
-                return text.lowercased().contains(value.lowercased())
-            })
-            }).bind(to: self.filterResult).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let itemDetailVC = segue.destination as? ItemDetailViewController {
             // MARK: - TODO: Pass an item to ItemDetailViewController
-            itemDetailVC.selectedString = selectedString
+            itemDetailVC.selectedString = "selectedString"
+            itemDetailVC.itemToDisplay = selectedItem
         }
     }
 }

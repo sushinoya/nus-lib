@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 /*
   Protocol that sits in between the server and the mobile frontend. Describes the methods to be used by the app
@@ -17,5 +18,7 @@ protocol LibraryAPI {
     func getDisplayableItems() -> [DisplayableItem]
     func getBooksFromTitle(title: String) -> [BookItem]
     func getBooksFromISBN(barcode: String) -> [BookItem]
+    
+    func getBooksFromKeyword(keyword: String) -> Observable<[BookItem]>
 
 }
