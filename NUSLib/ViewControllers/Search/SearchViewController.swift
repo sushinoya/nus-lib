@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 class SearchViewController: BaseViewController {
-    
+    /*
     var searchController: NoCancelButtonSearchController!
     var isFiltering: Bool = false
     
@@ -107,6 +107,7 @@ class SearchViewController: BaseViewController {
             itemDetailVC.itemToDisplay = selectedItem
         }
     }
+ */
 }
 
 class NoCancelButtonSearchController: UISearchController {

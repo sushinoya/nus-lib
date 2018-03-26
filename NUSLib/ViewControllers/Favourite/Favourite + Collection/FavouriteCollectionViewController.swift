@@ -10,7 +10,7 @@ import UIKit
 import Neon
 
 class FavouriteCollectionViewController: BaseViewController {
-    
+    /*
     var searchController: UISearchController!
     var filtered:[BookItem] = []
     
@@ -187,5 +187,5 @@ class FavouriteCollectionViewController: BaseViewController {
             }
             collectionview.deleteItems(at: indexpaths)
         }
-    }
+    }*/
 }
