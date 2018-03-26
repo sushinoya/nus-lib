@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EventItem: DisplayableItem {
+struct EventItem: DisplayableItem {
     
     private var title: String
     private var thumbNail: UIImage

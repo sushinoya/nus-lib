@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BookItem: DisplayableItem {
+struct BookItem: DisplayableItem {
 
     private var title: String
     private var author: String
@@ -22,10 +22,29 @@ class BookItem: DisplayableItem {
         self.rating = rating
     }
     
-    convenience init(name title: String, image: UIImage) {
+    init(name title: String, image: UIImage) {
         self.init(name: title, author: "Unknown", image: image, rating: 5)
     }
-    
+
+    init?(json: [String: Any]) {
+        guard
+            let title = json["title"] as? String,
+            let author = json["author"] as? String
+            else {
+                return nil 
+            }
+        self.title = title
+        self.author = author
+        self.thumbNail = UIImage()
+        self.rating = -1
+    }
+
+    init?(json: [String: Any], image: UIImage, rating: Int) {
+        self.init(json: json)
+        self.thumbNail = image
+        self.rating = rating
+    }
+
     func getTitle() -> String {
         return self.title
     }
@@ -37,5 +56,6 @@ class BookItem: DisplayableItem {
     func getRating() -> Int {
         return self.rating
     }
- 
+
 }
+

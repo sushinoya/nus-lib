@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PaperItem: DisplayableItem {
+struct PaperItem: DisplayableItem {
     
     private var title: String
     private var thumbNail: UIImage
