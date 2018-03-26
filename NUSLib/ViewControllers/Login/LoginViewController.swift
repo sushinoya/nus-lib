@@ -16,19 +16,19 @@ import RxCocoa
 
 class LoginViewController: BaseViewController {
     
-    let texture: UIView = {
+    lazy var texture: UIView = {
         let texture = UIView()
         texture.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "crissxcross"))
         return texture
     }()
     
-    let logo: UIImageView = {
+    lazy var logo: UIImageView = {
         let logo = UIImageView()
         logo.image = #imageLiteral(resourceName: "logo")
         return logo
     }()
     
-    let  studentId: SkyFloatingLabelTextFieldWithIcon = {
+    lazy var  studentId: SkyFloatingLabelTextFieldWithIcon = {
         let studentId = SkyFloatingLabelTextFieldWithIcon()
         studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentId.iconText = String.fontAwesomeIcon(name: .idCard)
@@ -44,7 +44,7 @@ class LoginViewController: BaseViewController {
         return studentId
     }()
     
-    let studentPassword: SkyFloatingLabelTextFieldWithIcon = {
+    lazy var studentPassword: SkyFloatingLabelTextFieldWithIcon = {
         let studentPassword = SkyFloatingLabelTextFieldWithIcon()
         studentPassword.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentPassword.iconText = String.fontAwesomeIcon(name: .lock)
@@ -59,7 +59,7 @@ class LoginViewController: BaseViewController {
         return studentPassword
     }()
     
-    let loginButton: ZFRippleButton = {
+    lazy var loginButton: ZFRippleButton = {
         let loginButton = ZFRippleButton()
         loginButton.setTitle("LOGIN", for: .normal)
         loginButton.backgroundColor = UIColor.primaryTint1
