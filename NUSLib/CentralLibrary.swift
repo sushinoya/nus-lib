@@ -13,7 +13,7 @@ class CentralLibrary: LibraryAPI {
 
     func getDisplayableItems() -> [DisplayableItem] {
         var books = [BookItem]()
-        SierraApiClient.shared.provider.request(.bibs(limit: 10, offset: 1)){ result in
+        SierraApiClient.shared.provider.request(.bibs(limit: 10, offset: 0)){ result in
             switch result{
             case let .success(moyaResponse):
                 let data = moyaResponse.data
@@ -28,6 +28,7 @@ class CentralLibrary: LibraryAPI {
                             let image = UIImage(data: data!)
                             let rating = Int(arc4random_uniform(5))
                             if let book = BookItem(json: item, image: image!, rating: rating) {
+                                print("parsed... \(book)")
                                 books.append(book)
                             }
                         }
@@ -44,7 +45,8 @@ class CentralLibrary: LibraryAPI {
 
     func getBooksFromTitle(title: String) -> [BookItem] {
         var books = [BookItem]()
-        SierraApiClient.shared.provider.request(.bib(id: title)){ result in
+        SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: "title", text: title))
+        { result in
             switch result{
             case let .success(moyaResponse):
                 let data = moyaResponse.data
@@ -54,7 +56,7 @@ class CentralLibrary: LibraryAPI {
                     if let rootDictionary = jsonObject as? [String: Any],
                        let items = rootDictionary["entries"] as? [[String: Any]] {
                         for item in items {
-                            if let book = BookItem(json: item) {
+                            if let book = BookItem(json: item["bib"] as! [String : Any]) {
                                 print("parsed... \(book)")
                                 books.append(book)
                             }
