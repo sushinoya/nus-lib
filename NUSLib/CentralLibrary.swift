@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import RxSwift
 
 //Instance of LibraryAPI from the Central Library and it's data
 class CentralLibrary: LibraryAPI {
-
+    
     func getDisplayableItems() -> [DisplayableItem] {
         var books = [BookItem]()
         SierraApiClient.shared.provider.request(.bibs(limit: 10, offset: 0)){ result in
@@ -42,7 +43,7 @@ class CentralLibrary: LibraryAPI {
         }
         return books
     }
-
+    
     func getBooksFromTitle(title: String) -> [BookItem] {
         var books = [BookItem]()
         SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: "title", text: title))
@@ -54,7 +55,7 @@ class CentralLibrary: LibraryAPI {
                 do {
                     let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
                     if let rootDictionary = jsonObject as? [String: Any],
-                       let items = rootDictionary["entries"] as? [[String: Any]] {
+                        let items = rootDictionary["entries"] as? [[String: Any]] {
                         for item in items {
                             if let book = BookItem(json: item["bib"] as! [String : Any]) {
                                 print("parsed... \(book)")
@@ -70,12 +71,49 @@ class CentralLibrary: LibraryAPI {
                 print(error.errorDescription!)
             }
         }
-
+        
         return books
     }
-
+    
     func getBooksFromISBN(barcode: String) -> [BookItem] {
         return []
     }
-
+    
+    
+    func getBooksFromKeyword(keyword: String) -> Observable<[BookItem]> {
+        
+        return Observable.create { observer in
+            
+            var books: [BookItem] = []
+            
+            SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: keyword, text: keyword)){ result in
+                switch result{
+                case let .success(moyaResponse):
+                    let data = moyaResponse.data
+                    let statusCode = moyaResponse.statusCode
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+                        if let rootDictionary = jsonObject as? [String: Any],
+                            let items = rootDictionary["entries"] as? [[String: Any]] {
+                            for item in items {
+                                if let book = BookItem(json: item["bib"] as! [String : Any]) {
+                                    print("parsed... \(book)")
+                                    books.append(book)
+                                }
+                            }
+                        }
+                        observer.onNext(books)
+                        observer.onCompleted()
+                    } catch {
+                        observer.onError(error)
+                    }
+                    print("\(statusCode):\(String(data: data, encoding: String.Encoding.utf8)!)")
+                case let .failure(error):
+                    print(error.errorDescription!)
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
 }
