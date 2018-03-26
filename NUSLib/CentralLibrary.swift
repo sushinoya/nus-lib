@@ -86,7 +86,7 @@ class CentralLibrary: LibraryAPI {
             
             var books: [BookItem] = []
             
-            SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: keyword, text:     keyword)){ result in
+            SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: keyword, text: keyword)){ result in
                 switch result{
                 case let .success(moyaResponse):
                     let data = moyaResponse.data
