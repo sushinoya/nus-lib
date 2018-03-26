@@ -16,27 +16,36 @@ class ItemDetailViewController: BaseViewController {
     let itemDetailSimilarBookTableCellID = "itemDetailSimilarBookTableCell"
     
     var selectedString: String?
+    var itemToDisplay: BookItem?
     
     var favouriteButton: UIButton!
     
     var isFavourited: Bool = false
     
-    var items: [[Any]] = [
-        [BookItem(name: "Title1", image: #imageLiteral(resourceName: "Sample5"))],
-        ["ReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReview", "ReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReview"],
-        [[BookItem(name: "SimilarBook1", image: #imageLiteral(resourceName: "Sample5")),BookItem(name: "SimilarBook2", image: #imageLiteral(resourceName: "Sample8")),BookItem(name: "SimilarBook3", image: #imageLiteral(resourceName: "Sample1")),BookItem(name: "SimilarBook4", image: #imageLiteral(resourceName: "Sample2")),BookItem(name: "SimilarBook5", image: #imageLiteral(resourceName: "Sample5"))]]
-    ]
+    var items: [[Any]] = [[]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupData()
         setupNavigationBar()
         setupTableView()
+        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tableView.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
+    }
+    
+    private func setupData() {
+        
+        let defaultBook = BookItem(name: "Title1", image: #imageLiteral(resourceName: "Sample5"))
+        let reviews = ["ReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReview", "ReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReviewReview"]
+        
+        let similarBoooks =  [[BookItem(name: "SimilarBook1", image: #imageLiteral(resourceName: "Sample5")),BookItem(name: "SimilarBook2", image: #imageLiteral(resourceName: "Sample8")),BookItem(name: "SimilarBook3", image: #imageLiteral(resourceName: "Sample1")),BookItem(name: "SimilarBook4", image: #imageLiteral(resourceName: "Sample2")),BookItem(name: "SimilarBook5", image: #imageLiteral(resourceName: "Sample5"))]]
+        
+        items = [[itemToDisplay ?? defaultBook] , reviews, similarBoooks]
     }
     
     private func setupNavigationBar() {

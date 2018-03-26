@@ -10,22 +10,14 @@ import UIKit
 
 extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return bookLists.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering {
-            if section == 0 {
-                return filteredBookListForSecion0.count
-            }else {
-                return filteredBookListForSecion1.count
-            }
+            return filteredLists[section].count
         } else {
-            if section == 0 {
-                return bookListForSection0.count
-            }else {
-                return bookListForSection1.count
-            }
+            return bookLists[section].count
         }
     }
     
@@ -57,17 +49,7 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
      */
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        var book: BookItem
-        if sourceIndexPath.section == 0 {
-            book = bookListForSection0.remove(at: sourceIndexPath.row)
-        }else {
-            book = bookListForSection1.remove(at: sourceIndexPath.row)
-        }
-        
-        if destinationIndexPath.section == 0 {
-            bookListForSection0.insert(book, at: destinationIndexPath.row)
-        }else {
-            bookListForSection1.insert(book, at: destinationIndexPath.row)
-        }
+        let book = bookLists[sourceIndexPath.section].remove(at: sourceIndexPath.item)
+        bookLists[destinationIndexPath.section].insert(book, at: destinationIndexPath.item)
     }
 }
