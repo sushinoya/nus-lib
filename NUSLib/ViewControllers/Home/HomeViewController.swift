@@ -19,8 +19,10 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
     // UI are initialized by closure for compactness.
     // This technique simplify the method in viewDidLoad(), as well as eliminating Optionals.
-    lazy var scrollView: UIScrollView = {
-        let this = UIScrollView(frame: UIScreen.main.bounds)
+    
+    // IMPORTANT: remember to put unowned self to avoid retaining strong cycles if self is referenced in closure!
+    lazy var scrollView: UIScrollView = { [unowned self] in
+        let this = UIScrollView(frame: view.bounds)
         return this
     }()
     
@@ -33,8 +35,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    lazy var popularSeparator: Separator = {
-        let this = Separator(width: UIScreen.main.bounds.width)
+    lazy var popularSeparator: Separator = { [unowned self] in
+        let this = Separator(width: view.bounds.width)
         return this
     }()
     
@@ -69,8 +71,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    lazy var recommendSeparator: Separator = {
-        let this = Separator(width: UIScreen.main.bounds.width)
+    lazy var recommendSeparator: Separator = { [unowned self] in
+        let this = Separator(width: view.bounds.width)
         return this
     }()
     
@@ -83,8 +85,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    lazy var recommendCollectionLeft: VerticalCollectionView<ThumbnailCell> = {
-        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: UIScreen.main.bounds.width/2, height: UIScreen.main.bounds.height)),
+    lazy var recommendCollectionLeft: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
+        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: view.bounds.width/2, height: view.bounds.height)),
                                                          cellCount: 5,
                                                          cellHeight: 600,
                                                          cellSpacing: 20,
@@ -96,8 +98,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    lazy var recommendCollectionRight: VerticalCollectionView<ThumbnailCell> = {
-        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: UIScreen.main.bounds.width/2, height: UIScreen.main.bounds.height)),
+    lazy var recommendCollectionRight: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
+        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: view.bounds.width/2, height: view.bounds.height)),
                                                           cellCount: 5,
                                                           cellHeight: 600,
                                                           cellSpacing: 20,
