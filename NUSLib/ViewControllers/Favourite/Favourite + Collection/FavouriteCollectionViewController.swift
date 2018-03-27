@@ -10,7 +10,7 @@ import UIKit
 import Neon
 
 class FavouriteCollectionViewController: BaseViewController {
-    /*
+    
     var searchController: UISearchController!
     var filtered:[BookItem] = []
     
@@ -142,8 +142,8 @@ class FavouriteCollectionViewController: BaseViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let itemDetailVC = segue.destination as? ItemDetailViewController {
             // MARK: - TODO: Pass an item to ItemDetailViewController
-            itemDetailVC.selectedString = "selectedString"
-            itemDetailVC.itemToDisplay = selectedItem
+            //itemDetailVC.selectedString = "selectedString"
+            //itemDetailVC.itemToDisplay = selectedItem
         }
     }
     
@@ -187,5 +187,5 @@ class FavouriteCollectionViewController: BaseViewController {
             }
             collectionview.deleteItems(at: indexpaths)
         }
-    }*/
+    }
 }

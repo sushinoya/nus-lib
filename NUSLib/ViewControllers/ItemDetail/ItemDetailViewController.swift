@@ -146,7 +146,7 @@ class ItemDetailViewController: BaseViewController {
         location.alignAndFillWidth(align: .toTheRightCentered, relativeTo: previewImage, padding: 50, height: 25, offset: -50)
         favourite.align(.toTheRightCentered, relativeTo: previewImage, padding: 50, width: 250, height: 50, offset: 25)
         sypnosisTitle.alignAndFillWidth(align: .underCentered, relativeTo: overlay, padding: 0, height: 25, offset: 0)
-        sypnosisTitle.frame = sypnosisTitle.frame.offsetBy(dx: 50, dy: 80)
+        sypnosisTitle.frame = sypnosisTitle.frame.offsetBy(dx: 50, dy: 100)
         sypnosisContent.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisTitle, padding: 50, height: 25)
         sypnosisContent.frame = sypnosisContent.frame.offsetBy(dx: 0, dy: -25)
         sypnosisContent.sizeToFit()

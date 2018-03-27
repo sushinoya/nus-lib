@@ -7,7 +7,7 @@
 //
 
 import UIKit
-/*
+
 extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
@@ -68,7 +68,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !isEditingMode {
-            selectedItem = getBookItem(at: indexPath)
+            //selectedItem = getBookItem(at: indexPath)
             self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
         }
     }
@@ -83,6 +83,6 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
         bookLists[destinationIndexPath.section].insert(book, at: destinationIndexPath.item)
 
     }
-}*/
+}
 
 

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-/*
+
 extension FavouriteCollectionViewController: UISearchBarDelegate {
     
     /*
@@ -44,4 +44,4 @@ extension FavouriteCollectionViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
     }
-}*/
+}
