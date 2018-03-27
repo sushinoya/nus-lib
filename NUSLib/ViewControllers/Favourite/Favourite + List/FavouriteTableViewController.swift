@@ -18,8 +18,8 @@ class FavouriteTableViewController: BaseViewController {
     var tableView: UITableView!
     let bookTableViewCellID = "bookTableViewCell"
 
-    var bookLists: [[BookItem]] = [[]]
-    var filteredLists: [[BookItem]] = [[]]
+    var bookLists: [[BookItem]] = []
+    var filteredLists: [[BookItem]] = []
     
     var isFiltering: Bool = false
     var isEditingMode = false
@@ -53,6 +53,8 @@ class FavouriteTableViewController: BaseViewController {
         
         bookLists.append(books)
         bookLists.append(books)
+        filteredLists.append(books)
+        filteredLists.append(books)
         for index in 0..<18 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
@@ -104,7 +106,8 @@ class FavouriteTableViewController: BaseViewController {
             filteredLists.removeAll()
         } else {
             isFiltering = true
-            for section in 0..<filteredLists.count {
+            for section in 0..<bookLists.count {
+                filteredLists.append([BookItem]())
                 filteredLists[section] = bookLists[section].filter({return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)})
             }
         }

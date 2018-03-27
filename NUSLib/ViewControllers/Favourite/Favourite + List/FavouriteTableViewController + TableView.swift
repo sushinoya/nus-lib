@@ -47,7 +47,6 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
     /*
         Move the cell from sourceIndexPath to destinationIndexPath
      */
-    
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let book = bookLists[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         bookLists[destinationIndexPath.section].insert(book, at: destinationIndexPath.item)
