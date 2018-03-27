@@ -55,4 +55,5 @@ extension UIFont{
     static let title = UIFont(name: "Avenir-Heavy", size: 16)
     static let subtitle = UIFont(name: "Avenir-Heavy", size: 12)
     static let subsubtitle = UIFont(name: "Avenir", size: 11)
+    static let content = UIFont(name: "Avenir", size: 16)
 }
