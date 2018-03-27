@@ -28,7 +28,7 @@ class SierraApiClient{
     private let accessTokenStore = OAuthAccessTokenKeychainStore(service: "SierraApi")
     private let accessTokenUrl = URL(string: "https://sandbox.iii.com/iii/sierra-api/v3/token")!
     
-    private var credentials: OAuthClientCredentials {
+    private lazy var credentials: OAuthClientCredentials? = {
         // read from external resource SierraApi.json
         if let url = Bundle.main.url(forResource: "SierraApi", withExtension: "json"),
             let data = try? Data(contentsOf: url),
@@ -37,8 +37,10 @@ class SierraApiClient{
             return OAuthClientCredentials(id: clientId, secret: clientSecret)
         }
         
-        return OAuthClientCredentials(id: CANNOT_READ_CREDENTIALS)
-    }
+        print(CANNOT_READ_CREDENTIALS)
+        
+        return nil
+    }()
     
     
     private var accessToken: String {
