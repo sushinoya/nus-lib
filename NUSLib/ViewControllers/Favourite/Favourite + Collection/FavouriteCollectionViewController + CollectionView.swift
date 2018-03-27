@@ -68,7 +68,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !isEditingMode {
-            selectedItem = getBookItem(at: indexPath)
+            //selectedItem = getBookItem(at: indexPath)
             self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
         }
     }

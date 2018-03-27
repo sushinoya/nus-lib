@@ -103,10 +103,11 @@ class SearchViewController: BaseViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let itemDetailVC = segue.destination as? ItemDetailViewController {
             // MARK: - TODO: Pass an item to ItemDetailViewController
-            itemDetailVC.selectedString = "selectedString"
-            itemDetailVC.itemToDisplay = selectedItem
+
+            //itemDetailVC.selectedString = selectedString
         }
     }
+ 
 }
 
 class NoCancelButtonSearchController: UISearchController {

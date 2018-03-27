@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import RxGesture
 
 class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
+    private let disposeBag = DisposeBag()
     private let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     private var cellCount: Int!
     private var cellSize: CGSize!
@@ -61,4 +65,29 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return cellSpacing
     }
+    /*
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let hitView = super.hitTest(point, with: event) {
+            if hitView is UICollectionView {
+                return nil
+            } else {
+                print(hitView)
+                return hitView
+            }
+        } else {
+            return nil
+        }
+    }*/
+    /*
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("OMG")
+        /*let cell = cellForItem(at: indexPath)
+        (cell as! ThumbnailCell).thumbnail.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe ({ _ in
+                print(indexPath)
+            })
+            .disposed(by: disposeBag)*/
+    }*/
 }

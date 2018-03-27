@@ -8,21 +8,17 @@
 
 import UIKit
 import Kingfisher
-import ZFRippleButton
 
 class ThumbnailCell: UICollectionViewCell {
     
-    private(set) lazy var thumbnail: ZFRippleButton = {
-        let this = ZFRippleButton()
+    private(set) lazy var thumbnail: UIImageView = {
+        let this = UIImageView()
         this.kf.setImage(with: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover\(Int(arc4random_uniform(30)+1)).jpg"),
-                         for: .normal,
                          options: [.transition(.fade(0.2))])
-        this.kf.base.imageView?.contentMode = .scaleAspectFill
+        this.contentMode = .scaleAspectFill
         this.layer.masksToBounds = true
         this.layer.cornerRadius = 20
         this.clipsToBounds = true
-        this.rippleColor = UIColor.white.withAlphaComponent(0.2)
-        this.rippleBackgroundColor = UIColor.clear
         return this
     }()
     

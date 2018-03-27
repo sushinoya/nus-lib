@@ -13,7 +13,7 @@ enum ItemDetailTableSections: Int {
     case Review
     case SimilarBooks
 }
-
+/*
 extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -85,4 +85,4 @@ extension ItemDetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.books = books
         return cell
     }
-}
+}*/
