@@ -17,6 +17,7 @@ target 'NUSLib' do
   pod 'Moya/RxSwift', '~> 11.0'
   pod 'Heimdallr', '~> 3.6.1'
   pod 'Kingfisher', '~> 4.0'
+  pod 'BarcodeScanner'
 
   target 'NUSLibTests' do
     inherit! :search_paths

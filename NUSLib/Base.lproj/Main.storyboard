@@ -186,7 +186,7 @@
         <!--Barcode Scanner View Controller-->
         <scene sceneID="VUm-8s-wQ8">
             <objects>
-                <viewController id="OmE-eT-PmI" customClass="BarcodeScannerViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="OmE-eT-PmI" customClass="BarcodeScannerViewController" customModule="BarcodeScanner" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rUc-xr-nk1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
