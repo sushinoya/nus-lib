@@ -21,11 +21,21 @@ class UserProfile {
     }
 
     func addToFavourites(book: BookItem) {
+        let books = favourites.filter{ $0 == book }
+        guard books.count == 0 else {
+            return
+        }
         self.favourites.append(book)
+        //Use Notification center to update favourites, and FavouriteVC gets an alert
     }
 
     func removeFromFavourites(book: BookItem) {
-        let _ = self.favourites.filter { $0 != book }
+        //Use Notification center to update favourites, and FavouriteVC gets an alert
+        self.favourites = self.favourites.filter { $0 != book }
     }
-    
+
+    func authenticate() -> Bool {
+        //MARK : Do Ivle/UserProfile authentication here, and return boolean result
+        return true
+    }
 }
