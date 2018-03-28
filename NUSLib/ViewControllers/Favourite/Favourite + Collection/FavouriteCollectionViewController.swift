@@ -11,10 +11,28 @@ import Neon
 
 class FavouriteCollectionViewController: BaseViewController {
     
-    var searchController: UISearchController!
+    lazy var searchBar: UISearchBar = {[unowned self] in
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
+        searchBar.placeholder = "Search Title"
+        searchBar.tintColor = .blue
+        searchBar.delegate = self
+        return searchBar
+    }()
+
+    
+    lazy var collectionview: UICollectionView = { [unowned self] in
+        //Layout for CollectionView
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionHeadersPinToVisibleBounds = false
+        let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
+        collectionview.dataSource = self
+        collectionview.delegate = self
+        return collectionview
+    }()
+    
     var filtered:[BookItem] = []
     
-    var collectionview: UICollectionView!
     var bookCollectionViewCellID = "bookCollectionViewCell"
     
     var deleteButton: UIButton!
@@ -32,14 +50,19 @@ class FavouriteCollectionViewController: BaseViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupData()
-        setupCollectionView()
-        setupSearchBar()
-        self.definesPresentationContext = true;
+        setupViews()
+        setUpGesture()
+        
+        self.definesPresentationContext = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = false
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        collectionview.fillSuperview()
+        collectionview.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
     }
     
     func setupNavigationBar() {
@@ -57,7 +80,6 @@ class FavouriteCollectionViewController: BaseViewController {
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: listButton), editButtonItem, UIBarButtonItem(customView: deleteButton)]
         
         navigationItem.title = Constants.NavigationBarTitle.FavouriteTitle
-        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     func setupData() {
@@ -81,37 +103,16 @@ class FavouriteCollectionViewController: BaseViewController {
         }
     }
     
-    private func setupCollectionView() {
-        //Layout for CollectionView
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width, height: 300)
-        layout.sectionHeadersPinToVisibleBounds = true
-        
-        collectionview = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionview.dataSource = self
-        collectionview.delegate = self
-        collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
-        
+    private func setupViews() {
+        view.addSubview(collectionview)
+        view.addSubview(searchBar)
+    }
+    
+    private func setUpGesture() {
         //Gesture for dragging and reordering of cell
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
         collectionview.addGestureRecognizer(longPressGesture)
-        view.addSubview(collectionview)
     }
-    
-    private func setupSearchBar() {
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.delegate = self
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Title"
-        searchController.searchBar.tintColor = .blue
-        searchController.searchBar.sizeToFit()
-        collectionview.addSubview(searchController.searchBar)
-        //Search Bar only appear when user pull the view down
-        collectionview.setContentOffset(CGPoint(x: 0, y: searchController.searchBar.height) , animated: true)
-        
-    }
-    
     
     func filter(searchTerm: String) {
         if searchTerm.isEmpty {
@@ -178,7 +179,7 @@ class FavouriteCollectionViewController: BaseViewController {
     
     @objc
     func deleteCells() {
-        if let indexpaths = collectionview?.indexPathsForSelectedItems {
+        if let indexpaths = collectionview.indexPathsForSelectedItems {
             for indexPath in indexpaths.sorted().reversed() {
                 if isFiltering {
                     

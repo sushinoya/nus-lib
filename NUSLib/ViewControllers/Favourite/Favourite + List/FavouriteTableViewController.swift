@@ -13,9 +13,26 @@ import RxCocoa
 
 class FavouriteTableViewController: BaseViewController {
     
-    var searchController: UISearchController!
+    lazy var searchController: UISearchController = { [unowned self] in
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.backgroundColor = UIColor.blue
+        searchController.searchBar.placeholder = "Please Enter"
+        searchController.searchBar.delegate = self
+        searchController.searchBar.returnKeyType = .done
+        searchController.searchBar.sizeToFit()
+        return searchController
+    }()
     
-    var tableView: UITableView!
+    lazy var tableView: UITableView = { [unowned self] in
+        let tableView = UITableView(frame: view.frame, style: .plain)
+        tableView.register(BookTableViewCell.self, forCellReuseIdentifier: bookTableViewCellID)
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
+    
     let bookTableViewCellID = "bookTableViewCell"
 
     var bookLists: [[BookItem]] = []
@@ -28,8 +45,7 @@ class FavouriteTableViewController: BaseViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupData()
-        setupTableView()
-        setupSearchBar()
+        setupView()
         self.definesPresentationContext = true
     }
     
@@ -40,8 +56,10 @@ class FavouriteTableViewController: BaseViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tableView.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
     }
+    
+    
     
     private func setupNavigationBar() {
         navigationItem.rightBarButtonItem = editButtonItem
@@ -69,24 +87,8 @@ class FavouriteTableViewController: BaseViewController {
         }
     }
     
-    private func setupTableView() {
-        
-        tableView = UITableView(frame: view.frame, style: .plain)
-        tableView.register(BookTableViewCell.self, forCellReuseIdentifier: bookTableViewCellID)
-        tableView.delegate = self
-        tableView.dataSource = self
+    private func setupView() {
         view.addSubview(tableView)
-    }
-    
-    private func setupSearchBar() {
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.backgroundColor = UIColor.blue
-        searchController.searchBar.placeholder = "Please Enter"
-        searchController.searchBar.delegate = self
-        searchController.searchBar.returnKeyType = .done
-        searchController.searchBar.sizeToFit()
         tableView.tableHeaderView = searchController.searchBar
         //Search Bar only appear when user pull the view down
         tableView.setContentOffset(CGPoint(x: 0, y: searchController.searchBar.height) , animated: true)

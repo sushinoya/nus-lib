@@ -25,8 +25,11 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: bookTableViewCellID, for: indexPath) as! BookTableViewCell
         
         let book = getBookItem(at: indexPath)
-        cell.thumbImageView.image = book.getThumbNail()
-        cell.titleLabel.text = book.getTitle()
+       // cell.thumbImageView.image = book.getThumbNail()
+//        cell.titleLabel.text = book.getTitle()
+        
+        cell.textLabel?.text = book.getTitle()
+        cell.imageView?.image = book.getThumbNail()
         
         return cell
     }
@@ -35,6 +38,10 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
         if !tableView.isEditing {
             self.performSegue(withIdentifier: "detail", sender: self)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
     }
     
     /*
@@ -51,4 +58,5 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
         let book = bookLists[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         bookLists[destinationIndexPath.section].insert(book, at: destinationIndexPath.item)
     }
+
 }

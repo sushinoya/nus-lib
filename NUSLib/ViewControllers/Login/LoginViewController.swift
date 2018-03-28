@@ -90,6 +90,7 @@ class LoginViewController: BaseViewController {
         
         studentId.delegate = self
         studentPassword.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

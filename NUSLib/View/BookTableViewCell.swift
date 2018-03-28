@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Neon
 
 class BookTableViewCell: UITableViewCell {
     
@@ -24,9 +25,18 @@ class BookTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        thumbImageView.anchorToEdge(.left, padding: 40, width: self.frame.width * 0.3, height: self.frame.height)
+
+        self.imageView?.frame = CGRect(x: 0, y: 0, width: self.frame.width * 0.3, height: self.frame.height - 10)
         
-        titleLabel.alignAndFillWidth(align: .toTheRightMatchingTop, relativeTo: thumbImageView, padding: 8, height: 30)
+        self.textLabel?.alignAndFill(align: .toTheRightCentered, relativeTo: self.imageView!, padding: 8)
+        
+    
+        contentView.frame = UIEdgeInsetsInsetRect(contentView.frame, UIEdgeInsetsMake(10, 10, 10, 10))
+        
+        
+        self.separatorInset = UIEdgeInsets.zero
+        self.layoutMargins = UIEdgeInsets.zero
+        
     }
     
     private func setupViews() {

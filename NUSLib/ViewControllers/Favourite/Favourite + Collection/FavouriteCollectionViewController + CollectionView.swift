@@ -9,6 +9,7 @@
 import UIKit
 
 extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
         let threePiecesWidth = floor(screenWidth / 3.0 - ((2.0 / 3) * 2))
