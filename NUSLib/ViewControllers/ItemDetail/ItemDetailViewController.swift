@@ -16,7 +16,7 @@ import FirebaseDatabase
 class ItemDetailViewController: BaseViewController {
     
     let bookCollectionViewCellID = "bookCollectionViewCell"
-    let api = CentralLibrary()
+    let api: LibraryAPI = CentralLibrary()
     var similarTitleText: Variable<String> = Variable("")
     
     private(set) lazy var overlay: UIView = {
@@ -58,6 +58,11 @@ class ItemDetailViewController: BaseViewController {
         this.font = UIFont.secondary
         this.lineBreakMode = .byWordWrapping
         this.numberOfLines = 0
+        
+        if let itemDetail = state?.itemDetail {
+            this.text = itemDetail.getTitle()
+        }
+        
         return this
     }()
     
@@ -161,6 +166,7 @@ class ItemDetailViewController: BaseViewController {
         return this
     }()
     
+    
     private(set) lazy var similarCollection: UICollectionView = { [unowned self] in
         let layout = UICollectionViewFlowLayout()
         layout.sectionHeadersPinToVisibleBounds = false
@@ -168,10 +174,14 @@ class ItemDetailViewController: BaseViewController {
         layout.itemSize = CGSize(width: 200, height: 150)
         layout.minimumLineSpacing = 20
         layout.sectionInset = UIEdgeInsets(top: 20, left: 50, bottom: 20, right: 20)
-        let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
-        collectionview.backgroundColor = UIColor.white
-        return collectionview
+        
+        let this = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        this.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
+        this.backgroundColor = UIColor.clear
+        this.backgroundView = UIImageView(image: UIImage.fontAwesomeIcon(name: .spinner, textColor: UIColor.gray, size: CGSize(width: 64, height: 64)))
+        this.backgroundView?.contentMode = .center
+        this.showsHorizontalScrollIndicator = false
+        return this
     }()
     
     override func viewWillLayoutSubviews() {
@@ -224,6 +234,11 @@ class ItemDetailViewController: BaseViewController {
             .bind(to: similarCollection.rx.items(cellIdentifier: bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) {
                 index, model, cell in
                 cell.title.text = model.getTitle()
+                cell.alpha = 0
+                self.similarCollection.backgroundView = nil
+                UIView.animate(withDuration: 0.5, animations: {
+                    cell.alpha = 1
+                })
             }
             .disposed(by: disposeBag)
         

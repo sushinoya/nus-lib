@@ -13,7 +13,7 @@ class BookCollectionViewCell: UICollectionViewCell {
     private(set) lazy var thumbnail: UIImageView = {
         let this = UIImageView()
         this.kf.setImage(with: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover\(Int(arc4random_uniform(30)+1)).jpg"),
-                         options: [.transition(.fade(0.2))])
+                                   options: [.transition(.fade(0.2))])
         this.contentMode = .scaleAspectFill
         this.layer.masksToBounds = true
         this.layer.cornerRadius = 20

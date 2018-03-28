@@ -20,7 +20,7 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     private var sectionPadding: UIEdgeInsets!
     private var cellSpacing: CGFloat!
     
-    var data: [Any] = []
+    private var data: [Any] = []
     
     private var onDequeue: ((T, [Any], IndexPath) -> ())?
     
@@ -29,11 +29,11 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
 
-        self.onDequeue = onDequeue
         self.sectionPadding = sectionPadding
         self.cellCount = cellCount
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
+        self.onDequeue = onDequeue
         
         self.delegate = self
         self.dataSource = self
@@ -59,9 +59,7 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
         
         let cell = dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
         
-        if let configure = onDequeue {
-            configure(cell, data, indexPath)
-        }
+        onDequeue?(cell, data, indexPath)
         
         return cell
     }
