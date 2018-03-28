@@ -49,7 +49,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = {
+    lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = { [unowned self] in
         let this = HorizontalCollectionView<ThumbnailCell>(frame: CGRect.zero,
                                                            cellCount: 10,
                                                            cellSize: CGSize(width: 320, height: 240),
@@ -59,6 +59,14 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
         this.isPagingEnabled = true
+        
+        this.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
         return this
     }()
     
@@ -95,6 +103,14 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
         this.isScrollEnabled = false
+        
+        this.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
         return this
     }()
     
@@ -108,6 +124,14 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
         this.isScrollEnabled = false
+        
+        this.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
         return this
     }()
     
@@ -127,7 +151,6 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         scrollView.addSubview(recommendCollectionRight)
         
         view.addSubview(scrollView)
-
     }
     
     override func viewWillLayoutSubviews() {
