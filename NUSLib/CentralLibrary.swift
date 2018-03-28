@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import Moya
 
 //Instance of LibraryAPI from the Central Library and it's data
 class CentralLibrary: LibraryAPI {
@@ -46,32 +47,28 @@ class CentralLibrary: LibraryAPI {
     
     func getBooksFromTitle(title: String) -> [BookItem] {
         var books = [BookItem]()
-        SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: "title", text: title))
-        { result in
-            switch result{
+        var result: Data?
+        
+        SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: "title", text: title)) {
+        switch $0 {
             case let .success(moyaResponse):
-                let data = moyaResponse.data
-                let statusCode = moyaResponse.statusCode
-                do {
-                    let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
-                    if let rootDictionary = jsonObject as? [String: Any],
-                        let items = rootDictionary["entries"] as? [[String: Any]] {
-                        for item in items {
-                            if let book = BookItem(json: item["bib"] as! [String : Any]) {
-                                print("parsed... \(book)")
-                                books.append(book)
-                            }
-                        }
-                    }
-                } catch {
-                    
-                }
-                print("\(statusCode):\(String(data: data, encoding: String.Encoding.utf8)!)")
+                result = moyaResponse.data
             case let .failure(error):
                 print(error.errorDescription!)
             }
         }
         
+        if let data = result {
+            let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let rootDictionary = jsonObject as? [String: Any],
+                let items = rootDictionary["entries"] as? [[String: Any]] {
+                for item in items {
+                    if let book = BookItem(json: item["bib"] as! [String : Any]) {
+                        books.append(book)
+                    }
+                }
+            }
+        }
         return books
     }
     
@@ -83,35 +80,9 @@ class CentralLibrary: LibraryAPI {
     func getBooksFromKeyword(keyword: String) -> Observable<[BookItem]> {
         
         return Observable.create { observer in
-            
-            var books: [BookItem] = []
-            
-            SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: keyword, text: keyword)){ result in
-                switch result{
-                case let .success(moyaResponse):
-                    let data = moyaResponse.data
-                    let statusCode = moyaResponse.statusCode
-                    do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
-                        if let rootDictionary = jsonObject as? [String: Any],
-                            let items = rootDictionary["entries"] as? [[String: Any]] {
-                            for item in items {
-                                if let book = BookItem(json: item["bib"] as! [String : Any]) {
-                                    print("parsed... \(book)")
-                                    books.append(book)
-                                }
-                            }
-                        }
-                        observer.onNext(books)
-                        observer.onCompleted()
-                    } catch {
-                        observer.onError(error)
-                    }
-                    print("\(statusCode):\(String(data: data, encoding: String.Encoding.utf8)!)")
-                case let .failure(error):
-                    print(error.errorDescription!)
-                }
-            }
+            let books: [BookItem] = self.getBooksFromTitle(title: keyword)
+            observer.onNext(books)
+            observer.onCompleted()
             return Disposables.create()
         }
     }
