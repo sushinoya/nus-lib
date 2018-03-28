@@ -48,7 +48,11 @@ struct BookItem: DisplayableItem {
     func getTitle() -> String {
         return self.title
     }
-    
+
+    func getAuthor() -> String {
+        return self.author
+    }
+
     func getThumbNail() -> UIImage {
         return self.thumbNail
     }
@@ -59,3 +63,10 @@ struct BookItem: DisplayableItem {
 
 }
 
+extension BookItem: Equatable {
+    static func == (lhs: BookItem, rhs: BookItem) -> Bool {
+        return lhs.getTitle() == rhs.getTitle() &&
+               lhs.getRating() == rhs.getRating() &&
+               lhs.getAuthor() == rhs.getAuthor()
+    }
+}
