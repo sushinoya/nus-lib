@@ -17,6 +17,8 @@
 		42758D5B205988B4007C5629 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42758D5A205988B4007C5629 /* UserProfile.swift */; };
 		42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42758D5C20598BA8007C5629 /* DisplayableItem.swift */; };
 		4275CD0C20598FFD00943195 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275CD0B20598FFD00943195 /* Constants.swift */; };
+		4A0881CE206B9503007E5EBA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A0881CD206B9502007E5EBA /* GoogleService-Info.plist */; };
+		4A0881D1206BD5AE007E5EBA /* StateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0881D0206BD5AE007E5EBA /* StateController.swift */; };
 		4A5B589D20691D8500BACA73 /* ThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B589C20691D8500BACA73 /* ThumbnailCell.swift */; };
 		4A5B589F20691DD200BACA73 /* UIView+RoundCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B589E20691DD200BACA73 /* UIView+RoundCorners.swift */; };
 		4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6150012057E6FC005AA59B /* AppDelegate.swift */; };
@@ -42,7 +44,6 @@
 		79C50AAFE6CF31ECDAB5784F /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61E94F1CBF6A562FA7C87542 /* Pods_NUSLib.framework */; };
 		EC6CD12D2064A2B10058CA5A /* FavouriteTableViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */; };
 		EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */; };
-		EC6CD1312064CC200058CA5A /* ItemDetailViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1302064CC200058CA5A /* ItemDetailViewController + TableView.swift */; };
 		EC6CD1352064D5330058CA5A /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1342064D5320058CA5A /* BookTableViewCell.swift */; };
 		EC6CD1392064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1362064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift */; };
 		EC6CD13A2064D6E20058CA5A /* ItemDetailReviewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1372064D6E20058CA5A /* ItemDetailReviewTableCell.swift */; };
@@ -81,6 +82,8 @@
 		42758D5A205988B4007C5629 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		42758D5C20598BA8007C5629 /* DisplayableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableItem.swift; sourceTree = "<group>"; };
 		4275CD0B20598FFD00943195 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4A0881CD206B9502007E5EBA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4A0881D0206BD5AE007E5EBA /* StateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateController.swift; sourceTree = "<group>"; };
 		4A5B589C20691D8500BACA73 /* ThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailCell.swift; sourceTree = "<group>"; };
 		4A5B589E20691DD200BACA73 /* UIView+RoundCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+RoundCorners.swift"; sourceTree = "<group>"; };
 		4A614FFE2057E6FC005AA59B /* NUSLib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NUSLib.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,7 +123,6 @@
 		E2A1E2B7DFB0FAA6A653ED10 /* Pods-NUSLibTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteTableViewController + Search.swift"; sourceTree = "<group>"; };
 		EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteTableViewController + TableView.swift"; sourceTree = "<group>"; };
-		EC6CD1302064CC200058CA5A /* ItemDetailViewController + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ItemDetailViewController + TableView.swift"; sourceTree = "<group>"; };
 		EC6CD1342064D5320058CA5A /* BookTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
 		EC6CD1362064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailTitlePictureTableCell.swift; sourceTree = "<group>"; };
 		EC6CD1372064D6E20058CA5A /* ItemDetailReviewTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailReviewTableCell.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				4A6150082057E6FC005AA59B /* Assets.xcassets */,
 				4A61500A2057E6FC005AA59B /* LaunchScreen.storyboard */,
 				4A61500D2057E6FC005AA59B /* Info.plist */,
+				4A0881CD206B9502007E5EBA /* GoogleService-Info.plist */,
 				4251F6D72062A95400F5687B /* LibraryAPI.swift */,
 				4251F6D92062A99500F5687B /* CentralLibrary.swift */,
 			);
@@ -255,6 +258,7 @@
 		4AE79FBC205AAA6300309D02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4A0881D0206BD5AE007E5EBA /* StateController.swift */,
 				4AF347A1206122EA00B576C2 /* ItemDetail */,
 				4AF3479D206122A200B576C2 /* Search */,
 				4AF3479A2061218300B576C2 /* Favourite */,
@@ -314,7 +318,6 @@
 			isa = PBXGroup;
 			children = (
 				4AF347A2206122FC00B576C2 /* ItemDetailViewController.swift */,
-				EC6CD1302064CC200058CA5A /* ItemDetailViewController + TableView.swift */,
 			);
 			path = ItemDetail;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 			files = (
 				4A61500C2057E6FC005AA59B /* LaunchScreen.storyboard in Resources */,
 				4A6150092057E6FC005AA59B /* Assets.xcassets in Resources */,
+				4A0881CE206B9503007E5EBA /* GoogleService-Info.plist in Resources */,
 				4A6C7E43206AA2410005B29E /* SierraApi.json in Resources */,
 				4A6150072057E6FC005AA59B /* Main.storyboard in Resources */,
 			);
@@ -713,9 +717,9 @@
 				EC6CD1352064D5330058CA5A /* BookTableViewCell.swift in Sources */,
 				4A729C3B2064ECDD00B62D9F /* VerticalCollectionView.swift in Sources */,
 				4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */,
-				EC6CD1312064CC200058CA5A /* ItemDetailViewController + TableView.swift in Sources */,
 				4251F6D82062A95400F5687B /* LibraryAPI.swift in Sources */,
 				4A6FA483206281F9005B0681 /* SierraApi.swift in Sources */,
+				4A0881D1206BD5AE007E5EBA /* StateController.swift in Sources */,
 				4251F6D2205D152600F5687B /* BookItem.swift in Sources */,
 				4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */,
 				ECAE284D2061E2AF00457417 /* BookCollectionViewCell.swift in Sources */,
@@ -891,7 +895,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YSRS8TR77K;
+				DEVELOPMENT_TEAM = W76H98A34A;
 				INFOPLIST_FILE = NUSLib/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nus.cs3217.nuslib.NUSLib;
@@ -907,7 +911,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YSRS8TR77K;
+				DEVELOPMENT_TEAM = W76H98A34A;
 				INFOPLIST_FILE = NUSLib/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nus.cs3217.nuslib.NUSLib;
