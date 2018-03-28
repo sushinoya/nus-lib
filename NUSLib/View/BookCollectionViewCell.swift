@@ -44,6 +44,13 @@ class BookCollectionViewCell: UICollectionViewCell {
         return this
     }()
     
+    override var isSelected: Bool {
+        didSet {
+            self.layer.borderWidth = 3.0
+            self.layer.borderColor = isSelected ? UIColor.blue.cgColor : UIColor.clear.cgColor
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
