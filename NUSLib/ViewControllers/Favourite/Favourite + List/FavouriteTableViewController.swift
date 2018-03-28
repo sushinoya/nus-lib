@@ -59,8 +59,6 @@ class FavouriteTableViewController: BaseViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
     }
     
-    
-    
     private func setupNavigationBar() {
         navigationItem.rightBarButtonItem = editButtonItem
         navigationItem.title = Constants.NavigationBarTitle.FavouriteTitle

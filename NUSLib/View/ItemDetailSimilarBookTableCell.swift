@@ -57,8 +57,8 @@ class ItemDetailSimilarBookTableCell : UITableViewCell, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseableCell, for: indexPath) as! BookCollectionViewCell
         
-        cell.titleLabel.text = books[indexPath.row].getTitle()
-        cell.imageView.image = books[indexPath.row].getThumbNail()
+        cell.title.text = books[indexPath.row].getTitle()
+        cell.thumbnail.image = books[indexPath.row].getThumbNail()
         
         return cell
     }

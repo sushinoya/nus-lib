@@ -8,6 +8,8 @@
 
 import UIKit
 import Neon
+import RxSwift
+import RxCocoa
 
 class FavouriteCollectionViewController: BaseViewController {
     
@@ -30,7 +32,7 @@ class FavouriteCollectionViewController: BaseViewController {
         collectionview.delegate = self
         return collectionview
     }()
-    
+
     var filtered:[BookItem] = []
     
     var bookCollectionViewCellID = "bookCollectionViewCell"
@@ -62,7 +64,7 @@ class FavouriteCollectionViewController: BaseViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        collectionview.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
+        collectionview.anchorToEdge(.top, padding: 20, width: view.frame.width, height: view.frame.height)
     }
     
     func setupNavigationBar() {

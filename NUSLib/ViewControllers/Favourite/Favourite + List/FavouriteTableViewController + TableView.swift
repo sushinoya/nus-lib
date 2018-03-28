@@ -24,13 +24,9 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: bookTableViewCellID, for: indexPath) as! BookTableViewCell
         
-        let book = getBookItem(at: indexPath)
-       // cell.thumbImageView.image = book.getThumbNail()
-//        cell.titleLabel.text = book.getTitle()
-        
+        let book = getBookItem(at: indexPath)        
         cell.textLabel?.text = book.getTitle()
-        cell.imageView?.image = book.getThumbNail()
-        
+//        cell.imageView?.image = book.getThumbNail()
         return cell
     }
     
@@ -41,7 +37,7 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 300
     }
     
     /*
