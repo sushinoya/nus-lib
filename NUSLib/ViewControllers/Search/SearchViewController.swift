@@ -13,10 +13,25 @@ import RxCocoa
 
 class SearchViewController: BaseViewController {
     
-    var searchController: NoCancelButtonSearchController!
+    lazy var searchController: UISearchController = {[unowned self] in
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.tintColor = UIColor.blue
+        searchController.searchBar.placeholder = "Please Enter"
+        return searchController
+    }()
+    
+    lazy var tableView: UITableView = { [unowned self] in
+        let tableView = UITableView(frame: view.frame, style: .plain)
+        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: topSeachTableCellID)
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+    
     var isFiltering: Bool = false
     
-    var tableView: UITableView!
+
     let topSeachTableCellID = "topSeachTableCell"
     
     var searchValue: Variable<String> = Variable("")
@@ -34,8 +49,7 @@ class SearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-        setupSearchBar()
+        setupViews()
         setupRxSwiftTable()
         self.definesPresentationContext = true;
         
@@ -55,21 +69,8 @@ class SearchViewController: BaseViewController {
         navigationItem.title = Constants.NavigationBarTitle.SearchTitle
     }
     
-    private func setupTableView() {
-        
-        tableView = UITableView(frame: view.frame, style: .plain)
-        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: topSeachTableCellID)
-        tableView.tableFooterView = UIView()
+    private func setupViews() {
         view.addSubview(tableView)
-        
-    }
-    
-    private func setupSearchBar() {
-        searchController = NoCancelButtonSearchController(searchResultsController: nil)
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.tintColor = UIColor.blue
-        searchController.searchBar.placeholder = "Please Enter"
         tableView.tableHeaderView = searchController.searchBar
     }
     
@@ -110,11 +111,3 @@ class SearchViewController: BaseViewController {
  
 }
 
-class NoCancelButtonSearchController: UISearchController {
-    let noCancelButtonSearchBar = NoCancelButtonSearchBar()
-    override var searchBar: UISearchBar { return noCancelButtonSearchBar }
-}
-
-class NoCancelButtonSearchBar: UISearchBar {
-    override func setShowsCancelButton(_ showsCancelButton: Bool, animated: Bool) { /* void */ }
-}
