@@ -11,6 +11,7 @@ import Kingfisher
 import ZFRippleButton
 import RxSwift
 import RxCocoa
+import FirebaseDatabase
 
 class ItemDetailViewController: BaseViewController {
     
@@ -78,9 +79,9 @@ class ItemDetailViewController: BaseViewController {
         return this
     }()
     
-    private(set) lazy var favourite: ZFRippleButton = {
+    private(set) lazy var favourite: ZFRippleButton = { [unowned self] in
         let this = ZFRippleButton()
-        this.setTitle("FAVOURITE", for: .normal)
+        this.setTitle("FAVOURITE (0)", for: .normal)
         this.backgroundColor = UIColor.primaryTint1
         this.layer.cornerRadius = 25
         this.layer.shadowColor = UIColor.black.cgColor
@@ -90,6 +91,40 @@ class ItemDetailViewController: BaseViewController {
         this.layer.masksToBounds = false
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
+        
+        self.database.child("Favourites").observe(.value, with: { (snapshot) in
+            let favourite = snapshot.value as? [String: AnyObject] ?? [:]
+            
+            let favouriteCount = favourite["dummy"] as? Int ?? 0
+            
+            this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
+            
+        })
+        
+        this.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { result in
+                self.database.child("Favourites").runTransactionBlock({ (data) -> TransactionResult in
+                    if var bibs = data.value as? [String: AnyObject] {
+                        
+                        var dummyVal = bibs["dummy"] as? Int ?? -1
+                        
+                        dummyVal += 1
+                        
+                        bibs["dummy"] = dummyVal as AnyObject?
+                        
+                        data.value = bibs
+                    }
+                    
+                    return TransactionResult.success(withValue: data)
+                }) { (error, committed, snapshot) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+        
         return this
     }()
     
@@ -152,7 +187,7 @@ class ItemDetailViewController: BaseViewController {
         location.alignAndFillWidth(align: .toTheRightCentered, relativeTo: previewImage, padding: 50, height: 25, offset: -50)
         favourite.align(.toTheRightCentered, relativeTo: previewImage, padding: 50, width: 250, height: 50, offset: 25)
         sypnosisTitle.alignAndFillWidth(align: .underCentered, relativeTo: overlay, padding: 0, height: 25, offset: 0)
-        sypnosisTitle.frame = sypnosisTitle.frame.offsetBy(dx: 50, dy: 100)
+        sypnosisTitle.frame = sypnosisTitle.frame.offsetBy(dx: 50, dy: 125)
         sypnosisContent.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisTitle, padding: 50, height: 25)
         sypnosisContent.frame = sypnosisContent.frame.offsetBy(dx: 0, dy: -25)
         sypnosisContent.sizeToFit()
@@ -202,6 +237,7 @@ class ItemDetailViewController: BaseViewController {
             self.similarTitleText.value = String(model.getTitle().suffix(4))
             
         }).disposed(by: disposeBag)
+    
     }
 }
 
