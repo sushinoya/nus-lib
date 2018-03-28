@@ -20,11 +20,16 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     private var sectionPadding: UIEdgeInsets!
     private var cellSpacing: CGFloat!
     
-    init(frame: CGRect, cellCount: Int, cellSize: CGSize, cellSpacing: CGFloat = 0, sectionPadding: UIEdgeInsets = UIEdgeInsets.zero){
+    var data: [Any] = []
+    
+    private var onDequeue: ((T, [Any], IndexPath) -> ())?
+    
+    init(frame: CGRect, cellCount: Int, cellSize: CGSize, cellSpacing: CGFloat = 0, sectionPadding: UIEdgeInsets = UIEdgeInsets.zero, data: [Any], onDequeue: ((T, [Any], IndexPath) -> ())?){
         super.init(frame: frame, collectionViewLayout: layout)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
-        
+
+        self.onDequeue = onDequeue
         self.sectionPadding = sectionPadding
         self.cellCount = cellCount
         self.cellSize = cellSize
@@ -51,7 +56,14 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
+        
+        let cell = dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
+        
+        if let configure = onDequeue {
+            configure(cell, data, indexPath)
+        }
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -65,6 +77,12 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return cellSpacing
     }
+    
+    func getCell(indexPath: IndexPath) -> T {
+        
+        return cellForItem(at: indexPath) as! T
+    }
+    
     /*
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let hitView = super.hitTest(point, with: event) {

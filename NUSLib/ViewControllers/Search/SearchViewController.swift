@@ -76,13 +76,13 @@ class SearchViewController: BaseViewController {
         
         searchController.searchBar.rx.text
             .orEmpty
-            .map { ($0 == "" ? "hey" : $0).lowercased() }
+            .map { $0.lowercased() }
             .debounce(0.2, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .asObservable()
             .distinctUntilChanged()
             .flatMapLatest { request -> Observable<[BookItem]> in
-                return self.api.getBooksFromKeyword(keyword: request)
+                return self.api.getBooksFromKeyword(keyword: request, limit: 10)
             }
             .bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
                 cell.topSearchLabel.text = model.getTitle()
