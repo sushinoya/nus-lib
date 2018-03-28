@@ -80,13 +80,13 @@ class CentralLibrary: LibraryAPI {
     }
     
     
-    func getBooksFromKeyword(keyword: String) -> Observable<[BookItem]> {
+    func getBooksFromKeyword(keyword: String, limit: Int) -> Observable<[BookItem]> {
         
         return Observable.create { observer in
             
             var books: [BookItem] = []
             
-            SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: keyword, text: keyword)){ result in
+            SierraApiClient.shared.provider.request(.bibsSearch(limit: limit, offset: 0, index: keyword, text: keyword)){ result in
                 switch result{
                 case let .success(moyaResponse):
                     let data = moyaResponse.data

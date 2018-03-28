@@ -9,6 +9,7 @@
 import UIKit
 
 class BookCollectionViewCell: UICollectionViewCell {
+    
     private(set) lazy var thumbnail: UIImageView = {
         let this = UIImageView()
         this.kf.setImage(with: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover\(Int(arc4random_uniform(30)+1)).jpg"),
@@ -43,6 +44,13 @@ class BookCollectionViewCell: UICollectionViewCell {
         this.font = UIFont.subsubtitle
         return this
     }()
+    
+    override var isSelected: Bool {
+        didSet {
+            self.layer.borderWidth = 3.0
+            self.layer.borderColor = isSelected ? UIColor.blue.cgColor : UIColor.clear.cgColor
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
