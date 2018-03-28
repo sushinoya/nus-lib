@@ -77,7 +77,7 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.rx.text
             .orEmpty
             .map { $0.lowercased() }
-            .debounce(0.2, scheduler: MainScheduler.instance)
+            .debounce(0.2, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
             .distinctUntilChanged()
             .asObservable()
             .distinctUntilChanged()
