@@ -77,7 +77,7 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.rx.text
             .orEmpty
             .map { $0.lowercased() }
-            .debounce(0.2, scheduler: MainScheduler.instance)
+            .debounce(0.2, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
             .distinctUntilChanged()
             .asObservable()
             .distinctUntilChanged()
@@ -114,14 +114,6 @@ class SearchViewController: BaseViewController {
             })
             }).bind(to: self.filterResult).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let itemDetailVC = segue.destination as? ItemDetailViewController {
-            // MARK: - TODO: Pass an item to ItemDetailViewController
-
-            //itemDetailVC.selectedString = selectedString
-        }
     }
  
 }

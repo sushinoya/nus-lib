@@ -20,7 +20,7 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     private var sectionPadding: UIEdgeInsets!
     private var cellSpacing: CGFloat!
     
-    var data: [Any] = []
+    private var data: [Any] = []
     
     private var onDequeue: ((T, [Any], IndexPath) -> ())?
     
@@ -29,11 +29,11 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
 
-        self.onDequeue = onDequeue
         self.sectionPadding = sectionPadding
         self.cellCount = cellCount
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
+        self.onDequeue = onDequeue
         
         self.delegate = self
         self.dataSource = self
@@ -59,9 +59,7 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
         
         let cell = dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
         
-        if let configure = onDequeue {
-            configure(cell, data, indexPath)
-        }
+        onDequeue?(cell, data, indexPath)
         
         return cell
     }
@@ -82,30 +80,4 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
         
         return cellForItem(at: indexPath) as! T
     }
-    
-    /*
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let hitView = super.hitTest(point, with: event) {
-            if hitView is UICollectionView {
-                return nil
-            } else {
-                print(hitView)
-                return hitView
-            }
-        } else {
-            return nil
-        }
-    }*/
-    /*
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("OMG")
-        /*let cell = cellForItem(at: indexPath)
-        (cell as! ThumbnailCell).thumbnail.rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe ({ _ in
-                print(indexPath)
-            })
-            .disposed(by: disposeBag)*/
-    }*/
 }
