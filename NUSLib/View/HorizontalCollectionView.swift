@@ -82,30 +82,4 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
         
         return cellForItem(at: indexPath) as! T
     }
-    
-    /*
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let hitView = super.hitTest(point, with: event) {
-            if hitView is UICollectionView {
-                return nil
-            } else {
-                print(hitView)
-               return hitView
-            }
-        } else {
-            return nil
-        }
-    }*/
-    /*
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("OMG")
-        /*let cell = cellForItem(at: indexPath)
-        (cell as! ThumbnailCell).thumbnail.rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe ({ _ in
-                print(indexPath)
-            })
-            .disposed(by: disposeBag)*/
-    }*/
 }
