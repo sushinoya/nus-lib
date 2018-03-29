@@ -30,7 +30,6 @@ class SearchViewController: BaseViewController {
     }()
     
     var isFiltering: Bool = false
-    
 
     let topSeachTableCellID = "topSeachTableCell"
     
@@ -52,7 +51,6 @@ class SearchViewController: BaseViewController {
         setupViews()
         setupRxSwiftTable()
         self.definesPresentationContext = true;
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -76,16 +74,20 @@ class SearchViewController: BaseViewController {
     
     private func setupRxSwiftTable() {
         
-        searchController.searchBar.rx.text.orEmpty.debounce(0.5, scheduler: MainScheduler.instance).distinctUntilChanged().asObservable()
-            .map { ($0 ).lowercased() }
+        searchController.searchBar.rx.text
+            .orEmpty
+            .map { $0.lowercased() }
+            .debounce(0.2, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+            .distinctUntilChanged()
+            .asObservable()
+            .distinctUntilChanged()
             .flatMapLatest { request -> Observable<[BookItem]> in
-                return self.api.getBooksFromKeyword(keyword: request)
+                return self.api.getBooksFromKeyword(keyword: request, limit: 10)
             }
             .bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
                 cell.topSearchLabel.text = model.getTitle()
             }
             .disposed(by: disposeBag)
-        
         
         tableView.rx.modelSelected(BookItem.self).subscribe(onNext:  { model in
             if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
@@ -101,12 +103,17 @@ class SearchViewController: BaseViewController {
         }).disposed(by: disposeBag)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let itemDetailVC = segue.destination as? ItemDetailViewController {
-            // MARK: - TODO: Pass an item to ItemDetailViewController
-
-            //itemDetailVC.selectedString = selectedString
-        }
+    func setupTest() {
+        
+        searchController.searchBar.rx.text.orEmpty.distinctUntilChanged().bind(to: searchValue).disposed(by: disposeBag)
+        
+        searchValueObservable.subscribe(onNext: { (value) in
+            self.topSearchListObservable.map({$0.filter({text in
+                if value.isEmpty {return true}
+                return text.lowercased().contains(value.lowercased())
+            })
+            }).bind(to: self.filterResult).disposed(by: self.disposeBag)
+        }).disposed(by: disposeBag)
     }
  
 }

@@ -20,7 +20,7 @@ class BookTableViewCell: UITableViewCell {
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
-    
+
         return imageView
     }()
     
@@ -60,7 +60,7 @@ class BookTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.imageView?.frame = CGRect(x: 10, y: 10, width: self.frame.width * 0.3, height: self.frame.height - 20)
+        self.imageView?.frame = CGRect(x: 40, y: 10, width: self.frame.width * 0.3, height: self.frame.height - 20)
         overlay.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: 75)
         
         self.textLabel?.alignAndFill(align: .toTheRightCentered, relativeTo: self.imageView!, padding: 8)

@@ -20,15 +20,20 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     private var sectionPadding: UIEdgeInsets!
     private var cellSpacing: CGFloat!
     
-    init(frame: CGRect, cellCount: Int, cellSize: CGSize, cellSpacing: CGFloat = 0, sectionPadding: UIEdgeInsets = UIEdgeInsets.zero){
+    private var data: [Any] = []
+    
+    private var onDequeue: ((T, [Any], IndexPath) -> ())?
+    
+    init(frame: CGRect, cellCount: Int, cellSize: CGSize, cellSpacing: CGFloat = 0, sectionPadding: UIEdgeInsets = UIEdgeInsets.zero, data: [Any], onDequeue: ((T, [Any], IndexPath) -> ())?){
         super.init(frame: frame, collectionViewLayout: layout)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
-        
+
         self.sectionPadding = sectionPadding
         self.cellCount = cellCount
         self.cellSize = cellSize
         self.cellSpacing = cellSpacing
+        self.onDequeue = onDequeue
         
         self.delegate = self
         self.dataSource = self
@@ -51,7 +56,12 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
+        
+        let cell = dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
+        
+        onDequeue?(cell, data, indexPath)
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -65,29 +75,9 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return cellSpacing
     }
-    /*
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let hitView = super.hitTest(point, with: event) {
-            if hitView is UICollectionView {
-                return nil
-            } else {
-                print(hitView)
-                return hitView
-            }
-        } else {
-            return nil
-        }
-    }*/
-    /*
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("OMG")
-        /*let cell = cellForItem(at: indexPath)
-        (cell as! ThumbnailCell).thumbnail.rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe ({ _ in
-                print(indexPath)
-            })
-            .disposed(by: disposeBag)*/
-    }*/
+    
+    func getCell(indexPath: IndexPath) -> T {
+        
+        return cellForItem(at: indexPath) as! T
+    }
 }

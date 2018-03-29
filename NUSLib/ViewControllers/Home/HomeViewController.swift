@@ -50,15 +50,19 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     }()
     
     lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = { [unowned self] in
+        
         let this = HorizontalCollectionView<ThumbnailCell>(frame: CGRect.zero,
                                                            cellCount: 10,
                                                            cellSize: CGSize(width: 320, height: 240),
                                                            cellSpacing: 20,
-                                                           sectionPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
+                                                           sectionPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),data:[], onDequeue: nil)
+  
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
         this.isPagingEnabled = true
+        
+        
         
         this.rx
             .itemSelected

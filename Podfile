@@ -18,6 +18,9 @@ target 'NUSLib' do
   pod 'Heimdallr', '~> 3.6.1'
   pod 'Kingfisher', '~> 4.0'
   pod 'BarcodeScanner'
+  pod 'Firebase/Core'
+  pod 'Firebase/Database'
+  pod 'Firebase/Auth'
 
   target 'NUSLibTests' do
     inherit! :search_paths
