@@ -9,17 +9,41 @@
 import UIKit
 
 class BookCollectionViewCell: UICollectionViewCell {
-    var titleLabel: UILabel!
-    var titleView: UIView!
-    var imageView: UIImageView!
-    var gradientLayer: CAGradientLayer?
-    var hilightedCover: UIView!
     
-    override var isHighlighted: Bool {
-        didSet {
-            hilightedCover.isHidden = !isHighlighted
-        }
-    }
+    private(set) lazy var thumbnail: UIImageView = {
+        let this = UIImageView()
+        this.kf.setImage(with: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover\(Int(arc4random_uniform(30)+1)).jpg"),
+                                   options: [.transition(.fade(0.2))])
+        this.contentMode = .scaleAspectFill
+        this.layer.masksToBounds = true
+        this.layer.cornerRadius = 20
+        this.clipsToBounds = true
+        return this
+    }()
+    
+    private(set) lazy var overlay: UIView = {
+        let this = UIView()
+        this.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        return this
+    }()
+    
+    private(set) lazy var title: UILabel = {
+        let this = UILabel()
+        this.text = "Bacon ipsum dolor amet flank shankle"
+        this.textColor = UIColor.primary
+        this.textAlignment = .left
+        this.font = UIFont.title
+        return this
+    }()
+    
+    private(set) lazy var subtitle: UILabel = {
+        let this = UILabel()
+        this.text = "Drumstick Andouille"
+        this.textColor = UIColor.gray
+        this.textAlignment = .left
+        this.font = UIFont.subsubtitle
+        return this
+    }()
     
     override var isSelected: Bool {
         didSet {
@@ -39,50 +63,33 @@ class BookCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageView.frame = bounds
-        hilightedCover.frame = bounds
+        // layout must come after adding ui to the scene
+        thumbnail.frame = bounds
+//        thumbnail.fillSuperview()
+        overlay.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: 75)
+        subtitle.anchorAndFillEdge(.bottom, xPad: 10, yPad: 10, otherSize: 25)
+        title.alignAndFillWidth(align: .aboveCentered, relativeTo: subtitle, padding: 0, height: 25)
+        title.frame = title.frame.offsetBy(dx: 10, dy: 0)
         
-        titleLabel.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: 30)
-        titleLabel.textColor = UIColor.white
-        titleLabel.textAlignment = .center
+        overlay.roundCorners([.bottomLeft, .bottomRight], radius: 20)
         
-        titleView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: 30)
-        titleView.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        backgroundColor = UIColor.clear
+        clipsToBounds = false
         
-        applyGradation(imageView)
+        layer.cornerRadius = 20
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.7
+        layer.shadowOffset = CGSize.zero
+        layer.shadowRadius = 5
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
     }
     
     private func setupViews() {
-        imageView = UIImageView()
-        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        addSubview(imageView)
+        addSubview(thumbnail)
+        addSubview(overlay)
+        addSubview(subtitle)
+        addSubview(title)
         
-        hilightedCover = UIView()
-        hilightedCover.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        hilightedCover.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        hilightedCover.isHidden = true
-        addSubview(hilightedCover)
-        
-        titleView = UIView()
-        titleLabel = UILabel()
-        addSubview(titleView)
-        addSubview(titleLabel)
     }
-    
-    private func applyGradation(_ gradientView: UIView!) {
-        gradientLayer?.removeFromSuperlayer()
-        gradientLayer = nil
-        
-        gradientLayer = CAGradientLayer()
-        gradientLayer!.frame = gradientView.bounds
-        
-        let mainColor = UIColor(white: 0, alpha: 0.3).cgColor
-        let subColor = UIColor.clear.cgColor
-        gradientLayer!.colors = [subColor, mainColor]
-        gradientLayer!.locations = [0, 1]
-        
-        gradientView.layer.addSublayer(gradientLayer!)
-    }
+
 }

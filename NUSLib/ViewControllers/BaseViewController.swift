@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 import SideMenu
+import FirebaseDatabase
 
 /**
  This class store default configuration & utility functions for application.
@@ -20,9 +21,14 @@ import SideMenu
  */
 class BaseViewController: UIViewController{
     internal let disposeBag = DisposeBag()
+    internal var database: DatabaseReference!
+    
+    internal var state: StateController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        database = Database.database().reference()
         
         // remove black bar when side bar open
         SideMenuManager.default.menuAnimationBackgroundColor = UIColor.clear
@@ -30,6 +36,7 @@ class BaseViewController: UIViewController{
         // transparent navigation bar
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
+    
     }
     
     override var prefersStatusBarHidden: Bool {

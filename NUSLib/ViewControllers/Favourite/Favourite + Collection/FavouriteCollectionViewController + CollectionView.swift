@@ -9,10 +9,12 @@
 import UIKit
 
 extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
-        let threePiecesWidth = floor(screenWidth / 3.0 - ((2.0 / 3) * 2))
-        let twoPiecesWidth = floor(screenWidth / 2.0 - (2.0 / 2))
+        let threePiecesWidth = floor(screenWidth / 3.0 - ((20.0 / 3) * 2))
+        let twoPiecesWidth = floor(screenWidth / 2.0 - (20.0 / 2))
+        
         if indexPath.section == 0 {
             return CGSize(width: threePiecesWidth, height: threePiecesWidth)
         }else {
@@ -21,11 +23,11 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2.0
+        return 20.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2.0
+        return 20.0
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -33,7 +35,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -50,8 +52,8 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bookCollectionViewCellID, for: indexPath) as! BookCollectionViewCell
         
         let book = getBookItem(at: indexPath)
-        cell.imageView.image = book.getThumbNail()
-        cell.titleLabel.text = book.getTitle()
+        
+        cell.title.text = book.getTitle()
         
         return cell
     }

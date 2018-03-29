@@ -13,10 +13,24 @@ import RxCocoa
 
 class SearchViewController: BaseViewController {
     
-    var searchController: NoCancelButtonSearchController!
-    var isFiltering: Bool = false
+    lazy var searchController: UISearchController = {[unowned self] in
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.tintColor = UIColor.blue
+        searchController.searchBar.placeholder = "Please Enter"
+        return searchController
+    }()
     
-    var tableView: UITableView!
+    lazy var tableView: UITableView = { [unowned self] in
+        let tableView = UITableView(frame: view.frame, style: .plain)
+        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: topSeachTableCellID)
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+    
+    var isFiltering: Bool = false
+
     let topSeachTableCellID = "topSeachTableCell"
     
     var searchValue: Variable<String> = Variable("")
@@ -34,11 +48,9 @@ class SearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-        setupSearchBar()
+        setupViews()
         setupRxSwiftTable()
         self.definesPresentationContext = true;
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -55,28 +67,20 @@ class SearchViewController: BaseViewController {
         navigationItem.title = Constants.NavigationBarTitle.SearchTitle
     }
     
-    private func setupTableView() {
-        
-        tableView = UITableView(frame: view.frame, style: .plain)
-        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: topSeachTableCellID)
-        tableView.tableFooterView = UIView()
+    private func setupViews() {
         view.addSubview(tableView)
-        
-    }
-    
-    private func setupSearchBar() {
-        searchController = NoCancelButtonSearchController(searchResultsController: nil)
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.tintColor = UIColor.blue
-        searchController.searchBar.placeholder = "Please Enter"
         tableView.tableHeaderView = searchController.searchBar
     }
     
     private func setupRxSwiftTable() {
         
-        searchController.searchBar.rx.text.orEmpty.debounce(0.5, scheduler: MainScheduler.instance).distinctUntilChanged().asObservable()
-            .map { ($0 ).lowercased() }
+        searchController.searchBar.rx.text
+            .orEmpty
+            .map { $0.lowercased() }
+            .debounce(0.2, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+            .distinctUntilChanged()
+            .asObservable()
+            .distinctUntilChanged()
             .flatMapLatest { request -> Observable<[BookItem]> in
                 return self.api.getBooksFromKeyword(keyword: request, limit: 10)
             }
@@ -84,7 +88,6 @@ class SearchViewController: BaseViewController {
                 cell.topSearchLabel.text = model.getTitle()
             }
             .disposed(by: disposeBag)
-        
         
         tableView.rx.modelSelected(BookItem.self).subscribe(onNext:  { model in
             if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
@@ -100,21 +103,18 @@ class SearchViewController: BaseViewController {
         }).disposed(by: disposeBag)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let itemDetailVC = segue.destination as? ItemDetailViewController {
-            // MARK: - TODO: Pass an item to ItemDetailViewController
-
-            //itemDetailVC.selectedString = selectedString
-        }
+    func setupTest() {
+        
+        searchController.searchBar.rx.text.orEmpty.distinctUntilChanged().bind(to: searchValue).disposed(by: disposeBag)
+        
+        searchValueObservable.subscribe(onNext: { (value) in
+            self.topSearchListObservable.map({$0.filter({text in
+                if value.isEmpty {return true}
+                return text.lowercased().contains(value.lowercased())
+            })
+            }).bind(to: self.filterResult).disposed(by: self.disposeBag)
+        }).disposed(by: disposeBag)
     }
  
 }
 
-class NoCancelButtonSearchController: UISearchController {
-    let noCancelButtonSearchBar = NoCancelButtonSearchBar()
-    override var searchBar: UISearchBar { return noCancelButtonSearchBar }
-}
-
-class NoCancelButtonSearchBar: UISearchBar {
-    override func setShowsCancelButton(_ showsCancelButton: Bool, animated: Bool) { /* void */ }
-}
