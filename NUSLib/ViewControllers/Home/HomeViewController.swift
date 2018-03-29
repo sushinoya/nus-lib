@@ -73,7 +73,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     lazy var recommendTitle: UILabel = {
         let this = UILabel()
         this.textColor = UIColor.primary
-        this.text = "RECOMMEND"
+        this.text = "RECOMMENDED"
         this.textAlignment = .left
         this.font = UIFont.primary
         return this
@@ -135,6 +135,21 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
+    lazy var scanBarcodeButton: UIButton = {
+        let this = UIButton()
+        this.setTitleColor(UIColor.primaryTint1, for: .normal)
+        this.setTitle("Scan Barcode", for: .normal)
+        this.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        this.addTarget(self, action: #selector(openBarcodeScanner), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: this)
+        return this
+    }()
+
+    @objc func openBarcodeScanner() {
+        self.performSegue(withIdentifier: "HomeToBarcodeScanner", sender: self)
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -151,6 +166,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         scrollView.addSubview(recommendCollectionRight)
         
         view.addSubview(scrollView)
+        view.addSubview(scanBarcodeButton)
     }
     
     override func viewWillLayoutSubviews() {

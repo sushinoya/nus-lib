@@ -10,24 +10,23 @@ import Foundation
 import UIKit
 import BarcodeScanner
 
-extension BaseViewController {
+extension HomeViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let barcodeScannerVC = segue.destination as? BarcodeScannerViewController {
             barcodeScannerVC.codeDelegate = self
             barcodeScannerVC.errorDelegate = self
             barcodeScannerVC.dismissalDelegate = self
-            barcodeScannerVC.title = "Scan a book"
+            barcodeScannerVC.title = "Scan a book!"
         }
     }
 }
 
 // MARK: - BarcodeScannerCodeDelegate
-extension BaseViewController: BarcodeScannerCodeDelegate {
+extension HomeViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
         print("Barcode Data: \(code)")
         print("Symbology Type: \(type)")
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             controller.resetWithError()
         }
@@ -35,17 +34,16 @@ extension BaseViewController: BarcodeScannerCodeDelegate {
 }
 
 // MARK: - BarcodeScannerErrorDelegate
-extension BaseViewController: BarcodeScannerErrorDelegate {
+extension HomeViewController: BarcodeScannerErrorDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didReceiveError error: Error) {
         print(error)
     }
 }
 
 // MARK: - BarcodeScannerDismissalDelegate
-extension BaseViewController: BarcodeScannerDismissalDelegate {
+extension HomeViewController: BarcodeScannerDismissalDelegate {
     func scannerDidDismiss(_ controller: BarcodeScannerViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
 }
-
 
