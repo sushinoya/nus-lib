@@ -78,7 +78,7 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.rx.text.orEmpty.debounce(0.5, scheduler: MainScheduler.instance).distinctUntilChanged().asObservable()
             .map { ($0 ).lowercased() }
             .flatMapLatest { request -> Observable<[BookItem]> in
-                return self.api.getBooksFromKeyword(keyword: request)
+                return self.api.getBooksFromKeyword(keyword: request, limit: 10)
             }
             .bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
                 cell.topSearchLabel.text = model.getTitle()
