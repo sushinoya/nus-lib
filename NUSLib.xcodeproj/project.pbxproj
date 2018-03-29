@@ -42,6 +42,7 @@
 		4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A2206122FC00B576C2 /* ItemDetailViewController.swift */; };
 		4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A420614B3E00B576C2 /* BaseViewController.swift */; };
 		79C50AAFE6CF31ECDAB5784F /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61E94F1CBF6A562FA7C87542 /* Pods_NUSLib.framework */; };
+		82BF2F16206BD5E2001996A0 /* BarcodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */; };
 		EC6CD12D2064A2B10058CA5A /* FavouriteTableViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */; };
 		EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */; };
 		EC6CD1352064D5330058CA5A /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1342064D5320058CA5A /* BookTableViewCell.swift */; };
@@ -116,6 +117,7 @@
 		666FB9F204EC2BC45FAFDC80 /* Pods_NUSLibUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NUSLibUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75766BD9DB47A46D4755071F /* Pods-NUSLibUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibUITests/Pods-NUSLibUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		775B70912B670B3E817EC8C4 /* Pods-NUSLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.debug.xcconfig"; sourceTree = "<group>"; };
+		82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanner.swift; sourceTree = "<group>"; };
 		9386D6E36B63FFF68C815B05 /* Pods-NUSLibUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibUITests/Pods-NUSLibUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9FF39C242A3B7800FDBA616D /* Pods_NUSLibTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NUSLibTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D6203348E7610B7B820315 /* Pods-NUSLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.release.xcconfig"; sourceTree = "<group>"; };
@@ -258,7 +260,7 @@
 		4AE79FBC205AAA6300309D02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				4A0881D0206BD5AE007E5EBA /* StateController.swift */,
+				82BF2F12206BAF75001996A0 /* BarcodeScanner */,
 				4AF347A1206122EA00B576C2 /* ItemDetail */,
 				4AF3479D206122A200B576C2 /* Search */,
 				4AF3479A2061218300B576C2 /* Favourite */,
@@ -320,6 +322,14 @@
 				4AF347A2206122FC00B576C2 /* ItemDetailViewController.swift */,
 			);
 			path = ItemDetail;
+			sourceTree = "<group>";
+		};
+		82BF2F12206BAF75001996A0 /* BarcodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */,
+			);
+			path = BarcodeScanner;
 			sourceTree = "<group>";
 		};
 		8BE2177A93CB49A77F82DAC3 /* Pods */ = {
@@ -620,6 +630,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BarcodeScanner/BarcodeScanner.framework",
 				"${BUILT_PRODUCTS_DIR}/FontAwesome.swift/FontAwesome_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/Heimdallr/Heimdallr.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
@@ -636,6 +647,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BarcodeScanner.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FontAwesome_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Heimdallr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
@@ -723,6 +735,7 @@
 				4251F6D2205D152600F5687B /* BookItem.swift in Sources */,
 				4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */,
 				ECAE284D2061E2AF00457417 /* BookCollectionViewCell.swift in Sources */,
+				82BF2F16206BD5E2001996A0 /* BarcodeScanner.swift in Sources */,
 				ECA3280620614813002E584B /* FavouriteCollectionViewController + CollectionView.swift in Sources */,
 				4A729C3F2065619700B62D9F /* Separator.swift in Sources */,
 				4275CD0C20598FFD00943195 /* Constants.swift in Sources */,

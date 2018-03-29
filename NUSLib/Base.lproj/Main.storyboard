@@ -156,6 +156,22 @@
             </objects>
             <point key="canvasLocation" x="5433" y="1012"/>
         </scene>
+        <!--Barcode Scanner View Controller-->
+        <scene sceneID="VUm-8s-wQ8">
+            <objects>
+                <viewController id="OmE-eT-PmI" customClass="BarcodeScannerViewController" customModule="BarcodeScanner" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rUc-xr-nk1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="B2Q-88-wh9"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hn6-Rv-Ryv"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AcR-sk-fAI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2454" y="1961"/>
+        </scene>
         <!--Favourite Collection View Controller-->
         <scene sceneID="JgE-Rr-qv8">
             <objects>
@@ -245,6 +261,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="hgM-Xp-iER" kind="show" identifier="HomeToItemDetail" id="QvA-Nw-R9e"/>
+                        <segue destination="OmE-eT-PmI" kind="show" identifier="HomeToBarcodeScanner" id="gXF-Lb-IfQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yjZ-SO-jba" userLabel="First Responder" sceneMemberID="firstResponder"/>
