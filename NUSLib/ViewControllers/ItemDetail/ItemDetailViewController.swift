@@ -12,6 +12,7 @@ import ZFRippleButton
 import RxSwift
 import RxCocoa
 import FirebaseDatabase
+import Social
 
 class ItemDetailViewController: BaseViewController {
     
@@ -184,6 +185,29 @@ class ItemDetailViewController: BaseViewController {
         return this
     }()
     
+    
+    private(set) lazy var facebookButton: SocialButton = { [unowned self] in
+        let this = SocialButton(type: .facebook)
+        this.addTarget(self, action: #selector(shareToFacebook), for: .touchUpInside)
+        return this
+    }()
+    
+    private(set) lazy var twitterButton: SocialButton = { [unowned self] in
+        let this = SocialButton(type: .twitter)
+        this.addTarget(self, action: #selector(shareToTwitter), for: .touchUpInside)
+        return this
+    }()
+    
+    
+    @objc func shareToFacebook() {
+        print("Facebook pressed")
+    }
+    
+    @objc func shareToTwitter() {
+        print("Twitter pressed")
+    }
+    
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -196,6 +220,8 @@ class ItemDetailViewController: BaseViewController {
         previewSubtitle.sizeToFit()
         location.alignAndFillWidth(align: .toTheRightCentered, relativeTo: previewImage, padding: 50, height: 25, offset: -50)
         favourite.align(.toTheRightCentered, relativeTo: previewImage, padding: 50, width: 250, height: 50, offset: 25)
+        facebookButton.align(.toTheRightCentered, relativeTo: favourite, padding: 20, width: 50, height: 50, offset: 0)
+        twitterButton.align(.toTheRightCentered, relativeTo: facebookButton, padding: 20, width: 50, height: 50, offset: 0)
         sypnosisTitle.alignAndFillWidth(align: .underCentered, relativeTo: overlay, padding: 0, height: 25, offset: 0)
         sypnosisTitle.frame = sypnosisTitle.frame.offsetBy(dx: 50, dy: 125)
         sypnosisContent.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisTitle, padding: 50, height: 25)
@@ -220,7 +246,9 @@ class ItemDetailViewController: BaseViewController {
         view.addSubview(sypnosisContent)
         view.addSubview(similarTitle)
         view.addSubview(similarCollection)
-        
+        view.addSubview(facebookButton)
+        view.addSubview(twitterButton)
+
         setupSimilarBooks()
     }
     

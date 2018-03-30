@@ -43,6 +43,7 @@
 		4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A420614B3E00B576C2 /* BaseViewController.swift */; };
 		79C50AAFE6CF31ECDAB5784F /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61E94F1CBF6A562FA7C87542 /* Pods_NUSLib.framework */; };
 		82BF2F16206BD5E2001996A0 /* BarcodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */; };
+		82F05471206E915D00FCAF0A /* SocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F05470206E915D00FCAF0A /* SocialButton.swift */; };
 		EC681242206E308100F9F8F8 /* FilterLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC681241206E308100F9F8F8 /* FilterLauncher.swift */; };
 		EC6CD12D2064A2B10058CA5A /* FavouriteTableViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */; };
 		EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */; };
@@ -119,6 +120,7 @@
 		75766BD9DB47A46D4755071F /* Pods-NUSLibUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibUITests/Pods-NUSLibUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		775B70912B670B3E817EC8C4 /* Pods-NUSLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.debug.xcconfig"; sourceTree = "<group>"; };
 		82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanner.swift; sourceTree = "<group>"; };
+		82F05470206E915D00FCAF0A /* SocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialButton.swift; sourceTree = "<group>"; };
 		9386D6E36B63FFF68C815B05 /* Pods-NUSLibUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibUITests/Pods-NUSLibUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9FF39C242A3B7800FDBA616D /* Pods_NUSLibTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NUSLibTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D6203348E7610B7B820315 /* Pods-NUSLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.release.xcconfig"; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 		ECA3280220614702002E584B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				82F05470206E915D00FCAF0A /* SocialButton.swift */,
 				EC6CD1342064D5320058CA5A /* BookTableViewCell.swift */,
 				ECAE284C2061E2AF00457417 /* BookCollectionViewCell.swift */,
 				EC6CD1372064D6E20058CA5A /* ItemDetailReviewTableCell.swift */,
@@ -636,6 +639,8 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BarcodeScanner/BarcodeScanner.framework",
 				"${BUILT_PRODUCTS_DIR}/FontAwesome.swift/FontAwesome_swift.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Heimdallr/Heimdallr.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
@@ -647,12 +652,16 @@
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/ZFRippleButton/ZFRippleButton.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BarcodeScanner.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FontAwesome_swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Heimdallr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
@@ -664,6 +673,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZFRippleButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -719,6 +730,7 @@
 				EC6CD13F2064D7090058CA5A /* SearchViewController.swift in Sources */,
 				ECA0497C2062AB2D00015C36 /* FavouriteCollectionViewController + Search.swift in Sources */,
 				42758D5B205988B4007C5629 /* UserProfile.swift in Sources */,
+				82F05471206E915D00FCAF0A /* SocialButton.swift in Sources */,
 				EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */,
 				EC6CD1412064DE9B0058CA5A /* TopSeachTableCell.swift in Sources */,
 				4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */,
