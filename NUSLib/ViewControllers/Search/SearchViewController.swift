@@ -36,12 +36,10 @@ class SearchViewController: BaseViewController {
     var searchValue: Variable<String> = Variable("")
     var topSearchList: Variable<[BookItem]> = Variable([])
     var filterResult: Variable<[BookItem]> = Variable([])
-    var filterResultBook: Variable<[BookItem]> = Variable([])
     
     lazy var searchValueObservable: Observable<String> = self.searchValue.asObservable()
     lazy var topSearchListObservable: Observable<[BookItem]> = self.topSearchList.asObservable()
     lazy var filterResultObservable: Observable<[BookItem]> = self.filterResult.asObservable()
-    lazy var filterResultBookObservable: Observable<[BookItem]> = self.filterResultBook.asObservable()
     
     var selectedString: String?
     var selectedItem: BookItem?
@@ -50,11 +48,10 @@ class SearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         setupViews()
-       // setupRxSwiftTable()
         setupData()
         setupRxSwfitSearch()
-        
         self.definesPresentationContext = true;
     }
     
@@ -78,6 +75,11 @@ class SearchViewController: BaseViewController {
     }
     
     func setupNavigationBar() {
+        let filterButton = UIButton(type: .system)
+        filterButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
+        filterButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        filterButton.addTarget(self, action: #selector(performFilter), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: filterButton)
         navigationItem.title = Constants.NavigationBarTitle.SearchTitle
     }
     
@@ -98,7 +100,7 @@ class SearchViewController: BaseViewController {
         
         searchValueObservable.subscribe(onNext: { [unowned self] (value) in
             if value.isEmpty {
-               self.topSearchListObservable.bind(to: self.filterResultBook).disposed(by: self.disposeBag)
+               self.topSearchListObservable.bind(to: self.filterResult).disposed(by: self.disposeBag)
             } else {
                 self.searchValueObservable.map { $0.lowercased() }
                 .debounce(0.5, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
@@ -107,11 +109,11 @@ class SearchViewController: BaseViewController {
                 .distinctUntilChanged()
                 .flatMapLatest { request -> Observable<[BookItem]> in
                     return self.api.getBooksFromKeyword(keyword: request, limit: 5)
-                }.bind(to: self.filterResultBook).disposed(by: self.disposeBag)
+                }.bind(to: self.filterResult).disposed(by: self.disposeBag)
             }
         }).disposed(by: disposeBag)
         
-        filterResultBook.asObservable().bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
+        filterResultObservable.bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
             cell.topSearchLabel.text = model.getTitle()
             }
             .disposed(by: disposeBag)
@@ -128,6 +130,11 @@ class SearchViewController: BaseViewController {
             self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
             
         }).disposed(by: disposeBag)
+    }
+    
+    @objc func performFilter() {
+        print(filterResult.value)
+        filterResult.value.sort(by: {$0.getTitle() < $1.getTitle()})
     }
 }
 
