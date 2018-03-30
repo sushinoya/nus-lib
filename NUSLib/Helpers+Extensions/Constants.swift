@@ -47,6 +47,9 @@ extension UIColor{
     
     static let lipstickRed = UIColor("#BF2A2A")
     static let accent4 = UIColor.lipstickRed
+    
+    static let facebookSocial = UIColor("#3b5998")
+    static let twitterSocial = UIColor("##00ACED")
 }
 
 extension UIFont{
