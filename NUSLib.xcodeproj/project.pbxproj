@@ -43,6 +43,7 @@
 		4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF347A420614B3E00B576C2 /* BaseViewController.swift */; };
 		79C50AAFE6CF31ECDAB5784F /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61E94F1CBF6A562FA7C87542 /* Pods_NUSLib.framework */; };
 		82BF2F16206BD5E2001996A0 /* BarcodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */; };
+		EC681242206E308100F9F8F8 /* FilterLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC681241206E308100F9F8F8 /* FilterLauncher.swift */; };
 		EC6CD12D2064A2B10058CA5A /* FavouriteTableViewController + Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */; };
 		EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */; };
 		EC6CD1352064D5330058CA5A /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6CD1342064D5320058CA5A /* BookTableViewCell.swift */; };
@@ -123,6 +124,7 @@
 		B8D6203348E7610B7B820315 /* Pods-NUSLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.release.xcconfig"; sourceTree = "<group>"; };
 		C5457901C8712742ABDB56BD /* Pods-NUSLibTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.release.xcconfig"; sourceTree = "<group>"; };
 		E2A1E2B7DFB0FAA6A653ED10 /* Pods-NUSLibTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibTests/Pods-NUSLibTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EC681241206E308100F9F8F8 /* FilterLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterLauncher.swift; sourceTree = "<group>"; };
 		EC6CD12C2064A2B10058CA5A /* FavouriteTableViewController + Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteTableViewController + Search.swift"; sourceTree = "<group>"; };
 		EC6CD12E2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteTableViewController + TableView.swift"; sourceTree = "<group>"; };
 		EC6CD1342064D5320058CA5A /* BookTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 		4AE79FBC205AAA6300309D02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4A0881D0206BD5AE007E5EBA /* StateController.swift */,
 				82BF2F12206BAF75001996A0 /* BarcodeScanner */,
 				4AF347A1206122EA00B576C2 /* ItemDetail */,
 				4AF3479D206122A200B576C2 /* Search */,
@@ -312,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				EC6CD13D2064D7080058CA5A /* SearchViewController.swift */,
+				EC681241206E308100F9F8F8 /* FilterLauncher.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -706,6 +710,7 @@
 				4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */,
 				4A6FA4872062D938005B0681 /* SierraApiClient.swift in Sources */,
 				EC6CD12D2064A2B10058CA5A /* FavouriteTableViewController + Search.swift in Sources */,
+				EC681242206E308100F9F8F8 /* FilterLauncher.swift in Sources */,
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4A729C392064DEE800B62D9F /* HorizontalCollectionView.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
@@ -908,7 +913,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W76H98A34A;
+				DEVELOPMENT_TEAM = YSRS8TR77K;
 				INFOPLIST_FILE = NUSLib/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nus.cs3217.nuslib.NUSLib;
@@ -924,7 +929,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W76H98A34A;
+				DEVELOPMENT_TEAM = YSRS8TR77K;
 				INFOPLIST_FILE = NUSLib/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nus.cs3217.nuslib.NUSLib;
