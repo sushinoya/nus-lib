@@ -75,11 +75,18 @@ class SearchViewController: BaseViewController {
     }
     
     func setupNavigationBar() {
+        let sortButton = UIButton(type: .system)
+        sortButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
+        sortButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        sortButton.addTarget(self, action: #selector(performSort), for: .touchUpInside)
+        
         let filterButton = UIButton(type: .system)
         filterButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
         filterButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         filterButton.addTarget(self, action: #selector(performFilter), for: .touchUpInside)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: filterButton)
+        
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: sortButton), UIBarButtonItem(customView: filterButton)]
+        
         navigationItem.title = Constants.NavigationBarTitle.SearchTitle
     }
     
@@ -132,10 +139,17 @@ class SearchViewController: BaseViewController {
         }).disposed(by: disposeBag)
     }
     
-    @objc func performFilter() {
-        print(filterResult.value)
+    @objc func performSort() {
         filterResult.value.sort(by: {$0.getTitle() < $1.getTitle()})
+        print(filterResult.value)
     }
+    
+    let filterLauncher = FilterLauncher()
+    
+    @objc func performFilter() {
+        filterLauncher.showFilters()
+    }
+
 }
 
 class NoCancelButtonSearchController: UISearchController {
@@ -146,3 +160,4 @@ class NoCancelButtonSearchController: UISearchController {
 class NoCancelButtonSearchBar: UISearchBar {
     override func setShowsCancelButton(_ showsCancelButton: Bool, animated: Bool) { /* void */ }
 }
+

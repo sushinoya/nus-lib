@@ -52,7 +52,6 @@ class CentralLibrary: LibraryAPI {
                 case let .success(moyaResponse):
                     self.transformJSON(moyaResponse.data, &books)
                     observer.onNext(books)
-                    observer.onCompleted()
                 case let .failure(error):
                     print(error.errorDescription!)
                 }
