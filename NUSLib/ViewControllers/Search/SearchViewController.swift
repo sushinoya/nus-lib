@@ -147,9 +147,22 @@ class SearchViewController: BaseViewController {
     let filterLauncher = FilterLauncher()
     
     @objc func performFilter() {
+        searchController.searchBar.resignFirstResponder()
+        filterLauncher.delegate = self
         filterLauncher.showFilters()
     }
 
+}
+
+extension SearchViewController: FilterLauncherDelegate {
+    func update(text: Int) {
+        topSearchList.asObservable()
+            .map {
+                $0.filter {$0.getTitle().count <= text}
+        }.bind(to: self.filterResult).disposed(by: self.disposeBag)
+    }
+    
+    
 }
 
 class NoCancelButtonSearchController: UISearchController {

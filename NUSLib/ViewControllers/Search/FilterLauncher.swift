@@ -9,6 +9,12 @@
 import UIKit
 import Neon
 
+
+protocol FilterLauncherDelegate: class {
+    func update(text: Int)
+}
+
+
 //Prevent Fat Controller:
 //Instead of putting all the code inside SearchViewController, we should separate into a different class. Because displaying Filter Screen is not the job for SearchViewController
 
@@ -44,6 +50,7 @@ class FilterLauncher: UIViewController {
     
     
     var y: CGFloat = 0
+    weak var delegate: FilterLauncherDelegate?
     
     func showFilters() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -79,6 +86,7 @@ class FilterLauncher: UIViewController {
             baseView.addSubview(submitButton)
             
             blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismiss)))
+            submitButton.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.blackView.alpha = 1
@@ -123,6 +131,22 @@ class FilterLauncher: UIViewController {
         }, completion: nil)
     }
     
+    @objc func handleSubmit() {
+        var length = 100
+        if let text = titleLengthTextField.text {
+            if text.isEmpty {
+                length = 100
+            } else {
+                length = Int(text)!
+            }
+           
+        }
+        delegate?.update(text: length)
+        baseView.removeFromSuperview()
+        blackView.removeFromSuperview()
+        
+    }
+    
 }
 
 extension FilterLauncher: UITextFieldDelegate {
@@ -130,6 +154,13 @@ extension FilterLauncher: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacters.isSuperset(of: characterSet)
     }
     
 }
