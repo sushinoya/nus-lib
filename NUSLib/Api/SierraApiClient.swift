@@ -19,7 +19,7 @@ import UIKit
  
  Note that the token will be persisted, which means the token will be stored in device after app closes.
  */
-class SierraApiClient{
+class SierraApiClient {
     static let shared = SierraApiClient()
     
     final let NO_ACCESSTOKEN_FOUND = "no accesstoken found"

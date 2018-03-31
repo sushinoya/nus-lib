@@ -167,6 +167,9 @@
                         <viewLayoutGuide key="safeArea" id="B2Q-88-wh9"/>
                     </view>
                     <navigationItem key="navigationItem" id="hn6-Rv-Ryv"/>
+                    <connections>
+                        <segue destination="hgM-Xp-iER" kind="show" identifier="BarcodeToItemDetail" id="m8I-Uq-QiV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AcR-sk-fAI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -291,6 +294,6 @@
         <image name="search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QvA-Nw-R9e"/>
+        <segue reference="m8I-Uq-QiV"/>
     </inferredMetricsTieBreakers>
 </document>
