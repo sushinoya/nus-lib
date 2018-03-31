@@ -200,10 +200,11 @@ class ItemDetailViewController: BaseViewController {
     
     
     @objc func shareToFacebook() {
-        print("Facebook pressed")
+        print("To be implemented")
     }
     
     @objc func shareToTwitter() {
+        print("Twitter pressed")
         if (TWTRTwitter.sharedInstance().sessionStore.hasLoggedInUsers()) {
             // App must have at least one logged-in user to compose a Tweet
             let composer = TWTRComposerViewController.emptyComposer()

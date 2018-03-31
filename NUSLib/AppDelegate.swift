@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         FirebaseApp.configure()
+
+        // Authenticate TwitterKit
         if let twitterCreds = twitterCreds {
             TWTRTwitter.sharedInstance().start(withConsumerKey:twitterCreds.id, consumerSecret:twitterCreds.secret!)
         }
