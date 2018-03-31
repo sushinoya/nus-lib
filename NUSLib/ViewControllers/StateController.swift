@@ -6,6 +6,7 @@
 //  Copyright © 2018 nus.cs3217.nuslib. All rights reserved.
 //
 
-class StateController {
+class StateController: ItemAccessProtocol, DataAccessController {    
     var itemDetail: DisplayableItem?
+    var user: UserProfile?
 }
