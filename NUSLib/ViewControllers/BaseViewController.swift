@@ -22,9 +22,7 @@ import FirebaseDatabase
 class BaseViewController: UIViewController{
     internal let disposeBag = DisposeBag()
     internal var database: DatabaseReference!
-    
-    internal var state: StateController?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
     

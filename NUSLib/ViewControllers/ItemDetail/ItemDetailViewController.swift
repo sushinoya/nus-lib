@@ -18,6 +18,7 @@ class ItemDetailViewController: BaseViewController {
     let bookCollectionViewCellID = "bookCollectionViewCell"
     let api: LibraryAPI = CentralLibrary()
     var similarTitleText: Variable<String> = Variable("")
+    var state: DataAccessController?
     
     private(set) lazy var overlay: UIView = {
         let this = UIView()
