@@ -14,7 +14,6 @@ struct BookItem: DisplayableItem {
     private var author: String
     private var thumbNail: UIImage
     private var rating: Int
-    private var reviews = [Review]()
 
     init (name title: String, author:String, image: UIImage, rating: Int) {
         self.title = title
