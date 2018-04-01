@@ -29,21 +29,23 @@ class SearchViewController: BaseViewController {
         return tableView
     }()
     
-    var isFiltering: Bool = false
 
     let topSeachTableCellID = "topSeachTableCell"
     
     var searchValue: Variable<String> = Variable("")
     var topSearchList: Variable<[BookItem]> = Variable([])
     var filterResult: Variable<[BookItem]> = Variable([])
+    var searchResult: Variable<[BookItem]> = Variable([])
     
     lazy var searchValueObservable: Observable<String> = self.searchValue.asObservable()
     lazy var topSearchListObservable: Observable<[BookItem]> = self.topSearchList.asObservable()
     lazy var filterResultObservable: Observable<[BookItem]> = self.filterResult.asObservable()
+    lazy var searchResultObservable: Observable<[BookItem]> = self.searchResult.asObservable()
     
     var selectedString: String?
     var selectedItem: BookItem?
     
+    var isSearching = false
     let api = CentralLibrary()
     
     override func viewDidLoad() {
@@ -60,8 +62,8 @@ class SearchViewController: BaseViewController {
         topSearchList.value.append(BookItem(name: "CS3217", image: #imageLiteral(resourceName: "Sample9")))
         topSearchList.value.append(BookItem(name: "NUS", image: #imageLiteral(resourceName: "Sample9")))
         topSearchList.value.append(BookItem(name: "HARRY", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(name: "CO", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(name: "PSD", image: #imageLiteral(resourceName: "Sample9")))
+        topSearchList.value.append(BookItem(name: "C2222O", image: #imageLiteral(resourceName: "Sample9")))
+        topSearchList.value.append(BookItem(name: "PSD4444444", image: #imageLiteral(resourceName: "Sample9")))
     }
     
     override func viewWillLayoutSubviews() {
@@ -106,8 +108,9 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.rx.text.orEmpty.distinctUntilChanged().bind(to: searchValue).disposed(by: disposeBag)
         
         searchValueObservable.subscribe(onNext: { [unowned self] (value) in
+            self.isSearching = true
             if value.isEmpty {
-               self.topSearchListObservable.bind(to: self.filterResult).disposed(by: self.disposeBag)
+               self.topSearchListObservable.bind(to: self.searchResult).disposed(by: self.disposeBag)
             } else {
                 self.searchValueObservable.map { $0.lowercased() }
                 .debounce(0.5, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
@@ -116,11 +119,11 @@ class SearchViewController: BaseViewController {
                 .distinctUntilChanged()
                 .flatMapLatest { request -> Observable<[BookItem]> in
                     return self.api.getBooksFromKeyword(keyword: request, limit: 5)
-                }.bind(to: self.filterResult).disposed(by: self.disposeBag)
+                }.bind(to: self.searchResult).disposed(by: self.disposeBag)
             }
         }).disposed(by: disposeBag)
         
-        filterResultObservable.bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
+        searchResultObservable.bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
             cell.topSearchLabel.text = model.getTitle()
             }
             .disposed(by: disposeBag)
@@ -140,13 +143,20 @@ class SearchViewController: BaseViewController {
     }
     
     @objc func performSort() {
-        filterResult.value.sort(by: {$0.getTitle() < $1.getTitle()})
-        print(filterResult.value)
+        searchResult.value.sort(by: {$0.getTitle() < $1.getTitle()})
+        print(searchResult.value)
     }
     
     let filterLauncher = FilterLauncher()
     
     @objc func performFilter() {
+        //When user is searching, then need to reset filterResult value
+        //Else, user is just trying to filter current searchResult
+        if isSearching {
+            filterResult.value = searchResult.value
+            isSearching = false
+        }
+        
         searchController.searchBar.resignFirstResponder()
         filterLauncher.delegate = self
         filterLauncher.showFilters()
@@ -156,13 +166,10 @@ class SearchViewController: BaseViewController {
 
 extension SearchViewController: FilterLauncherDelegate {
     func update(text: Int) {
-        topSearchList.asObservable()
-            .map {
-                $0.filter {$0.getTitle().count <= text}
-        }.bind(to: self.filterResult).disposed(by: self.disposeBag)
+        let temp = filterResult.value
+        searchResult.value = filterResult.value.filter({$0.getTitle().count <= text})
+        filterResult.value = temp
     }
-    
-    
 }
 
 class NoCancelButtonSearchController: UISearchController {
