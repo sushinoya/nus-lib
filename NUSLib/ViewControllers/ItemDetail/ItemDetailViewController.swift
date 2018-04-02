@@ -217,6 +217,13 @@ class ItemDetailViewController: BaseViewController {
                     self.present(composer, animated: true, completion: nil)
                 } else {
                     let alert = UIAlertController(title: "No Twitter Accounts Available", message: "You must log in before presenting a composer.", preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        alert.dismiss(animated: true, completion: nil)
+                    })
+                    
+                    alert.addAction(okAction)
+                    
                     self.present(alert, animated: false, completion: nil)
                 }
             }

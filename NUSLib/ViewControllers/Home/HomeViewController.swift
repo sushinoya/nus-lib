@@ -171,6 +171,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         
         view.addSubview(scrollView)
         view.addSubview(scanBarcodeButton)
+
+        setupNavigationBar()
     }
     
     override func viewWillLayoutSubviews() {
@@ -206,6 +208,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
     private func setupNavigationBar() {
         navigationItem.title = Constants.NavigationBarTitle.HomeTitle
+        
     }
 
 }
