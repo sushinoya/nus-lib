@@ -13,6 +13,9 @@ import RxSwift
 import RxCocoa
 import FirebaseDatabase
 import TwitterKit
+import FacebookLogin
+import FacebookCore
+import FacebookShare
 
 class ItemDetailViewController: BaseViewController {
     
@@ -201,6 +204,28 @@ class ItemDetailViewController: BaseViewController {
     
     @objc func shareToFacebook() {
         print("To be implemented")
+        
+        let loginManager = LoginManager()
+        
+        if let accessToken = AccessToken.current {
+            print("Already logged in")
+            self.postToFaceBook()
+//            loginManager.logOut()
+            
+            
+        } else {
+            loginManager.logIn(readPermissions: [.publicProfile], viewController: self) { (loginResult) in
+                switch loginResult {
+                case .failed(let error): print(error)
+                case .cancelled: print("User cancelled login")
+                case .success(grantedPermissions: let grantedPermissions, declinedPermissions: let declinedPermissions, token: let accessToken):
+                    print("Logged in!")
+                    self.postToFaceBook()
+                }
+            }
+        }
+        
+        
     }
     
     @objc func shareToTwitter() {
@@ -227,6 +252,24 @@ class ItemDetailViewController: BaseViewController {
                     self.present(alert, animated: false, completion: nil)
                 }
             }
+        }
+    }
+    
+    private func postToFaceBook() {
+        let content = LinkShareContent(url: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!, quote: "Title")
+        
+        let shareDialog = ShareDialog(content: content)
+        shareDialog.mode = .native
+        shareDialog.failsOnInvalidData = true
+        shareDialog.completion = { result in
+            // Handle share results
+            print(result)
+        }
+        
+        do {
+            try shareDialog.show()
+        } catch {
+            print(error)
         }
     }
     
