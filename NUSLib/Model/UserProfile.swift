@@ -11,10 +11,10 @@ import Foundation
 class UserProfile {
 
     private var username: String
-    private var userID: Int
+    private var userID: String
     private var email: String
 
-    init(username: String, userID: Int, email: String) {
+    init(username: String, userID: String, email: String) {
         self.username = username
         self.userID = userID
         self.email = email
