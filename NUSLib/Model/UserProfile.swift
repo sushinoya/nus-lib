@@ -19,4 +19,8 @@ class UserProfile {
         self.userID = userID
         self.email = email
     }
+
+    func getUsername() -> String {
+        return self.username
+    }
 }

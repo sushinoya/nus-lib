@@ -17,7 +17,6 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func getPopularItems() -> [DisplayableItem] {
-        self.database.child("Popular")
         return []
     }
     
@@ -41,9 +40,17 @@ class FirebaseDataSource: AppDataSource {
         var currentUser: UserProfile?
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if let successUser = user {
-                currentUser = UserProfile(username: successUser.displayName!, userID: successUser.uid, email: email)
+                var name: String
+                if successUser.displayName != nil {
+                    name = successUser.displayName!
+                } else {
+                    name = "USER1"
+                }
+                currentUser = UserProfile(username: name, userID: successUser.uid, email: email)
+                print("success")
             } else {
                 currentUser = nil
+                print("fail")
             }
         }
         return currentUser
