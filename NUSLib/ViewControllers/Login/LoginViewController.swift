@@ -124,13 +124,13 @@ class LoginViewController: BaseViewController {
         let username = nameField?.text?.lowercased()
         let password = passwordField?.text
         let ds = FirebaseDataSource()
-        let result = ds.authenticateUser(email: username!, password: password!)
-        if let user = result {
-            loginResult(0, name: user.getUsername())
-        } else {
-            loginResult(1, name: "fail")
+        ds.authenticateUser(email: username!, password: password!) { result in
+            if let user = result {
+                self.loginResult(0, name: user.getUsername())
+            } else {
+                self.loginResult(1, name: "fail")
+            }
         }
-    
     }
 
     func loginResult(_ result: Int, name: String) {

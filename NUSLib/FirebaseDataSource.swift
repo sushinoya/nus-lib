@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-class FirebaseDataSource: AppDataSource {
+class FirebaseDataSource {
     private var database: DatabaseReference
     
     init() {
@@ -17,6 +17,7 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func getPopularItems() -> [DisplayableItem] {
+        self.database.child("Popular")
         return []
     }
     
@@ -36,9 +37,9 @@ class FirebaseDataSource: AppDataSource {
         return []
     }
     
-    func authenticateUser(email: String, password: String) -> UserProfile? {
-        var currentUser: UserProfile?
+    func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)  {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+            var currentUser: UserProfile?
             if let successUser = user {
                 var name: String
                 if successUser.displayName != nil {
@@ -52,8 +53,8 @@ class FirebaseDataSource: AppDataSource {
                 currentUser = nil
                 print("fail")
             }
+            completionHandler(currentUser)
         }
-        return currentUser
     }
     
 }
