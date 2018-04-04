@@ -40,8 +40,8 @@ class FavouriteCollectionViewController: BaseViewController {
     var deleteButton: UIButton!
     var longPressGesture: UILongPressGestureRecognizer!
     
-    var bookLists: [[BookItem]] = []
-    var filteredLists: [[BookItem]] = []
+    var bookLists: [[DisplayableItem]] = []
+    var filteredLists: [[DisplayableItem]] = []
     
     var isFiltering: Bool = false
     var isEditingMode = false
@@ -91,18 +91,19 @@ class FavouriteCollectionViewController: BaseViewController {
         bookLists.append(books)
         filteredLists.append(books)
         filteredLists.append(books)
+        /*
         for index in 0..<18 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
-            let item = BookItem(name: name, image: image!)
+            let item = BookItem(id: "nil", name: name, image: image!)
             bookLists[0].append(item)
         }
         for index in 18..<30 {
             let name = "Sample\(index).jpg"
             let image = UIImage(named: name)
-            let item = BookItem(name: name, image: image!)
+            let item = BookItem(id: "nil", name: name, image: image!)
             bookLists[1].append(item)
-        }
+        }*/
     }
     
     private func setupViews() {
@@ -124,12 +125,12 @@ class FavouriteCollectionViewController: BaseViewController {
             isFiltering = true
             for section in 0..<bookLists.count {
                 filteredLists.append([BookItem]())
-                filteredLists[section] = bookLists[section].filter({return $0.getTitle().localizedCaseInsensitiveContains(searchTerm)})
+                filteredLists[section] = bookLists[section].filter({return $0.title!.localizedCaseInsensitiveContains(searchTerm)})
             }
         }
     }
     
-    func getBookItem(at indexPath: IndexPath) -> BookItem {
+    func getBookItem(at indexPath: IndexPath) -> DisplayableItem {
         
         if isFiltering {
             return filteredLists[indexPath.section][indexPath.item]

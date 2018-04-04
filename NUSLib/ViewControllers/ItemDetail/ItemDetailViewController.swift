@@ -11,10 +11,14 @@ import Kingfisher
 import ZFRippleButton
 import RxSwift
 import RxCocoa
+import RxOptional
 import FirebaseDatabase
 import TwitterKit
+import XCGLogger
 
 class ItemDetailViewController: BaseViewController {
+    
+    let libary: LibraryAPI = CentralLibrary()
     
     let bookCollectionViewCellID = "bookCollectionViewCell"
     let api: LibraryAPI = CentralLibrary()
@@ -61,7 +65,7 @@ class ItemDetailViewController: BaseViewController {
         this.numberOfLines = 0
         
         if let itemDetail = state?.itemDetail {
-            this.text = itemDetail.getTitle()
+            this.text = itemDetail.title
         }
         
         return this
@@ -250,22 +254,39 @@ class ItemDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.addSubview(overlay)
-        view.addSubview(previewImageShadow)
-        view.addSubview(previewImage)
-        view.addSubview(previewTitle)
-        view.addSubview(previewSubtitle)
-        view.addSubview(location)
-        view.addSubview(favourite)
-        view.addSubview(sypnosisTitle)
-        view.addSubview(sypnosisContent)
-        view.addSubview(similarTitle)
-        view.addSubview(similarCollection)
-        view.addSubview(facebookButton)
-        view.addSubview(twitterButton)
-
-        setupSimilarBooks()
+        
+        libary.getBook(byId: "1000014")
+            .filterNil()
+            .subscribe{ event in
+                switch event {
+                case .completed: log.debug("Library book item request completed.")
+                case .error(let error): log.error(error.localizedDescription)
+                case .next(let bookItem):
+                    
+                    self.view.addSubview(self.overlay)
+                    self.view.addSubview(self.previewImageShadow)
+                    self.view.addSubview(self.previewImage)
+                    self.view.addSubview(self.previewTitle)
+                    self.previewTitle.text = bookItem.title
+                    self.view.addSubview(self.previewSubtitle)
+                    self.previewSubtitle.text = "by \(bookItem.author ?? "Unknown Author")"
+                    self.view.addSubview(self.location)
+                    self.view.addSubview(self.favourite)
+                    self.view.addSubview(self.sypnosisTitle)
+                    self.view.addSubview(self.sypnosisContent)
+                    self.view.addSubview(self.similarTitle)
+                    self.view.addSubview(self.similarCollection)
+                    self.view.addSubview(self.facebookButton)
+                    self.view.addSubview(self.twitterButton)
+                    
+                    self.setupSimilarBooks()
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     private func setupSimilarBooks() {
@@ -277,7 +298,7 @@ class ItemDetailViewController: BaseViewController {
             }
             .bind(to: similarCollection.rx.items(cellIdentifier: bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) {
                 index, model, cell in
-                cell.title.text = model.getTitle()
+                cell.title.text = model.title
                 cell.alpha = 0
                 self.similarCollection.backgroundView = nil
                 UIView.animate(withDuration: 0.5, animations: {
@@ -292,8 +313,8 @@ class ItemDetailViewController: BaseViewController {
                 self.similarCollection.deselectItem(at: selectedRowIndexPath[0], animated: true)
             }
 
-            self.previewTitle.text = model.getTitle()
-            self.similarTitleText.value = String(model.getTitle().suffix(4))
+            self.previewTitle.text = model.title
+            self.similarTitleText.value = String(model.title!.suffix(4))
             
         }).disposed(by: disposeBag)
     

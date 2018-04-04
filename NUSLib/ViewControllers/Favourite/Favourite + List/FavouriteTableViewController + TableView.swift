@@ -25,7 +25,7 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: bookTableViewCellID, for: indexPath) as! BookTableViewCell
         
         let book = getBookItem(at: indexPath)        
-        cell.textLabel?.text = book.getTitle()
+        cell.textLabel?.text = book.title
 //        cell.imageView?.image = book.getThumbNail()
         return cell
     }
