@@ -8,11 +8,13 @@
 
 import UIKit
 import RxSwift
+import RxOptional
 import Moya
 import ObjectMapper
 
 //Instance of LibraryAPI from the Central Library and it's data
 class CentralLibrary: LibraryAPI {
+    /*
     fileprivate func transformJSON(_ data: Data, _ books: inout [BookItem]) {
         let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
         if let rootDictionary = jsonObject as? [String: Any],
@@ -24,50 +26,36 @@ class CentralLibrary: LibraryAPI {
             }
         }
     }
+    */
     
-    
-    func getBook(byId id: String) -> Observable<BookItem?> {
-        return SierraApiClient.shared.provider              // initialize api client
-            .rx                                             // moya rx extension
-            .request(.bib(id: id))                          // setup request endpoint
-            .mapString()                                    // map the result into json string
-            .map{Mapper<BookItem>().map(JSONString: $0)}    // transform the json string into programmable BookItem object
-            .asObservable()                                 // cast into observable so the caller than observe on the value returned
+    func getBook(byId id: String) -> Observable<BookItem> {
+        return SierraApiClient.shared.provider                              // initialize api client
+            .rx                                                             // moya rx extension
+            .request(.bib(id: id))                                          // setup request endpoint
+            .map{Mapper<BookItem>().map(JSONObject: try $0.mapJSON())}      // transform the json string into programmable BookItem object
+            .asObservable()                                                 // cast into observable so the caller than observe on the value returned
+            .filterNil()                                                    // remove any nil elements, make it non-optional
     }
     
-    func getBooksFromTitle(title: String) -> [BookItem] {
-        var books = [BookItem]()
-        SierraApiClient.shared.provider.request(.bibsSearch(limit: 10, offset: 0, index: "title", text: title), completion: {
-            switch $0 {
-                case let .success(moyaResponse):
-                    self.transformJSON(moyaResponse.data, &books)
-                case let .failure(error):
-                    print(error.errorDescription!)
-                }
+    func getBooks(byTitle title: String) -> Observable<[BookItem]> {
+        return SierraApiClient.shared.provider
+            .rx
+            .request(.bibsSearch(limit: 10, offset: 0, index: "title", text: title))
+            .map({ (response) -> [BookItem]? in
+                let jsonObject = try response.mapJSON() // transform response data to json object
+                let root = jsonObject as? [String: Any] // cast to root level dictionary
+                let entries = root?["entries"] as? [[String: Any]] // cast the key at "entries" into array of dictionary
+                
+                let bibs = entries?.flatMap{ $0["bib"]} // cherry pick the key at "bib" and flatten the array
+                
+                return Mapper<BookItem>().mapArray(JSONObject: bibs) // map each json object into array of BookItem object
             })
-        return books
+            .asObservable()
+            .filterNil()
     }
     
     func getBooksFromISBN(barcode: String) -> [BookItem] {
         return []
-    }
-    
-    
-    func getBooksFromKeyword(keyword: String, limit: Int) -> Observable<[BookItem]> {
-        
-        return Observable.create { observer in
-            var books = [BookItem]()
-            SierraApiClient.shared.provider.request(.bibsSearch(limit: limit, offset: 0, index: "title", text: keyword), completion: {
-                switch $0 {
-                case let .success(moyaResponse):
-                    self.transformJSON(moyaResponse.data, &books)
-                    observer.onNext(books)
-                case let .failure(error):
-                    print(error.errorDescription!)
-                }
-            })
-            return Disposables.create()
-        }
     }
     
 }
