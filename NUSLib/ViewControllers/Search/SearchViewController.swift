@@ -120,14 +120,13 @@ class SearchViewController: BaseViewController {
             } else {
                 self.searchValueObservable
                     .map { $0.lowercased() }
-                    .debounce(0.5, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+                    .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
                     .distinctUntilChanged()
                     .asObservable()
                     .distinctUntilChanged()
                     .flatMapLatest { request -> Observable<[BookItem]> in
-                        return self.api.getBooksFromKeyword(keyword: request, limit: 5)
+                        return self.api.getBooks(byTitle: request)
                     }
-                    .do(onNext: { print($0) })
                     .map{ $0.map{ $0 as DisplayableItem }}
                     .bind(to: self.searchResult)
                     .disposed(by: self.disposeBag)

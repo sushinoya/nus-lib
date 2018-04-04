@@ -256,7 +256,6 @@ class ItemDetailViewController: BaseViewController {
         super.viewDidLoad()
         
         libary.getBook(byId: "1000014")
-            .filterNil()
             .subscribe{ event in
                 switch event {
                 case .completed: log.debug("Library book item request completed.")
@@ -297,7 +296,7 @@ class ItemDetailViewController: BaseViewController {
         
         similarTitleText.asObservable()
             .flatMapLatest { request -> Observable<[BookItem]> in
-                return self.api.getBooksFromKeyword(keyword: request, limit: 10)
+                return self.api.getBooks(byTitle: request)
             }
             .bind(to: similarCollection.rx.items(cellIdentifier: bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) {
                 index, model, cell in
