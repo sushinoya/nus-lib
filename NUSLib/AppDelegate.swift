@@ -10,10 +10,13 @@ import UIKit
 import Firebase
 import TwitterKit
 import Heimdallr
+import XCGLogger
+
+let log = XCGLogger.default
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     
     private lazy var twitterCreds: OAuthClientCredentials? = {
@@ -30,12 +33,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // configure firebase
         FirebaseApp.configure()
 
         // Authenticate TwitterKit
         if let twitterCreds = twitterCreds {
             TWTRTwitter.sharedInstance().start(withConsumerKey:twitterCreds.id, consumerSecret:twitterCreds.secret!)
         }
+        
+        // configure logger
+        log.setup(level: .debug,
+                  showLogIdentifier: false,
+                  showFunctionName: true,
+                  showThreadName: false,
+                  showLevel: true,
+                  showFileNames: true,
+                  showLineNumbers: true,
+                  showDate: true)
     
         return true
     }

@@ -15,6 +15,7 @@ import RxSwift
  */
 protocol LibraryAPI {
 
+    func getBook(byId id: String) -> Observable<BookItem?>
     func getBooksFromTitle(title: String) -> [BookItem]
     func getBooksFromISBN(barcode: String) -> [BookItem]
     func getBooksFromKeyword(keyword: String, limit: Int) -> Observable<[BookItem]>

@@ -13,6 +13,7 @@ target 'NUSLib' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxGesture'
+  pod 'RxOptional'
   pod 'SideMenu'
   pod 'Moya/RxSwift', '~> 11.0'
   pod 'Heimdallr', '~> 3.6.1'
@@ -22,6 +23,8 @@ target 'NUSLib' do
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
   pod 'TwitterKit', '~> 3.3.0'
+  pod 'ObjectMapper', '~> 3.1'
+  pod 'XCGLogger', '~> 6.0.2'
 
   target 'NUSLibTests' do
     inherit! :search_paths
