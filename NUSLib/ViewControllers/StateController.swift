@@ -8,5 +8,4 @@
 
 class StateController {    
     var itemDetail: DisplayableItem?
-    var user: UserProfile?
 }

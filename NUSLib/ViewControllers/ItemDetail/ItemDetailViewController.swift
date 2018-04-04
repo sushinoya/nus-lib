@@ -12,6 +12,7 @@ import ZFRippleButton
 import RxSwift
 import RxCocoa
 import FirebaseDatabase
+import Firebase
 
 class ItemDetailViewController: BaseViewController {
     
@@ -105,6 +106,12 @@ class ItemDetailViewController: BaseViewController {
             this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
             
         })
+
+        if Auth.auth().currentUser != nil {
+            //This can retrieve the current 'signed in' user, so no need to pass data using UserProfile
+        } else {
+            //No user signed in 
+        }
         
         this.rx.tapGesture()
             .when(.recognized)

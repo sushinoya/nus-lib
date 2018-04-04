@@ -56,5 +56,9 @@ class FirebaseDataSource {
             completionHandler(currentUser)
         }
     }
+
+    func addReview(by authorid: String, about bookid: String, text: String) {
+        
+    }
     
 }
