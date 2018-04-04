@@ -7,66 +7,71 @@
 //
 
 import UIKit
+import ObjectMapper
 
-struct BookItem: DisplayableItem {
-
-    private var title: String
-    private var author: String
-    private var thumbNail: UIImage
-    private var rating: Int
-
-    init (name title: String, author:String, image: UIImage, rating: Int) {
+class BookItem: DisplayableItem, Mappable {
+    typealias builderClosure = (BookItem) -> Void
+   
+    var id: String?
+    var title: String?
+    var thumbnail: UIImage?
+    var rating: Int?
+    var author: String?
+    
+    required init?(map: Map) {
+        
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        id      <- map["id"]
+        title   <- map["title"]
+        author  <- map["author"]
+    }
+    
+    init(build: builderClosure) {
+        build(self)
+    }
+    
+    /*
+    init (id: String, name title: String, author:String, image: UIImage, rating: Int) {
+        self.id = id
         self.title = title
         self.author = author
-        self.thumbNail = image
+        self.thumbnail = image
         self.rating = rating
     }
     
-    init(name title: String, image: UIImage) {
-        self.init(name: title, author: "Unknown", image: image, rating: 5)
+    init(id: String, name title: String, image: UIImage) {
+        self.init(id: id, name: title, author: "Unknown", image: image, rating: 5)
     }
 
     init?(json: [String: Any]) {
         guard
+            let id = json["id"] as? String,
             let title = json["title"] as? String,
             let author = json["author"] as? String
             else {
                 return nil 
             }
+        self.id = id
         self.title = title
         self.author = author
-        self.thumbNail = UIImage()
+        self.thumbnail = UIImage()
         self.rating = -1
     }
 
     init?(json: [String: Any], image: UIImage, rating: Int) {
         self.init(json: json)
-        self.thumbNail = image
+        self.thumbnail = image
         self.rating = rating
-    }
-
-    func getTitle() -> String {
-        return self.title
-    }
-
-    func getAuthor() -> String {
-        return self.author
-    }
-
-    func getThumbNail() -> UIImage {
-        return self.thumbNail
-    }
-    
-    func getRating() -> Int {
-        return self.rating
-    }
-
+    }*/
 }
 
 extension BookItem: Equatable {
     static func == (lhs: BookItem, rhs: BookItem) -> Bool {
-        return lhs.getTitle() == rhs.getTitle() &&
-               lhs.getRating() == rhs.getRating() &&
-               lhs.getAuthor() == rhs.getAuthor()
+        return lhs.title == rhs.title &&
+               lhs.rating == rhs.rating &&
+               lhs.author == rhs.author
     }
 }

@@ -7,8 +7,9 @@
 //
 
 import UIKit
-
+/*
 struct EventItem: DisplayableItem {
+    var id: String = "null"
     
     private var title: String
     private var thumbNail: UIImage
@@ -29,4 +30,4 @@ struct EventItem: DisplayableItem {
         return -1
     }
 
-}
+}*/

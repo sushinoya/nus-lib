@@ -7,9 +7,10 @@
 //
 
 import UIKit
-
+/*
 struct PaperItem: DisplayableItem {
-    
+    var id: String = "null"
+
     private var title: String
     private var thumbNail: UIImage
     private var rating: Int
@@ -32,3 +33,4 @@ struct PaperItem: DisplayableItem {
     }
     
 }
+*/
