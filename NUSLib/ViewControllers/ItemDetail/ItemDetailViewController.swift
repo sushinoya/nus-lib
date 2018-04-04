@@ -266,10 +266,13 @@ class ItemDetailViewController: BaseViewController {
                     self.view.addSubview(self.overlay)
                     self.view.addSubview(self.previewImageShadow)
                     self.view.addSubview(self.previewImage)
+                    
                     self.view.addSubview(self.previewTitle)
                     self.previewTitle.text = bookItem.title
+                    
                     self.view.addSubview(self.previewSubtitle)
                     self.previewSubtitle.text = "by \(bookItem.author ?? "Unknown Author")"
+                    
                     self.view.addSubview(self.location)
                     self.view.addSubview(self.favourite)
                     self.view.addSubview(self.sypnosisTitle)

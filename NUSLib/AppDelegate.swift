@@ -44,12 +44,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // configure logger
         log.setup(level: .debug,
                   showLogIdentifier: false,
-                  showFunctionName: true,
+                  showFunctionName: false,
                   showThreadName: false,
                   showLevel: true,
                   showFileNames: true,
                   showLineNumbers: true,
                   showDate: true)
+        
+        let emojiLogFormatter = PrePostFixLogFormatter()
+        emojiLogFormatter.apply(prefix: "🗯🗯🗯 ", to: .verbose)
+        emojiLogFormatter.apply(prefix: "🔹🔹🔹 ", to: .debug)
+        emojiLogFormatter.apply(prefix: "ℹ️ℹ️ℹ️ ", to: .info)
+        emojiLogFormatter.apply(prefix: "⚠️⚠️⚠️ ", to: .warning)
+        emojiLogFormatter.apply(prefix: "‼️‼️‼️ ", to: .error)
+        emojiLogFormatter.apply(prefix: "💣💣💣 ", to: .severe)
+        
+        log.formatters = [emojiLogFormatter]
     
         return true
     }
