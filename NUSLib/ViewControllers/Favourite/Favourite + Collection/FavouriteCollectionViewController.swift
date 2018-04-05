@@ -10,6 +10,7 @@ import UIKit
 import Neon
 import RxSwift
 import RxCocoa
+import FirebaseAuth
 
 class FavouriteCollectionViewController: BaseViewController {
     
@@ -48,14 +49,21 @@ class FavouriteCollectionViewController: BaseViewController {
     
     var selectedItem: BookItem?
     
+    let ds = FirebaseDataSource()
+    var user = Auth.auth().currentUser
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupData()
         setupViews()
         setUpGesture()
-        
         self.definesPresentationContext = true
+        
+        if user == nil {
+            //Show login page
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,23 +95,50 @@ class FavouriteCollectionViewController: BaseViewController {
     func setupData() {
         let books = [BookItem]()
         
+        //2 sections for bookLists
         bookLists.append(books)
         bookLists.append(books)
         filteredLists.append(books)
         filteredLists.append(books)
-        /*
-        for index in 0..<18 {
-            let name = "Sample\(index).jpg"
-            let image = UIImage(named: name)
-            let item = BookItem(id: "nil", name: name, image: image!)
-            bookLists[0].append(item)
+        
+        if let user = user {
+            ds.getFavouriteBookListForUser(userID: user.uid, completionHandler: { (items) in
+                print(items)
+                
+                for item in items {
+                    let book = BookItem{
+                        $0.id = item
+                        $0.title = "CS3217"
+                        $0.author = "Ben Leong"
+                    }
+                    self.bookLists[0].append(book)
+                    print(self.bookLists[0])
+                }
+                self.collectionview.reloadData()
+            })
         }
-        for index in 18..<30 {
-            let name = "Sample\(index).jpg"
-            let image = UIImage(named: name)
-            let item = BookItem(id: "nil", name: name, image: image!)
-            bookLists[1].append(item)
-        }*/
+        
+        
+    
+        
+//        for index in 0..<18 {
+//            let name = "Sample\(index).jpg"
+//            let image = UIImage(named: name)
+//            let item = BookItem{
+//                $0.id = "0001"
+//                $0.title = "CS3333"
+//            }
+//            bookLists[0].append(item)
+//        }
+//        for index in 18..<30 {
+//            let name = "Sample\(index).jpg"
+//            let image = UIImage(named: name)
+//            let item = BookItem{
+//                $0.id = "0001"
+//                $0.title = "4444"
+//            }
+//            bookLists[1].append(item)
+//        }
     }
     
     private func setupViews() {
@@ -184,15 +219,20 @@ class FavouriteCollectionViewController: BaseViewController {
     func deleteCells() {
         if let indexpaths = collectionview.indexPathsForSelectedItems {
             for indexPath in indexpaths.sorted().reversed() {
+                var item: DisplayableItem?
                 if isFiltering {
-                    
-                    filteredLists[indexPath.section].remove(at: indexPath.item)
-                   
+                    item = filteredLists[indexPath.section].remove(at: indexPath.item)
                 } else {
-                    bookLists[indexPath.section].remove(at: indexPath.item)
+                    item = bookLists[indexPath.section].remove(at: indexPath.item)
                 }
+                
+                if let user = user {
+                    ds.deleteFavourite(by: user.uid, bookid: (item?.id)!, completionHandler: {
+                    })
+                }
+               
             }
-            collectionview.deleteItems(at: indexpaths)
+            self.collectionview.deleteItems(at: indexpaths)
         }
     }
 }

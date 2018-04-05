@@ -106,44 +106,54 @@ class ItemDetailViewController: BaseViewController {
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
         
-        self.database.child("Favourites").observe(.value, with: { (snapshot) in
-            let favourite = snapshot.value as? [String: AnyObject] ?? [:]
-            
-            let favouriteCount = favourite["dummy"] as? Int ?? 0
-            
-            this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
-            
-        })
-
-        if Auth.auth().currentUser != nil {
-            //This can retrieve the current 'signed in' user, so no need to pass data using UserProfile
-        } else {
-            //No user signed in 
-        }
+        let ds = FirebaseDataSource()
+        let user = Auth.auth().currentUser
         
-        this.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { result in
-                self.database.child("Favourites").runTransactionBlock({ (data) -> TransactionResult in
-                    if var bibs = data.value as? [String: AnyObject] {
-                        
-                        var dummyVal = bibs["dummy"] as? Int ?? -1
-                        
-                        dummyVal += 1
-                        
-                        bibs["dummy"] = dummyVal as AnyObject?
-                        
-                        data.value = bibs
-                    }
-                    
-                    return TransactionResult.success(withValue: data)
-                }) { (error, committed, snapshot) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
-                }
+        try! Auth.auth().signOut()
+        
+        if let user = user {
+            // The user's ID, unique to the Firebase project.
+            // Do NOT use this value to authenticate with your backend server,
+            // if you have one. Use getTokenWithCompletion:completion: instead.
+            let uid = user.uid
+            let bookid = String(Int(arc4random_uniform(30)+1))
+            ds.addToFavourite(by: uid, bookid: bookid)
+            
+            self.database.child("Favourites").observe(.value, with: { (snapshot) in
+                let favourite = snapshot.value as? [String: AnyObject] ?? [:]
+                
+                let favouriteCount = favourite["dummy"] as? Int ?? 0
+                
+                this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
+                
             })
-            .disposed(by: disposeBag)
+
+            this.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { result in
+                    self.database.child("Favourites").runTransactionBlock({ (data) -> TransactionResult in
+                        if var bibs = data.value as? [String: AnyObject] {
+                            
+                            var dummyVal = bibs["dummy"] as? Int ?? -1
+                            
+                            dummyVal += 1
+                            
+                            bibs["dummy"] = dummyVal as AnyObject?
+                            
+                            data.value = bibs
+                        }
+                        
+                        return TransactionResult.success(withValue: data)
+                    }) { (error, committed, snapshot) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    }
+                })
+                .disposed(by: disposeBag)
+        } else {
+            //Show login page
+        }
         
         return this
     }()
