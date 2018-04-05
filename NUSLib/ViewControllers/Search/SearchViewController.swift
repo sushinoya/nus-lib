@@ -78,12 +78,13 @@ class SearchViewController: BaseViewController {
     
     func setupNavigationBar() {
         let sortButton = UIButton(type: .system)
-        sortButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
+       
+        sortButton.setImage( UIImage.fontAwesomeIcon(name: .sortAlphaAsc, textColor: UIColor.blue , size: CGSize(width: 34, height: 34)), for: .normal)
         sortButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         sortButton.addTarget(self, action: #selector(performSort), for: .touchUpInside)
         
         let filterButton = UIButton(type: .system)
-        filterButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
+        filterButton.setImage( UIImage.fontAwesomeIcon(name: .filter, textColor: UIColor.blue , size: CGSize(width: 34, height: 34)), for: .normal)
         filterButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         filterButton.addTarget(self, action: #selector(performFilter), for: .touchUpInside)
         
