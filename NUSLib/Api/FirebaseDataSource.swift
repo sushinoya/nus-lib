@@ -57,8 +57,31 @@ class FirebaseDataSource {
         }
     }
 
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print("failed to signout")
+        }
+    }
+    
     func addReview(by authorid: String, about bookid: String, text: String) {
         
     }
-    
+
+    func isUserSignedIn() -> Bool {
+        if Auth.auth().currentUser != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    func getCurrentUser() -> UserProfile? {
+        if let user = Auth.auth().currentUser {
+            return UserProfile(username: "USER1", userID: user.uid, email: user.email!)
+        } else {
+            return nil
+        }
+    }
 }
