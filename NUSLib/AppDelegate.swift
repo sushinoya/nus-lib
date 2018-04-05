@@ -11,6 +11,8 @@ import Firebase
 import TwitterKit
 import Heimdallr
 import XCGLogger
+import FacebookCore
+import FBSDKLoginKit
 
 let log = XCGLogger.default
 
@@ -61,6 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         log.formatters = [emojiLogFormatter]
     
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         return true
     }
 
@@ -86,6 +90,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String, annotation: options[.annotation])
+    }
 
 }
 

@@ -25,6 +25,10 @@ target 'NUSLib' do
   pod 'TwitterKit', '~> 3.3.0'
   pod 'ObjectMapper', '~> 3.1'
   pod 'XCGLogger', '~> 6.0.2'
+  pod 'FacebookCore'
+  pod 'FacebookLogin'
+  pod 'FacebookShare'
+  pod ‘FBSDKLoginKit’
 
   target 'NUSLibTests' do
     inherit! :search_paths
