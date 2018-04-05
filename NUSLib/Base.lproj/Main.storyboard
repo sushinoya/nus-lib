@@ -249,7 +249,7 @@
         <!--Item Detail View Controller-->
         <scene sceneID="zmM-pI-G6p">
             <objects>
-                <viewController id="hgM-Xp-iER" customClass="ItemDetailViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="itemDetail" id="hgM-Xp-iER" customClass="ItemDetailViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="08I-6R-dVp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -311,6 +311,6 @@
         <image name="search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="m8I-Uq-QiV"/>
+        <segue reference="Cdz-AH-HxY"/>
     </inferredMetricsTieBreakers>
 </document>
