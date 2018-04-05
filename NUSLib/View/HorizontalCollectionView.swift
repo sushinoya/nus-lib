@@ -24,7 +24,7 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     
     private var onDequeue: ((T, [Any], IndexPath) -> ())?
     
-    init(frame: CGRect, cellCount: Int, cellSize: CGSize, cellSpacing: CGFloat = 0, sectionPadding: UIEdgeInsets = UIEdgeInsets.zero, data: [Any], onDequeue: ((T, [Any], IndexPath) -> ())?){
+    init(frame: CGRect, cellCount: Int, cellSize: CGSize, cellSpacing: CGFloat = 0, sectionPadding: UIEdgeInsets = UIEdgeInsets.zero, data: [Any]?, onDequeue: ((T, [Any], IndexPath) -> ())?){
         super.init(frame: frame, collectionViewLayout: layout)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
