@@ -10,12 +10,15 @@ import UIKit
 import Firebase
 import TwitterKit
 import Heimdallr
+import XCGLogger
 import FacebookCore
 import FBSDKLoginKit
 
+let log = XCGLogger.default
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     
     private lazy var twitterCreds: OAuthClientCredentials? = {
@@ -32,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // configure firebase
         FirebaseApp.configure()
 
         // Authenticate TwitterKit
@@ -39,6 +43,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             TWTRTwitter.sharedInstance().start(withConsumerKey:twitterCreds.id, consumerSecret:twitterCreds.secret!)
         }
         
+        // configure logger
+        log.setup(level: .debug,
+                  showLogIdentifier: false,
+                  showFunctionName: false,
+                  showThreadName: false,
+                  showLevel: true,
+                  showFileNames: true,
+                  showLineNumbers: true,
+                  showDate: true)
+        
+        let emojiLogFormatter = PrePostFixLogFormatter()
+        emojiLogFormatter.apply(prefix: "🗯🗯🗯 ", to: .verbose)
+        emojiLogFormatter.apply(prefix: "🔹🔹🔹 ", to: .debug)
+        emojiLogFormatter.apply(prefix: "ℹ️ℹ️ℹ️ ", to: .info)
+        emojiLogFormatter.apply(prefix: "⚠️⚠️⚠️ ", to: .warning)
+        emojiLogFormatter.apply(prefix: "‼️‼️‼️ ", to: .error)
+        emojiLogFormatter.apply(prefix: "💣💣💣 ", to: .severe)
+        
+        log.formatters = [emojiLogFormatter]
+    
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         return true

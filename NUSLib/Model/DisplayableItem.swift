@@ -14,9 +14,8 @@ import UIKit
  */
 
 protocol DisplayableItem {
-
-    func getTitle() -> String
-    func getThumbNail() -> UIImage
-    func getRating() -> Int
-    
+    var id: String? { get }
+    var title: String? { get }
+    var thumbnail: UIImage? { get }
+    var rating: Int? { get }    
 }

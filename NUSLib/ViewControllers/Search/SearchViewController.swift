@@ -33,17 +33,17 @@ class SearchViewController: BaseViewController {
     let topSeachTableCellID = "topSeachTableCell"
     
     var searchValue: Variable<String> = Variable("")
-    var topSearchList: Variable<[BookItem]> = Variable([])
-    var filterResult: Variable<[BookItem]> = Variable([])
-    var searchResult: Variable<[BookItem]> = Variable([])
+    var topSearchList: Variable<[DisplayableItem]> = Variable([])
+    var filterResult: Variable<[DisplayableItem]> = Variable([])
+    var searchResult: Variable<[DisplayableItem]> = Variable([])
     
     lazy var searchValueObservable: Observable<String> = self.searchValue.asObservable()
-    lazy var topSearchListObservable: Observable<[BookItem]> = self.topSearchList.asObservable()
-    lazy var filterResultObservable: Observable<[BookItem]> = self.filterResult.asObservable()
-    lazy var searchResultObservable: Observable<[BookItem]> = self.searchResult.asObservable()
+    lazy var topSearchListObservable: Observable<[DisplayableItem]> = self.topSearchList.asObservable()
+    lazy var filterResultObservable: Observable<[DisplayableItem]> = self.filterResult.asObservable()
+    lazy var searchResultObservable: Observable<[DisplayableItem]> = self.searchResult.asObservable()
     
     var selectedString: String?
-    var selectedItem: BookItem?
+    var selectedItem: DisplayableItem?
     
     var isSearching = false
     let api = CentralLibrary()
@@ -58,12 +58,18 @@ class SearchViewController: BaseViewController {
     }
     
     private func setupData() {
+        /*
+        topSearchList.value.append(BookItem(id: "nil", name: "CS3217", image: #imageLiteral(resourceName: "Sample9")))
+        topSearchList.value.append(BookItem(id: "nil", name: "NUS", image: #imageLiteral(resourceName: "Sample9")))
+        topSearchList.value.append(BookItem(id: "nil", name: "HARRY", image: #imageLiteral(resourceName: "Sample9")))
+        topSearchList.value.append(BookItem(id: "nil", name: "C2222O", image: #imageLiteral(resourceName: "Sample9")))
+        topSearchList.value.append(BookItem(id: "nil", name: "PSD4444444", image: #imageLiteral(resourceName: "Sample9")))*/
         
-        topSearchList.value.append(BookItem(name: "CS3217", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(name: "NUS", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(name: "HARRY", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(name: "C2222O", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(name: "PSD4444444", image: #imageLiteral(resourceName: "Sample9")))
+        topSearchList.value.append(BookItem {
+            $0.id = "0001"
+            $0.title = "CS3217"
+            $0.author = "Ben Leong"
+        })
     }
     
     override func viewWillLayoutSubviews() {
@@ -113,19 +119,23 @@ class SearchViewController: BaseViewController {
             if value.isEmpty {
                self.topSearchListObservable.bind(to: self.searchResult).disposed(by: self.disposeBag)
             } else {
-                self.searchValueObservable.map { $0.lowercased() }
-                .debounce(0.5, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
-                .distinctUntilChanged()
-                .asObservable()
-                .distinctUntilChanged()
-                .flatMapLatest { request -> Observable<[BookItem]> in
-                    return self.api.getBooksFromKeyword(keyword: request, limit: 5)
-                }.bind(to: self.searchResult).disposed(by: self.disposeBag)
+                self.searchValueObservable
+                    .map { $0.lowercased() }
+                    .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+                    .distinctUntilChanged()
+                    .asObservable()
+                    .distinctUntilChanged()
+                    .flatMapLatest { request -> Observable<[BookItem]> in
+                        return self.api.getBooks(byTitle: request)
+                    }
+                    .map{ $0.map{ $0 as DisplayableItem }}
+                    .bind(to: self.searchResult)
+                    .disposed(by: self.disposeBag)
             }
         }).disposed(by: disposeBag)
         
         searchResultObservable.bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
-            cell.topSearchLabel.text = model.getTitle()
+            cell.topSearchLabel.text = model.title
             }
             .disposed(by: disposeBag)
         
@@ -135,7 +145,7 @@ class SearchViewController: BaseViewController {
             }
             
             //Pass String to ItemDetail ViewController
-            self.selectedString = model.getTitle()
+            self.selectedString = model.title
             self.selectedItem = model
             
             self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
@@ -144,7 +154,7 @@ class SearchViewController: BaseViewController {
     }
     
     @objc func performSort() {
-        searchResult.value.sort(by: {$0.getTitle() < $1.getTitle()})
+        searchResult.value.sort(by: {$0.title! < $1.title!})
         print(searchResult.value)
     }
     
@@ -168,7 +178,7 @@ class SearchViewController: BaseViewController {
 extension SearchViewController: FilterLauncherDelegate {
     func update(text: Int) {
         let temp = filterResult.value
-        searchResult.value = filterResult.value.filter({$0.getTitle().count <= text})
+        searchResult.value = filterResult.value.filter({$0.title!.count <= text})
         filterResult.value = temp
     }
 }

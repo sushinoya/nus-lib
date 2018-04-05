@@ -7,66 +7,35 @@
 //
 
 import UIKit
+import ObjectMapper
 
-struct BookItem: DisplayableItem {
-
-    private var title: String
-    private var author: String
-    private var thumbNail: UIImage
-    private var rating: Int
-
-    init (name title: String, author:String, image: UIImage, rating: Int) {
-        self.title = title
-        self.author = author
-        self.thumbNail = image
-        self.rating = rating
+class BookItem: DisplayableItem, Mappable {
+    
+    var id: String?
+    var title: String?
+    var thumbnail: UIImage?
+    var rating: Int?
+    var author: String?
+    
+    required init?(map: Map) {
+        
     }
     
-    init(name title: String, image: UIImage) {
-        self.init(name: title, author: "Unknown", image: image, rating: 5)
-    }
-
-    init?(json: [String: Any]) {
-        guard
-            let title = json["title"] as? String,
-            let author = json["author"] as? String
-            else {
-                return nil 
-            }
-        self.title = title
-        self.author = author
-        self.thumbNail = UIImage()
-        self.rating = -1
-    }
-
-    init?(json: [String: Any], image: UIImage, rating: Int) {
-        self.init(json: json)
-        self.thumbNail = image
-        self.rating = rating
-    }
-
-    func getTitle() -> String {
-        return self.title
-    }
-
-    func getAuthor() -> String {
-        return self.author
-    }
-
-    func getThumbNail() -> UIImage {
-        return self.thumbNail
+    func mapping(map: Map) {
+        id      <- map["id"]
+        title   <- map["title"]
+        author  <- map["author"]
     }
     
-    func getRating() -> Int {
-        return self.rating
+    init(build: (BookItem) -> Void) {
+        build(self)
     }
-
 }
 
 extension BookItem: Equatable {
     static func == (lhs: BookItem, rhs: BookItem) -> Bool {
-        return lhs.getTitle() == rhs.getTitle() &&
-               lhs.getRating() == rhs.getRating() &&
-               lhs.getAuthor() == rhs.getAuthor()
+        return lhs.title == rhs.title &&
+               lhs.rating == rhs.rating &&
+               lhs.author == rhs.author
     }
 }

@@ -13,6 +13,7 @@ enum SierraApi {
     case bibs(limit: Int, offset: Int)
     case bibsSearch(limit: Int, offset: Int, index: String, text: String)
     case branches(limit: Int, offset: Int)
+    case items(limit: Int, offset: Int)
 }
 
 extension SierraApi: TargetType, AccessTokenAuthorizable {
@@ -27,12 +28,13 @@ extension SierraApi: TargetType, AccessTokenAuthorizable {
         case .bibs(_): return "/bibs"
         case .bibsSearch(_): return "/bibs/search"
         case .branches(_): return "/branches"
+        case .items(_): return "/items"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .bib, .bibs, .bibsSearch, .branches:
+        case .bib, .bibs, .bibsSearch, .branches, .items:
             return .get
         }
     }
@@ -43,6 +45,7 @@ extension SierraApi: TargetType, AccessTokenAuthorizable {
         case .bibs(_): return "bibs.".data(using: .utf8)!
         case .bibsSearch(_): return "bibsSearch.".data(using: .utf8)!
         case .branches(_): return "branches.".data(using: .utf8)!
+        case .items(_): return "items.".data(using: .utf8)!
         }
     }
     
@@ -52,6 +55,7 @@ extension SierraApi: TargetType, AccessTokenAuthorizable {
         case let .bibs(limit, offset): return .requestParameters(parameters: ["limit": limit, "offset": offset], encoding: URLEncoding.queryString)
         case let .bibsSearch(limit, offset, index, text): return .requestParameters(parameters: ["limit": limit, "offset": offset, "index": index, "text": text], encoding: URLEncoding.queryString)
         case let .branches(limit, offset): return .requestParameters(parameters: ["limit": limit, "offset": offset], encoding: URLEncoding.queryString)
+        case let .items(limit, offset): return .requestParameters(parameters: ["limit": limit, "offset": offset], encoding: URLEncoding.queryString)
         }
     }
     

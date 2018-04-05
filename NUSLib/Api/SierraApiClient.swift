@@ -52,7 +52,8 @@ class SierraApiClient {
     lazy var provider: MoyaProvider<SierraApi> = MoyaProvider<SierraApi>( requestClosure: { (endpoint, done) in
         Heimdallr(tokenURL: self.accessTokenUrl, credentials: self.credentials, accessTokenStore: self.accessTokenStore)
             .requestAccessToken(grantType: "client_credentials", parameters: [:]) { result in
-                print("INFO: Requested new accesstoken.\n\(self.accessToken)")
+                log.debug("Requested new accesstoken.")
+                log.info("\(self.accessToken)")
                 done(Result<URLRequest, MoyaError>(value: try! endpoint.urlRequest()))
         }
     }, stubClosure: MoyaProvider.neverStub, plugins: [accessTokenPlugin])

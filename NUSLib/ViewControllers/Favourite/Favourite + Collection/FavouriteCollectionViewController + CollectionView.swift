@@ -53,7 +53,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
         
         let book = getBookItem(at: indexPath)
         
-        cell.title.text = book.getTitle()
+        cell.title.text = book.title
         
         return cell
     }
