@@ -17,7 +17,8 @@ extension HomeViewController {
             barcodeScannerVC.codeDelegate = self
             barcodeScannerVC.errorDelegate = self
             barcodeScannerVC.dismissalDelegate = self
-            barcodeScannerVC.title = "Scan a book!"
+            barcodeScannerVC.title = "Scan a barcode"
+            barcodeScannerVC.messageViewController.messages.processingText = "Looking for your book"
         }
     }
 }
@@ -25,10 +26,18 @@ extension HomeViewController {
 // MARK: - BarcodeScannerCodeDelegate
 extension HomeViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
-        print("Barcode Data: \(code)")
-        print("Symbology Type: \(type)")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            controller.resetWithError()
+        let bookISBN = code
+        
+        // Make request to library API here.
+        
+        print("ISBN: \(bookISBN)")
+        print("Type: \(type)")
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            controller.performSegue(withIdentifier: "BarcodeToItemDetail", sender: self)
+            controller.reset()
+            // controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
         }
     }
 }

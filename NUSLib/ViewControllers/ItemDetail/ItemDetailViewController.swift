@@ -13,6 +13,10 @@ import RxSwift
 import RxCocoa
 import FirebaseDatabase
 import Firebase
+import TwitterKit
+import FacebookLogin
+import FacebookCore
+import FacebookShare
 
 class ItemDetailViewController: BaseViewController {
     
@@ -191,6 +195,92 @@ class ItemDetailViewController: BaseViewController {
         return this
     }()
     
+    
+    private(set) lazy var facebookButton: SocialButton = { [unowned self] in
+        let this = SocialButton(type: .facebook)
+        this.addTarget(self, action: #selector(shareToFacebook), for: .touchUpInside)
+        return this
+    }()
+    
+    private(set) lazy var twitterButton: SocialButton = { [unowned self] in
+        let this = SocialButton(type: .twitter)
+        this.addTarget(self, action: #selector(shareToTwitter), for: .touchUpInside)
+        return this
+    }()
+    
+    
+    @objc func shareToFacebook() {
+        print("To be implemented")
+        
+        let loginManager = LoginManager()
+        
+        if let accessToken = AccessToken.current {
+            print("Already logged in")
+            self.postToFaceBook()
+//            loginManager.logOut()
+            
+            
+        } else {
+            loginManager.logIn(readPermissions: [.publicProfile], viewController: self) { (loginResult) in
+                switch loginResult {
+                case .failed(let error): print(error)
+                case .cancelled: print("User cancelled login")
+                case .success(grantedPermissions: let grantedPermissions, declinedPermissions: let declinedPermissions, token: let accessToken):
+                    print("Logged in!")
+                    self.postToFaceBook()
+                }
+            }
+        }
+        
+        
+    }
+    
+    @objc func shareToTwitter() {
+        print("Twitter pressed")
+        if (TWTRTwitter.sharedInstance().sessionStore.hasLoggedInUsers()) {
+            // App must have at least one logged-in user to compose a Tweet
+            let composer = TWTRComposerViewController.emptyComposer()
+            present(composer, animated: true, completion: nil)
+        } else {
+            // Log in, and then check again
+            TWTRTwitter.sharedInstance().logIn { session, error in
+                if session != nil { // Log in succeeded
+                    let composer = TWTRComposerViewController.emptyComposer()
+                    self.present(composer, animated: true, completion: nil)
+                } else {
+                    let alert = UIAlertController(title: "No Twitter Accounts Available", message: "You must log in before presenting a composer.", preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        alert.dismiss(animated: true, completion: nil)
+                    })
+                    
+                    alert.addAction(okAction)
+                    
+                    self.present(alert, animated: false, completion: nil)
+                }
+            }
+        }
+    }
+    
+    private func postToFaceBook() {
+        let content = LinkShareContent(url: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!, quote: "Title")
+        
+        let shareDialog = ShareDialog(content: content)
+        shareDialog.mode = .native
+        shareDialog.failsOnInvalidData = true
+        shareDialog.completion = { result in
+            // Handle share results
+            print(result)
+        }
+        
+        do {
+            try shareDialog.show()
+        } catch {
+            print(error)
+        }
+    }
+    
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -203,6 +293,8 @@ class ItemDetailViewController: BaseViewController {
         previewSubtitle.sizeToFit()
         location.alignAndFillWidth(align: .toTheRightCentered, relativeTo: previewImage, padding: 50, height: 25, offset: -50)
         favourite.align(.toTheRightCentered, relativeTo: previewImage, padding: 50, width: 250, height: 50, offset: 25)
+        facebookButton.align(.toTheRightCentered, relativeTo: favourite, padding: 20, width: 50, height: 50, offset: 0)
+        twitterButton.align(.toTheRightCentered, relativeTo: facebookButton, padding: 20, width: 50, height: 50, offset: 0)
         sypnosisTitle.alignAndFillWidth(align: .underCentered, relativeTo: overlay, padding: 0, height: 25, offset: 0)
         sypnosisTitle.frame = sypnosisTitle.frame.offsetBy(dx: 50, dy: 125)
         sypnosisContent.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisTitle, padding: 50, height: 25)
@@ -227,7 +319,9 @@ class ItemDetailViewController: BaseViewController {
         view.addSubview(sypnosisContent)
         view.addSubview(similarTitle)
         view.addSubview(similarCollection)
-        
+        view.addSubview(facebookButton)
+        view.addSubview(twitterButton)
+
         setupSimilarBooks()
     }
     
@@ -262,7 +356,6 @@ class ItemDetailViewController: BaseViewController {
     
     }
 }
-
 
 
 

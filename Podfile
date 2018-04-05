@@ -21,6 +21,11 @@ target 'NUSLib' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
+  pod 'TwitterKit', '~> 3.3.0'
+  pod 'FacebookCore'
+  pod 'FacebookLogin'
+  pod 'FacebookShare'
+  pod ‘FBSDKLoginKit’
 
   target 'NUSLibTests' do
     inherit! :search_paths

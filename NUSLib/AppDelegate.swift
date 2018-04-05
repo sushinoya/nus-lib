@@ -8,18 +8,39 @@
 
 import UIKit
 import Firebase
+import TwitterKit
+import Heimdallr
+import FacebookCore
+import FBSDKLoginKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    private lazy var twitterCreds: OAuthClientCredentials? = {
+        // read from external resource TwitterCredentials.json
+        if let url = Bundle.main.url(forResource: "TwitterCredentials", withExtension: "json"),
+            let data = try? Data(contentsOf: url),
+            let jsonResult = try? JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? [String: String],
+            let consumerKey = jsonResult?["consumer_key"], let consumerSecret = jsonResult?["consumer_secret"] {
+            return OAuthClientCredentials(id: consumerKey, secret: consumerSecret)
+        }
+        return nil
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         FirebaseApp.configure()
-    
+
+        // Authenticate TwitterKit
+        if let twitterCreds = twitterCreds {
+            TWTRTwitter.sharedInstance().start(withConsumerKey:twitterCreds.id, consumerSecret:twitterCreds.secret!)
+        }
+        
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         return true
     }
 
@@ -45,6 +66,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String, annotation: options[.annotation])
+    }
 
 }
 
