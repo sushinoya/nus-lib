@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		052BADAF5CECEAEF346C1969 /* Pods_NUSLibTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FF39C242A3B7800FDBA616D /* Pods_NUSLibTests.framework */; };
+		269F0CB1CC62BAC4F440660D /* Pods_NUSLibUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666FB9F204EC2BC45FAFDC80 /* Pods_NUSLibUITests.framework */; };
+		4232C36D206EA21500B969F5 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4232C36C206EA21500B969F5 /* Review.swift */; };
+		4232C36F206FEA0B00B969F5 /* AppDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4232C36E206FEA0B00B969F5 /* AppDataSource.swift */; };
+		4232C371206FEB4E00B969F5 /* FirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4232C370206FEB4E00B969F5 /* FirebaseDataSource.swift */; };
 		3DE4322855E9526861981B76 /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F37D34EDC726A3D6DCF97A /* Pods_NUSLib.framework */; };
 		4251F6D2205D152600F5687B /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4251F6D1205D152600F5687B /* BookItem.swift */; };
 		4251F6D420616B9B00F5687B /* EventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4251F6D320616B9B00F5687B /* EventItem.swift */; };
@@ -78,6 +83,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4232C36C206EA21500B969F5 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		4232C36E206FEA0B00B969F5 /* AppDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataSource.swift; sourceTree = "<group>"; };
+		4232C370206FEB4E00B969F5 /* FirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataSource.swift; sourceTree = "<group>"; };
 		0B59FEE882D8E037B7DDB29F /* Pods-NUSLibUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibUITests/Pods-NUSLibUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2372CD542A3952585FC7444A /* Pods_NUSLibUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NUSLibUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B9C8DBE9CE4ABC606CF8A1D /* Pods-NUSLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +184,7 @@
 			children = (
 				42758D5A205988B4007C5629 /* UserProfile.swift */,
 				42758D5C20598BA8007C5629 /* DisplayableItem.swift */,
+				4232C36C206EA21500B969F5 /* Review.swift */,
 				4251F6D320616B9B00F5687B /* EventItem.swift */,
 				4251F6D520616BAE00F5687B /* PaperItem.swift */,
 				4251F6D1205D152600F5687B /* BookItem.swift */,
@@ -222,6 +231,8 @@
 				4A0881CD206B9502007E5EBA /* GoogleService-Info.plist */,
 				4251F6D72062A95400F5687B /* LibraryAPI.swift */,
 				4251F6D92062A99500F5687B /* CentralLibrary.swift */,
+				4232C36E206FEA0B00B969F5 /* AppDataSource.swift */,
+				4232C370206FEB4E00B969F5 /* FirebaseDataSource.swift */,
 			);
 			path = NUSLib;
 			sourceTree = "<group>";
@@ -754,6 +765,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */,
+				4232C371206FEB4E00B969F5 /* FirebaseDataSource.swift in Sources */,
 				4A6FA4872062D938005B0681 /* SierraApiClient.swift in Sources */,
 				EC6CD12D2064A2B10058CA5A /* FavouriteTableViewController + Search.swift in Sources */,
 				EC681242206E308100F9F8F8 /* FilterLauncher.swift in Sources */,
@@ -769,6 +781,7 @@
 				EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */,
 				EC6CD1412064DE9B0058CA5A /* TopSeachTableCell.swift in Sources */,
 				4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */,
+				4232C36F206FEA0B00B969F5 /* AppDataSource.swift in Sources */,
 				EC6CD1392064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift in Sources */,
 				EC6CD13B2064D6E20058CA5A /* ItemDetailSimilarBookTableCell.swift in Sources */,
 				4A5B589F20691DD200BACA73 /* UIView+RoundCorners.swift in Sources */,
@@ -779,6 +792,7 @@
 				4A729C3D20655F7B00B62D9F /* UIScrollView+FitToContent.swift in Sources */,
 				4AE79FC8205AABAD00309D02 /* LoginViewController.swift in Sources */,
 				EC6CD1352064D5330058CA5A /* BookTableViewCell.swift in Sources */,
+				4232C36D206EA21500B969F5 /* Review.swift in Sources */,
 				4A729C3B2064ECDD00B62D9F /* VerticalCollectionView.swift in Sources */,
 				4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */,
 				4251F6D82062A95400F5687B /* LibraryAPI.swift in Sources */,

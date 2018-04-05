@@ -15,7 +15,8 @@ import RxSwift
 import RxCocoa
 
 class LoginViewController: BaseViewController {
-    
+    var nameField: SkyFloatingLabelTextFieldWithIcon?
+    var passwordField: SkyFloatingLabelTextFieldWithIcon?
     lazy var texture: UIView = {
         let texture = UIView()
         texture.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "crissxcross"))
@@ -28,7 +29,7 @@ class LoginViewController: BaseViewController {
         return logo
     }()
     
-    lazy var  studentId: SkyFloatingLabelTextFieldWithIcon = {
+    lazy var studentId: SkyFloatingLabelTextFieldWithIcon = {
         let studentId = SkyFloatingLabelTextFieldWithIcon()
         studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentId.iconText = String.fontAwesomeIcon(name: .idCard)
@@ -71,6 +72,7 @@ class LoginViewController: BaseViewController {
         loginButton.layer.masksToBounds = false
         loginButton.rippleColor = UIColor.white.withAlphaComponent(0.2)
         loginButton.rippleBackgroundColor = UIColor.clear
+        
         return loginButton
     }()
     
@@ -86,7 +88,10 @@ class LoginViewController: BaseViewController {
         view.addSubview(studentId)
         view.addSubview(studentPassword)
         view.addSubview(loginButton)
-        
+
+        self.nameField = studentId
+        self.passwordField = studentPassword
+        loginButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
         
         studentId.delegate = self
         studentPassword.delegate = self
@@ -113,5 +118,32 @@ class LoginViewController: BaseViewController {
     
     private func setupNavigationBar() {
         navigationItem.title = Constants.NavigationBarTitle.LoginTitle
+    }
+
+    @objc func loginUser() {
+        let username = nameField?.text?.lowercased()
+        let password = passwordField?.text
+        let ds = FirebaseDataSource()
+        ds.authenticateUser(email: username!, password: password!) { result in
+            if let user = result {
+                self.loginResult(0, name: user.getUsername())
+            } else {
+                self.loginResult(1, name: "fail")
+            }
+        }
+    }
+
+    func loginResult(_ result: Int, name: String) {
+        let alert = UIAlertController(title: "RESULT",
+                                      message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            return
+        }))
+        if result == 0 {
+            alert.message = "Signed In. Welcome, \(name)"
+        } else {
+            alert.message = "Couldn't sign in"
+        }
+        self.present(alert, animated: true, completion: nil)
     }
 }
