@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		052BADAF5CECEAEF346C1969 /* Pods_NUSLibTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FF39C242A3B7800FDBA616D /* Pods_NUSLibTests.framework */; };
-		269F0CB1CC62BAC4F440660D /* Pods_NUSLibUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666FB9F204EC2BC45FAFDC80 /* Pods_NUSLibUITests.framework */; };
+		3DE4322855E9526861981B76 /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F37D34EDC726A3D6DCF97A /* Pods_NUSLib.framework */; };
 		4232C36D206EA21500B969F5 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4232C36C206EA21500B969F5 /* Review.swift */; };
 		4232C36F206FEA0B00B969F5 /* AppDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4232C36E206FEA0B00B969F5 /* AppDataSource.swift */; };
 		4232C371206FEB4E00B969F5 /* FirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4232C370206FEB4E00B969F5 /* FirebaseDataSource.swift */; };
-		3DE4322855E9526861981B76 /* Pods_NUSLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F37D34EDC726A3D6DCF97A /* Pods_NUSLib.framework */; };
 		4251F6D2205D152600F5687B /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4251F6D1205D152600F5687B /* BookItem.swift */; };
 		4251F6D420616B9B00F5687B /* EventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4251F6D320616B9B00F5687B /* EventItem.swift */; };
 		4251F6D620616BAE00F5687B /* PaperItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4251F6D520616BAE00F5687B /* PaperItem.swift */; };
@@ -83,12 +81,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4232C36C206EA21500B969F5 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
-		4232C36E206FEA0B00B969F5 /* AppDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataSource.swift; sourceTree = "<group>"; };
-		4232C370206FEB4E00B969F5 /* FirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataSource.swift; sourceTree = "<group>"; };
 		0B59FEE882D8E037B7DDB29F /* Pods-NUSLibUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLibUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLibUITests/Pods-NUSLibUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2372CD542A3952585FC7444A /* Pods_NUSLibUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NUSLibUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B9C8DBE9CE4ABC606CF8A1D /* Pods-NUSLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NUSLib.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NUSLib/Pods-NUSLib.debug.xcconfig"; sourceTree = "<group>"; };
+		4232C36C206EA21500B969F5 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		4232C36E206FEA0B00B969F5 /* AppDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataSource.swift; sourceTree = "<group>"; };
+		4232C370206FEB4E00B969F5 /* FirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataSource.swift; sourceTree = "<group>"; };
 		4251F6D1205D152600F5687B /* BookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItem.swift; sourceTree = "<group>"; };
 		4251F6D320616B9B00F5687B /* EventItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItem.swift; sourceTree = "<group>"; };
 		4251F6D520616BAE00F5687B /* PaperItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperItem.swift; sourceTree = "<group>"; };
@@ -229,10 +227,6 @@
 				4A61500A2057E6FC005AA59B /* LaunchScreen.storyboard */,
 				4A61500D2057E6FC005AA59B /* Info.plist */,
 				4A0881CD206B9502007E5EBA /* GoogleService-Info.plist */,
-				4251F6D72062A95400F5687B /* LibraryAPI.swift */,
-				4251F6D92062A99500F5687B /* CentralLibrary.swift */,
-				4232C36E206FEA0B00B969F5 /* AppDataSource.swift */,
-				4232C370206FEB4E00B969F5 /* FirebaseDataSource.swift */,
 			);
 			path = NUSLib;
 			sourceTree = "<group>";
@@ -258,6 +252,10 @@
 		4A6FA481206281AF005B0681 /* Api */ = {
 			isa = PBXGroup;
 			children = (
+				4251F6D72062A95400F5687B /* LibraryAPI.swift */,
+				4251F6D92062A99500F5687B /* CentralLibrary.swift */,
+				4232C36E206FEA0B00B969F5 /* AppDataSource.swift */,
+				4232C370206FEB4E00B969F5 /* FirebaseDataSource.swift */,
 				4A6FA4862062D938005B0681 /* SierraApiClient.swift */,
 				4A6FA482206281F9005B0681 /* SierraApi.swift */,
 				4A6C7E42206AA2410005B29E /* SierraApi.json */,
@@ -568,7 +566,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		0C4DC104C4459983BE3EAB8F /* [CP] Check Pods Manifest.lock */ = {
@@ -586,7 +584,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5664AEC8EBC36FFB3B2DF46F /* [CP] Copy Pods Resources */ = {
@@ -624,7 +622,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		62F2F0EF3A345A417387A5B0 /* [CP] Embed Pods Frameworks */ = {
@@ -695,14 +693,18 @@
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxGesture/RxGesture.framework",
+				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/XCGLogger/XCGLogger.framework",
 				"${BUILT_PRODUCTS_DIR}/ZFRippleButton/ZFRippleButton.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -725,14 +727,18 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Neon.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxGesture.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCGLogger.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZFRippleButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
