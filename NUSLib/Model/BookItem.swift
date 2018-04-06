@@ -13,7 +13,7 @@ class BookItem: DisplayableItem, Mappable {
     
     var id: String?
     var title: String?
-    var thumbnail: UIImage?
+    var thumbnail: URL?
     var rating: Int?
     var author: String?
     
