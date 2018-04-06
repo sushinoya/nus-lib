@@ -17,9 +17,22 @@ class FirebaseDataSource: AppDataSource {
         self.database = Database.database().reference()
     }
 
-    func getPopularItems() -> [DisplayableItem] {
-        self.database.child("Popular")
-        return []
+    func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
+        let favourites = database.child("FavouritesCount").queryLimited(toFirst: 20)
+        favourites.queryOrdered(byChild: "count").observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.exists() {
+                var bookIds = [String]()
+                let value = snapshot.value as? NSDictionary
+                for key in (value?.allKeys)! {
+                    bookIds.append(key as! String)
+                }
+                completionHandler(bookIds)
+            } else {
+                print("No popular books")
+            }
+        }
+        
+        
     }
     
     func getMostViewedItems() -> [DisplayableItem] {
@@ -31,10 +44,6 @@ class FirebaseDataSource: AppDataSource {
     }
     
     func getReviewsByUser(userID: Int) -> [Review] {
-        return []
-    }
-    
-    func getFavouritesForUser(userID: Int) -> [Int] {
         return []
     }
     
