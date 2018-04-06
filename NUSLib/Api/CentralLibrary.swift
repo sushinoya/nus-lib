@@ -42,13 +42,13 @@ class CentralLibrary: LibraryAPI {
             .rx
             .request(.bibsSearch(limit: 10, offset: 0, index: "title", text: title))
             .map({ (response) -> [BookItem]? in
-                let jsonObject = try response.mapJSON() // transform response data to json object
-                let root = jsonObject as? [String: Any] // cast to root level dictionary
-                let entries = root?["entries"] as? [[String: Any]] // cast the key at "entries" into array of dictionary
+                let jsonObject = try response.mapJSON()                 // transform response data to json object
+                let root = jsonObject as? [String: Any]                 // cast to root level dictionary
+                let entries = root?["entries"] as? [[String: Any]]      // cast the key at "entries" into array of dictionary
                 
-                let bibs = entries?.flatMap{ $0["bib"]} // cherry pick the key at "bib" and flatten the array
+                let bibs = entries?.flatMap{ $0["bib"]}                 // cherry pick the key at "bib" and flatten the array
                 
-                return Mapper<BookItem>().mapArray(JSONObject: bibs) // map each json object into array of BookItem object
+                return Mapper<BookItem>().mapArray(JSONObject: bibs)    // map each json object into array of BookItem object
             })
             .asObservable()
             .filterNil()
