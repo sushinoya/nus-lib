@@ -338,47 +338,91 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
         
-        self.database.child("Favourites").observe(.value, with: { (snapshot) in
-            let favourite = snapshot.value as? [String: AnyObject] ?? [:]
-            
-            let favouriteCount = favourite["dummy"] as? Int ?? 0
-            
-            this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
-            
-        })
-
-        if Auth.auth().currentUser != nil {
-            //This can retrieve the current 'signed in' user, so no need to pass data using UserProfile
-        } else {
-            //No user signed in
-        }
+        let ds = FirebaseDataSource()
         
-        this.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { result in
-                self.database.child("Favourites").runTransactionBlock({ (data) -> TransactionResult in
-                    if var bibs = data.value as? [String: AnyObject] {
-                        
-                        var dummyVal = bibs["dummy"] as? Int ?? -1
-                        
-                        dummyVal += 1
-                        
-                        bibs["dummy"] = dummyVal as AnyObject?
-                        
-                        data.value = bibs
-                    }
-                    
-                    return TransactionResult.success(withValue: data)
-                }) { (error, committed, snapshot) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
-                }
+        let bookid = String(Int(arc4random_uniform(10) + 1000001))
+        let ref = database.child("FavouritesCount").child("\(bookid)")
+
+        ref.observe(.value, with: { (snapshot) in
+            let favourite = snapshot.value as? [String : AnyObject] ?? [:]
+            let favouriteCount = favourite["count"] as? Int ?? 0
+            if snapshot.exists() {
+                this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
+            } else {
+                ref.child("count").setValue(favouriteCount)
+            }
+        })
+        
+        if let user = ds.getCurrentUser() {
+            let uid = user.getUserID()
+            
+            var isMarked = false
+            
+            ds.getFavourite(by: uid, bookid: bookid, completionHandler: { (isMarked) in
+                if isMarked {
+                    this.backgroundColor = UIColor.blue
+                } 
+                
             })
-            .disposed(by: disposeBag)
+            
+            this.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { result in
+                    
+                    ds.addToFavourite(by: uid, bookid: bookid, bookTitle: "CS3217"){ isSuccess in
+                        
+                        if isSuccess {
+                            self.updateCount(bookid: bookid, value: 1)
+                            this.backgroundColor = UIColor.blue
+                        } else {
+                            ds.deleteFavourite(by: uid, bookid: bookid, completionHandler: {
+                                self.updateCount(bookid: bookid, value: -1)
+                                this.backgroundColor = UIColor.primaryTint1
+                            })
+                        }
+                    }
+                })
+                .disposed(by: disposeBag)
+        } else {
+            
+            this.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { result in
+                    let alert = UIAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.", preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        alert.dismiss(animated: true, completion: nil)
+                    })
+                    
+                    alert.addAction(okAction)
+                    
+                    self.present(alert, animated: false, completion: nil)
+            })
+        }
         
         return this
         }()
+    
+    func updateCount(bookid: String, value: Int) {
+        self.database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
+            if var bibs = data.value as? [String: AnyObject] {
+                
+                var dummyVal = bibs["count"] as? Int ?? 0
+                
+                dummyVal = dummyVal + value
+                
+                bibs["count"] = dummyVal as AnyObject?
+                
+                data.value = bibs
+            }
+            
+            return TransactionResult.success(withValue: data)
+        }) { (error, committed, snapshot) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     private(set) lazy var sypnosisTitle: UILabel = {
         let this = UILabel()

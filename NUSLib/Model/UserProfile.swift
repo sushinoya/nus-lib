@@ -23,4 +23,8 @@ class UserProfile {
     func getUsername() -> String {
         return self.username
     }
+    
+    func getUserID() -> String {
+        return self.userID
+    }
 }

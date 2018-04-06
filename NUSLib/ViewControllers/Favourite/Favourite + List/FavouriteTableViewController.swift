@@ -41,6 +41,10 @@ class FavouriteTableViewController: BaseViewController {
     var isFiltering: Bool = false
     var isEditingMode = false
     
+    let ds = FirebaseDataSource()
+    
+    let libary: LibraryAPI = CentralLibrary()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -67,23 +71,27 @@ class FavouriteTableViewController: BaseViewController {
     func setupData() {
         let books = [BookItem]()
         
+        //2 sections for bookLists
         bookLists.append(books)
         bookLists.append(books)
         filteredLists.append(books)
         filteredLists.append(books)
-        /*
-        for index in 0..<18 {
-            let name = "Sample\(index).jpg"
-            let image = UIImage(named: name)
-            let item = BookItem(id: "nil", name: name, image: image!)
-            bookLists[0].append(item)
+        
+        if let user = ds.getCurrentUser() {
+            ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (items) in
+                
+                for item in items {
+                    let book = BookItem{
+                        $0.id = item
+                        $0.title = "CS3217"
+                        $0.author = "Ben Leong"
+                    }
+                    self.bookLists[0].append(book)
+                    print(self.bookLists[0])
+                }
+                self.tableView.reloadData()
+            })
         }
-        for index in 18..<30 {
-            let name = "Sample\(index).jpg"
-            let image = UIImage(named: name)
-            let item = BookItem(id: "nil", name: name, image: image!)
-            bookLists[1].append(item)
-        }*/
     }
     
     private func setupView() {
@@ -124,11 +132,17 @@ class FavouriteTableViewController: BaseViewController {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            var item: DisplayableItem?
             if isFiltering {
-                filteredLists[indexPath.section].remove(at: indexPath.item)
+                item = filteredLists[indexPath.section].remove(at: indexPath.item)
             } else {
-                bookLists[indexPath.section].remove(at: indexPath.item)
+                item = bookLists[indexPath.section].remove(at: indexPath.item)
             }
+            
+            if let user = ds.getCurrentUser() {
+                ds.deleteFavourite(by: user.getUserID(), bookid: (item?.id)!, completionHandler: {})
+            }
+            
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }

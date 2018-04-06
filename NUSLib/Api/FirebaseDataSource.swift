@@ -68,7 +68,7 @@ class FirebaseDataSource {
     func addReview(by authorid: String, about bookid: String, text: String) {
         
     }
-
+    
     func isUserSignedIn() -> Bool {
         if Auth.auth().currentUser != nil {
             return true
@@ -82,6 +82,71 @@ class FirebaseDataSource {
             return UserProfile(username: "USER1", userID: user.uid, email: user.email!)
         } else {
             return nil
+        }
+    }
+    
+    func addToFavourite(by userId: String, bookid: String, bookTitle: String, completionHandler: @escaping (Bool) -> ()) {
+        let userFavourite = database.child("UserFavourites").child(userId)
+        
+        userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
+            var isSuccess = false
+            if snapshot.exists() {
+                print("Duplicate bookid")
+                isSuccess = false
+            } else {
+                let autoId = userFavourite.childByAutoId()
+                autoId.child("bookid").setValue(bookid)
+                autoId.child("bookTitle").setValue(bookTitle)
+                isSuccess = true
+            }
+            completionHandler(isSuccess)
+        }
+    }
+    
+    func deleteFavourite(by userId: String, bookid: String, completionHandler: @escaping () -> ()) {
+        let userFavourite = database.child("UserFavourites").child(userId)
+        userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshots) in
+            if snapshots.exists() {
+                for snap in snapshots.children {
+                    let userSnap = snap as! DataSnapshot
+                    userSnap.ref.removeValue(completionBlock: { (error, ref) in
+                        completionHandler()
+                    })
+                }
+            } else {
+                print("record not found")
+            }
+        }
+    }
+    
+    func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> ()) {
+        let userFavourite = database.child("UserFavourites").child(userId)
+        userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
+            var isMarked = false
+            if snapshot.exists() {
+                isMarked = true
+            } else {
+                isMarked = false
+            }
+            completionHandler(isMarked)
+        }
+    }
+    
+    func getFavouriteBookListForUser(userID: String, completionHandler: @escaping ([String]) -> Void) {
+        let ref = database.child("UserFavourites").child(userID)
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.exists() {
+                var bookIds = [String]()
+                if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
+                    for child in snapshots {
+                        let bookid = child.childSnapshot(forPath: "bookid").value as! String
+                        bookIds.append(bookid)
+                    }
+                }
+                completionHandler(bookIds)
+            } else {
+                print("Record not found")
+            }
         }
     }
 }
