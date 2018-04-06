@@ -63,5 +63,13 @@
 	<string>1397074970398915</string>
 	<key>FacebookDisplayName</key>
 	<string>NUSLib</string>
+
+	<key>NSAppTransportSecurity</key>
+	<dict>
+  		<!--Include to allow all connections (DANGER)-->
+  		<key>NSAllowsArbitraryLoads</key>
+      		<true/>
+	</dict>
+
 </dict>
 </plist>

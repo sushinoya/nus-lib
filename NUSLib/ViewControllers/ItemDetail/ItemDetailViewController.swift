@@ -68,11 +68,20 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         similarTitle.alignAndFillWidth(align: .underCentered, relativeTo: reviewCollection, padding: 0, height: 25)
         similarTitle.frame = similarTitle.frame.offsetBy(dx: 50, dy: 25)
         
-        similarCollection.alignAndFillWidth(align: .underCentered, relativeTo: similarTitle, padding: 0, height: 180)
+        similarCollection.alignAndFillWidth(align: .underCentered, relativeTo: similarTitle, padding: 0, height: 320)
         similarCollection.frame = similarCollection.frame.offsetBy(dx: 0, dy: 25)
         
         loadingSimilarCollection.align(.underCentered, relativeTo: similarTitle, padding: 0, width: 50, height: 50)
         loadingSimilarCollection.frame = loadingSimilarCollection.frame.offsetBy(dx: 0, dy: 50)
+        
+        googleRecommendationTitle.alignAndFillWidth(align: .underCentered, relativeTo: similarCollection, padding: 0, height: 25)
+        googleRecommendationTitle.frame = googleRecommendationTitle.frame.offsetBy(dx: 50, dy: 25)
+        
+        googleRecommendationCollection.alignAndFillWidth(align: .underCentered, relativeTo: googleRecommendationTitle, padding: 0, height: 320)
+        googleRecommendationCollection.frame = googleRecommendationCollection.frame.offsetBy(dx: 0, dy: 25)
+        
+        loadingGoogleRecommendation.align(.underCentered, relativeTo: googleRecommendationTitle, padding: 0, width: 50, height: 50)
+        loadingGoogleRecommendation.frame = loadingGoogleRecommendation.frame.offsetBy(dx: 0, dy: 50)
         
         scrollView.fitToContent()
     }
@@ -95,6 +104,9 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         self.scrollView.addSubview(self.similarTitle)
         self.scrollView.addSubview(self.similarCollection)
         self.scrollView.addSubview(self.loadingSimilarCollection)
+        self.scrollView.addSubview(self.googleRecommendationTitle)
+        self.scrollView.addSubview(self.googleRecommendationCollection)
+        self.scrollView.addSubview(self.loadingGoogleRecommendation)
         self.scrollView.addSubview(self.facebookButton)
         self.scrollView.addSubview(self.twitterButton)
     }
@@ -106,8 +118,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         loading.startAnimating()
         
         // get the book by id
-        api.getBook(byId: "1000014")
-            
+        let book = api.getBook(byId: "1000014")
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
                 self.addSubviews()
@@ -123,29 +134,58 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 self.previewImageShadow.expand(into: self.scrollView, finished: nil)
                 self.previewImage.expand(into: self.scrollView, finished: nil) },
                 
-            // showing the loading spinner notifying user it is going to load the similar media
-                onCompleted: { self.loadingSimilarCollection.startAnimating() })
+                // showing the loading spinner notifying user it is going to load the similar media
+                onCompleted: {
+                    self.loadingSimilarCollection.startAnimating()
+                    self.loadingGoogleRecommendation.startAnimating()
+            })
+            .share(replay: 1, scope: .forever)
             
-            // send the api request to get books by same author
-            .flatMapLatest{ self.getSimilarMedia(byAuthor: $0.author ?? "Unknown Author") }
+        // send the api request to get books by same author
+        book.flatMapLatest{ self.getSimilarMedia(byAuthor: $0.author ?? "Unknown Author") }
+        
+        // if the request produces any error, return empty array
+        .catchErrorJustReturn([])
+        
+        // if no books are found, show no result message
+        .do(onNext: { $0.isEmpty ? self.similarCollection.displayEmptyResult() : () },
             
+        // stop the spinner
+            onCompleted: { self.loadingSimilarCollection.stopAnimating() })
+        
+        // bind result to collection view
+        .bind(to: self.similarCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
+            cell.title.text = model.title
+            cell.subtitle.text = model.author
+            cell.alpha = 0
+            cell.animateFadeIn()
+        }
+        .disposed(by: disposeBag)
+        
+        book.flatMapLatest{ self.api.getBooksRecommendation(byTitle: $0.title ?? "") }
             // if the request produces any error, return empty array
             .catchErrorJustReturn([])
             
             // if no books are found, show no result message
-            .do(onNext: { $0.isEmpty ? self.similarCollection.displayEmptyResult() : () },
+            .do(onNext: { $0.isEmpty ? self.googleRecommendationCollection.displayEmptyResult() : () },
                 
-            // stop the spinner
-                onCompleted: { self.loadingSimilarCollection.stopAnimating() })
+                // stop the spinner
+                onCompleted: { self.loadingGoogleRecommendation.stopAnimating() })
             
             // bind result to collection view
-            .bind(to: self.similarCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
+            .bind(to: self.googleRecommendationCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
                 cell.title.text = model.title
                 cell.subtitle.text = model.author
+                cell.thumbnail.kf.setImage(with: model.thumbnail)
                 cell.alpha = 0
                 cell.animateFadeIn()
             }
-            .disposed(by: disposeBag)
+        .disposed(by: disposeBag)
+        
+    }
+    
+    private func setupSimilarMediaCollections() {
+        
     }
     
     private func getSimilarMedia(byAuthor keyword: String) -> Observable<[BookItem]> {
@@ -486,7 +526,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     
     private(set) lazy var similarTitle: UILabel = {
         let this = UILabel()
-        this.text = "SIMILAR MEDIA"
+        this.text = "SIMILAR MEDIA BY THIS AUTHOR"
         this.textColor = UIColor.primary
         this.textAlignment = .left
         this.font = UIFont.secondary
@@ -504,7 +544,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         let layout = UICollectionViewFlowLayout()
         layout.sectionHeadersPinToVisibleBounds = false
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 200, height: 150)
+        layout.itemSize = CGSize(width: 200, height: 300)
         layout.minimumLineSpacing = 20
         layout.sectionInset = UIEdgeInsets(top: 20, left: 50, bottom: 20, right: 20)
         
@@ -516,6 +556,37 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
+    private(set) lazy var googleRecommendationTitle: UILabel = {
+        let this = UILabel()
+        this.text = "GOOGLE RECOMMENDATION"
+        this.textColor = UIColor.primary
+        this.textAlignment = .left
+        this.font = UIFont.secondary
+        this.lineBreakMode = .byWordWrapping
+        this.numberOfLines = 0
+        return this
+    }()
+    
+    private(set) lazy var loadingGoogleRecommendation: NVActivityIndicatorView = {
+        let this = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 50, height: 50)), type: .lineScale, color: UIColor.primary, padding: 0)
+        return this
+    }()
+    
+    private(set) lazy var googleRecommendationCollection: UICollectionView = { [unowned self] in
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionHeadersPinToVisibleBounds = false
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 200, height: 300)
+        layout.minimumLineSpacing = 20
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 50, bottom: 20, right: 20)
+        
+        let this = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        this.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
+        this.backgroundColor = UIColor.clear
+        this.showsHorizontalScrollIndicator = false
+        
+        return this
+        }()
     
     private(set) lazy var facebookButton: SocialButton = { [unowned self] in
         let this = SocialButton(type: .facebook)
