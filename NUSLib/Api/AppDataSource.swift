@@ -15,13 +15,18 @@ import Foundation
 
 protocol AppDataSource {
 
-    func getPopularItems() -> [DisplayableItem]
+    func getPopularItems(completionHandler: @escaping ([String]) -> Void)
     func getMostViewedItems() -> [DisplayableItem]
     
     func getReviewsForItem(itemID: Int) -> [Review]
     func getReviewsByUser(userID: Int) -> [Review]
+        
+    func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)
+    func isUserSignedIn() -> Bool
+    func getCurrentUser() -> UserProfile?
     
-    func getFavouritesForUser(userID: Int) -> [Int]
-    
-    func authenticateUser(email: String, password: String) -> UserProfile?
+    func addToFavourite(by userId: String, bookid: String, bookTitle: String, completionHandler: @escaping (Bool) -> ())
+    func deleteFavourite(by userId: String, bookid: String, completionHandler: @escaping () -> ())
+    func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> Void)
+    func getFavouriteBookListForUser(userID: String, completionHandler: @escaping ([String]) -> Void)
 }

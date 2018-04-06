@@ -9,16 +9,30 @@
 import Foundation
 import Firebase
 
-class FirebaseDataSource {
+class FirebaseDataSource: AppDataSource {
+    
     private var database: DatabaseReference
     
     init() {
         self.database = Database.database().reference()
     }
 
-    func getPopularItems() -> [DisplayableItem] {
-        self.database.child("Popular")
-        return []
+    func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
+        let favourites = database.child("FavouritesCount").queryLimited(toFirst: 20)
+        favourites.queryOrdered(byChild: "count").observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.exists() {
+                var bookIds = [String]()
+                let value = snapshot.value as? NSDictionary
+                for key in (value?.allKeys)! {
+                    bookIds.append(key as! String)
+                }
+                completionHandler(bookIds)
+            } else {
+                print("No popular books")
+            }
+        }
+        
+        
     }
     
     func getMostViewedItems() -> [DisplayableItem] {
@@ -30,10 +44,6 @@ class FirebaseDataSource {
     }
     
     func getReviewsByUser(userID: Int) -> [Review] {
-        return []
-    }
-    
-    func getFavouritesForUser(userID: Int) -> [Int] {
         return []
     }
     
@@ -119,7 +129,7 @@ class FirebaseDataSource {
         }
     }
     
-    func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> ()) {
+    func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> Void) {
         let userFavourite = database.child("UserFavourites").child(userId)
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
             var isMarked = false
