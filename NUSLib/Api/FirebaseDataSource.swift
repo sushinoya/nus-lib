@@ -9,7 +9,8 @@
 import Foundation
 import Firebase
 
-class FirebaseDataSource {
+class FirebaseDataSource: AppDataSource {
+    
     private var database: DatabaseReference
     
     init() {
@@ -119,7 +120,7 @@ class FirebaseDataSource {
         }
     }
     
-    func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> ()) {
+    func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> Void) {
         let userFavourite = database.child("UserFavourites").child(userId)
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
             var isMarked = false
