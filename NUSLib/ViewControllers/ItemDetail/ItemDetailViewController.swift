@@ -131,48 +131,13 @@ class ItemDetailViewController: BaseViewController {
                 .when(.recognized)
                 .subscribe(onNext: { result in
                     
-                    ds.addToFavourite(by: uid, bookid: bookid, bookTitle: "Harry Porter"){ isSuccess in
+                    ds.addToFavourite(by: uid, bookid: bookid, bookTitle: "CS3217"){ isSuccess in
                         
                         if isSuccess {
-                            self.database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
-                                if var bibs = data.value as? [String: AnyObject] {
-                                    
-                                    var dummyVal = bibs["count"] as? Int ?? 0
-                                    
-                                    dummyVal += 1
-                                    
-                                    bibs["count"] = dummyVal as AnyObject?
-                                    
-                                    data.value = bibs
-                                }
-                                
-                                return TransactionResult.success(withValue: data)
-                            }) { (error, committed, snapshot) in
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                }
-                            }
+                            self.updateCount(bookid: bookid, value: 1)
                         } else {
-                            
                             ds.deleteFavourite(by: uid, bookid: bookid, completionHandler: {
-                                self.database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
-                                    if var bibs = data.value as? [String: AnyObject] {
-                                        
-                                        var dummyVal = bibs["count"] as? Int ?? -1
-                                        
-                                        dummyVal -= 1
-                                        
-                                        bibs["count"] = dummyVal as AnyObject?
-                                        
-                                        data.value = bibs
-                                    }
-                                    
-                                    return TransactionResult.success(withValue: data)
-                                }) { (error, committed, snapshot) in
-                                    if let error = error {
-                                        print(error.localizedDescription)
-                                    }
-                                }
+                                self.updateCount(bookid: bookid, value: -1)
                             })
                         }
                     }
@@ -184,6 +149,27 @@ class ItemDetailViewController: BaseViewController {
         
         return this
     }()
+    
+    func updateCount(bookid: String, value: Int) {
+        self.database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
+            if var bibs = data.value as? [String: AnyObject] {
+                
+                var dummyVal = bibs["count"] as? Int ?? 0
+                
+                dummyVal = dummyVal + value
+                
+                bibs["count"] = dummyVal as AnyObject?
+                
+                data.value = bibs
+            }
+            
+            return TransactionResult.success(withValue: data)
+        }) { (error, committed, snapshot) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     private(set) lazy var sypnosisTitle: UILabel = {
         let this = UILabel()
