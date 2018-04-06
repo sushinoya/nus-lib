@@ -359,6 +359,15 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         if let user = user {
             let uid = user.uid
             
+            var isMarked = false
+            
+            ds.getFavourite(by: uid, bookid: bookid, completionHandler: { (isMarked) in
+                if isMarked {
+                    this.backgroundColor = UIColor.blue
+                } 
+                
+            })
+            
             this.rx.tapGesture()
                 .when(.recognized)
                 .subscribe(onNext: { result in
@@ -367,16 +376,31 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                         
                         if isSuccess {
                             self.updateCount(bookid: bookid, value: 1)
+                            this.backgroundColor = UIColor.blue
                         } else {
                             ds.deleteFavourite(by: uid, bookid: bookid, completionHandler: {
                                 self.updateCount(bookid: bookid, value: -1)
+                                this.backgroundColor = UIColor.primaryTint1
                             })
                         }
                     }
                 })
                 .disposed(by: disposeBag)
         } else {
-            //Show login page
+            
+            this.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { result in
+                    let alert = UIAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.", preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        alert.dismiss(animated: true, completion: nil)
+                    })
+                    
+                    alert.addAction(okAction)
+                    
+                    self.present(alert, animated: false, completion: nil)
+            })
         }
         
         return this

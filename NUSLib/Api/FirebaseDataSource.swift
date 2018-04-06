@@ -103,6 +103,19 @@ class FirebaseDataSource {
         }
     }
     
+    func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> ()) {
+        let userFavourite = database.child("UserFavourites").child(userId)
+        userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
+            var isMarked = false
+            if snapshot.exists() {
+                isMarked = true
+            } else {
+                isMarked = false
+            }
+            completionHandler(isMarked)
+        }
+    }
+    
     func getFavouriteBookListForUser(userID: String, completionHandler: @escaping ([String]) -> Void) {
         let ref = database.child("UserFavourites").child(userID)
         ref.observeSingleEvent(of: .value) { (snapshot) in
