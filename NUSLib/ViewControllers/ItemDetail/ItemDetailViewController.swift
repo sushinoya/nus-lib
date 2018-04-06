@@ -121,33 +121,37 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 self.previewSubtitle.text = "by \(bookItem.author ?? "Unknown Author")"
                 
                 self.previewImageShadow.expand(into: self.scrollView, finished: nil)
-                self.previewImage.expand(into: self.scrollView, finished: nil)
-            })
+                self.previewImage.expand(into: self.scrollView, finished: nil) },
+                
+            // showing the loading spinner notifying user it is going to load the similar media
+                onCompleted: { self.loadingSimilarCollection.startAnimating() })
             
-            // prepare to load the similar media, showing the loading animation
-            .do(onNext: { _ in self.loadingSimilarCollection.startAnimating() })
+            // send the api request to get books by same author
+            .flatMapLatest{ self.getSimilarMedia(byAuthor: $0.author ?? "Unknown Author") }
             
-            // choose a random word from the book item's title
-            .map{ self.chooseRandomWord(fromSentence: $0.title ?? "")}
+            // if the request produces any error, return empty array
+            .catchErrorJustReturn([])
             
-            // send the api request to get books containing random word
-            .flatMapLatest{ self.getSimilarMedia(inTitle: $0) }
+            // if no books are found, show no result message
+            .do(onNext: { $0.isEmpty ? self.similarCollection.displayEmptyResult() : () },
+                
+            // stop the spinner
+                onCompleted: { self.loadingSimilarCollection.stopAnimating() })
             
-            .do(onNext: { _ in self.loadingSimilarCollection.stopAnimating() })
-            
-            // bind the result to the similarCollection
-            .bind(to: similarCollection.rx.items(cellIdentifier: bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
+            // bind result to collection view
+            .bind(to: self.similarCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
                 cell.title.text = model.title
+                cell.subtitle.text = model.author
                 cell.alpha = 0
                 cell.animateFadeIn()
             }
             .disposed(by: disposeBag)
     }
     
-    private func getSimilarMedia(inTitle keyword: String) -> Observable<[BookItem]> {
+    private func getSimilarMedia(byAuthor keyword: String) -> Observable<[BookItem]> {
         return Observable<String>
             .just(keyword)
-            .flatMapLatest { self.api.getBooks(byTitle: $0) }
+            .flatMapLatest { self.api.getBooks(byAuthor: $0) }
     }
     
     private func chooseRandomWord(fromSentence sentence: String) -> String {

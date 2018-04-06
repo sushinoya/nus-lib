@@ -36,6 +36,7 @@
 		4A729C3B2064ECDD00B62D9F /* VerticalCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A729C3A2064ECDD00B62D9F /* VerticalCollectionView.swift */; };
 		4A729C3D20655F7B00B62D9F /* UIScrollView+FitToContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A729C3C20655F7B00B62D9F /* UIScrollView+FitToContent.swift */; };
 		4A729C3F2065619700B62D9F /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A729C3E2065619700B62D9F /* Separator.swift */; };
+		4AB8BEE42077DB7500224699 /* UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB8BEE32077DB7500224699 /* UICollectionView.swift */; };
 		4AC1C15D20764C3900521CAB /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC1C15C20764C3900521CAB /* ReviewCell.swift */; };
 		4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */; };
 		4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FC4205AAB9000309D02 /* HomeViewController.swift */; };
@@ -119,6 +120,7 @@
 		4A729C3A2064ECDD00B62D9F /* VerticalCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCollectionView.swift; sourceTree = "<group>"; };
 		4A729C3C20655F7B00B62D9F /* UIScrollView+FitToContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+FitToContent.swift"; sourceTree = "<group>"; };
 		4A729C3E2065619700B62D9F /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
+		4AB8BEE32077DB7500224699 /* UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionView.swift; sourceTree = "<group>"; };
 		4AC1C15C20764C3900521CAB /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
 		4AE79FC4205AAB9000309D02 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -219,8 +221,8 @@
 				82FABA31206F4DEF0017482E /* Social */,
 				4A6FA481206281AF005B0681 /* Api */,
 				4AE79FC1205AAAD900309D02 /* Helpers+Extensions */,
-				4AE79FBC205AAA6300309D02 /* ViewControllers */,
 				42758D5920598876007C5629 /* Model */,
+				4AE79FBC205AAA6300309D02 /* ViewControllers */,
 				ECA3280220614702002E584B /* View */,
 				4A6150012057E6FC005AA59B /* AppDelegate.swift */,
 				4A6150202057E6FC005AA59B /* NUSLibUITests */,
@@ -287,6 +289,7 @@
 				4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */,
 				4A729C3C20655F7B00B62D9F /* UIScrollView+FitToContent.swift */,
 				4A5B589E20691DD200BACA73 /* UIView.swift */,
+				4AB8BEE32077DB7500224699 /* UICollectionView.swift */,
 			);
 			path = "Helpers+Extensions";
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 				4AE79FC8205AABAD00309D02 /* LoginViewController.swift in Sources */,
 				EC6CD1352064D5330058CA5A /* BookTableViewCell.swift in Sources */,
 				4232C36D206EA21500B969F5 /* Review.swift in Sources */,
+				4AB8BEE42077DB7500224699 /* UICollectionView.swift in Sources */,
 				4A729C3B2064ECDD00B62D9F /* VerticalCollectionView.swift in Sources */,
 				4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */,
 				4251F6D82062A95400F5687B /* LibraryAPI.swift in Sources */,
