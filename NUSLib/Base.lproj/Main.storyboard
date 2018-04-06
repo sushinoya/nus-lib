@@ -138,6 +138,9 @@
                                                 <constraint firstItem="sJA-Vm-tlC" firstAttribute="centerY" secondItem="F0m-gM-Tyo" secondAttribute="centerY" id="zcS-0L-8gG"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="OiS-cl-QTP" kind="show" id="brs-hS-tGS"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -149,6 +152,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Menu" id="jbh-aM-XSs"/>
                     <connections>
+                        <outlet property="accountActionImage" destination="ega-qz-W3q" id="2G1-na-9ad"/>
+                        <outlet property="accountActionLabel" destination="nli-Sk-pSF" id="SKQ-bm-N38"/>
                         <segue destination="Uag-yL-wap" kind="show" identifier="SidebarToAccountPage" id="W1t-AC-5A0"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="SidebarToLogin" id="85a-rQ-YGK"/>
                     </connections>
@@ -182,6 +187,21 @@
             </objects>
             <point key="canvasLocation" x="3388" y="1012"/>
         </scene>
+        <!--About View Controller-->
+        <scene sceneID="imG-tI-rRT">
+            <objects>
+                <viewController id="OiS-cl-QTP" customClass="AboutViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nKO-2F-f6r">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="vfc-VR-L4R"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TL1-sh-t7o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4393" y="233"/>
+        </scene>
         <!--Account Page View Controller-->
         <scene sceneID="IcS-ks-yIZ">
             <objects>
@@ -195,7 +215,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z13-gp-20p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5433" y="176"/>
+            <point key="canvasLocation" x="5433" y="233"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
