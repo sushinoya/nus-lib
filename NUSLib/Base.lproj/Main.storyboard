@@ -13,7 +13,7 @@
         <!--Menu-->
         <scene sceneID="zHv-Xs-Etg">
             <objects>
-                <tableViewController id="G5J-QN-KJq" sceneMemberID="viewController">
+                <tableViewController id="G5J-QN-KJq" customClass="SidebarTableViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="fee-FL-fHx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -60,9 +60,6 @@
                                                 <constraint firstItem="nli-Sk-pSF" firstAttribute="centerY" secondItem="Y0a-iB-sxF" secondAttribute="centerY" id="jol-BD-VJF"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="BYZ-38-t0r" kind="show" identifier="" id="cEs-5P-nbd"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="siF-Tf-wiB">
                                         <rect key="frame" x="0.0" y="144" width="375" height="44"/>
@@ -118,6 +115,30 @@
                                             <segue destination="URd-eG-Tyh" kind="show" id="Hns-Np-YoL"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Vtj-vj-J1o">
+                                        <rect key="frame" x="0.0" y="232" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vtj-vj-J1o" id="F0m-gM-Tyo">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJA-Vm-tlC">
+                                                    <rect key="frame" x="318" y="11" width="47" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="information-outline" translatesAutoresizingMaskIntoConstraints="NO" id="E1i-vJ-ZhG">
+                                                    <rect key="frame" x="17" y="5" width="33" height="33"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="sJA-Vm-tlC" secondAttribute="trailing" constant="10" id="tA9-0B-dEf"/>
+                                                <constraint firstItem="sJA-Vm-tlC" firstAttribute="centerY" secondItem="F0m-gM-Tyo" secondAttribute="centerY" id="zcS-0L-8gG"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -127,6 +148,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Menu" id="jbh-aM-XSs"/>
+                    <connections>
+                        <segue destination="Uag-yL-wap" kind="show" identifier="SidebarToAccountPage" id="W1t-AC-5A0"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="SidebarToLogin" id="85a-rQ-YGK"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MnB-sT-BNJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -156,6 +181,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qgG-Eg-yv1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3388" y="1012"/>
+        </scene>
+        <!--Account Page View Controller-->
+        <scene sceneID="IcS-ks-yIZ">
+            <objects>
+                <viewController id="Uag-yL-wap" customClass="AccountPageViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0C8-cU-c55">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="j1N-5X-GDJ"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z13-gp-20p" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5433" y="176"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -308,6 +348,7 @@
         <image name="Library" width="269" height="73"/>
         <image name="account" width="25" height="25"/>
         <image name="favourite" width="25" height="25"/>
+        <image name="information-outline" width="512" height="512"/>
         <image name="search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
