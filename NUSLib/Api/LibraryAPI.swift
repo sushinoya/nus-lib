@@ -18,6 +18,7 @@ protocol LibraryAPI {
     func getBook(byId id: String) -> Observable<BookItem>
     func getBooks(byTitle title: String) -> Observable<[BookItem]>
     func getBooks(byAuthor author: String) -> Observable<[BookItem]>
+    func getBooksRecommendation(byTitle title: String) -> Observable<[BookItem]>
     func getBooksFromISBN(barcode: String) -> [BookItem]
 
 }

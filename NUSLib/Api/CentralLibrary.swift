@@ -11,6 +11,7 @@ import RxSwift
 import RxOptional
 import Moya
 import ObjectMapper
+import GoogleBooksApiClient
 
 //Instance of LibraryAPI from the Central Library and it's data
 class CentralLibrary: LibraryAPI {
@@ -74,6 +75,23 @@ class CentralLibrary: LibraryAPI {
             })
             .asObservable()
             .filterNil()
+    }
+    
+    func getBooksRecommendation(byTitle title: String) -> Observable<[BookItem]> {
+        return URLSession.shared
+            .rx
+            .response(request: GoogleBooksApi.VolumeRequest.List(query: "intitle:\(title)"))
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .default))
+            .observeOn(MainScheduler.instance)
+            .map({ (volumes) -> [BookItem] in
+                return volumes.items.map({ (volume) -> BookItem in
+                    return BookItem {
+                        $0.title = volume.volumeInfo.title
+                        $0.author = volume.volumeInfo.authors.first
+                        $0.thumbnail = volume.volumeInfo.imageLinks?.thumbnail
+                    }
+                })
+            })
     }
     
     
