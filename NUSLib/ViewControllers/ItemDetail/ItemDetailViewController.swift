@@ -339,13 +339,10 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleBackgroundColor = UIColor.clear
         
         let ds = FirebaseDataSource()
-        let user = Auth.auth().currentUser
-        //        try! Auth.auth().signOut()
         
         let bookid = String(Int(arc4random_uniform(10) + 1000001))
-        
         let ref = database.child("FavouritesCount").child("\(bookid)")
- 
+
         ref.observe(.value, with: { (snapshot) in
             let favourite = snapshot.value as? [String : AnyObject] ?? [:]
             let favouriteCount = favourite["count"] as? Int ?? 0
@@ -356,8 +353,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             }
         })
         
-        if let user = user {
-            let uid = user.uid
+        if let user = ds.getCurrentUser() {
+            let uid = user.getUserID()
             
             var isMarked = false
             

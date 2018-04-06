@@ -10,7 +10,6 @@ import UIKit
 import Neon
 import RxSwift
 import RxCocoa
-import FirebaseAuth
 
 class FavouriteCollectionViewController: BaseViewController {
     
@@ -50,26 +49,21 @@ class FavouriteCollectionViewController: BaseViewController {
     var selectedItem: BookItem?
     
     let ds = FirebaseDataSource()
-    var user = Auth.auth().currentUser
     
     let libary: LibraryAPI = CentralLibrary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        setupData()
         setupViews()
         setUpGesture()
         self.definesPresentationContext = true
-        
-        if user == nil {
-            //Show login page
-        }
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isTranslucent = false
+        self.setupData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -97,15 +91,17 @@ class FavouriteCollectionViewController: BaseViewController {
     func setupData() {
         let books = [BookItem]()
         
+        bookLists.removeAll()
+        filteredLists.removeAll()
+        
         //2 sections for bookLists
         bookLists.append(books)
         bookLists.append(books)
         filteredLists.append(books)
         filteredLists.append(books)
         
-        if let user = user {
-            ds.getFavouriteBookListForUser(userID: user.uid, completionHandler: { (items) in
-                print(items)
+        if let user = ds.getCurrentUser() {
+            ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (items) in
                 
                 for item in items {
                     let book = BookItem{
@@ -114,7 +110,6 @@ class FavouriteCollectionViewController: BaseViewController {
                         $0.author = "Ben Leong"
                     }
                     self.bookLists[0].append(book)
-                    print(self.bookLists[0])
                 }
                 self.collectionview.reloadData()
             })
@@ -198,8 +193,8 @@ class FavouriteCollectionViewController: BaseViewController {
                     item = bookLists[indexPath.section].remove(at: indexPath.item)
                 }
                 
-                if let user = user {
-                    ds.deleteFavourite(by: user.uid, bookid: (item?.id)!, completionHandler: {
+                if let user = ds.getCurrentUser() {
+                    ds.deleteFavourite(by: user.getUserID(), bookid: (item?.id)!, completionHandler: {
                     })
                 }
                

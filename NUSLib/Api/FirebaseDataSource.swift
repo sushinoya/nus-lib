@@ -69,9 +69,25 @@ class FirebaseDataSource {
         
     }
     
+    func isUserSignedIn() -> Bool {
+        if Auth.auth().currentUser != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    func getCurrentUser() -> UserProfile? {
+        if let user = Auth.auth().currentUser {
+            return UserProfile(username: "USER1", userID: user.uid, email: user.email!)
+        } else {
+            return nil
+        }
+    }
+    
     func addToFavourite(by userId: String, bookid: String, bookTitle: String, completionHandler: @escaping (Bool) -> ()) {
         let userFavourite = database.child("UserFavourites").child(userId)
-
+        
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
             var isSuccess = false
             if snapshot.exists() {
@@ -131,25 +147,6 @@ class FirebaseDataSource {
             } else {
                 print("Record not found")
             }
-
-            
-        }
-    }
-    
-
-    func isUserSignedIn() -> Bool {
-        if Auth.auth().currentUser != nil {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    func getCurrentUser() -> UserProfile? {
-        if let user = Auth.auth().currentUser {
-            return UserProfile(username: "USER1", userID: user.uid, email: user.email!)
-        } else {
-            return nil
         }
     }
 }
