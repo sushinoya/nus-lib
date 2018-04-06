@@ -61,16 +61,21 @@ class FirebaseDataSource {
         
     }
     
-    func addToFavourite(by userId: String, bookid: String) {
+    func addToFavourite(by userId: String, bookid: String, bookTitle: String, completionHandler: @escaping (Bool) -> ()) {
         let userFavourite = database.child("UserFavourites").child(userId)
-        
+
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
+            var isSuccess = false
             if snapshot.exists() {
                 print("Duplicate bookid")
+                isSuccess = false
             } else {
                 let autoId = userFavourite.childByAutoId()
                 autoId.child("bookid").setValue(bookid)
+                autoId.child("bookTitle").setValue(bookTitle)
+                isSuccess = true
             }
+            completionHandler(isSuccess)
         }
     }
     
@@ -106,5 +111,4 @@ class FirebaseDataSource {
             }
         }
     }
-    
 }

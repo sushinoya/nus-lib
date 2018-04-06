@@ -108,45 +108,72 @@ class ItemDetailViewController: BaseViewController {
         
         let ds = FirebaseDataSource()
         let user = Auth.auth().currentUser
+        //        try! Auth.auth().signOut()
         
-        try! Auth.auth().signOut()
+        let bookid = String(Int(arc4random_uniform(10) + 1000001))
+        
+        let ref = database.child("FavouritesCount").child("\(bookid)")
+
+        ref.observe(.value, with: { (snapshot) in
+            let favourite = snapshot.value as? [String : AnyObject] ?? [:]
+            let favouriteCount = favourite["count"] as? Int ?? 0
+            if snapshot.exists() {
+                this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
+            } else {
+                ref.child("count").setValue(favouriteCount)
+            }
+        })
         
         if let user = user {
-            // The user's ID, unique to the Firebase project.
-            // Do NOT use this value to authenticate with your backend server,
-            // if you have one. Use getTokenWithCompletion:completion: instead.
             let uid = user.uid
-            let bookid = String(Int(arc4random_uniform(30)+1))
-            ds.addToFavourite(by: uid, bookid: bookid)
             
-            self.database.child("Favourites").observe(.value, with: { (snapshot) in
-                let favourite = snapshot.value as? [String: AnyObject] ?? [:]
-                
-                let favouriteCount = favourite["dummy"] as? Int ?? 0
-                
-                this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
-                
-            })
-
             this.rx.tapGesture()
                 .when(.recognized)
                 .subscribe(onNext: { result in
-                    self.database.child("Favourites").runTransactionBlock({ (data) -> TransactionResult in
-                        if var bibs = data.value as? [String: AnyObject] {
-                            
-                            var dummyVal = bibs["dummy"] as? Int ?? -1
-                            
-                            dummyVal += 1
-                            
-                            bibs["dummy"] = dummyVal as AnyObject?
-                            
-                            data.value = bibs
-                        }
+                    
+                    ds.addToFavourite(by: uid, bookid: bookid, bookTitle: "Harry Porter"){ isSuccess in
                         
-                        return TransactionResult.success(withValue: data)
-                    }) { (error, committed, snapshot) in
-                        if let error = error {
-                            print(error.localizedDescription)
+                        if isSuccess {
+                            self.database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
+                                if var bibs = data.value as? [String: AnyObject] {
+                                    
+                                    var dummyVal = bibs["count"] as? Int ?? 0
+                                    
+                                    dummyVal += 1
+                                    
+                                    bibs["count"] = dummyVal as AnyObject?
+                                    
+                                    data.value = bibs
+                                }
+                                
+                                return TransactionResult.success(withValue: data)
+                            }) { (error, committed, snapshot) in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                        } else {
+                            
+                            ds.deleteFavourite(by: uid, bookid: bookid, completionHandler: {
+                                self.database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
+                                    if var bibs = data.value as? [String: AnyObject] {
+                                        
+                                        var dummyVal = bibs["count"] as? Int ?? -1
+                                        
+                                        dummyVal -= 1
+                                        
+                                        bibs["count"] = dummyVal as AnyObject?
+                                        
+                                        data.value = bibs
+                                    }
+                                    
+                                    return TransactionResult.success(withValue: data)
+                                }) { (error, committed, snapshot) in
+                                    if let error = error {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            })
                         }
                     }
                 })

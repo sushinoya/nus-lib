@@ -52,6 +52,8 @@ class FavouriteCollectionViewController: BaseViewController {
     let ds = FirebaseDataSource()
     var user = Auth.auth().currentUser
     
+    let libary: LibraryAPI = CentralLibrary()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -117,28 +119,6 @@ class FavouriteCollectionViewController: BaseViewController {
                 self.collectionview.reloadData()
             })
         }
-        
-        
-    
-        
-//        for index in 0..<18 {
-//            let name = "Sample\(index).jpg"
-//            let image = UIImage(named: name)
-//            let item = BookItem{
-//                $0.id = "0001"
-//                $0.title = "CS3333"
-//            }
-//            bookLists[0].append(item)
-//        }
-//        for index in 18..<30 {
-//            let name = "Sample\(index).jpg"
-//            let image = UIImage(named: name)
-//            let item = BookItem{
-//                $0.id = "0001"
-//                $0.title = "4444"
-//            }
-//            bookLists[1].append(item)
-//        }
     }
     
     private func setupViews() {
