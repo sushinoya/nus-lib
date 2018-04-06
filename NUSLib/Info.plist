@@ -39,14 +39,16 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>twitterkit-NA39laqU1yC368ghXzIIR92S6</string>
+				<string>fb1397074970398915</string>
 			</array>
 		</dict>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>twitter</string>
-		<string>twitterauth</string>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera is used for scanning barcode</string>
@@ -57,27 +59,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-
-	<key>CFBundleURLTypes</key>
-	<array>
-	  <dict>
-	  <key>CFBundleURLSchemes</key>
-	  <array>
-	    <string>fb1397074970398915</string>
-	  </array>
-	  </dict>
-	</array>
 	<key>FacebookAppID</key>
 	<string>1397074970398915</string>
 	<key>FacebookDisplayName</key>
 	<string>NUSLib</string>
-	
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-	  <string>fbapi</string>
-	  <string>fb-messenger-share-api</string>
-	  <string>fbauth2</string>
-	  <string>fbshareextension</string>
-	</array>
 </dict>
 </plist>
