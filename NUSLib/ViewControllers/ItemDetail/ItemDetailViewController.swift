@@ -144,23 +144,23 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         // send the api request to get books by same author
         book.flatMapLatest{ self.getSimilarMedia(byAuthor: $0.author ?? "Unknown Author") }
         
-        // if the request produces any error, return empty array
-        .catchErrorJustReturn([])
-        
-        // if no books are found, show no result message
-        .do(onNext: { $0.isEmpty ? self.similarCollection.displayEmptyResult() : () },
+            // if the request produces any error, return empty array
+            .catchErrorJustReturn([])
             
-        // stop the spinner
-            onCompleted: { self.loadingSimilarCollection.stopAnimating() })
-        
-        // bind result to collection view
-        .bind(to: self.similarCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
-            cell.title.text = model.title
-            cell.subtitle.text = model.author
-            cell.alpha = 0
-            cell.animateFadeIn()
-        }
-        .disposed(by: disposeBag)
+            // if no books are found, show no result message
+            .do(onNext: { $0.isEmpty ? self.similarCollection.displayEmptyResult() : () },
+                
+            // stop the spinner
+                onCompleted: { self.loadingSimilarCollection.stopAnimating() })
+            
+            // bind result to collection view
+            .bind(to: self.similarCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
+                cell.title.text = model.title
+                cell.subtitle.text = model.author
+                cell.alpha = 0
+                cell.animateFadeIn()
+            }
+            .disposed(by: disposeBag)
         
         book.flatMapLatest{ self.api.getBooksRecommendation(byTitle: $0.title ?? "") }
             // if the request produces any error, return empty array
@@ -180,8 +180,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 cell.alpha = 0
                 cell.animateFadeIn()
             }
-        .disposed(by: disposeBag)
-        
+            .disposed(by: disposeBag)
     }
     
     private func setupSimilarMediaCollections() {

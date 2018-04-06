@@ -95,8 +95,22 @@ class CentralLibrary: LibraryAPI {
     }
     
     
-    func getBooksFromISBN(barcode: String) -> [BookItem] {
-        return []
+    func getBook(byISBN isbn: String) -> Observable<BookItem> {
+        return URLSession.shared
+            .rx
+            .response(request: GoogleBooksApi.VolumeRequest.List(query: "isbn:\(isbn)"))
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .default))              // do the network request on concurrent thread
+            .observeOn(MainScheduler.instance)                                              // observe the response on main thread
+            .map({ (volumes) -> BookItem? in
+                return volumes.items.map({ (volume) -> BookItem in
+                    return BookItem {
+                        $0.title = volume.volumeInfo.title
+                        $0.author = volume.volumeInfo.authors.first
+                        $0.thumbnail = volume.volumeInfo.imageLinks?.thumbnail
+                    }
+                }).first
+            })
+            .filterNil()
     }
     
 }
