@@ -58,7 +58,7 @@ class ItemDetailSimilarBookTableCell : UITableViewCell, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseableCell, for: indexPath) as! BookCollectionViewCell
         
         cell.title.text = books[indexPath.row].title
-        cell.thumbnail.image = books[indexPath.row].thumbnail
+        cell.thumbnail.kf.setImage(with: books[indexPath.row].thumbnail)
         
         return cell
     }

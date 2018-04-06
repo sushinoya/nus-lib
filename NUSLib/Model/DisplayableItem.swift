@@ -16,6 +16,6 @@ import UIKit
 protocol DisplayableItem {
     var id: String? { get }
     var title: String? { get }
-    var thumbnail: UIImage? { get }
+    var thumbnail: URL? { get }
     var rating: Int? { get }    
 }

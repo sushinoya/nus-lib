@@ -33,6 +33,7 @@ target 'NUSLib' do
   pod 'ChainableAnimations', :git => 'https://github.com/jhurray/JHChainableAnimations.git', :commit => '6488b3b6ff3c233013056802361d72be7f77d3ed'
   pod 'DCAnimationKit'
   pod 'Cosmos', '~> 15.0'
+  pod 'GoogleBooksApiClient'
 
   target 'NUSLibTests' do
     inherit! :search_paths
