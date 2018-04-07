@@ -19,7 +19,7 @@ protocol AppDataSource {
     func getMostViewedItems() -> [DisplayableItem]
     
     func getReviewsForItem(itemID: Int) -> [Review]
-    func getReviewsByUser(userID: Int) -> [Review]
+    func getReviewsByUser(userID: String, completionHandler: @escaping ([Review]) -> Void)
         
     func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)
     func isUserSignedIn() -> Bool

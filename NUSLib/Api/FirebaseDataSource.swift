@@ -18,8 +18,8 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
-        let favourites = database.child("FavouritesCount").queryLimited(toFirst: 20)
-        favourites.queryOrdered(byChild: "count").observeSingleEvent(of: .value) { (snapshot) in
+        let favourites = database.child("FavouritesCount").queryOrdered(byChild: "count")
+        favourites.queryLimited(toFirst: 8).observe( .value) { (snapshot) in
             if snapshot.exists() {
                 var bookIds = [String]()
                 let value = snapshot.value as? NSDictionary
@@ -43,8 +43,27 @@ class FirebaseDataSource: AppDataSource {
         return []
     }
     
-    func getReviewsByUser(userID: Int) -> [Review] {
-        return []
+    func getReviewsByUser(userID: String, completionHandler: @escaping ([Review]) -> Void) {
+        let userReviews = database.child("Reviews")
+        userReviews.observe( .value) { (snapshot) in
+            if snapshot.exists() {
+                var reviews = [Review]()
+                let data = snapshot.value as? NSDictionary
+                for value in (data?.allValues)! {
+                    print("----- \(value)")
+                }
+            } else {
+                
+            }
+        }
+    }
+
+    func addReview(by userId: String,for bookid: String, review: String, rating: Int) {
+        let newReview = database.child("Reviews").childByAutoId()
+        newReview.child("authid").setValue(userId)
+        newReview.child("bookid").setValue(bookid)
+        newReview.child("rating").setValue(rating)
+        newReview.child("text").setValue(review)
     }
     
     func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)  {
