@@ -81,30 +81,6 @@ class ReviewCell: UICollectionViewCell {
         rating.alignAndFillWidth(align: .underCentered, relativeTo: content, padding: 0, height: 25)
         rating.frame = rating.frame.offsetBy(dx: 25, dy: 0)
         
-        /*
-        addSubview(thumbnail)
-        addSubview(overlay)
-        addSubview(subtitle)
-        addSubview(title)
-        
-        // layout must come after adding ui to the scene
-        thumbnail.fillSuperview()
-        overlay.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: 75)
-        subtitle.anchorAndFillEdge(.bottom, xPad: 10, yPad: 10, otherSize: 25)
-        title.alignAndFillWidth(align: .aboveCentered, relativeTo: subtitle, padding: 0, height: 25)
-        title.frame = title.frame.offsetBy(dx: 10, dy: 0)
-        
-        overlay.roundCorners([.bottomLeft, .bottomRight], radius: 20)
-        
-        backgroundColor = UIColor.clear
-        clipsToBounds = false
-        
-        layer.cornerRadius = 20
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.7
-        layer.shadowOffset = CGSize.zero
-        layer.shadowRadius = 5
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath*/
     }
     
     required init?(coder aDecoder: NSCoder) {
