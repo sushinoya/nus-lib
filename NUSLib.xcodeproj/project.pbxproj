@@ -47,6 +47,8 @@
 		8240A66E2077D96E00A5151E /* AccountPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A66D2077D96E00A5151E /* AccountPageViewController.swift */; };
 		8240A6712077DA1600A5151E /* SidebarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6702077DA1600A5151E /* SidebarTableViewController.swift */; };
 		8240A6742077DA6D00A5151E /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6732077DA6D00A5151E /* AboutViewController.swift */; };
+		8240A6762079362A00A5151E /* UserReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6752079362A00A5151E /* UserReviewCell.swift */; };
+		8240A6792079411600A5151E /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6782079411600A5151E /* PasswordResetViewController.swift */; };
 		82BF2F16206BD5E2001996A0 /* BarcodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */; };
 		82F05471206E915D00FCAF0A /* SocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F05470206E915D00FCAF0A /* SocialButton.swift */; };
 		82FABA33206F4DEF0017482E /* TwitterCredentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82FABA32206F4DEF0017482E /* TwitterCredentials.json */; };
@@ -135,6 +137,8 @@
 		8240A66D2077D96E00A5151E /* AccountPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPageViewController.swift; sourceTree = "<group>"; };
 		8240A6702077DA1600A5151E /* SidebarTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableViewController.swift; sourceTree = "<group>"; };
 		8240A6732077DA6D00A5151E /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		8240A6752079362A00A5151E /* UserReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReviewCell.swift; sourceTree = "<group>"; };
+		8240A6782079411600A5151E /* PasswordResetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanner.swift; sourceTree = "<group>"; };
 		82F05470206E915D00FCAF0A /* SocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialButton.swift; sourceTree = "<group>"; };
 		82FABA32206F4DEF0017482E /* TwitterCredentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TwitterCredentials.json; sourceTree = "<group>"; };
@@ -274,6 +278,7 @@
 		4AE79FBC205AAA6300309D02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				8240A677207940F600A5151E /* PasswordReset */,
 				8240A6722077DA4D00A5151E /* About */,
 				8240A66F2077D9F900A5151E /* Sidebar */,
 				8240A66C2077D94900A5151E /* AccountPage */,
@@ -367,6 +372,14 @@
 			path = About;
 			sourceTree = "<group>";
 		};
+		8240A677207940F600A5151E /* PasswordReset */ = {
+			isa = PBXGroup;
+			children = (
+				8240A6782079411600A5151E /* PasswordResetViewController.swift */,
+			);
+			path = PasswordReset;
+			sourceTree = "<group>";
+		};
 		82BF2F12206BAF75001996A0 /* BarcodeScanner */ = {
 			isa = PBXGroup;
 			children = (
@@ -441,6 +454,7 @@
 				4A729C3E2065619700B62D9F /* Separator.swift */,
 				4A5B589C20691D8500BACA73 /* ThumbnailCell.swift */,
 				4AC1C15C20764C3900521CAB /* ReviewCell.swift */,
+				8240A6752079362A00A5151E /* UserReviewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -814,6 +828,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8240A6762079362A00A5151E /* UserReviewCell.swift in Sources */,
 				4AF347A520614B3E00B576C2 /* BaseViewController.swift in Sources */,
 				4232C371206FEB4E00B969F5 /* FirebaseDataSource.swift in Sources */,
 				8240A6712077DA1600A5151E /* SidebarTableViewController.swift in Sources */,
@@ -829,6 +844,7 @@
 				ECA0497C2062AB2D00015C36 /* FavouriteCollectionViewController + Search.swift in Sources */,
 				42758D5B205988B4007C5629 /* UserProfile.swift in Sources */,
 				82F05471206E915D00FCAF0A /* SocialButton.swift in Sources */,
+				8240A6792079411600A5151E /* PasswordResetViewController.swift in Sources */,
 				8240A66E2077D96E00A5151E /* AccountPageViewController.swift in Sources */,
 				EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */,
 				EC6CD1412064DE9B0058CA5A /* TopSeachTableCell.swift in Sources */,

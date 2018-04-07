@@ -212,10 +212,28 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="j1N-5X-GDJ"/>
                     </view>
+                    <connections>
+                        <segue destination="m5H-ZA-W5r" kind="presentation" identifier="AccountToPasswordReset" modalPresentationStyle="formSheet" id="Yej-Jy-9d6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z13-gp-20p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5433" y="233"/>
+        </scene>
+        <!--Password Reset View Controller-->
+        <scene sceneID="ttH-r9-MJR">
+            <objects>
+                <viewController modalPresentationStyle="pageSheet" id="m5H-ZA-W5r" customClass="PasswordResetViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zCU-Lw-fBC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Wvg-jH-2si"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zac-7J-YGQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6324" y="233"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -372,6 +390,6 @@
         <image name="search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cdz-AH-HxY"/>
+        <segue reference="imQ-cf-fBl"/>
     </inferredMetricsTieBreakers>
 </document>
