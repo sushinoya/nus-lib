@@ -9,16 +9,26 @@
 import UIKit
 import Neon
 import Cosmos
+import ZFRippleButton
+import RxSwift
+import RxCocoa
+import RxGesture
 
 class PostReviewController: UIViewController {
+    
+    let disposeBag = DisposeBag()
+    let datasource: AppDataSource = FirebaseDataSource()
     
     override func viewWillLayoutSubviews() {
         reviewTitle.anchorAndFillEdge(.top, xPad: 25, yPad: 25, otherSize: 25)
         reviewTitle.sizeToFit()
-        reviewTextArea.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 25, height: 300)
+        reviewTextArea.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 25, height: 250)
         reviewSeparator.alignAndFillWidth(align: .underCentered, relativeTo: reviewTextArea, padding: 0, height: 0.5)
         reviewSeparator.bounds = reviewSeparator.frame.insetBy(dx: 20, dy: 0)
-        rating.alignAndFillWidth(align: .underCentered, relativeTo: reviewTextArea, padding: 25, height: 50)
+        ratingView.alignAndFillWidth(align: .underCentered, relativeTo: reviewTextArea, padding: 25, height: 50)
+        ratingView.frame = ratingView.frame.offsetBy(dx: 20, dy: 0)
+        submit.align(.underCentered, relativeTo: ratingView, padding: 0, width: 200, height: 40)
+        submit.frame = submit.frame.offsetBy(dx: -20, dy: 0)
     }
     
     override func viewDidLoad() {
@@ -27,7 +37,18 @@ class PostReviewController: UIViewController {
         view.addSubview(reviewTitle)
         view.addSubview(reviewTextArea)
         view.addSubview(reviewSeparator)
-        view.addSubview(rating)
+        view.addSubview(ratingView)
+        view.addSubview(submit)
+    }
+    
+    func submitReview(){
+        guard let userId = datasource.getCurrentUser()?.getUserID() else {
+            return
+        }
+        
+        datasource.addReview(by: userId, for: "1000001", review: reviewTextArea.text, rating: Int(ratingView.rating))
+        
+        self.dismiss(animated: true)
     }
     
     private(set) lazy var reviewTitle: UILabel = {
@@ -53,11 +74,35 @@ class PostReviewController: UIViewController {
         return this
     }()
     
-    private(set) lazy var rating: CosmosView = {
+    private(set) lazy var ratingView: CosmosView = {
         let this = CosmosView()
-        this.rating = Double(arc4random_uniform(6))
+        this.rating = 5
         this.settings.starSize = 40
         this.settings.starMargin = 5
+        return this
+    }()
+    
+    private(set) lazy var submit: ZFRippleButton = { [unowned self] in
+        let this = ZFRippleButton()
+        this.setTitle("SUBMIT", for: .normal)
+        this.imageView?.contentMode = .center
+        this.backgroundColor = .primaryTint1
+        this.layer.cornerRadius = 15
+        this.layer.shadowColor = UIColor.black.cgColor
+        this.layer.shadowOffset = CGSize(width: 1.5, height: 1.5)
+        this.layer.shadowRadius = 10
+        this.layer.shadowOpacity = 0.5
+        this.layer.masksToBounds = false
+        this.rippleColor = UIColor.white.withAlphaComponent(0.2)
+        this.rippleBackgroundColor = UIColor.clear
+        
+        this.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                self.submitReview()
+            })
+            .disposed(by: disposeBag)
+        
         return this
     }()
 }

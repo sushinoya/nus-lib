@@ -46,7 +46,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         previewSubtitle.sizeToFit()
         
         location.alignAndFillWidth(align: .toTheRightCentered, relativeTo: previewImage, padding: 50, height: 25, offset: -50)
-        favourite.align(.toTheRightCentered, relativeTo: previewImage, padding: 50, width: 250, height: 50, offset: 25)
+        favourite.align(.toTheRightCentered, relativeTo: previewImage, padding: 50, width: 50, height: 50, offset: 25)
         facebookButton.align(.toTheRightCentered, relativeTo: favourite, padding: 20, width: 50, height: 50, offset: 0)
         twitterButton.align(.toTheRightCentered, relativeTo: facebookButton, padding: 20, width: 50, height: 50, offset: 0)
         
@@ -72,7 +72,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         similarCollection.frame = similarCollection.frame.offsetBy(dx: 0, dy: 25)
         
         loadingSimilarCollection.align(.underCentered, relativeTo: similarTitle, padding: 0, width: 50, height: 50)
-        loadingSimilarCollection.frame = loadingSimilarCollection.frame.offsetBy(dx: 0, dy: 50)
+        loadingSimilarCollection.frame = loadingSimilarCollection.frame.offsetBy(dx: -50, dy: 100)
         
         googleRecommendationTitle.alignAndFillWidth(align: .underCentered, relativeTo: similarCollection, padding: 0, height: 25)
         googleRecommendationTitle.frame = googleRecommendationTitle.frame.offsetBy(dx: 50, dy: 25)
@@ -118,7 +118,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         loading.startAnimating()
         
         // get the book by id
-        let book = api.getBook(byId: "1000014")
+        let book = api.getBook(byId: state?.itemDetail?.id ?? "1000001")
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
                 self.addSubviews()
@@ -371,7 +371,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     
     private(set) lazy var favourite: ZFRippleButton = { [unowned self] in
         let this = ZFRippleButton()
-        this.setTitle("FAVOURITE (0)", for: .normal)
+        this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
         this.backgroundColor = UIColor.primaryTint1
         this.layer.cornerRadius = 25
         this.layer.shadowColor = UIColor.black.cgColor
@@ -389,11 +389,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         ref.observe(.value, with: { (snapshot) in
             let favourite = snapshot.value as? [String : AnyObject] ?? [:]
             let favouriteCount = favourite["count"] as? Int ?? 0
-            if snapshot.exists() {
-                this.setTitle("FAVOURITE (\(favouriteCount))", for: .normal)
-            } else {
-                ref.child("count").setValue(favouriteCount)
-            }
+
+            ref.child("count").setValue(favouriteCount)
         })
         
         if let user = ds.getCurrentUser() {
@@ -403,7 +400,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             
             ds.getFavourite(by: uid, bookid: bookid, completionHandler: { (isMarked) in
                 if isMarked {
-                    this.backgroundColor = UIColor.blue
+                    this.setImage(UIImage.fontAwesomeIcon(name: .times, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
                 } 
                 
             })
@@ -412,15 +409,15 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 .when(.recognized)
                 .subscribe(onNext: { result in
                     
-                    ds.addToFavourite(by: uid, bookid: bookid, bookTitle: "CS3217"){ isSuccess in
+                    ds.addToFavourite(by: uid, bookid: bookid, bookTitle: self.previewTitle.text ?? "Unknown Book" ){ isSuccess in
                         
                         if isSuccess {
                             self.updateCount(bookid: bookid, value: 1)
-                            this.backgroundColor = UIColor.blue
+                            this.setImage(UIImage.fontAwesomeIcon(name: .times, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
                         } else {
                             ds.deleteFavourite(by: uid, bookid: bookid, completionHandler: {
                                 self.updateCount(bookid: bookid, value: -1)
-                                this.backgroundColor = UIColor.primaryTint1
+                                this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
                             })
                         }
                     }
@@ -444,7 +441,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         }
         
         return this
-        }()
+    }()
     
     func updateCount(bookid: String, value: Int) {
         self.database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
@@ -517,12 +514,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
-                //self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
-                
                 let vc = self.storyboard!.instantiateViewController(withIdentifier: "PostReviewController")
                 vc.modalPresentationStyle = .popover
-                vc.popoverPresentationController?.sourceView = this
-                vc.popoverPresentationController?.sourceRect = this.frame
+                vc.popoverPresentationController?.sourceView = self.view
+                vc.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY), size: CGSize.zero)
+                vc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
                 self.present(vc, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)

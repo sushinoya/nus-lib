@@ -17,5 +17,6 @@ protocol DisplayableItem {
     var id: String? { get }
     var title: String? { get }
     var thumbnail: URL? { get }
-    var rating: Int? { get }    
+    var rating: Int? { get }
+    var author: String? { get }
 }
