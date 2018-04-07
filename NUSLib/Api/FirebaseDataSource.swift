@@ -31,30 +31,53 @@ class FirebaseDataSource: AppDataSource {
                 print("No popular books")
             }
         }
-        
-        
     }
     
     func getMostViewedItems() -> [DisplayableItem] {
         return []
     }
     
-    func getReviewsForItem(itemID: Int) -> [Review] {
-        return []
+    func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void) {
+        let userReviews = database.child("Reviews")
+        userReviews.observe( .value) { (snapshot) in
+            var reviews = [Review]()
+            if snapshot.exists() {
+                let data = snapshot.value as? NSDictionary
+                for value in (data?.allValues)! {
+                    let current = value as! NSDictionary
+                    let bookid = current["bookid"] as! String
+                    if bookid == bookId {
+                        let text = current["text"] as! String
+                        let rating = current["rating"] as! Int
+                        reviews.append(Review(reviewText: text, rating: rating))
+                    }
+                }
+            } else {
+                print("no reviews exist for \(bookId)")
+            }
+            completionHandler(reviews)
+        }
     }
     
     func getReviewsByUser(userID: String, completionHandler: @escaping ([Review]) -> Void) {
         let userReviews = database.child("Reviews")
         userReviews.observe( .value) { (snapshot) in
+            var reviews = [Review]()
             if snapshot.exists() {
-                var reviews = [Review]()
                 let data = snapshot.value as? NSDictionary
                 for value in (data?.allValues)! {
-                    print("----- \(value)")
+                    let current = value as! NSDictionary
+                    let authid = current["authid"] as! String
+                    if authid == userID {
+                        let text = current["text"] as! String
+                        let rating = current["rating"] as! Int
+                        reviews.append(Review(reviewText: text, rating: rating))
+                    }
                 }
             } else {
-                
+                print("no reviews exist by \(userID)")
             }
+            completionHandler(reviews)
         }
     }
 
