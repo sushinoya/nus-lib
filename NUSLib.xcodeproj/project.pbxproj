@@ -38,6 +38,7 @@
 		4A729C3F2065619700B62D9F /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A729C3E2065619700B62D9F /* Separator.swift */; };
 		4AB8BEE42077DB7500224699 /* UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB8BEE32077DB7500224699 /* UICollectionView.swift */; };
 		4AB8BEE62077F22400224699 /* GoogleBooksApi+RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB8BEE52077F22400224699 /* GoogleBooksApi+RxSwift.swift */; };
+		4AB8BEE9207837B800224699 /* PostReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB8BEE8207837B800224699 /* PostReviewController.swift */; };
 		4AC1C15D20764C3900521CAB /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC1C15C20764C3900521CAB /* ReviewCell.swift */; };
 		4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */; };
 		4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FC4205AAB9000309D02 /* HomeViewController.swift */; };
@@ -123,6 +124,7 @@
 		4A729C3E2065619700B62D9F /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		4AB8BEE32077DB7500224699 /* UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionView.swift; sourceTree = "<group>"; };
 		4AB8BEE52077F22400224699 /* GoogleBooksApi+RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoogleBooksApi+RxSwift.swift"; sourceTree = "<group>"; };
+		4AB8BEE8207837B800224699 /* PostReviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewController.swift; sourceTree = "<group>"; };
 		4AC1C15C20764C3900521CAB /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
 		4AE79FC4205AAB9000309D02 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -269,12 +271,21 @@
 			path = Api;
 			sourceTree = "<group>";
 		};
+		4AB8BEE72078377300224699 /* PostReview */ = {
+			isa = PBXGroup;
+			children = (
+				4AB8BEE8207837B800224699 /* PostReviewController.swift */,
+			);
+			path = PostReview;
+			sourceTree = "<group>";
+		};
 		4AE79FBC205AAA6300309D02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				4A0881D0206BD5AE007E5EBA /* StateController.swift */,
 				82BF2F12206BAF75001996A0 /* BarcodeScanner */,
 				4AF347A1206122EA00B576C2 /* ItemDetail */,
+				4AB8BEE72078377300224699 /* PostReview */,
 				4AF3479D206122A200B576C2 /* Search */,
 				4AF3479A2061218300B576C2 /* Favourite */,
 				4AE79FC3205AAB7300309D02 /* Login */,
@@ -692,6 +703,7 @@
 				"${BUILT_PRODUCTS_DIR}/ChainableAnimations/ChainableAnimations.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/DCAnimationKit/DCAnimationKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
@@ -731,6 +743,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChainableAnimations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DCAnimationKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
@@ -833,6 +846,7 @@
 				ECA3280620614813002E584B /* FavouriteCollectionViewController + CollectionView.swift in Sources */,
 				4A729C3F2065619700B62D9F /* Separator.swift in Sources */,
 				4275CD0C20598FFD00943195 /* Constants.swift in Sources */,
+				4AB8BEE9207837B800224699 /* PostReviewController.swift in Sources */,
 				4251F6D620616BAE00F5687B /* PaperItem.swift in Sources */,
 				4251F6D420616B9B00F5687B /* EventItem.swift in Sources */,
 			);

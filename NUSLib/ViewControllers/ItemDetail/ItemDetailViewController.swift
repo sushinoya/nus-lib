@@ -60,7 +60,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         reviewTitle.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisContent, padding: 50, height: 25)
         reviewTitle.sizeToFit()
         
-        reviewButton.align(.toTheRightCentered, relativeTo: reviewTitle, padding: 25, width: 30, height: 30)
+        reviewButton.align(.toTheRightCentered, relativeTo: reviewTitle, padding: 15, width: 30, height: 30)
         
         reviewCollection.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 0, height: 200)
         reviewCollection.frame = reviewCollection.frame.offsetBy(dx: 0, dy: 25)
@@ -217,29 +217,31 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     @objc func shareToFacebook() {
-        print("To be implemented")
-        
+
         let loginManager = LoginManager()
         
-        if let accessToken = AccessToken.current {
-            print("Already logged in")
+        
+        if AccessToken.current != nil {
+//            loginManager.logOut()
             self.postToFaceBook()
-            //            loginManager.logOut()
-            
-            
         } else {
-            loginManager.logIn(readPermissions: [.publicProfile], viewController: self) { (loginResult) in
+            loginManager.logIn(publishPermissions: [.publishActions], viewController: self, completion: { (loginResult) in
                 switch loginResult {
                 case .failed(let error): print(error)
                 case .cancelled: print("User cancelled login")
-                case .success(grantedPermissions: let grantedPermissions, declinedPermissions: let declinedPermissions, token: let accessToken):
-                    print("Logged in!")
-                    self.postToFaceBook()
+                case .success(grantedPermissions: _, declinedPermissions:  _, token: _):
+                    let alert = UIAlertController(title: "Facebook", message: "You can share now", preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        alert.dismiss(animated: true, completion: nil)
+                    })
+                    
+                    alert.addAction(okAction)
+                    
+                    self.present(alert, animated: false, completion: nil)
                 }
-            }
+            })
         }
-        
-        
     }
     
     @objc func shareToTwitter() {
@@ -271,9 +273,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     
     private func postToFaceBook() {
         let content = LinkShareContent(url: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!, quote: "Title")
-        
         let shareDialog = ShareDialog(content: content)
-        shareDialog.mode = .native
+        shareDialog.mode = .automatic
         shareDialog.failsOnInvalidData = true
         shareDialog.completion = { result in
             // Handle share results
@@ -502,7 +503,9 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     
     private(set) lazy var reviewButton: ZFRippleButton = { [unowned self] in
         let this = ZFRippleButton()
-        this.setTitle("+", for: .normal)
+        this.setImage(UIImage.fontAwesomeIcon(name: .plus, textColor: .white, size: CGSize(width: 25, height: 25)), for: .normal)
+        this.imageView?.contentMode = .center
+        this.backgroundColor = .primaryTint1
         this.layer.cornerRadius = 15
         this.layer.shadowColor = UIColor.black.cgColor
         this.layer.shadowOffset = CGSize(width: 1.5, height: 1.5)
@@ -511,6 +514,19 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.layer.masksToBounds = false
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
+        
+        this.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                //self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
+                
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "PostReviewController")
+                vc.modalPresentationStyle = .popover
+                vc.popoverPresentationController?.sourceView = this
+                vc.popoverPresentationController?.sourceRect = this.frame
+                self.present(vc, animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
         
         return this
     }()
