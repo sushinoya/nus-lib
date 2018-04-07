@@ -12,6 +12,7 @@ class SidebarTableViewController: UITableViewController {
     
     @IBOutlet var accountActionLabel: UILabel!
     @IBOutlet var accountActionImage: UIImageView!
+    let dataSource = FirebaseDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,13 +35,13 @@ class SidebarTableViewController: UITableViewController {
     }
     
     func setLoginCellImageAndText() {
-        // if user is signed in:
-        accountActionLabel.text = "User's name"
-        accountActionImage.image = UIImage(named: "contact")
-        
-        // else:
-        accountActionLabel.text = "Login"
-        accountActionImage.image = UIImage(named: "account")
+        if let user = dataSource.getCurrentUser() {
+            accountActionLabel.text = user.getUsername()
+            accountActionImage.image = UIImage(named: "contact")
+        } else {
+            accountActionLabel.text = "Login"
+            accountActionImage.image = UIImage(named: "account")
+        }
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -51,11 +52,11 @@ class SidebarTableViewController: UITableViewController {
     
     
     func sequeToAccountOrLogin() {
-        // if user is signed in:
-        performSegue(withIdentifier: "SidebarToAccountPage", sender: self)
-        
-        // else:
-        performSegue(withIdentifier: "SidebarToLogin", sender: self)
+        if dataSource.isUserSignedIn() {
+            performSegue(withIdentifier: "SidebarToAccountPage", sender: self)
+        } else {
+            performSegue(withIdentifier: "SidebarToLogin", sender: self)
+        }
     }
 
     // Override to support conditional rearranging of the table view.
