@@ -60,7 +60,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         reviewTitle.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisContent, padding: 50, height: 25)
         reviewTitle.sizeToFit()
         
-        reviewButton.align(.toTheRightCentered, relativeTo: reviewTitle, padding: 25, width: 30, height: 30)
+        reviewButton.align(.toTheRightCentered, relativeTo: reviewTitle, padding: 15, width: 30, height: 30)
         
         reviewCollection.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 0, height: 200)
         reviewCollection.frame = reviewCollection.frame.offsetBy(dx: 0, dy: 25)
@@ -502,7 +502,9 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     
     private(set) lazy var reviewButton: ZFRippleButton = { [unowned self] in
         let this = ZFRippleButton()
-        this.setTitle("+", for: .normal)
+        this.setImage(UIImage.fontAwesomeIcon(name: .plus, textColor: .white, size: CGSize(width: 25, height: 25)), for: .normal)
+        this.imageView?.contentMode = .center
+        this.backgroundColor = .primaryTint1
         this.layer.cornerRadius = 15
         this.layer.shadowColor = UIColor.black.cgColor
         this.layer.shadowOffset = CGSize(width: 1.5, height: 1.5)
@@ -511,6 +513,19 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.layer.masksToBounds = false
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
+        
+        this.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                //self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
+                
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "PostReviewController")
+                vc.modalPresentationStyle = .popover
+                vc.popoverPresentationController?.sourceView = this
+                vc.popoverPresentationController?.sourceRect = this.frame
+                self.present(vc, animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
         
         return this
     }()

@@ -256,10 +256,28 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="ZFo-ga-7WB"/>
                     </view>
+                    <connections>
+                        <segue destination="Vc0-SF-kIy" kind="custom" identifier="ItemDetailToPostReview" id="aLP-Fc-tf9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eay-8V-hYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4393" y="2875"/>
+        </scene>
+        <!--Post Review Controller-->
+        <scene sceneID="Vfd-59-ApX">
+            <objects>
+                <viewController storyboardIdentifier="PostReviewController" id="Vc0-SF-kIy" customClass="PostReviewController" customModule="NUSLib" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Laa-R0-LXu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="3GJ-yv-eRF"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9wZ-A5-8Aa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6095" y="2875"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="G74-ul-bfu">
