@@ -381,7 +381,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
         
-        let ds = FirebaseDataSource()
+        let ds: AppDataSource = FirebaseDataSource()
         
         let bookid = String(Int(arc4random_uniform(10) + 1000001))
         let ref = database.child("FavouritesCount").child("\(bookid)")

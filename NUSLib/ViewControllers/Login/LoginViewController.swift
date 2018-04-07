@@ -123,7 +123,7 @@ class LoginViewController: BaseViewController {
     @objc func loginUser() {
         let username = nameField?.text?.lowercased()
         let password = passwordField?.text
-        let ds = FirebaseDataSource()
+        let ds: AppDataSource = FirebaseDataSource()
         ds.authenticateUser(email: username!, password: password!) { result in
             if let user = result {
                 self.loginResult(0, name: user.getUsername())
