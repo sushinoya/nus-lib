@@ -440,7 +440,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                     alert.addAction(okAction)
                     
                     self.present(alert, animated: false, completion: nil)
-            })
+            }).disposed(by: disposeBag)
         }
         
         return this
