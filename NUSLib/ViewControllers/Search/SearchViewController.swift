@@ -124,7 +124,6 @@ class SearchViewController: BaseViewController {
                     .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
                     .distinctUntilChanged()
                     .asObservable()
-                    .distinctUntilChanged()
                     .flatMapLatest { request -> Observable<[BookItem]> in
                         return self.api.getBooks(byTitle: request)
                     }
