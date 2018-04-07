@@ -48,7 +48,7 @@ class FavouriteCollectionViewController: BaseViewController {
     
     var selectedItem: BookItem?
     
-    let ds = FirebaseDataSource()
+    let ds: AppDataSource = FirebaseDataSource()
     
     let libary: LibraryAPI = CentralLibrary()
     

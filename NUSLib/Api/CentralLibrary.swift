@@ -15,19 +15,6 @@ import GoogleBooksApiClient
 
 //Instance of LibraryAPI from the Central Library and it's data
 class CentralLibrary: LibraryAPI {
-    /*
-    fileprivate func transformJSON(_ data: Data, _ books: inout [BookItem]) {
-        let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
-        if let rootDictionary = jsonObject as? [String: Any],
-           let items = rootDictionary["entries"] as? [[String: Any]] {
-            for item in items {
-                /*if let book = BookItem(json: item["bib"] as! [String : Any]) {
-                    books.append(book)
-                }*/
-            }
-        }
-    }
-    */
     
     func getBook(byId id: String) -> Observable<BookItem> {
         return SierraApiClient.shared.provider                              // initialize api client

@@ -18,8 +18,8 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
-        let favourites = database.child("FavouritesCount").queryLimited(toFirst: 20)
-        favourites.queryOrdered(byChild: "count").observeSingleEvent(of: .value) { (snapshot) in
+        let favourites = database.child("FavouritesCount").queryOrdered(byChild: "count")
+        favourites.queryLimited(toFirst: 8).observe( .value) { (snapshot) in
             if snapshot.exists() {
                 var bookIds = [String]()
                 let value = snapshot.value as? NSDictionary
@@ -31,20 +31,62 @@ class FirebaseDataSource: AppDataSource {
                 print("No popular books")
             }
         }
-        
-        
     }
     
     func getMostViewedItems() -> [DisplayableItem] {
         return []
     }
     
-    func getReviewsForItem(itemID: Int) -> [Review] {
-        return []
+    func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void) {
+        let userReviews = database.child("Reviews")
+        userReviews.observe( .value) { (snapshot) in
+            var reviews = [Review]()
+            if snapshot.exists() {
+                let data = snapshot.value as? NSDictionary
+                for value in (data?.allValues)! {
+                    let current = value as! NSDictionary
+                    let bookid = current["bookid"] as! String
+                    if bookid == bookId {
+                        let text = current["text"] as! String
+                        let rating = current["rating"] as! Int
+                        reviews.append(Review(reviewText: text, rating: rating))
+                    }
+                }
+            } else {
+                print("no reviews exist for \(bookId)")
+            }
+            completionHandler(reviews)
+        }
     }
     
-    func getReviewsByUser(userID: Int) -> [Review] {
-        return []
+    func getReviewsByUser(userID: String, completionHandler: @escaping ([Review]) -> Void) {
+        let userReviews = database.child("Reviews")
+        userReviews.observe( .value) { (snapshot) in
+            var reviews = [Review]()
+            if snapshot.exists() {
+                let data = snapshot.value as? NSDictionary
+                for value in (data?.allValues)! {
+                    let current = value as! NSDictionary
+                    let authid = current["authid"] as! String
+                    if authid == userID {
+                        let text = current["text"] as! String
+                        let rating = current["rating"] as! Int
+                        reviews.append(Review(reviewText: text, rating: rating))
+                    }
+                }
+            } else {
+                print("no reviews exist by \(userID)")
+            }
+            completionHandler(reviews)
+        }
+    }
+
+    func addReview(by userId: String,for bookid: String, review: String, rating: Int) {
+        let newReview = database.child("Reviews").childByAutoId()
+        newReview.child("authid").setValue(userId)
+        newReview.child("bookid").setValue(bookid)
+        newReview.child("rating").setValue(rating)
+        newReview.child("text").setValue(review)
     }
     
     func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)  {

@@ -41,7 +41,7 @@ class FavouriteTableViewController: BaseViewController {
     var isFiltering: Bool = false
     var isEditingMode = false
     
-    let ds = FirebaseDataSource()
+    let ds: AppDataSource = FirebaseDataSource()
     
     let libary: LibraryAPI = CentralLibrary()
     
