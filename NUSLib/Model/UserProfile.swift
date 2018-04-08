@@ -27,4 +27,8 @@ class UserProfile {
     func getUserID() -> String {
         return self.userID
     }
+    
+    func getEmail() -> String {
+        return self.email
+    }
 }
