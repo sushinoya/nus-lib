@@ -230,13 +230,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 case .failed(let error): print(error)
                 case .cancelled: print("User cancelled login")
                 case .success(grantedPermissions: _, declinedPermissions:  _, token: _):
-                    let alert = UIAlertController(title: "Facebook", message: "You can share now", preferredStyle: .alert)
                     
-                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
-                        alert.dismiss(animated: true, completion: nil)
-                    })
-                    
-                    alert.addAction(okAction)
+                    let alert = self.setupAlertController(title: "Facebook", message: "You can share now")
                     
                     self.present(alert, animated: false, completion: nil)
                 }
@@ -257,13 +252,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                     let composer = TWTRComposerViewController.emptyComposer()
                     self.present(composer, animated: true, completion: nil)
                 } else {
-                    let alert = UIAlertController(title: "No Twitter Accounts Available", message: "You must log in before presenting a composer.", preferredStyle: .alert)
                     
-                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
-                        alert.dismiss(animated: true, completion: nil)
-                    })
-                    
-                    alert.addAction(okAction)
+                    let alert = self.setupAlertController(title: "No Twitter Accounts Available", message: "You must log in before presenting a composer.")
                     
                     self.present(alert, animated: false, completion: nil)
                 }
@@ -428,13 +418,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             this.rx.tapGesture()
                 .when(.recognized)
                 .subscribe(onNext: { result in
-                    let alert = UIAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.", preferredStyle: .alert)
                     
-                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
-                        alert.dismiss(animated: true, completion: nil)
-                    })
-                    
-                    alert.addAction(okAction)
+                    let alert = self.setupAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.")
                     
                     self.present(alert, animated: false, completion: nil)
             }).disposed(by: disposeBag)
@@ -462,6 +447,17 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    private func setupAlertController(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            alert.dismiss(animated: true, completion: nil)
+        })
+        
+        alert.addAction(okAction)
+        return alert
     }
     
     private(set) lazy var sypnosisTitle: UILabel = {
