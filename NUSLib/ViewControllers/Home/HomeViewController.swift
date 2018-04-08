@@ -14,145 +14,9 @@ import RxCocoa
 import RxGesture
 import SideMenu
 import Kingfisher
+import BarcodeScanner
 
 class HomeViewController: BaseViewController, UIScrollViewDelegate {
-    
-    // UI are initialized by closure for compactness.
-    // This technique simplify the method in viewDidLoad(), as well as eliminating Optionals.
-    
-    // IMPORTANT: remember to put unowned self to avoid retaining strong cycles if self is referenced in closure!
-    lazy var scrollView: UIScrollView = { [unowned self] in
-        let this = UIScrollView(frame: view.bounds)
-        return this
-    }()
-    
-    lazy var popularTitle: UILabel = {
-        let this = UILabel()
-        this.textColor = UIColor.primary
-        this.text = "POPULAR"
-        this.textAlignment = .left
-        this.font = UIFont.primary
-        return this
-    }()
-    
-    lazy var popularSeparator: Separator = { [unowned self] in
-        let this = Separator(width: view.bounds.width)
-        return this
-    }()
-    
-    lazy var popularSubtitle: UILabel = {
-        let this = UILabel()
-        this.textColor = UIColor.gray
-        this.text = "WHAT EVERYONE'S READING"
-        this.textAlignment = .left
-        this.font = UIFont.subtitle
-        return this
-    }()
-    
-    lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = { [unowned self] in
-        
-        let this = HorizontalCollectionView<ThumbnailCell>(frame: CGRect.zero,
-                                                           cellCount: 10,
-                                                           cellSize: CGSize(width: 320, height: 240),
-                                                           cellSpacing: 20,
-                                                           sectionPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),data:[], onDequeue: nil)
-  
-        this.showsVerticalScrollIndicator = false
-        this.showsHorizontalScrollIndicator = false
-        this.backgroundColor = UIColor.white
-        this.isPagingEnabled = true
-        
-        
-        
-        this.rx
-            .itemSelected
-            .subscribe(onNext: { index in
-                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
-            })
-            .disposed(by: disposeBag)
-        
-        return this
-    }()
-    
-    lazy var recommendTitle: UILabel = {
-        let this = UILabel()
-        this.textColor = UIColor.primary
-        this.text = "RECOMMENDED"
-        this.textAlignment = .left
-        this.font = UIFont.primary
-        return this
-    }()
-    
-    lazy var recommendSeparator: Separator = { [unowned self] in
-        let this = Separator(width: view.bounds.width)
-        return this
-    }()
-    
-    lazy var recommendSubtitle: UILabel = {
-        let this = UILabel()
-        this.textColor = UIColor.gray
-        this.text = "JUST FOR YOU"
-        this.textAlignment = .left
-        this.font = UIFont.subtitle
-        return this
-    }()
-    
-    lazy var recommendCollectionLeft: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
-        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: view.bounds.width/2, height: view.bounds.height)),
-                                                         cellCount: 5,
-                                                         cellHeight: 600,
-                                                         cellSpacing: 20,
-                                                         columnPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 10))
-        this.showsVerticalScrollIndicator = false
-        this.showsHorizontalScrollIndicator = false
-        this.backgroundColor = UIColor.white
-        this.isScrollEnabled = false
-        
-        this.rx
-            .itemSelected
-            .subscribe(onNext: { index in
-                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
-            })
-            .disposed(by: disposeBag)
-        
-        return this
-    }()
-    
-    lazy var recommendCollectionRight: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
-        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: view.bounds.width/2, height: view.bounds.height)),
-                                                          cellCount: 5,
-                                                          cellHeight: 600,
-                                                          cellSpacing: 20,
-                                                          columnPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 10))
-        this.showsVerticalScrollIndicator = false
-        this.showsHorizontalScrollIndicator = false
-        this.backgroundColor = UIColor.white
-        this.isScrollEnabled = false
-        
-        this.rx
-            .itemSelected
-            .subscribe(onNext: { index in
-                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
-            })
-            .disposed(by: disposeBag)
-        
-        return this
-    }()
-    
-    lazy var scanBarcodeButton: UIButton = {
-        let this = UIButton()
-        this.setTitleColor(UIColor.primaryTint1, for: .normal)
-        this.setTitle("Scan Barcode", for: .normal)
-        this.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        this.addTarget(self, action: #selector(openBarcodeScanner), for: .touchUpInside)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: this)
-        return this
-    }()
-
-    @objc func openBarcodeScanner() {
-        self.performSegue(withIdentifier: "HomeToBarcodeScanner", sender: self)
-    }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -202,6 +66,26 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         scrollView.fitToContent()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "HomeToItemDetail" {
+            if let vc = segue.destination as? BaseViewController {
+                state?.itemDetail = BookItem {
+                    $0.id = "sender"
+                }
+                
+                vc.state = state
+            }
+        }
+        
+        if let barcodeScannerVC = segue.destination as? BarcodeScannerViewController {
+            barcodeScannerVC.codeDelegate = self
+            barcodeScannerVC.errorDelegate = self
+            barcodeScannerVC.dismissalDelegate = self
+            barcodeScannerVC.title = "Scan a barcode"
+            barcodeScannerVC.messageViewController.messages.processingText = "Looking for your book"
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isTranslucent = true
     }
@@ -209,6 +93,142 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     private func setupNavigationBar() {
         navigationItem.title = Constants.NavigationBarTitle.HomeTitle
         
+    }
+    
+    // UI are initialized by closure for compactness.
+    // This technique simplify the method in viewDidLoad(), as well as eliminating Optionals.
+    
+    // IMPORTANT: remember to put unowned self to avoid retaining strong cycles if self is referenced in closure!
+    lazy var scrollView: UIScrollView = { [unowned self] in
+        let this = UIScrollView(frame: view.bounds)
+        return this
+        }()
+    
+    lazy var popularTitle: UILabel = {
+        let this = UILabel()
+        this.textColor = UIColor.primary
+        this.text = "POPULAR"
+        this.textAlignment = .left
+        this.font = UIFont.primary
+        return this
+    }()
+    
+    lazy var popularSeparator: Separator = { [unowned self] in
+        let this = Separator(width: view.bounds.width)
+        return this
+        }()
+    
+    lazy var popularSubtitle: UILabel = {
+        let this = UILabel()
+        this.textColor = UIColor.gray
+        this.text = "WHAT EVERYONE'S READING"
+        this.textAlignment = .left
+        this.font = UIFont.subtitle
+        return this
+    }()
+    
+    lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = { [unowned self] in
+        
+        let this = HorizontalCollectionView<ThumbnailCell>(frame: CGRect.zero,
+                                                           cellCount: 10,
+                                                           cellSize: CGSize(width: 320, height: 240),
+                                                           cellSpacing: 20,
+                                                           sectionPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
+                                                           data: [],
+                                                           onDequeue: nil)
+        
+        this.showsVerticalScrollIndicator = false
+        this.showsHorizontalScrollIndicator = false
+        this.backgroundColor = UIColor.white
+        this.isPagingEnabled = true
+        
+        this.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
+        return this
+        }()
+    
+    lazy var recommendTitle: UILabel = {
+        let this = UILabel()
+        this.textColor = UIColor.primary
+        this.text = "RECOMMENDED"
+        this.textAlignment = .left
+        this.font = UIFont.primary
+        return this
+    }()
+    
+    lazy var recommendSeparator: Separator = { [unowned self] in
+        let this = Separator(width: view.bounds.width)
+        return this
+        }()
+    
+    lazy var recommendSubtitle: UILabel = {
+        let this = UILabel()
+        this.textColor = UIColor.gray
+        this.text = "JUST FOR YOU"
+        this.textAlignment = .left
+        this.font = UIFont.subtitle
+        return this
+    }()
+    
+    lazy var recommendCollectionLeft: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
+        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: view.bounds.width/2, height: view.bounds.height)),
+                                                         cellCount: 5,
+                                                         cellHeight: 600,
+                                                         cellSpacing: 20,
+                                                         columnPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 10))
+        this.showsVerticalScrollIndicator = false
+        this.showsHorizontalScrollIndicator = false
+        this.backgroundColor = UIColor.white
+        this.isScrollEnabled = false
+        
+        this.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
+        return this
+        }()
+    
+    lazy var recommendCollectionRight: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
+        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: view.bounds.width/2, height: view.bounds.height)),
+                                                         cellCount: 5,
+                                                         cellHeight: 600,
+                                                         cellSpacing: 20,
+                                                         columnPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 10))
+        this.showsVerticalScrollIndicator = false
+        this.showsHorizontalScrollIndicator = false
+        this.backgroundColor = UIColor.white
+        this.isScrollEnabled = false
+        
+        this.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
+        return this
+        }()
+    
+    lazy var scanBarcodeButton: UIButton = {
+        let this = UIButton()
+        this.setTitleColor(UIColor.primaryTint1, for: .normal)
+        this.setTitle("Scan Barcode", for: .normal)
+        this.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        this.addTarget(self, action: #selector(openBarcodeScanner), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: this)
+        return this
+    }()
+    
+    @objc func openBarcodeScanner() {
+        self.performSegue(withIdentifier: "HomeToBarcodeScanner", sender: self)
     }
 
 }

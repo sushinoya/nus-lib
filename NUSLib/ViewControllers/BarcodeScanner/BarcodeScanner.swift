@@ -10,19 +10,6 @@ import Foundation
 import UIKit
 import BarcodeScanner
 
-extension HomeViewController {
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let barcodeScannerVC = segue.destination as? BarcodeScannerViewController {
-            barcodeScannerVC.codeDelegate = self
-            barcodeScannerVC.errorDelegate = self
-            barcodeScannerVC.dismissalDelegate = self
-            barcodeScannerVC.title = "Scan a barcode"
-            barcodeScannerVC.messageViewController.messages.processingText = "Looking for your book"
-        }
-    }
-}
-
 // MARK: - BarcodeScannerCodeDelegate
 extension HomeViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
