@@ -39,11 +39,10 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         nameLabel.alignAndFillWidth(align: .underCentered, relativeTo: profilePicture, padding: 15, height: 30)
 
         // Information Table
-        infoTable.alignAndFillWidth(align: .underCentered, relativeTo: nameLabel, padding: 0, height: 200)
-        infoTable.frame = infoTable.frame.offsetBy(dx: 0, dy: 25)
+        infoTable.alignAndFillWidth(align: .underMatchingLeft, relativeTo: nameLabel, padding: 0, height: 100)
         
         // Your Reviews
-        reviewTitle.alignAndFillWidth(align: .underCentered, relativeTo: infoTable, padding: 50, height: 25)
+        reviewTitle.alignAndFillWidth(align: .underMatchingLeft, relativeTo: infoTable, padding: 0, height: 10, offset: 15)
         reviewTitle.sizeToFit()
         
         reviewCollection.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 0, height: 200)
@@ -136,7 +135,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
     
     
     private(set) lazy var infoTable: UITableView = {
-        let this = UITableView()
+        let this = UITableView(frame: .zero, style: UITableViewStyle.plain)
         this.dataSource = self
         this.delegate = self
         this.tableFooterView = UIView(frame: .zero)
@@ -151,26 +150,13 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let userAttributes = [user?.getUsername(), user?.getEmail()]
-        let cell = tableView.dequeueReusableCell(withIdentifier: menuCellIdentifier, for: indexPath)
-        guard let textLabel = cell.textLabel else {
-            return cell
-        }
-
-        textLabel.text = menuList[indexPath.row]
-        textLabel.backgroundColor = .red
         
-        let attributeValuelabel: UILabel = {
-            let this = UILabel()
-            this.text = userAttributes[indexPath.row]
-            this.textColor = UIColor.gray
-            this.textAlignment = .right
-            this.lineBreakMode = .byWordWrapping
-            this.numberOfLines = 0
-            return this
-        }()
-
-        cell.contentView.addSubview(attributeValuelabel)
-        attributeValuelabel.anchorToEdge(.right, padding: 0, width: 100, height: cell.height)
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: menuCellIdentifier)
+        
+        cell.textLabel?.text = menuList[indexPath.row]
+        
+        cell.detailTextLabel?.text = userAttributes[indexPath.row]
+        cell.detailTextLabel?.textAlignment = .right
         
         return cell
     }
