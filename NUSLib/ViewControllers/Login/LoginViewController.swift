@@ -137,7 +137,9 @@ class LoginViewController: BaseViewController {
         let alert = UIAlertController(title: "RESULT",
                                       message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-            return
+            if result == 0 {
+                self.navigationController?.popViewController(animated: true)
+            }
         }))
         if result == 0 {
             alert.message = "Signed In. Welcome, \(name)"

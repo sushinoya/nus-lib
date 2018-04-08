@@ -82,6 +82,10 @@ class SearchViewController: BaseViewController {
         navigationController?.navigationBar.isTranslucent = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        searchController.searchBar.resignFirstResponder()
+    }
+    
     func setupNavigationBar() {
         let sortButton = UIButton(type: .system)
        
