@@ -49,10 +49,8 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         reviewCollection.frame = reviewCollection.frame.offsetBy(dx: 0, dy: 25)
 
         // Account settings buttons
-        resetPassword.anchorToEdge(.left, padding: buttonPadding, width: 250, height: 50)
-        deleteAccount.anchorToEdge(.right, padding: buttonPadding, width: 250, height: 50)
-        resetPassword.center.y = reviewCollection.yMax + 80
-        deleteAccount.center.y = reviewCollection.yMax + 80
+        
+        reviewCollection.groupAndAlign(group: .horizontal, andAlign: .underCentered, views: [resetPassword, deleteAccount, logoutAccount], relativeTo: reviewCollection, padding: 25, width: 200, height: 50)
 
         scrollView.fitToContent()
     }
@@ -68,6 +66,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         self.scrollView.addSubview(self.infoTable)
         self.scrollView.addSubview(self.resetPassword)
         self.scrollView.addSubview(self.deleteAccount)
+        self.scrollView.addSubview(self.logoutAccount)
     }
     
     override func viewDidLoad() {
@@ -214,6 +213,40 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         }))
 
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private(set) lazy var logoutAccount: ZFRippleButton = { [unowned self] in
+        let this = ZFRippleButton()
+        this.backgroundColor = UIColor.accent1
+        this.layer.cornerRadius = 25
+        this.layer.shadowColor = UIColor.black.cgColor
+        this.layer.shadowOffset = CGSize(width: 1.5, height: 1.5)
+        this.layer.shadowRadius = 10
+        this.layer.shadowOpacity = 0.5
+        this.layer.masksToBounds = false
+        this.rippleColor = UIColor.white.withAlphaComponent(0.2)
+        this.rippleBackgroundColor = UIColor.clear
+        this.addTarget(self, action: #selector(logoutAccountHandler), for: .touchUpInside)
+        this.setTitle("Logout", for: .normal)
+        
+        return this
+        }()
+    
+    @objc func logoutAccountHandler() {
+        
+        let alert = UIAlertController(title: "Confirm",
+                                      message: "Are you sure you want to logout", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            FirebaseDataSource().signOut()
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (_) in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
+       
     }
 }
 
