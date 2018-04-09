@@ -42,7 +42,6 @@ class SierraApiClient {
         return nil
     }()
     
-    
     private var accessToken: String {
         return accessTokenStore.retrieveAccessToken()?.accessToken ?? NO_ACCESSTOKEN_FOUND
     }

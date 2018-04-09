@@ -228,7 +228,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TL1-sh-t7o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4393" y="233"/>
+            <point key="canvasLocation" x="5913" y="-448"/>
         </scene>
         <!--Account Page View Controller-->
         <scene sceneID="IcS-ks-yIZ">
@@ -246,7 +246,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z13-gp-20p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5433" y="233"/>
+            <point key="canvasLocation" x="5913" y="1012"/>
         </scene>
         <!--Password Reset View Controller-->
         <scene sceneID="ttH-r9-MJR">
@@ -261,7 +261,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zac-7J-YGQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6324" y="233"/>
+            <point key="canvasLocation" x="6804" y="1012"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -276,7 +276,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5433" y="1012"/>
+            <point key="canvasLocation" x="5913" y="293"/>
         </scene>
         <!--Barcode Scanner View Controller-->
         <scene sceneID="VUm-8s-wQ8">
@@ -466,6 +466,6 @@
         <image name="spashscreenv1" width="512" height="683"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="imQ-cf-fBl"/>
+        <segue reference="m8I-Uq-QiV"/>
     </inferredMetricsTieBreakers>
 </document>
