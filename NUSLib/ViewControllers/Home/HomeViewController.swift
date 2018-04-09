@@ -56,8 +56,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         recommendTitle.alignAndFillWidth(align: .underCentered, relativeTo: popularCollection, padding: 0, height: 70, offset: 0)
         recommendSeparator.alignAndFillWidth(align: .underCentered, relativeTo: recommendTitle, padding: 0, height: 0.5)
         recommendSubtitle.alignAndFillWidth(align: .underCentered, relativeTo: recommendSeparator, padding: 0, height: 40)
-        recommendCollectionLeft.align(.underMatchingLeft, relativeTo: recommendSubtitle, padding: 0, width: view.bounds.width/2, height: recommendCollectionLeft.collectionViewLayout.collectionViewContentSize.height)
-        recommendCollectionRight.align(.underMatchingRight, relativeTo: recommendSubtitle, padding: 0, width: view.bounds.width/2, height: recommendCollectionLeft.collectionViewLayout.collectionViewContentSize.height)
+        recommendCollectionLeft.align(.underMatchingLeft, relativeTo: recommendSubtitle, padding: 0, width: view.bounds.width/2, height: CGFloat(620*recommendCollectionLeft.data.count + 20))
+        recommendCollectionRight.align(.underMatchingRight, relativeTo: recommendSubtitle, padding: 0, width: view.bounds.width/2, height: CGFloat(620*recommendCollectionLeft.data.count + 20))
         
         // padding adjustment
         recommendTitle.bounds = recommendTitle.frame.insetBy(dx: 20, dy: 0)
@@ -185,11 +185,21 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     }()
     
     lazy var recommendCollectionLeft: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
-        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: view.bounds.width/2, height: view.bounds.height)),
-                                                         cellCount: 5,
-                                                         cellHeight: 600,
-                                                         cellSpacing: 20,
-                                                         columnPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 10))
+        let this = VerticalCollectionView<ThumbnailCell> {
+            $0.cellWidth = self.view.width/2
+            $0.cellHeight = 600
+            $0.cellSpacing = 20
+            $0.columnPadding =  UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 10)
+            $0.data = self.state?.recommendedBooks ?? []
+            $0.onDequeue = { cell, data, index in
+                
+                let items = data.map{ $0 as! BookItem }
+                
+                cell.title.text = items[index].title
+                cell.subtitle.text = items[index].author
+            }
+        }
+        
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
@@ -203,14 +213,23 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
             .disposed(by: disposeBag)
         
         return this
-        }()
+    }()
     
     lazy var recommendCollectionRight: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
-        let this = VerticalCollectionView<ThumbnailCell>(frame: CGRect(origin: CGPoint(x:0,y:0), size: CGSize(width: view.bounds.width/2, height: view.bounds.height)),
-                                                         cellCount: 5,
-                                                         cellHeight: 600,
-                                                         cellSpacing: 20,
-                                                         columnPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 10))
+        let this = VerticalCollectionView<ThumbnailCell> {
+            $0.cellWidth = self.view.width/2
+            $0.cellHeight = 600
+            $0.cellSpacing = 20
+            $0.columnPadding =  UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 20)
+            $0.data = self.state?.recommendedBooks ?? []
+            $0.onDequeue = { cell, data, index in
+                let items = data.map{ $0 as! BookItem }
+                
+                cell.title.text = items[index].title
+                cell.subtitle.text = items[index].author
+            }
+        }
+        
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
@@ -224,7 +243,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
             .disposed(by: disposeBag)
         
         return this
-        }()
+    }()
     
     lazy var scanBarcodeButton: UIButton = {
         let this = UIButton()

@@ -18,13 +18,15 @@ class SplashViewController: UIViewController {
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        api.getBooks(byTitle: "popular")
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (books) in
-                self.state.popularBooks = books
+        Observable
+            .zip(api.getBooks(byTitle: "popular"), api.getBooks(byTitle: "university"))
+            .subscribe(onNext: { (popularBooks, recommendedBooks) in
+                self.state.popularBooks = popularBooks
+                self.state.recommendedBooks = recommendedBooks
                 self.performSegue(withIdentifier: "SplashToNavigation", sender: self)
             })
             .disposed(by: disposeBag)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
