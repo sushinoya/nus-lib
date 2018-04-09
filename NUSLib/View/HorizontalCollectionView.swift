@@ -15,32 +15,26 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     
     private let disposeBag = DisposeBag()
     private let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    private var cellCount: Int!
-    private var cellSize: CGSize!
-    private var sectionPadding: UIEdgeInsets!
-    private var cellSpacing: CGFloat!
+    internal var cellSize: CGSize!
+    internal var sectionPadding: UIEdgeInsets!
+    internal var cellSpacing: CGFloat!
     
-    private var data: [Any] = []
+    internal var data: [Any] = []
     
-    private var onDequeue: ((T, [Any], IndexPath) -> ())?
+    internal var onDequeue: ((T, [Any], Int) -> ())?
     
-    init(frame: CGRect, cellCount: Int, cellSize: CGSize, cellSpacing: CGFloat = 0, sectionPadding: UIEdgeInsets = UIEdgeInsets.zero, data: [Any]?, onDequeue: ((T, [Any], IndexPath) -> ())?){
-        super.init(frame: frame, collectionViewLayout: layout)
+    init(build: (HorizontalCollectionView) -> Void){
+        super.init(frame: CGRect.zero, collectionViewLayout: layout)
+        build(self)
+        
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
-
-        self.sectionPadding = sectionPadding
-        self.cellCount = cellCount
-        self.cellSize = cellSize
-        self.cellSpacing = cellSpacing
-        self.onDequeue = onDequeue
         
         self.delegate = self
         self.dataSource = self
         
         // automatically infer reusable identifier from the class name and register it
         self.register(T.self, forCellWithReuseIdentifier: String(describing: T.self))
-
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,7 +42,7 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellCount
+        return data.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -59,7 +53,7 @@ class HorizontalCollectionView<T: UICollectionViewCell>: UICollectionView, UICol
         
         let cell = dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
         
-        onDequeue?(cell, data, indexPath)
+        onDequeue?(cell, data, indexPath.row)
         
         return cell
     }

@@ -97,7 +97,7 @@ class FirebaseDataSource: AppDataSource {
                 if successUser.displayName != nil {
                     name = successUser.displayName!
                 } else {
-                    name = "USER1"
+                    name = successUser.email?.components(separatedBy: "@").first ?? "guest"
                 }
                 currentUser = UserProfile(username: name, userID: successUser.uid, email: email)
                 print("success")
@@ -131,7 +131,7 @@ class FirebaseDataSource: AppDataSource {
 
     func getCurrentUser() -> UserProfile? {
         if let user = Auth.auth().currentUser {
-            return UserProfile(username: "USER1", userID: user.uid, email: user.email!)
+            return UserProfile(username: user.email?.components(separatedBy: "@").first ?? "guest", userID: user.uid, email: user.email!)
         } else {
             return nil
         }

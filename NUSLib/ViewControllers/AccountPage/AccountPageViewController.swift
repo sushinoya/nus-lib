@@ -95,7 +95,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         this.layer.cornerRadius = profilePicDiameter / 2
         this.layer.masksToBounds = true
         this.layer.borderWidth = 3
-        this.layer.borderColor = UIColor.black.cgColor
+        this.layer.borderColor = UIColor.primaryTint1.cgColor
 
         return this
     }()
@@ -125,7 +125,12 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
     }()
     
     private(set) lazy var reviewCollection: HorizontalCollectionView<UserReviewCell> = {
-        let this = HorizontalCollectionView<UserReviewCell>(frame: view.bounds, cellCount: 5, cellSize: CGSize(width: 350, height: 200), cellSpacing: 25, sectionPadding: UIEdgeInsets(top: 0, left: 25, bottom: 25, right: 0), data: nil, onDequeue: nil)
+        let this = HorizontalCollectionView<UserReviewCell> {
+            $0.cellSize = CGSize(width: 350, height: 200)
+            $0.cellSpacing = 25
+            $0.sectionPadding =  UIEdgeInsets(top: 0, left: 25, bottom: 25, right: 0)
+        }
+        
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white

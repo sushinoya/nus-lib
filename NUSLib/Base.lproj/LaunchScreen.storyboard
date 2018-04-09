@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="spashscreenv1" translatesAutoresizingMaskIntoConstraints="NO" id="JXs-TB-x2w">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="spashscreenv1" translatesAutoresizingMaskIntoConstraints="NO" id="JXs-TB-x2w">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </imageView>
                         </subviews>
@@ -38,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="spashscreenv1" width="1533" height="2044"/>
+        <image name="spashscreenv1" width="512" height="683"/>
     </resources>
 </document>
