@@ -8,6 +8,7 @@
 
 import UIKit
 import ChainableAnimations
+import Heimdallr
 
 extension UIView {
     
