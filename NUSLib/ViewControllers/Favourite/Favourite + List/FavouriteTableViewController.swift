@@ -84,20 +84,10 @@ class FavouriteTableViewController: BaseViewController {
         if let user = ds.getCurrentUser() {
             ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (ids) in
                 
-                let myGroup = DispatchGroup()
-                
-                for id in ids {
-                    myGroup.enter()
-                    
-                    self.library.getBook(byId: id, completionHandler: { (item) in
-                        self.bookLists[0].append(item)
-                        myGroup.leave()
-                    })
-                }
-                
-                myGroup.notify(queue: .main) {
+                self.library.getBooks(byIds: ids, completionHandler: { (items) in
+                    self.bookLists[0] = items
                     self.tableView.reloadData()
-                }
+                })
                 
             })
         }

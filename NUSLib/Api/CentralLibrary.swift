@@ -16,30 +16,43 @@ import GoogleBooksApiClient
 //Instance of LibraryAPI from the Central Library and it's data
 class CentralLibrary: LibraryAPI {
 
-    func getBook(byId id: String, completionHandler: @escaping ((BookItem) -> Void)) {
-        SierraApiClient.shared.provider.request(.bib(id: id)) { result in
-            switch result {
-            case let .success(moyaResponse):
-                let data = moyaResponse.data
-                do {
-                    let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
-                    
-                    let book = BookItem{
-                        $0.id = jsonObject["id"] as? String
-                        $0.title = jsonObject["title"] as? String
-                        $0.author = jsonObject["author"] as? String
+    
+    func getBooks(byIds ids: [String], completionHandler: @escaping (([BookItem]) -> Void)) {
+        let myGroup = DispatchGroup()
+        
+        var books = [BookItem]()
+        for id in ids {
+            myGroup.enter()
+            SierraApiClient.shared.provider.request(.bib(id: id)) { result in
+                switch result {
+                case let .success(moyaResponse):
+                    let data = moyaResponse.data
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
+                        
+                        let book = BookItem{
+                            $0.id = jsonObject["id"] as? String
+                            $0.title = jsonObject["title"] as? String
+                            $0.author = jsonObject["author"] as? String
+                        }
+                        
+                        books.append(book)
+                        myGroup.leave()
+                    } catch {
+                        print(error)
                     }
-                    completionHandler(book)
                     
-                } catch {
+                case let .failure(error):
                     print(error)
+                    return
                 }
-
-            case let .failure(error):
-                print(error)
-               return
             }
         }
+        
+        myGroup.notify(queue: .main) {
+            completionHandler(books)
+        }
+        
     }
     
     func getBook(byId id: String) -> Observable<BookItem> {

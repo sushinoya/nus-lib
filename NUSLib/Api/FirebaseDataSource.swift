@@ -18,13 +18,16 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
+        
         let favourites = database.child("FavouritesCount").queryOrdered(byChild: "count")
-        favourites.queryLimited(toFirst: 8).observe( .value) { (snapshot) in
+        favourites.queryLimited(toFirst: 10).observe( .value) { (snapshot) in
+            
             if snapshot.exists() {
                 var bookIds = [String]()
-                let value = snapshot.value as? NSDictionary
-                for key in (value?.allKeys)! {
-                    bookIds.append(key as! String)
+                
+                for child in snapshot.children.reversed() {
+                    let snap = child as! DataSnapshot
+                    bookIds.append(snap.key)
                 }
                 completionHandler(bookIds)
             } else {

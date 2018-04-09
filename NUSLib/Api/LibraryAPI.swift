@@ -15,7 +15,7 @@ import RxSwift
  */
 protocol LibraryAPI {
 
-    func getBook(byId id: String, completionHandler: @escaping ((BookItem) -> Void))
+    func getBooks(byIds ids: [String], completionHandler: @escaping (([BookItem]) -> Void))
     func getBook(byId id: String) -> Observable<BookItem>
     func getBook(byISBN isbn: String) -> Observable<BookItem>
     func getBooks(byTitle title: String) -> Observable<[BookItem]>
