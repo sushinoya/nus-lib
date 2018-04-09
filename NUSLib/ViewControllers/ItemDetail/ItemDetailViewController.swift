@@ -523,7 +523,12 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     }()
     
     private(set) lazy var reviewCollection: HorizontalCollectionView<ReviewCell> = {
-        let this = HorizontalCollectionView<ReviewCell>(frame: view.bounds, cellCount: 5, cellSize: CGSize(width: 350, height: 200), cellSpacing: 25, sectionPadding: UIEdgeInsets(top: 0, left: 25, bottom: 25, right: 0), data: nil, onDequeue: nil)
+        let this = HorizontalCollectionView<ReviewCell> {
+            $0.cellSize = CGSize(width: 350, height: 200)
+            $0.cellSpacing = 25
+            $0.sectionPadding =  UIEdgeInsets(top: 0, left: 25, bottom: 25, right: 0)
+        }
+        
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
@@ -592,7 +597,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.showsHorizontalScrollIndicator = false
         
         return this
-        }()
+    }()
     
     private(set) lazy var facebookButton: SocialButton = { [unowned self] in
         let this = SocialButton(type: .facebook)

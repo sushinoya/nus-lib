@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cWs-5w-6FA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cvT-mM-cZC">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -411,10 +411,39 @@
             </objects>
             <point key="canvasLocation" x="2454" y="1012"/>
         </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="BVM-dU-TZN">
+            <objects>
+                <viewController id="cvT-mM-cZC" customClass="SplashViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sZk-yB-oMd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="spashscreenv1" translatesAutoresizingMaskIntoConstraints="NO" id="eOV-Dz-1mo">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bNP-bA-oic" firstAttribute="trailing" secondItem="eOV-Dz-1mo" secondAttribute="trailing" id="Fsz-cC-jlK"/>
+                            <constraint firstItem="eOV-Dz-1mo" firstAttribute="top" secondItem="bNP-bA-oic" secondAttribute="top" id="MFp-Uu-lX3"/>
+                            <constraint firstItem="eOV-Dz-1mo" firstAttribute="leading" secondItem="bNP-bA-oic" secondAttribute="leading" id="Rnd-hi-dTE"/>
+                            <constraint firstItem="bNP-bA-oic" firstAttribute="bottom" secondItem="eOV-Dz-1mo" secondAttribute="bottom" id="X9C-NU-KGP"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bNP-bA-oic"/>
+                    </view>
+                    <connections>
+                        <segue destination="cWs-5w-6FA" kind="showDetail" identifier="SplashToNavigation" action="showViewController:sender:" id="tl7-4B-t5t"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fyb-EJ-dBP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="369" y="1012"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="cSb-Fy-C8e">
             <objects>
-                <navigationController id="cWs-5w-6FA" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationController" id="cWs-5w-6FA" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jKh-bH-gtO">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -434,6 +463,7 @@
         <image name="favourite" width="32" height="32"/>
         <image name="information-outline" width="32" height="32"/>
         <image name="search" width="32" height="32"/>
+        <image name="spashscreenv1" width="512" height="683"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="imQ-cf-fBl"/>

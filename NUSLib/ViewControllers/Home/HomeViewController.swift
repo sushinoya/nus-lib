@@ -18,11 +18,9 @@ import BarcodeScanner
 
 class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        scrollView.delegate = self
-        
+    let api: LibraryAPI = CentralLibrary()
+    
+    func addSubViews(){
         scrollView.addSubview(popularTitle)
         scrollView.addSubview(popularSeparator)
         scrollView.addSubview(popularSubtitle)
@@ -35,8 +33,14 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         
         view.addSubview(scrollView)
         view.addSubview(scanBarcodeButton)
-
-        setupNavigationBar()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.scrollView.delegate = self
+        self.addSubViews()
+        self.setupNavigationBar()
     }
     
     override func viewWillLayoutSubviews() {
@@ -129,13 +133,19 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
     lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = { [unowned self] in
         
-        let this = HorizontalCollectionView<ThumbnailCell>(frame: CGRect.zero,
-                                                           cellCount: 10,
-                                                           cellSize: CGSize(width: 320, height: 240),
-                                                           cellSpacing: 20,
-                                                           sectionPadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
-                                                           data: [],
-                                                           onDequeue: nil)
+        let this = HorizontalCollectionView<ThumbnailCell> {
+            $0.cellSize = CGSize(width: 320, height: 240)
+            $0.cellSpacing = 20
+            $0.sectionPadding =  UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+            $0.data = self.state?.popularBooks ?? []
+            print($0.data)
+            $0.onDequeue = { cell, data, index in
+                let items = data.map{ $0 as! BookItem }
+                
+                cell.title.text = items[index].title
+                cell.subtitle.text = items[index].author
+            }
+        }
         
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
