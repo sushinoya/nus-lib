@@ -19,7 +19,6 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         
         FirebaseDataSource().getPopularItems(completionHandler: {ids in
-            
             self.api.getBooks(byIds: ids, completionHandler: { (popularItems) in
                 let popular: Variable<[BookItem]> = Variable(popularItems)
                 

@@ -104,12 +104,10 @@ class FavouriteCollectionViewController: BaseViewController {
         setupViews()
         if let user = ds.getCurrentUser() {
             ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (ids) in
-                
                 self.library.getBooks(byIds: ids, completionHandler: { (items) in
                     self.bookLists[0] = items
                     self.collectionview.reloadData()
                 })
-
             })
         }
     }
