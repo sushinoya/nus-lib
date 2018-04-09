@@ -74,7 +74,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         if segue.identifier == "HomeToItemDetail" {
             if let vc = segue.destination as? BaseViewController {
                 state?.itemDetail = BookItem {
-                    $0.id = "sender"
+                    $0.id = "1000001"
                 }
                 
                 vc.state = state
@@ -138,7 +138,6 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
             $0.cellSpacing = 20
             $0.sectionPadding =  UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
             $0.data = self.state?.popularBooks ?? []
-            print($0.data)
             $0.onDequeue = { cell, data, index in
                 let items = data.map{ $0 as! BookItem }
                 

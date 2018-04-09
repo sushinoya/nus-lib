@@ -119,6 +119,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         
         // get the book by id
         let book = api.getBook(byId: state?.itemDetail?.id ?? "1000001")
+            .debug()
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
                 self.addSubviews()
