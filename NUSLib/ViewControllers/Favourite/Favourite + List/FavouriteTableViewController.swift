@@ -43,7 +43,7 @@ class FavouriteTableViewController: BaseViewController {
     
     let ds: AppDataSource = FirebaseDataSource()
     
-    let libary: LibraryAPI = CentralLibrary()
+    let library: LibraryAPI = CentralLibrary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +59,8 @@ class FavouriteTableViewController: BaseViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        tableView.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
+        tableView.fillSuperview()
+        tableView.tableFooterView = UIView()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
     }
     
@@ -71,6 +72,9 @@ class FavouriteTableViewController: BaseViewController {
     func setupData() {
         let books = [BookItem]()
         
+        bookLists.removeAll()
+        filteredLists.removeAll()
+        
         //2 sections for bookLists
         bookLists.append(books)
         bookLists.append(books)
@@ -78,18 +82,23 @@ class FavouriteTableViewController: BaseViewController {
         filteredLists.append(books)
         
         if let user = ds.getCurrentUser() {
-            ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (items) in
+            ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (ids) in
                 
-                for item in items {
-                    let book = BookItem{
-                        $0.id = item
-                        $0.title = "CS3217"
-                        $0.author = "Ben Leong"
-                    }
-                    self.bookLists[0].append(book)
-                    print(self.bookLists[0])
+                let myGroup = DispatchGroup()
+                
+                for id in ids {
+                    myGroup.enter()
+                    
+                    self.library.getBook(byId: id, completionHandler: { (item) in
+                        self.bookLists[0].append(item)
+                        myGroup.leave()
+                    })
                 }
-                self.tableView.reloadData()
+                
+                myGroup.notify(queue: .main) {
+                    self.tableView.reloadData()
+                }
+                
             })
         }
     }

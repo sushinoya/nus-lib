@@ -10,6 +10,7 @@ import UIKit
 import Neon
 import RxSwift
 import RxCocoa
+import NVActivityIndicatorView
 
 class FavouriteCollectionViewController: BaseViewController {
     
@@ -50,7 +51,7 @@ class FavouriteCollectionViewController: BaseViewController {
     
     let ds: AppDataSource = FirebaseDataSource()
     
-    let libary: LibraryAPI = CentralLibrary()
+    let library: LibraryAPI = CentralLibrary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,18 +101,24 @@ class FavouriteCollectionViewController: BaseViewController {
         filteredLists.append(books)
         filteredLists.append(books)
         
+        setupViews()
         if let user = ds.getCurrentUser() {
-            ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (items) in
+            ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (ids) in
+
+                let myGroup = DispatchGroup()
                 
-                for item in items {
-                    let book = BookItem{
-                        $0.id = item
-                        $0.title = "CS3217"
-                        $0.author = "Ben Leong"
-                    }
-                    self.bookLists[0].append(book)
+                for id in ids {
+                    myGroup.enter()
+                    
+                    self.library.getBook(byId: id, completionHandler: { (item) in
+                        self.bookLists[0].append(item)
+                        myGroup.leave()
+                    })
                 }
-                self.collectionview.reloadData()
+                
+                myGroup.notify(queue: .main) {
+                    self.collectionview.reloadData()
+                }
             })
         }
     }
@@ -119,6 +126,7 @@ class FavouriteCollectionViewController: BaseViewController {
     private func setupViews() {
         view.addSubview(collectionview)
         view.addSubview(searchBar)
+
     }
     
     private func setUpGesture() {
