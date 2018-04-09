@@ -11,28 +11,28 @@ import UIKit
 class VerticalCollectionView<T: UICollectionViewCell>: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     private let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    private var cellCount: Int!
-    private var cellSize: CGSize!
-    private var columnPadding: UIEdgeInsets!
-    private var cellSpacing: CGFloat!
+    internal var cellWidth: CGFloat?
+    internal var cellHeight: CGFloat?
+    internal var columnPadding: UIEdgeInsets!
+    internal var cellSpacing: CGFloat!
     
-    init(frame: CGRect, cellCount: Int, cellHeight: CGFloat, cellSpacing: CGFloat = 0, columnPadding: UIEdgeInsets = UIEdgeInsets.zero){
-        super.init(frame: frame, collectionViewLayout: layout)
+    internal var data: [Any] = []
+    
+    internal var onDequeue: ((T, [Any], Int) -> ())?
+    
+    init(build: (VerticalCollectionView) -> Void){
+        super.init(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 1, height: 1)), collectionViewLayout: layout)
+        build(self)
+        
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .vertical
-        layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
-        
-        self.cellCount = cellCount
-        self.cellSize = CGSize(width: self.width - columnPadding.left - columnPadding.right, height: cellHeight)
-        self.cellSpacing = cellSpacing
-        self.columnPadding = columnPadding
+        layout.minimumLineSpacing = 1000.0
         
         self.delegate = self
         self.dataSource = self
         
         // automatically infer reusable identifier from the class name and register it
         self.register(T.self, forCellWithReuseIdentifier: String(describing: T.self))
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,7 +40,7 @@ class VerticalCollectionView<T: UICollectionViewCell>: UICollectionView, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellCount
+        return data.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -48,11 +48,15 @@ class VerticalCollectionView<T: UICollectionViewCell>: UICollectionView, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
+        let cell = dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
+        
+        onDequeue?(cell, data, indexPath.row)
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return cellSize
+        return CGSize(width: (cellWidth ?? 300) - columnPadding.left - columnPadding.right, height: cellHeight ?? 600)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
