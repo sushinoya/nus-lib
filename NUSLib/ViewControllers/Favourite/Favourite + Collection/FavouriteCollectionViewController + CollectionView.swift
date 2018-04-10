@@ -12,7 +12,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
         
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = view.frame.size.width
-        let threePiecesWidth = floor(screenWidth / 3.0 - ((20.0 / 3) * 2))
+        let threePiecesWidth = floor(screenWidth / 3.0 - ((60.0 / 3) * 2))
         let twoPiecesWidth = floor(screenWidth / 2.0 - (20.0 / 2))
         
         if indexPath.section == 0 {
@@ -35,7 +35,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

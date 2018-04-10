@@ -15,51 +15,42 @@ import GoogleBooksApiClient
 
 //Instance of LibraryAPI from the Central Library and it's data
 class CentralLibrary: LibraryAPI {
+
     
     func getBooks(byIds ids: [String], completionHandler: @escaping (([BookItem]) -> Void)) {
+        let myGroup = DispatchGroup()
         
         var books = [BookItem]()
-        
-        let dispatchGroup = DispatchGroup()
-        let dispatchQueue = DispatchQueue(label: "taskQueue")
-        let dispatchSemaphore = DispatchSemaphore(value: 0)
-        
-        dispatchQueue.async {
-            for id in ids {
-                dispatchGroup.enter()
-                SierraApiClient.shared.provider.request(.bib(id: id)) { result in
-                    switch result {
-                    case let .success(moyaResponse):
-                        let data = moyaResponse.data
-                        do {
-                            let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
-                            
-                            let book = BookItem{
-                                $0.id = jsonObject["id"] as? String
-                                $0.title = jsonObject["title"] as? String
-                                $0.author = jsonObject["author"] as? String
-                            }
-                            
-                            books.append(book)
-                            dispatchSemaphore.signal()
-                            dispatchGroup.leave()
-                        } catch {
-                            print(error)
+        for id in ids {
+            myGroup.enter()
+            SierraApiClient.shared.provider.request(.bib(id: id)) { result in
+                switch result {
+                case let .success(moyaResponse):
+                    let data = moyaResponse.data
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
+                        
+                        let book = BookItem{
+                            $0.id = jsonObject["id"] as? String
+                            $0.title = jsonObject["title"] as? String
+                            $0.author = jsonObject["author"] as? String
                         }
                         
-                    case let .failure(error):
+                        books.append(book)
+                        myGroup.leave()
+                    } catch {
                         print(error)
-                        return
                     }
+                    
+                case let .failure(error):
+                    print(error)
+                    return
                 }
-                dispatchSemaphore.wait()
             }
         }
         
-        dispatchGroup.notify(queue: dispatchQueue) {
-            DispatchQueue.main.async {
-                completionHandler(books)
-            }
+        myGroup.notify(queue: .main) {
+            completionHandler(books)
         }
         
     }

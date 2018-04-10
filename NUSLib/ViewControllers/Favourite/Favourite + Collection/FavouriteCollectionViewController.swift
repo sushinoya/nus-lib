@@ -29,6 +29,7 @@ class FavouriteCollectionViewController: BaseViewController {
         layout.sectionHeadersPinToVisibleBounds = false
         let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
+        collectionview.backgroundColor = UIColor.white
         collectionview.dataSource = self
         collectionview.delegate = self
         return collectionview
@@ -101,7 +102,6 @@ class FavouriteCollectionViewController: BaseViewController {
         filteredLists.append(books)
         filteredLists.append(books)
         
-        setupViews()
         if let user = ds.getCurrentUser() {
             ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (ids) in
                 self.library.getBooks(byIds: ids, completionHandler: { (items) in
@@ -115,7 +115,7 @@ class FavouriteCollectionViewController: BaseViewController {
     private func setupViews() {
         view.addSubview(collectionview)
         view.addSubview(searchBar)
-
+        
     }
     
     private func setUpGesture() {
