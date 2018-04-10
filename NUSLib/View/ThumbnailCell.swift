@@ -17,7 +17,7 @@ class ThumbnailCell: UICollectionViewCell {
                          options: [.transition(.fade(0.2))])
         this.contentMode = .scaleAspectFill
         this.layer.masksToBounds = true
-        this.layer.cornerRadius = 20
+        this.layer.cornerRadius = 10
         this.clipsToBounds = true
         return this
     }()

@@ -533,6 +533,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
+        
         return this
     }()
     
