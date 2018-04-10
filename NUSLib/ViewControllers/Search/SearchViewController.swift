@@ -25,7 +25,7 @@ class SearchViewController: BaseViewController {
     lazy var tableView: UITableView = { [unowned self] in
         let tableView = UITableView(frame: view.frame, style: .plain)
         tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: topSeachTableCellID)
-        tableView.tableFooterView = UIView()
+        tableView.rowHeight = 170
         return tableView
     }()
     
@@ -138,7 +138,11 @@ class SearchViewController: BaseViewController {
         }).disposed(by: disposeBag)
         
         searchResultObservable.bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
-            cell.topSearchLabel.text = model.title
+                cell.topSearchLabel.text = model.title
+                cell.author.text = model.author
+                cell.topSearchLabel2.text = model.title
+                cell.author2.text = model.author
+                cell.bounds.size = CGSize(width: 200, height: 100)
             }
             .disposed(by: disposeBag)
         
