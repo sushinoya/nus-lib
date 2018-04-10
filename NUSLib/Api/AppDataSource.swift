@@ -22,6 +22,7 @@ protocol AppDataSource {
     func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void)
     func getReviewsByUser(userID: String, completionHandler: @escaping ([Review]) -> Void)
 
+    func updateUserPassword(newPassword: String, completionHandler: @escaping (Constants.resetPasswordState) -> Void) 
     func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)
     func isUserSignedIn() -> Bool
     func getCurrentUser() -> UserProfile?

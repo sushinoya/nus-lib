@@ -135,6 +135,26 @@ class FirebaseDataSource: AppDataSource {
         }
     }
 
+    func updateUserPassword(newPassword: String, completionHandler: @escaping (Constants.resetPasswordState) -> Void) {
+        guard let user = Auth.auth().currentUser else {
+            print("no user")
+            return
+        }
+        print("user.email : \(user.email)")
+        user.updatePassword(to: newPassword, completion: { (error) in
+            if let error = error {
+                if error.localizedDescription == "FIRAuthErrorCodeWeakPassword" {
+                    completionHandler(Constants.resetPasswordState.weakPassword)
+                } else {
+                    print("....... \(error.localizedDescription)")
+                    completionHandler(Constants.resetPasswordState.error)
+                }
+            } else {
+                completionHandler(Constants.resetPasswordState.success)
+            }
+        })
+    }
+
     func getCurrentUser() -> UserProfile? {
         if let user = Auth.auth().currentUser {
             return UserProfile(username: user.email?.components(separatedBy: "@").first ?? "guest", userID: user.uid, email: user.email!)
