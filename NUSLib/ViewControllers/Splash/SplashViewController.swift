@@ -18,15 +18,20 @@ class SplashViewController: UIViewController {
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        Observable
-            .zip(api.getBooks(byTitle: "popular"), api.getBooks(byTitle: "university"))
-            .subscribe(onNext: { (popularBooks, recommendedBooks) in
-                self.state.popularBooks = popularBooks
-                self.state.recommendedBooks = recommendedBooks
-                self.performSegue(withIdentifier: "SplashToNavigation", sender: self)
+        FirebaseDataSource().getPopularItems(completionHandler: {ids in
+            self.api.getBooks(byIds: ids, completionHandler: { (popularItems) in
+                let popular: Variable<[BookItem]> = Variable(popularItems)
+                
+                Observable
+                    .zip(popular.asObservable(), self.api.getBooks(byTitle: "university"))
+                    .subscribe(onNext: { (popularBooks, recommendedBooks) in
+                        self.state.popularBooks = popularBooks
+                        self.state.recommendedBooks = recommendedBooks
+                        self.performSegue(withIdentifier: "SplashToNavigation", sender: self)
+                    })
+                    .disposed(by: self.disposeBag)
             })
-            .disposed(by: disposeBag)
-        
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

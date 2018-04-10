@@ -10,6 +10,7 @@ import UIKit
 import Neon
 import RxSwift
 import RxCocoa
+import NVActivityIndicatorView
 
 class FavouriteCollectionViewController: BaseViewController {
     
@@ -28,6 +29,7 @@ class FavouriteCollectionViewController: BaseViewController {
         layout.sectionHeadersPinToVisibleBounds = false
         let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
+        collectionview.backgroundColor = UIColor.white
         collectionview.dataSource = self
         collectionview.delegate = self
         return collectionview
@@ -50,7 +52,7 @@ class FavouriteCollectionViewController: BaseViewController {
     
     let ds: AppDataSource = FirebaseDataSource()
     
-    let libary: LibraryAPI = CentralLibrary()
+    let library: LibraryAPI = CentralLibrary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,17 +103,11 @@ class FavouriteCollectionViewController: BaseViewController {
         filteredLists.append(books)
         
         if let user = ds.getCurrentUser() {
-            ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (items) in
-                
-                for item in items {
-                    let book = BookItem{
-                        $0.id = item
-                        $0.title = "CS3217"
-                        $0.author = "Ben Leong"
-                    }
-                    self.bookLists[0].append(book)
-                }
-                self.collectionview.reloadData()
+            ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (ids) in
+                self.library.getBooks(byIds: ids, completionHandler: { (items) in
+                    self.bookLists[0] = items
+                    self.collectionview.reloadData()
+                })
             })
         }
     }
@@ -119,6 +115,7 @@ class FavouriteCollectionViewController: BaseViewController {
     private func setupViews() {
         view.addSubview(collectionview)
         view.addSubview(searchBar)
+        
     }
     
     private func setUpGesture() {

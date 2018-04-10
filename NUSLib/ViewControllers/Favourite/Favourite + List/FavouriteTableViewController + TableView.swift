@@ -26,7 +26,6 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
         
         let book = getBookItem(at: indexPath)        
         cell.textLabel?.text = book.title
-//        cell.imageView?.image = book.getThumbNail()
         return cell
     }
     
