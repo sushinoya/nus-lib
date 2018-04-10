@@ -9,6 +9,7 @@
 import Foundation
 import Firebase
 
+
 class FirebaseDataSource: AppDataSource {
     
     private var database: DatabaseReference
@@ -140,14 +141,12 @@ class FirebaseDataSource: AppDataSource {
             print("no user")
             return
         }
-        print("user.email : \(user.email)")
         user.updatePassword(to: newPassword, completion: { (error) in
-            if let error = error {
-                if error.localizedDescription == "FIRAuthErrorCodeWeakPassword" {
-                    completionHandler(Constants.resetPasswordState.weakPassword)
-                } else {
-                    print("....... \(error.localizedDescription)")
-                    completionHandler(Constants.resetPasswordState.error)
+            if let errorCode = AuthErrorCode( rawValue: (error?._code)!) {
+                switch errorCode {
+                    case .weakPassword : completionHandler(Constants.resetPasswordState.weakPassword)
+                    case .requiresRecentLogin: completionHandler(Constants.resetPasswordState.loginTimeOut)
+                    default : completionHandler(Constants.resetPasswordState.error)
                 }
             } else {
                 completionHandler(Constants.resetPasswordState.success)

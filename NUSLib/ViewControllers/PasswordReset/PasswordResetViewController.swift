@@ -107,13 +107,11 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         let newPasswordRetyped = newPasswordFieldRetyped?.text
         
         if newPassword == newPasswordRetyped {
-            
             // Reset password here
-            print("reseting pasowrd... \n")
             let ds: AppDataSource = FirebaseDataSource()
             ds.updateUserPassword(newPassword: newPassword!, completionHandler: self.resetResult)
         } else {
-            
+            // Ask user to match passwords
         }
 
         self.dismiss(animated: true) {
