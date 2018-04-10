@@ -118,7 +118,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         loading.startAnimating()
         
         // get the book by id
-        let book = api.getBook(byId: state?.itemDetail?.id ?? "1000001")
+        let book = api.getBook(byId: state?.itemDetail?.id ?? "1000002")
             .debug()
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
@@ -177,7 +177,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             .bind(to: self.googleRecommendationCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
                 cell.title.text = model.title
                 cell.subtitle.text = model.author
-                cell.thumbnail.kf.setImage(with: model.thumbnail)
+                cell.thumbnail.kf.setImage(with: model.thumbnail, options: [.transition(.fade(0.2))])
                 cell.alpha = 0
                 cell.animateFadeIn()
             }
@@ -512,6 +512,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             $0.cellSize = CGSize(width: 350, height: 200)
             $0.cellSpacing = 25
             $0.sectionPadding =  UIEdgeInsets(top: 0, left: 25, bottom: 25, right: 0)
+            $0.data = ["1", "2", "3", "4", "5", "6", "7"]
         }
         
         this.showsVerticalScrollIndicator = false
