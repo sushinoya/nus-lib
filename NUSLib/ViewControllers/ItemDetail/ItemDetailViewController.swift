@@ -403,11 +403,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                     ds.addToFavourite(by: uid, bookid: bookid, bookTitle: self.previewTitle.text ?? "Unknown Book" ){ isSuccess in
                         
                         if isSuccess {
-                            self.updateCount(bookid: bookid, value: 1)
+                            ds.updateCount(bookid: bookid, value: -1)
                             this.setImage(UIImage.fontAwesomeIcon(name: .times, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
                         } else {
                             ds.deleteFavourite(by: uid, bookid: bookid, completionHandler: {
-                                self.updateCount(bookid: bookid, value: -1)
+                                ds.updateCount(bookid: bookid, value: 1)
                                 this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
                             })
                         }
@@ -428,27 +428,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         
         return this
     }()
-    
-    func updateCount(bookid: String, value: Int) {
-        self.database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
-            if var bibs = data.value as? [String: AnyObject] {
-                
-                var dummyVal = bibs["count"] as? Int ?? 0
-                
-                dummyVal = dummyVal + value
-                
-                bibs["count"] = dummyVal as AnyObject?
-                
-                data.value = bibs
-            }
-            
-            return TransactionResult.success(withValue: data)
-        }) { (error, committed, snapshot) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-    }
     
     private func setupAlertController(title: String, message: String) -> UIAlertController {
         let alert = UIAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.", preferredStyle: .alert)
