@@ -192,6 +192,7 @@ class FavouriteCollectionViewController: BaseViewController {
                 
                 if let user = ds.getCurrentUser() {
                     ds.deleteFavourite(by: user.getUserID(), bookid: (item?.id)!, completionHandler: {
+                        self.ds.updateCount(bookid: (item?.id)!, value: 1)
                     })
                 }
                

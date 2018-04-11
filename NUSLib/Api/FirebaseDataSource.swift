@@ -19,18 +19,15 @@ class FirebaseDataSource: AppDataSource {
 
     func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
         
-        database.child("FavouritesCount").queryOrdered(byChild: "count")
+        database.child("FavouritesCount").queryOrdered(byChild: "count").queryLimited(toFirst: 10)
             .observe( .value) { (snapshot) in
             
             if snapshot.exists() {
                 var bookIds = [String]()
-                
+
                 for child in snapshot.children.reversed() {
                     let snap = child as! DataSnapshot
                     bookIds.append(snap.key)
-                    if bookIds.count == 5 {
-                        break
-                    }
                 }
                 completionHandler(bookIds)
             } else {
@@ -204,6 +201,28 @@ class FirebaseDataSource: AppDataSource {
                 completionHandler(bookIds)
             } else {
                 print("Record not found")
+            }
+        }
+    }
+    
+    func updateCount(bookid: String, value: Int) {
+        
+        database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
+            if var bibs = data.value as? [String: AnyObject] {
+                
+                var dummyVal = bibs["count"] as? Int ?? 0
+                
+                dummyVal = dummyVal + value
+                
+                bibs["count"] = dummyVal as AnyObject?
+                
+                data.value = bibs
+            }
+            
+            return TransactionResult.success(withValue: data)
+        }) { (error, committed, snapshot) in
+            if let error = error {
+                print(error.localizedDescription)
             }
         }
     }
