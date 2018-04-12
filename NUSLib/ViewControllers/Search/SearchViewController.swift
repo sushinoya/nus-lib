@@ -17,18 +17,39 @@ class SearchViewController: BaseViewController {
         let searchController = NoCancelButtonSearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.backgroundColor = UIColor.blue
         searchController.searchBar.tintColor = UIColor.blue
         searchController.searchBar.placeholder = "Please Enter"
         return searchController
     }()
+//
+//    lazy var tableView: UITableView = { [unowned self] in
+//        let tableView = UITableView(frame: view.frame, style: .plain)
+//        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: topSeachTableCellID)
+//        tableView.rowHeight = 170
+//        return tableView
+//    }()
     
-    lazy var tableView: UITableView = { [unowned self] in
-        let tableView = UITableView(frame: view.frame, style: .plain)
-        tableView.register(TopSeachTableCell.self, forCellReuseIdentifier: topSeachTableCellID)
-        tableView.rowHeight = 170
-        return tableView
-    }()
+     var topSearchCollectionViewCellID = "topSearchCollectionViewCell"
     
+//    lazy var searchBar: UISearchBar = {[unowned self] in
+//        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
+//        searchBar.placeholder = "Search Title"
+//        searchBar.tintColor = .blue
+//        searchBar.delegate = self
+//        return searchBar
+//        }()
+    
+    lazy var collectionView: UICollectionView = { [unowned self] in
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 30, left: 20, bottom: 30, right: 20)
+        layout.itemSize = CGSize(width: view.frame.width / 2.0 - 40, height: 170)
+        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 60)
+        let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionview.register(TopSeachCollectionViewCell.self, forCellWithReuseIdentifier: topSearchCollectionViewCellID)
+        collectionview.backgroundColor = UIColor.white
+        return collectionview
+        }()
 
     let topSeachTableCellID = "topSeachTableCell"
     
@@ -57,14 +78,7 @@ class SearchViewController: BaseViewController {
         self.definesPresentationContext = true;
     }
     
-    private func setupData() {
-        /*
-        topSearchList.value.append(BookItem(id: "nil", name: "CS3217", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(id: "nil", name: "NUS", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(id: "nil", name: "HARRY", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(id: "nil", name: "C2222O", image: #imageLiteral(resourceName: "Sample9")))
-        topSearchList.value.append(BookItem(id: "nil", name: "PSD4444444", image: #imageLiteral(resourceName: "Sample9")))*/
-        
+    private func setupData() {        
         topSearchList.value.append(BookItem {
             $0.id = "0001"
             $0.title = "CS3217"
@@ -72,11 +86,17 @@ class SearchViewController: BaseViewController {
         })
     }
     
+//    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//        tableView.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
+//        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+//    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        tableView.anchorToEdge(.top, padding: 0, width: view.frame.width, height: view.frame.height)
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        collectionView.anchorToEdge(.top, padding: 60, width: view.frame.width, height: view.frame.height)
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isTranslucent = true
@@ -112,9 +132,14 @@ class SearchViewController: BaseViewController {
         navigationItem.title = Constants.NavigationBarTitle.SearchTitle
     }
     
+//    private func setupViews() {
+//        view.addSubview(tableView)
+//        tableView.tableHeaderView = searchController.searchBar
+//    }
+//
     private func setupViews() {
-        view.addSubview(tableView)
-        tableView.tableHeaderView = searchController.searchBar
+        view.addSubview(collectionView)
+        collectionView.addSubview(searchController.searchBar)
     }
     
     /*
@@ -146,24 +171,44 @@ class SearchViewController: BaseViewController {
             }
         }).disposed(by: disposeBag)
         
-        searchResultObservable.bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
-                cell.topSearchLabel.text = model.title
-                cell.author.text = model.author
-                cell.topSearchLabel2.text = model.title
-                cell.author2.text = model.author
-                cell.bounds.size = CGSize(width: 200, height: 100)
+        searchResultObservable.bind(to: collectionView.rx.items(cellIdentifier: topSearchCollectionViewCellID, cellType: TopSeachCollectionViewCell.self)) {index, model, cell in
+            cell.topSearchLabel.text = model.title
+            cell.author.text = model.author
             }
             .disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(BookItem.self).subscribe(onNext:  { model in
-            if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
-                self.tableView.deselectRow(at: selectedRowIndexPath, animated: true)
+        collectionView.rx.modelSelected(BookItem.self).subscribe(onNext: {
+            model in
+            
+            if let selectedIndexPath = self.collectionView.indexPathsForSelectedItems?.first {
+                self.collectionView.deselectItem(at: selectedIndexPath, animated: true)
             }
-            print("index...... \(model.title)")
             self.state?.itemDetail = model
             self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
             
         }).disposed(by: disposeBag)
+        
+    
+    
+        
+//        searchResultObservable.bind(to: tableView.rx.items(cellIdentifier: topSeachTableCellID, cellType: TopSeachTableCell.self)) { index, model, cell in
+//                cell.topSearchLabel.text = model.title
+//                cell.author.text = model.author
+//                cell.topSearchLabel2.text = model.title
+//                cell.author2.text = model.author
+//                cell.bounds.size = CGSize(width: 200, height: 100)
+//            }
+//            .disposed(by: disposeBag)
+    
+//        tableView.rx.modelSelected(BookItem.self).subscribe(onNext:  { model in
+//            if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
+//                self.tableView.deselectRow(at: selectedRowIndexPath, animated: true)
+//            }
+//            print("index...... \(model.title)")
+//            self.state?.itemDetail = model
+//            self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
+//
+//        }).disposed(by: disposeBag)
     }
     
     @objc func performSort() {

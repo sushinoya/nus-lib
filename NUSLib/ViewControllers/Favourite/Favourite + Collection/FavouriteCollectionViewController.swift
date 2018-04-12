@@ -107,6 +107,7 @@ class FavouriteCollectionViewController: BaseViewController {
                 self.library.getBooks(byIds: ids, completionHandler: { (items) in
                     self.bookLists[0] = items
                     self.collectionview.reloadData()
+                    self.filter(searchTerm: self.searchBar.text!)
                 })
             })
         }
