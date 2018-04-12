@@ -128,7 +128,7 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.rx.text
         .orEmpty
         .distinctUntilChanged()
-            .debounce(1, scheduler: ConcurrentMainScheduler.instance)
+        .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
         .bind(to: searchValue)
         .disposed(by: disposeBag)
         
