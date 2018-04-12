@@ -17,15 +17,27 @@ import RxCocoa
 class LoginViewController: BaseViewController {
     var nameField: SkyFloatingLabelTextFieldWithIcon?
     var passwordField: SkyFloatingLabelTextFieldWithIcon?
-    lazy var texture: UIView = {
-        let texture = UIView()
-        texture.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "crissxcross"))
+    lazy var texture: UIImageView = {
+        let texture = UIImageView()
+        texture.image = #imageLiteral(resourceName: "spashscreenv1")
         return texture
+    }()
+    
+    lazy var overlay: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        
+        let this = UIVisualEffectView(effect: effect)
+        this.layer.cornerRadius = 25
+        this.clipsToBounds = true
+        this.alpha = 0.8
+        
+        return this
     }()
     
     lazy var logo: UIImageView = {
         let logo = UIImageView()
-        logo.image = #imageLiteral(resourceName: "logo")
+        logo.image = #imageLiteral(resourceName: "Library")
+        logo.contentMode = .center
         return logo
     }()
     
@@ -33,14 +45,16 @@ class LoginViewController: BaseViewController {
         let studentId = SkyFloatingLabelTextFieldWithIcon()
         studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentId.iconText = String.fontAwesomeIcon(name: .idCard)
-        studentId.autocapitalizationType = .allCharacters
+        studentId.iconColor = UIColor.primaryTint1
         studentId.placeholder = "Matric Number"
         studentId.title = "Matric Number"
-        studentId.tintColor = UIColor.white // the color of the blinking cursor
-        studentId.textColor = UIColor.white
-        studentId.lineColor = UIColor.white
-        studentId.selectedTitleColor = UIColor.accent2
-        studentId.selectedLineColor = UIColor.accent2
+        studentId.tintColor = UIColor.primary // the color of the blinking cursor
+        studentId.textColor = UIColor.primary
+        studentId.lineColor = UIColor.primary
+        studentId.selectedTitleColor = UIColor.primaryTint1
+        studentId.selectedLineColor = UIColor.primaryTint1
+        studentId.placeholderColor = UIColor.primaryTint1
+        studentId.autocapitalizationType = .none
         studentId.tag = 0
         return studentId
     }()
@@ -49,12 +63,14 @@ class LoginViewController: BaseViewController {
         let studentPassword = SkyFloatingLabelTextFieldWithIcon()
         studentPassword.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentPassword.iconText = String.fontAwesomeIcon(name: .lock)
+        studentPassword.iconColor = UIColor.primaryTint1
         studentPassword.placeholder = "Password"
         studentPassword.title = "Password"
-        studentPassword.textColor = UIColor.white
-        studentPassword.lineColor = UIColor.white
-        studentPassword.selectedTitleColor = UIColor.accent2
-        studentPassword.selectedLineColor = UIColor.accent2
+        studentPassword.textColor = UIColor.primary
+        studentPassword.lineColor = UIColor.primary
+        studentPassword.selectedTitleColor = UIColor.primaryTint1
+        studentPassword.selectedLineColor = UIColor.primaryTint1
+        studentPassword.placeholderColor = UIColor.primaryTint1
         studentPassword.isSecureTextEntry = true
         studentPassword.tag = 1
         return studentPassword
@@ -84,6 +100,7 @@ class LoginViewController: BaseViewController {
         view.backgroundColor = UIColor.primary
         view.addSubview(texture)
         view.sendSubview(toBack: texture)
+        view.addSubview(overlay)
         view.addSubview(logo)
         view.addSubview(studentId)
         view.addSubview(studentPassword)
@@ -105,6 +122,8 @@ class LoginViewController: BaseViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         texture.fillSuperview()
+        
+        overlay.anchorInCenter(width: 500, height: 500)
         
         // align in the center, then offset by 100px upwards
         logo.anchorInCenter(width: 300, height: 202)
