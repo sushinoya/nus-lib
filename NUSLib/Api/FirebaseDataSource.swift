@@ -9,6 +9,7 @@
 import Foundation
 import Firebase
 
+
 class FirebaseDataSource: AppDataSource {
     
     private var database: DatabaseReference
@@ -130,6 +131,24 @@ class FirebaseDataSource: AppDataSource {
         } else {
             return false
         }
+    }
+
+    func updateUserPassword(newPassword: String, completionHandler: @escaping (Constants.resetPasswordState) -> Void) {
+        guard let user = Auth.auth().currentUser else {
+            print("no user")
+            return
+        }
+        user.updatePassword(to: newPassword, completion: { (error) in
+            if let errorCode = AuthErrorCode( rawValue: (error?._code)!) {
+                switch errorCode {
+                    case .weakPassword : completionHandler(Constants.resetPasswordState.weakPassword)
+                    case .requiresRecentLogin: completionHandler(Constants.resetPasswordState.loginTimeOut)
+                    default : completionHandler(Constants.resetPasswordState.error)
+                }
+            } else {
+                completionHandler(Constants.resetPasswordState.success)
+            }
+        })
     }
 
     func getCurrentUser() -> UserProfile? {

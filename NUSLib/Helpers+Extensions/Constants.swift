@@ -23,6 +23,13 @@ struct Constants {
         static let LoginTitle = "Login"
         static let HomeTitle = "Home"
     }
+    
+    enum resetPasswordState: String {
+        case success = "Successfully reset password!"
+        case loginTimeOut = "It seems you have not logged in recently enough to complete this reset"
+        case weakPassword = "The new password is too weak"
+        case error = "Could not complete this request at the moment"
+    }
 }
 
 // app theme & color branding

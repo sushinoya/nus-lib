@@ -73,10 +73,6 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "HomeToItemDetail" {
             if let vc = segue.destination as? BaseViewController {
-                state?.itemDetail = BookItem {
-                    $0.id = "1000001"
-                }
-                
                 vc.state = state
             }
         }
@@ -154,6 +150,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.rx
             .itemSelected
             .subscribe(onNext: { index in
+                let bookIndex = index[1]
+                self.state?.itemDetail = self.state?.popularBooks![bookIndex]
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)
@@ -208,6 +206,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.rx
             .itemSelected
             .subscribe(onNext: { index in
+                let bookIndex = index[1]
+                self.state?.itemDetail = self.state?.recommendedBooks![bookIndex]
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)
@@ -238,6 +238,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.rx
             .itemSelected
             .subscribe(onNext: { index in
+                let bookIndex = index[1]
+                self.state?.itemDetail = self.state?.recommendedBooks![bookIndex]
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)

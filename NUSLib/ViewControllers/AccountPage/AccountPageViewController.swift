@@ -50,7 +50,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
 
         // Account settings buttons
         
-        reviewCollection.groupAndAlign(group: .horizontal, andAlign: .underCentered, views: [resetPassword, deleteAccount, logoutAccount], relativeTo: reviewCollection, padding: 25, width: 200, height: 50)
+        reviewCollection.groupAndAlign(group: .horizontal, andAlign: .underCentered, views: [resetPassword, logoutAccount], relativeTo: reviewCollection, padding: 25, width: 200, height: 50)
 
         scrollView.fitToContent()
     }
@@ -65,7 +65,6 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         self.scrollView.addSubview(self.reviewCollection)
         self.scrollView.addSubview(self.infoTable)
         self.scrollView.addSubview(self.resetPassword)
-        self.scrollView.addSubview(self.deleteAccount)
         self.scrollView.addSubview(self.logoutAccount)
     }
     
@@ -186,38 +185,6 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
     
     @objc func resetPasswordHandler() {
         performSegue(withIdentifier: "AccountToPasswordReset", sender: self)
-    }
-    
-    
-    private(set) lazy var deleteAccount: ZFRippleButton = { [unowned self] in
-        let this = ZFRippleButton()
-        this.setTitle("FAVOURITE (0)", for: .normal)
-        this.backgroundColor = UIColor.accent4
-        this.layer.cornerRadius = 25
-        this.layer.shadowColor = UIColor.black.cgColor
-        this.layer.shadowOffset = CGSize(width: 1.5, height: 1.5)
-        this.layer.shadowRadius = 10
-        this.layer.shadowOpacity = 0.5
-        this.layer.masksToBounds = false
-        this.rippleColor = UIColor.white.withAlphaComponent(0.2)
-        this.rippleBackgroundColor = UIColor.clear
-        this.addTarget(self, action: #selector(deleteAccountHandler), for: .touchUpInside)
-        this.setTitle("Reset Account", for: .normal)
-        
-        return this
-    }()
-    
-    @objc func deleteAccountHandler() {
-        let alert = UIAlertController(title: "Are you sure?",
-                                      message: "This action is irreversible", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { _ in
-            
-            // Delete Account Implementation here
-            
-            return
-        }))
-
-        self.present(alert, animated: true, completion: nil)
     }
     
     private(set) lazy var logoutAccount: ZFRippleButton = { [unowned self] in

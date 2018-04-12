@@ -64,14 +64,9 @@ class SidebarTableViewController: UITableViewController {
         return false
     }
 
-    
-    // MARK: - Navigation to the Account Page
-
-    // Seguing to the Account Page
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination is AccountPageViewController {
-            // Send account details to account page?
-            // Unless that is accessible from the account page
+        if let vc = segue.destination as? BaseViewController {
+            vc.state = StateController()
         }
     }
 
