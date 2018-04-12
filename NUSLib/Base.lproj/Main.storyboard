@@ -363,7 +363,7 @@
                         <viewLayoutGuide key="safeArea" id="ZFo-ga-7WB"/>
                     </view>
                     <connections>
-                        <segue destination="Vc0-SF-kIy" kind="custom" identifier="ItemDetailToPostReview" id="aLP-Fc-tf9"/>
+                        <segue destination="Vc0-SF-kIy" kind="presentation" identifier="ItemDetailToPostReview" modalPresentationStyle="formSheet" id="aLP-Fc-tf9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eay-8V-hYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
