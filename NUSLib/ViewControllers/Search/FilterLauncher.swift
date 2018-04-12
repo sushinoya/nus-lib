@@ -108,6 +108,8 @@ class FilterLauncher: UIViewController {
                 self.titleLengthTextField.frame = CGRect(x: 120, y: window.frame.height, width: self.baseView.width, height: self.titleLengthTextField.height)
                 self.submitButton.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: self.submitButton.height)
                 self.titleLengthTextField.resignFirstResponder()
+                self.baseView.removeFromSuperview()
+                self.blackView.removeFromSuperview()
             }
         }
     }
@@ -144,7 +146,6 @@ class FilterLauncher: UIViewController {
         delegate?.update(text: length)
         baseView.removeFromSuperview()
         blackView.removeFromSuperview()
-        
     }
     
 }
