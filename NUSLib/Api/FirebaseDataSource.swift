@@ -139,7 +139,8 @@ class FirebaseDataSource: AppDataSource {
             return
         }
         user.updatePassword(to: newPassword, completion: { (error) in
-            if let errorCode = AuthErrorCode( rawValue: (error?._code)!) {
+            if  let validError = error,
+                let errorCode = AuthErrorCode( rawValue: validError._code) {
                 switch errorCode {
                     case .weakPassword : completionHandler(Constants.resetPasswordState.weakPassword)
                     case .requiresRecentLogin: completionHandler(Constants.resetPasswordState.loginTimeOut)
