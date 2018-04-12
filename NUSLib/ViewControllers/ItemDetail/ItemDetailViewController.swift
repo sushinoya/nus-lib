@@ -348,6 +348,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.textColor = UIColor.gray
         this.textAlignment = .left
         this.font = UIFont.title
+        
+        if let itemDetail = state?.itemDetail {
+            this.text = itemDetail.author
+        }
+        
         return this
     }()
     

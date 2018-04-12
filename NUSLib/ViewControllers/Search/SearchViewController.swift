@@ -86,6 +86,15 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.resignFirstResponder()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("performing seguee.... detail chosen : \(self.state?.itemDetail)")
+        if segue.identifier == "SearchToItemDetail" {
+            if let vc = segue.destination as? BaseViewController {
+                vc.state = state
+            }
+        }
+    }
+
     func setupNavigationBar() {
         let sortButton = UIButton(type: .system)
        
@@ -150,11 +159,8 @@ class SearchViewController: BaseViewController {
             if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
                 self.tableView.deselectRow(at: selectedRowIndexPath, animated: true)
             }
-            
-            //Pass String to ItemDetail ViewController
-            self.selectedString = model.title
-            self.selectedItem = model
-            
+            print("index...... \(model.title)")
+            self.state?.itemDetail = model
             self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
             
         }).disposed(by: disposeBag)

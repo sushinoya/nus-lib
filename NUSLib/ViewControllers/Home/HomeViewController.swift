@@ -152,7 +152,6 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
             .subscribe(onNext: { index in
                 let bookIndex = index[1]
                 self.state?.itemDetail = self.state?.popularBooks![bookIndex]
-                print("selecting book ... \(self.state?.itemDetail?.title) \n")
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)
@@ -207,6 +206,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.rx
             .itemSelected
             .subscribe(onNext: { index in
+                let bookIndex = index[1]
+                self.state?.itemDetail = self.state?.recommendedBooks![bookIndex]
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)
@@ -237,6 +238,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.rx
             .itemSelected
             .subscribe(onNext: { index in
+                let bookIndex = index[1]
+                self.state?.itemDetail = self.state?.recommendedBooks![bookIndex]
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)
