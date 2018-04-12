@@ -22,13 +22,15 @@ class PostReviewController: UIViewController {
     override func viewWillLayoutSubviews() {
         reviewTitle.anchorAndFillEdge(.top, xPad: 25, yPad: 25, otherSize: 25)
         reviewTitle.sizeToFit()
-        reviewTextArea.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 25, height: 250)
+        reviewTextArea.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 25, height: 230)
         reviewSeparator.alignAndFillWidth(align: .underCentered, relativeTo: reviewTextArea, padding: 0, height: 0.5)
         reviewSeparator.bounds = reviewSeparator.frame.insetBy(dx: 20, dy: 0)
-        ratingView.alignAndFillWidth(align: .underCentered, relativeTo: reviewTextArea, padding: 25, height: 50)
-        ratingView.frame = ratingView.frame.offsetBy(dx: 20, dy: 0)
-        submit.align(.underCentered, relativeTo: ratingView, padding: 0, width: 200, height: 40)
-        submit.frame = submit.frame.offsetBy(dx: -20, dy: 0)
+        ratingView.align(.underCentered, relativeTo: reviewTextArea, padding: 25, width: ratingView.width ,height: 50)
+        cancel.align(.underMatchingLeft, relativeTo: reviewTextArea, padding: 25, width: 200, height: 40)
+        cancel.frame = cancel.frame.offsetBy(dx: 25, dy: ratingView.height + 10)
+        submit.align(.underMatchingRight, relativeTo: reviewTextArea, padding: 25, width: 200, height: 40)
+        submit.frame = submit.frame.offsetBy(dx: -25, dy: ratingView.height + 10)
+        
     }
     
     override func viewDidLoad() {
@@ -39,6 +41,7 @@ class PostReviewController: UIViewController {
         view.addSubview(reviewSeparator)
         view.addSubview(ratingView)
         view.addSubview(submit)
+        view.addSubview(cancel)
     }
     
     func submitReview(){
@@ -79,6 +82,9 @@ class PostReviewController: UIViewController {
         this.rating = 5
         this.settings.starSize = 40
         this.settings.starMargin = 5
+        this.settings.filledImage = #imageLiteral(resourceName: "GoldStar")
+        this.settings.emptyImage = #imageLiteral(resourceName: "GoldStarEmpty")
+        
         return this
     }()
     
@@ -105,4 +111,28 @@ class PostReviewController: UIViewController {
         
         return this
     }()
+    
+    private(set) lazy var cancel: ZFRippleButton = { [unowned self] in
+        let this = ZFRippleButton()
+        this.setTitle("CANCEL", for: .normal)
+        this.imageView?.contentMode = .center
+        this.backgroundColor = .primaryTint1
+        this.layer.cornerRadius = 15
+        this.layer.shadowColor = UIColor.black.cgColor
+        this.layer.shadowOffset = CGSize(width: 1.5, height: 1.5)
+        this.layer.shadowRadius = 10
+        this.layer.shadowOpacity = 0.5
+        this.layer.masksToBounds = false
+        this.rippleColor = UIColor.white.withAlphaComponent(0.2)
+        this.rippleBackgroundColor = UIColor.clear
+        
+        this.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                self.dismiss(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
+        return this
+        }()
 }

@@ -495,12 +495,15 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
+                /*
                 let vc = self.storyboard!.instantiateViewController(withIdentifier: "PostReviewController")
                 vc.modalPresentationStyle = .popover
                 vc.popoverPresentationController?.sourceView = self.view
                 vc.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY), size: CGSize.zero)
                 vc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
-                self.present(vc, animated: true, completion: nil)
+                self.present(vc, animated: true, completion: nil)*/
+                self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
+                
             })
             .disposed(by: disposeBag)
         
