@@ -114,19 +114,18 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
             // Ask user to match passwords
         }
 
-        self.dismiss(animated: true) {
 
-        }
     }
 
     func resetResult(result: Constants.resetPasswordState) {
         let alert = UIAlertController(title: "RESULT",
                                       message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-                return
+            self.dismiss(animated: true, completion: nil)
         }))
         alert.message = result.rawValue
         print(result.rawValue)
+        
         self.present(alert, animated: true, completion: nil)
     }
     

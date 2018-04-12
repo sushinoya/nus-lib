@@ -213,9 +213,8 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
             self.navigationController?.popToRootViewController(animated: true)
         }))
         
-        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (_) in
-            self.dismiss(animated: true, completion: nil)
-        }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+
         self.present(alert, animated: true, completion: nil)
         
        
