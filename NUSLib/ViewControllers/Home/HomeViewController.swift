@@ -73,6 +73,11 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "HomeToItemDetail" {
             if let vc = segue.destination as? BaseViewController {
+
+                state?.itemDetail = BookItem {
+                    $0.id = "1000008"
+                }
+                
                 vc.state = state
             }
         }
