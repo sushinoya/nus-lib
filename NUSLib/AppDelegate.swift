@@ -43,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             TWTRTwitter.sharedInstance().start(withConsumerKey:twitterCreds.id, consumerSecret:twitterCreds.secret!)
         }
         
+        // configure sierra client
+        SierraApiClient.configure()
+        
         // configure logger
         log.setup(level: .debug,
                   showLogIdentifier: false,
