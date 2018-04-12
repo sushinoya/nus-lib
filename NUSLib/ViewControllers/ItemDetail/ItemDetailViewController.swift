@@ -130,6 +130,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 
                 self.previewTitle.text = bookItem.title
                 self.previewSubtitle.text = (bookItem.author?.isEmpty ?? true) ? "Unknown Author" : bookItem.author
+                self.location.text = (bookItem.location?.isEmpty ?? true) ? "Central Library Level 2" : bookItem.location
                 
                 self.previewImageShadow.expand(into: self.scrollView, finished: nil)
                 self.previewImage.expand(into: self.scrollView, finished: nil) },
