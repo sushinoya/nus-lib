@@ -19,6 +19,7 @@
 		42758D5B205988B4007C5629 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42758D5A205988B4007C5629 /* UserProfile.swift */; };
 		42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42758D5C20598BA8007C5629 /* DisplayableItem.swift */; };
 		4275CD0C20598FFD00943195 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275CD0B20598FFD00943195 /* Constants.swift */; };
+		42DD1DFD207F3FCF0066771F /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DD1DFC207F3FCF0066771F /* CacheManager.swift */; };
 		4A0881CE206B9503007E5EBA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A0881CD206B9502007E5EBA /* GoogleService-Info.plist */; };
 		4A0881D1206BD5AE007E5EBA /* StateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0881D0206BD5AE007E5EBA /* StateController.swift */; };
 		4A2E7F8E207B42110046FA79 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2E7F8D207B42110046FA79 /* SplashViewController.swift */; };
@@ -105,6 +106,7 @@
 		42758D5A205988B4007C5629 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		42758D5C20598BA8007C5629 /* DisplayableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableItem.swift; sourceTree = "<group>"; };
 		4275CD0B20598FFD00943195 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		42DD1DFC207F3FCF0066771F /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		4A0881CD206B9502007E5EBA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A0881D0206BD5AE007E5EBA /* StateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateController.swift; sourceTree = "<group>"; };
 		4A2E7F8D207B42110046FA79 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				4A6FA4862062D938005B0681 /* SierraApiClient.swift */,
 				4A6FA482206281F9005B0681 /* SierraApi.swift */,
 				4A6C7E42206AA2410005B29E /* SierraApi.json */,
+				42DD1DFC207F3FCF0066771F /* CacheManager.swift */,
 			);
 			path = Api;
 			sourceTree = "<group>";
@@ -870,6 +873,7 @@
 				EC681242206E308100F9F8F8 /* FilterLauncher.swift in Sources */,
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4AB8BEE62077F22400224699 /* GoogleBooksApi+RxSwift.swift in Sources */,
+				42DD1DFD207F3FCF0066771F /* CacheManager.swift in Sources */,
 				4A729C392064DEE800B62D9F /* HorizontalCollectionView.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
 				42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */,
