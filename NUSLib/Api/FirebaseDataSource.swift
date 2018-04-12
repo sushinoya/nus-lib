@@ -43,7 +43,7 @@ class FirebaseDataSource: AppDataSource {
     
     func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void) {
         let userReviews = database.child("Reviews")
-        userReviews.observe( .value) { (snapshot) in
+        userReviews.observeSingleEvent(of: .value) { (snapshot) in
             var reviews = [Review]()
             if snapshot.exists() {
                 let data = snapshot.value as? NSDictionary

@@ -39,8 +39,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         previewImage.anchorInCorner(.topLeft, xPad: 50, yPad: 50, width: 250, height: 417)
         previewImageShadow.frame = previewImage.frame
         
-        previewTitle.alignAndFillWidth(align: .toTheRightMatchingTop, relativeTo: previewImage, padding: 50, height: 25)
-        previewTitle.sizeToFit()
+        previewTitle.alignAndFillWidth(align: .toTheRightMatchingTop, relativeTo: previewImage, padding: 50, height: previewTitle.height)
         
         previewSubtitle.alignAndFillWidth(align: .toTheRightMatchingTop, relativeTo: previewImage, padding: 50, height: 25, offset: previewTitle.height)
         previewSubtitle.sizeToFit()
@@ -119,9 +118,9 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         
         // get the book by id
         let book = api.getBook(byId: state?.itemDetail?.id ?? "1000002")
-            .debug()
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
+                
                 self.addSubviews()
                 
                 self.setupSimilarMediaTapAction()
@@ -130,7 +129,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 self.scrollView.animateFadeIn()
                 
                 self.previewTitle.text = bookItem.title
-                self.previewSubtitle.text = "by \(bookItem.author ?? "Unknown Author")"
+                self.previewSubtitle.text = (bookItem.author?.isEmpty ?? true) ? "Unknown Author" : bookItem.author
                 
                 self.previewImageShadow.expand(into: self.scrollView, finished: nil)
                 self.previewImage.expand(into: self.scrollView, finished: nil) },
@@ -182,6 +181,20 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 cell.animateFadeIn()
             }
             .disposed(by: disposeBag)
+        
+        book.subscribe(onNext: { (bookItem) in
+            FirebaseDataSource().getReviewsForBook(bookId: bookItem.id ?? "") { (reviews) in
+                guard !reviews.isEmpty else {
+                    self.reviewCollection.displayEmptyResult()
+                    return
+                }
+                
+                self.reviewCollection.data = reviews
+                self.reviewCollection.reloadData()
+            }
+        })
+        .disposed(by: disposeBag)
+        
     }
     
     private func setupSimilarMediaCollections() {
@@ -332,12 +345,9 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.textColor = UIColor.white
         this.textAlignment = .left
         this.font = UIFont.secondary
-        this.lineBreakMode = .byWordWrapping
-        this.numberOfLines = 0
-        
-        if let itemDetail = state?.itemDetail {
-            this.text = itemDetail.title
-        }
+        this.lineBreakMode = .byTruncatingTail
+        this.numberOfLines = 3
+        this.bounds.size = CGSize(width: 1, height: CGFloat(this.numberOfLines) * this.font.lineHeight)
         
         return this
     }()
@@ -348,10 +358,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.textColor = UIColor.gray
         this.textAlignment = .left
         this.font = UIFont.title
-        
-        if let itemDetail = state?.itemDetail {
-            this.text = itemDetail.author
-        }
         
         return this
     }()
@@ -396,7 +402,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             
             ds.getFavourite(by: uid, bookid: bookid, completionHandler: { (isMarked) in
                 if isMarked {
-                    this.setImage(UIImage.fontAwesomeIcon(name: .times, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
+                    this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
                 } 
                 
             })
@@ -409,7 +415,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                         
                         if isSuccess {
                             ds.updateCount(bookid: bookid, value: -1)
-                            this.setImage(UIImage.fontAwesomeIcon(name: .times, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
+                            this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
                         } else {
                             ds.deleteFavourite(by: uid, bookid: bookid, completionHandler: {
                                 ds.updateCount(bookid: bookid, value: 1)
@@ -495,15 +501,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
-                /*
-                let vc = self.storyboard!.instantiateViewController(withIdentifier: "PostReviewController")
-                vc.modalPresentationStyle = .popover
-                vc.popoverPresentationController?.sourceView = self.view
-                vc.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY), size: CGSize.zero)
-                vc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
-                self.present(vc, animated: true, completion: nil)*/
                 self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
-                
             })
             .disposed(by: disposeBag)
         
@@ -515,7 +513,14 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             $0.cellSize = CGSize(width: 350, height: 200)
             $0.cellSpacing = 25
             $0.sectionPadding =  UIEdgeInsets(top: 0, left: 25, bottom: 25, right: 0)
-            $0.data = ["1", "2", "3", "4", "5", "6", "7"]
+            $0.data = []
+            $0.onDequeue = { cell, data, index in
+                let items = data.map{ $0 as! Review }
+                
+                cell.author.text = "who the fuck"
+                cell.content.text = items[index].reviewText
+                cell.rating.rating = Double(items[index].rating)
+            }
         }
         
         this.showsVerticalScrollIndicator = false
