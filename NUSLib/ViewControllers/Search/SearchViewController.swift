@@ -124,8 +124,13 @@ class SearchViewController: BaseViewController {
         Filterresultbook will then bind the data to table
      */
     func setupRxSwfitSearch() {
-    
-        searchController.searchBar.rx.text.orEmpty.distinctUntilChanged().bind(to: searchValue).disposed(by: disposeBag)
+        
+        searchController.searchBar.rx.text
+        .orEmpty
+        .distinctUntilChanged()
+            .debounce(1, scheduler: ConcurrentMainScheduler.instance)
+        .bind(to: searchValue)
+        .disposed(by: disposeBag)
         
         searchValueObservable.subscribe(onNext: { [unowned self] (value) in
             self.isSearching = true
@@ -134,10 +139,10 @@ class SearchViewController: BaseViewController {
             } else {
                 self.searchValueObservable
                     .map { $0.lowercased() }
-                    .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
                     .distinctUntilChanged()
                     .asObservable()
                     .flatMapLatest { request -> Observable<[BookItem]> in
+                        print(request)
                         return self.api.getBooks(byTitle: request)
                     }
                     .map{ $0.map{ $0 as DisplayableItem }}
