@@ -16,6 +16,7 @@ class BookItem: DisplayableItem, Mappable {
     var thumbnail: URL?
     var rating: Int?
     var author: String?
+    var location: String?
     
     required init?(map: Map) {
         
@@ -25,6 +26,7 @@ class BookItem: DisplayableItem, Mappable {
         id      <- map["id"]
         title   <- map["title"]
         author  <- map["author"]
+        location <- map["locations.0.name"]
     }
     
     init(build: (BookItem) -> Void) {
@@ -36,6 +38,7 @@ extension BookItem: Equatable {
     static func == (lhs: BookItem, rhs: BookItem) -> Bool {
         return lhs.title == rhs.title &&
                lhs.rating == rhs.rating &&
-               lhs.author == rhs.author
+               lhs.author == rhs.author &&
+               lhs.location == rhs.location
     }
 }
