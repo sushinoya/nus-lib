@@ -28,7 +28,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         setupNavigationBar()
         addSubviews()
-        
+        setupData()
     }
     
     private func setupNavigationBar() {
@@ -65,6 +65,19 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         reviewCollection.groupAndAlign(group: .horizontal, andAlign: .underCentered, views: [resetPassword, logoutAccount], relativeTo: reviewCollection, padding: 25, width: 200, height: 50)
 
         scrollView.fitToContent()
+    }
+    
+    //Mark: - Setup Data
+    private func setupData() {
+        
+        if let user = FirebaseDataSource().getCurrentUser() {
+            FirebaseDataSource().getReviewsByUser(userID: user.getUserID()) { (reviews) in
+                self.reviewCollection.data = reviews
+                self.reviewCollection.reloadData()
+            }
+        }
+        
+       
     }
     
     //MARK: - Lazy initionlization views
@@ -132,18 +145,43 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    private(set) lazy var reviewCollection: HorizontalCollectionView<UserReviewCell> = {
+    
+    private(set) lazy var reviewCollection: HorizontalCollectionView<UserReviewCell> = { [unowned self] in
+        
         let this = HorizontalCollectionView<UserReviewCell> {
             $0.cellSize = CGSize(width: 350, height: 200)
             $0.cellSpacing = 25
             $0.sectionPadding =  UIEdgeInsets(top: 0, left: 25, bottom: 25, right: 0)
+            $0.data = self.state?.popularBooks ?? []
+            $0.onDequeue = { cell, data, index in
+                let items = data.map{ $0 as! Review }
+                
+                cell.author.text = "who the fuck"
+                cell.content.text = items[index].reviewText
+                cell.rating.rating = Double(items[index].rating)
+
+            }
         }
         
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
+        this.isPagingEnabled = true
+        
+        this.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                guard let book = this.data[index.row] as? BookItem else {
+                    return
+                }
+                
+                self.state?.itemDetail = book
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
         return this
-    }()
+        }()
     
     
     private(set) lazy var infoTable: UITableView = {
