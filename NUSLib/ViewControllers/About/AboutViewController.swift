@@ -74,7 +74,11 @@ class AboutViewController: BaseViewController {
     
     private(set) lazy var developersDescription: UILabel = {
         let this = UILabel()
-        this.text = "Bacon ipsum dolor amet ribeye ham hock bacon, short ribs capicola t-bone meatloaf ham fatback ball tip cow drumstick cupim. Chuck capicola ground round biltong. Cow tail biltong tenderloin buffalo beef pork chop corned beef turkey ground round bacon shoulder chuck tri-tip ball tip. Short loin tail ham, pork loin shankle ribeye sirloin pig kielbasa. Porchetta rump pig kevin burgdoggen cow turducken filet mignon kielbasa."
+        this.text = "CS3217 TEAM Hyena \n"
+                + "Cao Liang @https://github.com/caoliangnus\n"
+                + "Kang Fei @https://github.com/kfwong\n"
+                + "Ram @https://github.com/ramjanarthan\n"
+                + "Suyash @https://github.com/sushinoya"
         this.textColor = UIColor.primary
         this.textAlignment = .left
         this.font = UIFont.content
