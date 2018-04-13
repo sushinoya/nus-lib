@@ -175,6 +175,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             
             // bind result to collection view
             .bind(to: self.googleRecommendationCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
+                cell.data = model
                 cell.title.text = model.title
                 cell.subtitle.text = model.author
                 cell.thumbnail.kf.setImage(with: model.thumbnail, options: [.transition(.fade(0.2))])
@@ -591,6 +592,23 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
         this.backgroundColor = UIColor.clear
         this.showsHorizontalScrollIndicator = false
+
+        this.rx.itemSelected.subscribe(onNext: { (index) in
+            if let cell = this.cellForItem(at: index) as? BookCollectionViewCell,
+                let item = cell.data as? DisplayableItem,
+                let link = item.infoLink{
+                
+                let alert = UIAlertController(title: "External Weblink", message: "This will open the link in your browser.", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Yes", style: .default) { action in
+                    UIApplication.shared.open(link, options: [:], completionHandler: nil)
+                })
+                
+                self.present(alert, animated: true)
+                
+            }
+        }).disposed(by: disposeBag)
         
         return this
     }()
