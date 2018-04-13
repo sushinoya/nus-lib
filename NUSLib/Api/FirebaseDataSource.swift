@@ -46,6 +46,7 @@ class FirebaseDataSource: AppDataSource {
         userReviews.observeSingleEvent(of: .value) { (snapshot) in
             var reviews = [Review]()
             if snapshot.exists() {
+                print(snapshot)
                 let data = snapshot.value as? NSDictionary
                 for value in (data?.allValues)! {
                     let current = value as! NSDictionary
@@ -61,6 +62,7 @@ class FirebaseDataSource: AppDataSource {
             }
             completionHandler(reviews)
         }
+        
     }
     
     func getReviewsByUser(userID: String, completionHandler: @escaping ([Review]) -> Void) {
@@ -197,13 +199,7 @@ class FirebaseDataSource: AppDataSource {
     func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> Void) {
         let userFavourite = database.child("UserFavourites").child(userId)
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
-            var isMarked = false
-            if snapshot.exists() {
-                isMarked = true
-            } else {
-                isMarked = false
-            }
-            completionHandler(isMarked)
+            completionHandler(snapshot.exists())
         }
     }
     

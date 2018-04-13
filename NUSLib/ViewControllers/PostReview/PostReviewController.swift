@@ -14,9 +14,8 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-class PostReviewController: UIViewController {
+class PostReviewController: BaseViewController {
     
-    let disposeBag = DisposeBag()
     let datasource: AppDataSource = FirebaseDataSource()
     
     override func viewWillLayoutSubviews() {
@@ -45,11 +44,11 @@ class PostReviewController: UIViewController {
     }
     
     func submitReview(){
-        guard let userId = datasource.getCurrentUser()?.getUserID() else {
+        guard let userId = datasource.getCurrentUser()?.getUserID(), let bookId = state?.itemDetail?.id else {
             return
         }
         
-        datasource.addReview(by: userId, for: "1000001", review: reviewTextArea.text, rating: Int(ratingView.rating))
+        datasource.addReview(by: userId, for: bookId, review: reviewTextArea.text, rating: Int(ratingView.rating))
         
         self.dismiss(animated: true)
     }

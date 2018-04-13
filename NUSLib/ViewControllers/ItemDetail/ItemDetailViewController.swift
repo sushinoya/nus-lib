@@ -186,12 +186,12 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             .disposed(by: disposeBag)
         
         book.subscribe(onNext: { (bookItem) in
-            FirebaseDataSource().getReviewsForBook(bookId: bookItem.id ?? "") { (reviews) in
+            FirebaseDataSource().getReviewsForBook(bookId: self.bookId) { (reviews) in
                 guard !reviews.isEmpty else {
                     self.reviewCollection.displayEmptyResult()
                     return
                 }
-                
+
                 self.reviewCollection.data = reviews
                 self.reviewCollection.reloadData()
             }
@@ -199,7 +199,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         .disposed(by: disposeBag)
         
     }
-    
+        
     private func getSimilarMedia(byAuthor keyword: String) -> Observable<[BookItem]> {
         return Observable<String>
             .just(keyword)
@@ -603,6 +603,14 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.addTarget(self, action: #selector(shareToTwitter), for: .touchUpInside)
         return this
     }()
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ItemDetailToPostReview" {
+            if let vc = segue.destination as? BaseViewController {
+                vc.state = state
+            }
+        }
+    }
 }
 
 
