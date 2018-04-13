@@ -246,4 +246,11 @@ class FirebaseDataSource: AppDataSource {
             }
         }
     }
+    
+    
+    func addFeedback(by userId: String, feedback: String) {
+        let newReview = database.child("Feedback").childByAutoId()
+        newReview.child("authid").setValue(userId)
+        newReview.child("feedback").setValue(feedback)
+    }
 }
