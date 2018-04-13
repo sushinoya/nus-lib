@@ -11,13 +11,24 @@ import RxSwift
 
 class SplashViewController: UIViewController {
 
+    //MARK: - Variables
     let api: LibraryAPI = CentralLibrary()
     let disposeBag = DisposeBag()
     let state = StateController()
     
+    //MARK: - Lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
-        
+        setupData()
+       
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    //MARK: - Setup Data
+    private func setupData() {
         FirebaseDataSource().getPopularItems(completionHandler: {ids in
             self.api.getBooks(byIds: ids, completionHandler: { (popularItems) in
                 let popular: Variable<[BookItem]> = Variable(popularItems)
@@ -34,12 +45,10 @@ class SplashViewController: UIViewController {
         })
     }
     
+    //MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = (segue.destination as? UINavigationController)?.viewControllers.first as? HomeViewController
         destination?.state = state
     }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+
 }

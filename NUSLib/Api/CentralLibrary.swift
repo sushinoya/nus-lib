@@ -16,7 +16,6 @@ import GoogleBooksApiClient
 //Instance of LibraryAPI from the Central Library and it's data
 class CentralLibrary: LibraryAPI {
 
-    
     func getBooks(byIds ids: [String], completionHandler: @escaping (([BookItem]) -> Void)) {
         let myGroup = DispatchGroup()
         

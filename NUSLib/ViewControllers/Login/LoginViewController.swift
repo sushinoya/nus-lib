@@ -15,8 +15,61 @@ import RxSwift
 import RxCocoa
 
 class LoginViewController: BaseViewController {
+    
+    //MARK: - Variables
     var nameField: SkyFloatingLabelTextFieldWithIcon?
     var passwordField: SkyFloatingLabelTextFieldWithIcon?
+    
+    //MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
+        setupNavigationBar()
+
+        addSubViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.LoginTitle
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        texture.fillSuperview()
+        overlay.anchorInCenter(width: 500, height: 500)
+        
+        // align in the center, then offset by 100px upwards
+        logo.anchorInCenter(width: 300, height: 202)
+        logo.frame = logo.frame.offsetBy(dx: 0, dy: -150)
+
+        //Student ID
+        studentId.align(.underCentered, relativeTo: logo, padding: 15, width: 400, height: 50)
+        
+        //Student Password
+        studentPassword.align(.underCentered, relativeTo: studentId, padding: 15, width: 400, height: 50)
+        
+        //Login button
+        loginButton.align(.underCentered, relativeTo: studentPassword, padding: 30, width: 200, height: 50)
+        
+    }
+    
+    //MARK: - Lazy initionlization views
+    private func addSubViews(){
+        view.backgroundColor = UIColor.primary
+        view.addSubview(texture)
+        view.sendSubview(toBack: texture)
+        view.addSubview(overlay)
+        view.addSubview(logo)
+        view.addSubview(studentId)
+        view.addSubview(studentPassword)
+        view.addSubview(loginButton)
+    }
+    
     lazy var texture: UIImageView = {
         let texture = UIImageView()
         texture.image = #imageLiteral(resourceName: "spashscreenv1")
@@ -41,7 +94,7 @@ class LoginViewController: BaseViewController {
         return logo
     }()
     
-    lazy var studentId: SkyFloatingLabelTextFieldWithIcon = {
+    lazy var studentId: SkyFloatingLabelTextFieldWithIcon = { [unowned self] in
         let studentId = SkyFloatingLabelTextFieldWithIcon()
         studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentId.iconText = String.fontAwesomeIcon(name: .idCard)
@@ -56,10 +109,12 @@ class LoginViewController: BaseViewController {
         studentId.placeholderColor = UIColor.primaryTint1
         studentId.autocapitalizationType = .none
         studentId.tag = 0
+        studentId.delegate = self
+        nameField = studentId
         return studentId
     }()
     
-    lazy var studentPassword: SkyFloatingLabelTextFieldWithIcon = {
+    lazy var studentPassword: SkyFloatingLabelTextFieldWithIcon = { [unowned self] in
         let studentPassword = SkyFloatingLabelTextFieldWithIcon()
         studentPassword.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentPassword.iconText = String.fontAwesomeIcon(name: .lock)
@@ -73,6 +128,8 @@ class LoginViewController: BaseViewController {
         studentPassword.placeholderColor = UIColor.primaryTint1
         studentPassword.isSecureTextEntry = true
         studentPassword.tag = 1
+        studentPassword.delegate = self
+        passwordField = studentPassword
         return studentPassword
     }()
     
@@ -88,57 +145,11 @@ class LoginViewController: BaseViewController {
         loginButton.layer.masksToBounds = false
         loginButton.rippleColor = UIColor.white.withAlphaComponent(0.2)
         loginButton.rippleBackgroundColor = UIColor.clear
-        
+        loginButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
         return loginButton
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
-        setupNavigationBar()
-        
-        view.backgroundColor = UIColor.primary
-        view.addSubview(texture)
-        view.sendSubview(toBack: texture)
-        view.addSubview(overlay)
-        view.addSubview(logo)
-        view.addSubview(studentId)
-        view.addSubview(studentPassword)
-        view.addSubview(loginButton)
 
-        self.nameField = studentId
-        self.passwordField = studentPassword
-        loginButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
-        
-        studentId.delegate = self
-        studentPassword.delegate = self
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isTranslucent = false
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        texture.fillSuperview()
-        
-        overlay.anchorInCenter(width: 500, height: 500)
-        
-        // align in the center, then offset by 100px upwards
-        logo.anchorInCenter(width: 300, height: 202)
-        logo.frame = logo.frame.offsetBy(dx: 0, dy: -150)
-
-        studentId.align(.underCentered, relativeTo: logo, padding: 15, width: 400, height: 50)
-        studentPassword.align(.underCentered, relativeTo: studentId, padding: 15, width: 400, height: 50)
-        loginButton.align(.underCentered, relativeTo: studentPassword, padding: 30, width: 200, height: 50)
-        
-    }
-    
-    private func setupNavigationBar() {
-        navigationItem.title = Constants.NavigationBarTitle.LoginTitle
-    }
-
+    //MARK: - Helper methods
     @objc func loginUser() {
         let username = nameField?.text?.lowercased()
         let password = passwordField?.text

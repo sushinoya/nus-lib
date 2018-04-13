@@ -12,16 +12,28 @@ import ZFRippleButton
 import FirebaseDatabase
 import NVActivityIndicatorView
 
-
-
-class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
     
     // Constants
     let profilePicDiameter: CGFloat = 140
     let overlayHeightFraction: CGFloat = 3/20
+    
+    //MARK: - Variables
     let user = FirebaseDataSource().getCurrentUser()
     let menuList = ["Username", "Email"]
     let menuCellIdentifier = "AccountMenuCell"
+    
+    //MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+        addSubviews()
+        
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.AccountTitle
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -55,6 +67,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         scrollView.fitToContent()
     }
     
+    //MARK: - Lazy initionlization views
     private func addSubviews(){
         self.view.addSubview(self.scrollView)
 
@@ -68,11 +81,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         self.scrollView.addSubview(self.logoutAccount)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.addSubviews()
-    }
-    
+   
     private(set) lazy var scrollView: UIScrollView = { [unowned self] in
         let this = UIScrollView(frame: view.bounds)
         this.showsHorizontalScrollIndicator = false
@@ -147,24 +156,6 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         return this
     }()
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menuList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let userAttributes = [user?.getUsername(), user?.getEmail()]
-        
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: menuCellIdentifier)
-        
-        cell.textLabel?.text = menuList[indexPath.row]
-        
-        cell.detailTextLabel?.text = userAttributes[indexPath.row]
-        cell.detailTextLabel?.textAlignment = .right
-        
-        return cell
-    }
-    
-    
     private(set) lazy var resetPassword: ZFRippleButton = { [unowned self] in
         let this = ZFRippleButton()
         this.setTitle("FAVOURITE (0)", for: .normal)
@@ -182,10 +173,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         
         return this
     }()
-    
-    @objc func resetPasswordHandler() {
-        performSegue(withIdentifier: "AccountToPasswordReset", sender: self)
-    }
+
     
     private(set) lazy var logoutAccount: ZFRippleButton = { [unowned self] in
         let this = ZFRippleButton()
@@ -204,6 +192,12 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
         return this
         }()
     
+    
+    //MARK: - Helper methods
+    @objc func resetPasswordHandler() {
+        performSegue(withIdentifier: "AccountToPasswordReset", sender: self)
+    }
+    
     @objc func logoutAccountHandler() {
         
         let alert = UIAlertController(title: "Confirm",
@@ -221,3 +215,22 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate, UITab
     }
 }
 
+//Mark: - UITableViewDelegate and UITableViewDataSource
+extension AccountPageViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return menuList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let userAttributes = [user?.getUsername(), user?.getEmail()]
+        
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: menuCellIdentifier)
+        
+        cell.textLabel?.text = menuList[indexPath.row]
+        
+        cell.detailTextLabel?.text = userAttributes[indexPath.row]
+        cell.detailTextLabel?.textAlignment = .right
+        
+        return cell
+    }
+}

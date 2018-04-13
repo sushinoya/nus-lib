@@ -46,7 +46,6 @@ class FirebaseDataSource: AppDataSource {
         userReviews.observe(.value) { (snapshot) in
             var reviews = [Review]()
             if snapshot.exists() {
-                print(snapshot)
                 let data = snapshot.value as? NSDictionary
                 for value in (data?.allValues)! {
                     let current = value as! NSDictionary
@@ -122,10 +121,6 @@ class FirebaseDataSource: AppDataSource {
         } catch {
             print("failed to signout")
         }
-    }
-    
-    func addReview(by authorid: String, about bookid: String, text: String) {
-        
     }
     
     func isUserSignedIn() -> Bool {

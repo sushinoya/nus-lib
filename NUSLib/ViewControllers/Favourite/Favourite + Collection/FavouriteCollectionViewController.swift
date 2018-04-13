@@ -14,30 +14,10 @@ import NVActivityIndicatorView
 
 class FavouriteCollectionViewController: BaseViewController {
     
-    lazy var searchBar: UISearchBar = {[unowned self] in
-        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
-        searchBar.placeholder = "Search Title"
-        searchBar.tintColor = .blue
-        searchBar.delegate = self
-        return searchBar
-    }()
-
-    
-    lazy var collectionview: UICollectionView = { [unowned self] in
-        //Layout for CollectionView
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionHeadersPinToVisibleBounds = false
-        let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
-        collectionview.backgroundColor = UIColor.white
-        collectionview.dataSource = self
-        collectionview.delegate = self
-        return collectionview
-    }()
-
-    var filtered:[BookItem] = []
-    
+    //MARK: - Variables
     var bookCollectionViewCellID = "bookCollectionViewCell"
+    var isFiltering = false
+    var isEditingMode = false
     
     var deleteButton: UIButton!
     var longPressGesture: UILongPressGestureRecognizer!
@@ -45,19 +25,14 @@ class FavouriteCollectionViewController: BaseViewController {
     var bookLists: [[DisplayableItem]] = []
     var filteredLists: [[DisplayableItem]] = []
     
-    var isFiltering: Bool = false
-    var isEditingMode = false
-    
-    var selectedItem: BookItem?
-    
     let ds: AppDataSource = FirebaseDataSource()
-    
     let library: LibraryAPI = CentralLibrary()
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        setupViews()
+        addSubViews()
         setUpGesture()
         self.definesPresentationContext = true
         
@@ -68,12 +43,7 @@ class FavouriteCollectionViewController: BaseViewController {
         self.setupData()
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionview.anchorToEdge(.top, padding: 20, width: view.frame.width, height: view.frame.height)
-    }
-    
-    func setupNavigationBar() {
+    private func setupNavigationBar() {
         let listButton = UIButton(type: .system)
         listButton.setImage(#imageLiteral(resourceName: "list"), for: .normal)
         listButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
@@ -90,7 +60,14 @@ class FavouriteCollectionViewController: BaseViewController {
         navigationItem.title = Constants.NavigationBarTitle.FavouriteTitle
     }
     
-    func setupData() {
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        //CollectionView
+        collectionview.anchorToEdge(.top, padding: 20, width: view.frame.width, height: view.frame.height)
+    }
+    
+    //MARK: - Setup Data
+    private func setupData() {
         let books = [BookItem]()
         
         bookLists.removeAll()
@@ -113,12 +90,33 @@ class FavouriteCollectionViewController: BaseViewController {
         }
     }
     
-    private func setupViews() {
+    //MARK: - Lazy initionlization views
+    private func addSubViews() {
         view.addSubview(collectionview)
         view.addSubview(searchBar)
-        
     }
     
+    lazy var collectionview: UICollectionView = { [unowned self] in
+        //Layout for CollectionView
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionHeadersPinToVisibleBounds = false
+        let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionview.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
+        collectionview.backgroundColor = UIColor.white
+        collectionview.dataSource = self
+        collectionview.delegate = self
+        return collectionview
+        }()
+    
+    lazy var searchBar: UISearchBar = {[unowned self] in
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
+        searchBar.placeholder = "Search Title"
+        searchBar.tintColor = .blue
+        searchBar.delegate = self
+        return searchBar
+        }()
+    
+    //MARK: - Helper methods
     private func setUpGesture() {
         //Gesture for dragging and reordering of cell
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))

@@ -20,14 +20,17 @@ import FirebaseDatabase
  Otherwise, VC should inherit from default UIViewController for customization.
  */
 class BaseViewController: UIViewController{
+    
+    //MARK: - Variables
     internal let disposeBag = DisposeBag()
     internal var database: DatabaseReference!
-
     internal var state: StateController?
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        //Initialization
         database = Database.database().reference()
         
         // remove black bar when side bar open
@@ -39,6 +42,7 @@ class BaseViewController: UIViewController{
     
     }
     
+    //MARK: - Helper methods
     override var prefersStatusBarHidden: Bool {
         return false
     }

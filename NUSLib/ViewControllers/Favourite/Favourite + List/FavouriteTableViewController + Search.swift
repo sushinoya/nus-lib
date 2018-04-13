@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: - UISearchBarDelegate
 extension FavouriteTableViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

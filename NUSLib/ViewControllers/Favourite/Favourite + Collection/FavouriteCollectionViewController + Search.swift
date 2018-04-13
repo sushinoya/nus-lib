@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: - UISearchBarDelegate
 extension FavouriteCollectionViewController: UISearchBarDelegate {
     
     /*

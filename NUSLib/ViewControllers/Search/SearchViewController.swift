@@ -13,31 +13,9 @@ import RxCocoa
 
 class SearchViewController: BaseViewController {
     
-    lazy var searchController: NoCancelButtonSearchController = {[unowned self] in
-        let searchController = NoCancelButtonSearchController(searchResultsController: nil)
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.backgroundColor = UIColor.blue
-        searchController.searchBar.tintColor = UIColor.blue
-        searchController.searchBar.placeholder = "Please Enter"
-        return searchController
-    }()
-    
-     var topSearchCollectionViewCellID = "topSearchCollectionViewCell"
-    
-    
-    lazy var collectionView: UICollectionView = { [unowned self] in
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        layout.itemSize = CGSize(width: view.frame.width / 2.0 - 40, height: 170)
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 40)
-        let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionview.register(TopSeachCollectionViewCell.self, forCellWithReuseIdentifier: topSearchCollectionViewCellID)
-        collectionview.backgroundColor = UIColor.white
-        return collectionview
-        }()
-
-    let topSeachTableCellID = "topSeachTableCell"
+    //MARK: - Variables
+    var topSearchCollectionViewCellID = "topSearchCollectionViewCell"
+    var isSearching = false
     
     var searchValue: Variable<String> = Variable("")
     var topSearchList: Variable<[DisplayableItem]> = Variable([])
@@ -49,33 +27,17 @@ class SearchViewController: BaseViewController {
     lazy var filterResultObservable: Observable<[DisplayableItem]> = self.filterResult.asObservable()
     lazy var searchResultObservable: Observable<[DisplayableItem]> = self.searchResult.asObservable()
     
-    var selectedString: String?
-    var selectedItem: DisplayableItem?
-    
-    var isSearching = false
     let api = CentralLibrary()
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         setupNavigationBar()
-        setupViews()
+        addSubviews()
         setupData()
         setupRxSwfitSearch()
         self.definesPresentationContext = true
-    }
-    
-    private func setupData() {        
-        topSearchList.value.append(BookItem {
-            $0.id = "1000001"
-            $0.title = "CS3217"
-            $0.author = "Ben Leong"
-        })
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionView.anchorToEdge(.top, padding: 60, width: view.frame.width, height: view.frame.height)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,18 +48,9 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.resignFirstResponder()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("performing seguee.... detail chosen : \(self.state?.itemDetail)")
-        if segue.identifier == "SearchToItemDetail" {
-            if let vc = segue.destination as? BaseViewController {
-                vc.state = state
-            }
-        }
-    }
-
     func setupNavigationBar() {
         let sortButton = UIButton(type: .system)
-       
+        
         sortButton.setImage( UIImage.fontAwesomeIcon(name: .sortAlphaAsc, textColor: UIColor.blue , size: CGSize(width: 34, height: 34)), for: .normal)
         sortButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         sortButton.addTarget(self, action: #selector(performSort), for: .touchUpInside)
@@ -112,30 +65,69 @@ class SearchViewController: BaseViewController {
         navigationItem.title = Constants.NavigationBarTitle.SearchTitle
     }
     
-    private func setupViews() {
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView.anchorToEdge(.top, padding: 60, width: view.frame.width, height: view.frame.height)
+    }
+    
+    //MARK: - Setup Data
+    private func setupData() {
+        topSearchList.value.append(BookItem {
+            $0.id = "1000001"
+            $0.title = "CS3217"
+            $0.author = "Ben Leong"
+        })
+    }
+    
+    
+    //MARK: - Lazy initionlization views
+    private func addSubviews() {
         view.addSubview(collectionView)
         collectionView.addSubview(searchController.searchBar)
     }
     
+    lazy var searchController: NoCancelButtonSearchController = {[unowned self] in
+        let searchController = NoCancelButtonSearchController(searchResultsController: nil)
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.backgroundColor = UIColor.blue
+        searchController.searchBar.tintColor = UIColor.blue
+        searchController.searchBar.placeholder = "Please Enter"
+        return searchController
+        }()
+    
+    lazy var collectionView: UICollectionView = { [unowned self] in
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        layout.itemSize = CGSize(width: view.frame.width / 2.0 - 40, height: 170)
+        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 40)
+        let collectionview = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionview.register(TopSeachCollectionViewCell.self, forCellWithReuseIdentifier: topSearchCollectionViewCellID)
+        collectionview.backgroundColor = UIColor.white
+        return collectionview
+        }()
+    
+    
+    //MARK: - Helper methods
     /*
-        SearchBar input will be stored into searchValue
-        searchValueObservable will listen to the searchValue change
-        When there is a change in the searchValue, either topSearchListObservable will be stored into filterResultBook or the result fetched from database
-        Filterresultbook will then bind the data to table
+     SearchBar input will be stored into searchValue
+     searchValueObservable will listen to the searchValue change
+     When there is a change in the searchValue, either topSearchListObservable will be stored into filterResultBook or the result fetched from database
+     Filterresultbook will then bind the data to table
      */
     func setupRxSwfitSearch() {
         
         searchController.searchBar.rx.text
-        .orEmpty
-        .distinctUntilChanged()
-        .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
-        .bind(to: searchValue)
-        .disposed(by: disposeBag)
+            .orEmpty
+            .distinctUntilChanged()
+            .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+            .bind(to: searchValue)
+            .disposed(by: disposeBag)
         
         searchValueObservable.subscribe(onNext: { [unowned self] (value) in
             self.isSearching = true
             if value.isEmpty {
-               self.topSearchListObservable.bind(to: self.searchResult).disposed(by: self.disposeBag)
+                self.topSearchListObservable.bind(to: self.searchResult).disposed(by: self.disposeBag)
             } else {
                 self.searchValueObservable
                     .map { $0.lowercased() }
@@ -167,7 +159,7 @@ class SearchViewController: BaseViewController {
             self.performSegue(withIdentifier: "SearchToItemDetail", sender: self)
             
         }).disposed(by: disposeBag)
- 
+        
     }
     
     @objc func performSort() {
@@ -188,13 +180,22 @@ class SearchViewController: BaseViewController {
         filterLauncher.delegate = self
         filterLauncher.showFilters()
     }
-
+    
+    //MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SearchToItemDetail" {
+            if let vc = segue.destination as? BaseViewController {
+                vc.state = state
+            }
+        }
+    }
 }
 
+//Mark: - FilterLauncherDelegate
 extension SearchViewController: FilterLauncherDelegate {
-    func update(text: Int) {
+    func filterByTitle(_ length: Int) {
         let temp = filterResult.value
-        searchResult.value = filterResult.value.filter({$0.title!.count <= text})
+        searchResult.value = filterResult.value.filter({$0.title!.count <= length})
         filterResult.value = temp
     }
 }
