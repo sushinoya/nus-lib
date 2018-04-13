@@ -105,23 +105,33 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     //MARK: - Setup Data
+    fileprivate func setupDataFromBook(_ bookItem: (BookItem)) {
+        self.addSubviews()
+        
+        self.setupSimilarMediaTapAction()
+        
+        self.loading.stopAnimating()
+        self.scrollView.animateFadeIn()
+        
+        self.previewTitle.text = bookItem.title
+        self.previewSubtitle.text = (bookItem.author?.isEmpty ?? true) ? "Unknown Author" : bookItem.author
+        self.location.text = (bookItem.location?.isEmpty ?? true) ? "Central Library Level 2" : bookItem.location
+    }
+    
     private func setupData() {
+        var isBookLoaded = false
         // get the book by id
+        if let book = CacheManager.shared.retrieveFromCache(itemID: bookId) {
+            setupDataFromBook(book)
+            isBookLoaded = true
+        }
         let book = api.getBook(byId: bookId)
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
-                
-                self.addSubviews()
-                
-                self.setupSimilarMediaTapAction()
-                
-                self.loading.stopAnimating()
-                self.scrollView.animateFadeIn()
-                
-                self.previewTitle.text = bookItem.title
-                self.previewSubtitle.text = (bookItem.author?.isEmpty ?? true) ? "Unknown Author" : bookItem.author
-                self.location.text = (bookItem.location?.isEmpty ?? true) ? "Central Library Level 2" : bookItem.location
-                
+                if !isBookLoaded {      //If cache has not loaded book already
+                    self.setupDataFromBook(bookItem)
+                }
+                CacheManager.shared.addToCache(itemID: self.bookId, item: bookItem)
                 self.previewImageShadow.expand(into: self.scrollView, finished: nil)
                 self.previewImage.expand(into: self.scrollView, finished: nil) },
                 
