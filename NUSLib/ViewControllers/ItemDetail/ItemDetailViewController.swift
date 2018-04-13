@@ -619,14 +619,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.addTarget(self, action: #selector(shareToTwitter), for: .touchUpInside)
         return this
     }()
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ItemDetailToPostReview" {
-            if let vc = segue.destination as? BaseViewController {
-                vc.state = state
-            }
-        }
-    }
 }
 
 

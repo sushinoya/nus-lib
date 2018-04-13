@@ -14,8 +14,9 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-class PostReviewController: BaseViewController {
+class PostReviewController: UIViewController {
     
+    let disposeBag = DisposeBag()
     let datasource: AppDataSource = FirebaseDataSource()
     var state: StateController?
     
@@ -45,7 +46,7 @@ class PostReviewController: BaseViewController {
     }
     
     func submitReview(){
-        guard let userId = datasource.getCurrentUser()?.getUserID(), let bookId = state?.itemDetail?.id else {
+        guard let userId = datasource.getCurrentUser()?.getUserID() else {
             return
         }
         
