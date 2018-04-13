@@ -150,8 +150,11 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.rx
             .itemSelected
             .subscribe(onNext: { index in
-                let bookIndex = index[1]
-                self.state?.itemDetail = self.state?.popularBooks![bookIndex]
+                guard let book = this.data[index.row] as? BookItem else {
+                    return
+                }
+                
+                self.state?.itemDetail = book
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)
