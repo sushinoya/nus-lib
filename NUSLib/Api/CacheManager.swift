@@ -13,11 +13,11 @@ class CacheManager {
     
     private var cache: NSCache<NSString, BookItem>
     
-    func addToCache(itemID: String, item: BookItem) {
+    private func addToCache(itemID: String, item: BookItem) {
         cache.setObject(item, forKey: itemID as NSString)
     }
 
-    func retrieveFromCache(itemID: String) -> BookItem? {
+    private func retrieveFromCache(itemID: String) -> BookItem? {
         return cache.object(forKey: itemID as NSString)
     }
 
