@@ -8,36 +8,13 @@
 
 import UIKit
 
-extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
-        
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let screenWidth = view.frame.size.width
-        let threePiecesWidth = floor(screenWidth / 3.0 - ((60.0 / 3) * 2))
-        let twoPiecesWidth = floor(screenWidth / 2.0 - (20.0 / 2))
-        
-        if indexPath.section == 0 {
-            return CGSize(width: threePiecesWidth, height: threePiecesWidth)
-        }else {
-            return CGSize(width: twoPiecesWidth, height: twoPiecesWidth)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20.0
-    }
+//MARK: - UICollectionViewDelegate and UICollectionViewDataSource
+extension FavouriteCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return bookLists.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
-    }
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if isFiltering {
@@ -84,6 +61,33 @@ extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout,
         let book = bookLists[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         bookLists[destinationIndexPath.section].insert(book, at: destinationIndexPath.item)
 
+    }
+}
+
+//MARK: - UICollectionViewDelegateFlowLayout
+extension FavouriteCollectionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let screenWidth = view.frame.size.width
+        let threePiecesWidth = floor(screenWidth / 3.0 - ((60.0 / 3) * 2))
+        let twoPiecesWidth = floor(screenWidth / 2.0 - (20.0 / 2))
+        
+        if indexPath.section == 0 {
+            return CGSize(width: threePiecesWidth, height: threePiecesWidth)
+        }else {
+            return CGSize(width: twoPiecesWidth, height: twoPiecesWidth)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
     }
 }
 
