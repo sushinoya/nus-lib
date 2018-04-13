@@ -67,7 +67,7 @@ class SearchViewController: BaseViewController {
     
     private func setupData() {        
         topSearchList.value.append(BookItem {
-            $0.id = "0001"
+            $0.id = "1000001"
             $0.title = "CS3217"
             $0.author = "Ben Leong"
         })
