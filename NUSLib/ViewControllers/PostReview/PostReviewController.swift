@@ -18,6 +18,7 @@ class PostReviewController: UIViewController {
     
     let disposeBag = DisposeBag()
     let datasource: AppDataSource = FirebaseDataSource()
+    var state: StateController?
     
     override func viewWillLayoutSubviews() {
         reviewTitle.anchorAndFillEdge(.top, xPad: 25, yPad: 25, otherSize: 25)
@@ -49,7 +50,7 @@ class PostReviewController: UIViewController {
             return
         }
         
-        datasource.addReview(by: userId, for: "1000001", review: reviewTextArea.text, rating: Int(ratingView.rating))
+        datasource.addReview(by: userId, for: state?.postReview?.id ?? "", review: reviewTextArea.text, rating: Int(ratingView.rating))
         
         self.dismiss(animated: true)
     }
