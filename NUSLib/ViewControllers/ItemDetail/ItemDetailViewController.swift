@@ -191,6 +191,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                     return
                 }
                 
+                self.reviewCollection.backgroundView = nil
                 self.reviewCollection.data = reviews
                 self.reviewCollection.reloadData()
             }
@@ -199,22 +200,10 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         
     }
     
-    private func setupSimilarMediaCollections() {
-        
-    }
-    
     private func getSimilarMedia(byAuthor keyword: String) -> Observable<[BookItem]> {
         return Observable<String>
             .just(keyword)
             .flatMapLatest { self.api.getBooks(byAuthor: $0) }
-    }
-    
-    private func chooseRandomWord(fromSentence sentence: String) -> String {
-        let keywords = sentence.components(separatedBy: " ")
-        
-        let randomIndex = Int(arc4random_uniform(UInt32(keywords.count)))
-        
-        return keywords[randomIndex]
     }
     
     private func setupSimilarMediaTapAction() {
@@ -230,6 +219,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         if scrollView.contentOffset.x != 0 {
             scrollView.contentOffset.x = 0
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as? PostReviewController
+        destination?.state = state
     }
     
     @objc func shareToFacebook() {
@@ -503,6 +497,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
+                self.state?.postReview = self.state?.itemDetail
                 self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
             })
             .disposed(by: disposeBag)
