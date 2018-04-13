@@ -50,7 +50,6 @@ class PostReviewController: UIViewController {
             return
         }
         
-
         datasource.addReview(by: userId, for: state?.postReview?.id ?? "", review: reviewTextArea.text, rating: Int(ratingView.rating))
         
         self.dismiss(animated: true)

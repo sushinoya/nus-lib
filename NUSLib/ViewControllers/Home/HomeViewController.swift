@@ -18,29 +18,22 @@ import BarcodeScanner
 
 class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
+    //MARK: - Variables
     let api: LibraryAPI = CentralLibrary()
     
-    func addSubViews(){
-        scrollView.addSubview(popularTitle)
-        scrollView.addSubview(popularSeparator)
-        scrollView.addSubview(popularSubtitle)
-        scrollView.addSubview(popularCollection)
-        scrollView.addSubview(recommendTitle)
-        scrollView.addSubview(recommendSeparator)
-        scrollView.addSubview(recommendSubtitle)
-        scrollView.addSubview(recommendCollectionLeft)
-        scrollView.addSubview(recommendCollectionRight)
-        
-        view.addSubview(scrollView)
-        view.addSubview(scanBarcodeButton)
-    }
-    
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.scrollView.delegate = self
-        self.addSubViews()
         self.setupNavigationBar()
+        self.addSubViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.HomeTitle
     }
     
     override func viewWillLayoutSubviews() {
@@ -49,10 +42,13 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         // initial layout
         scrollView.fillSuperview()
         
+        // Popular Title
         popularTitle.anchorAndFillEdge(.top, xPad: 20, yPad: 0, otherSize: 70)
         popularSeparator.alignAndFillWidth(align: .underCentered, relativeTo: popularTitle, padding: 0, height: 0.5)
         popularSubtitle.alignAndFillWidth(align: .underCentered, relativeTo: popularSeparator, padding: 0, height: 40)
         popularCollection.alignAndFillWidth(align: .underCentered, relativeTo: popularSubtitle, padding: 0, height: 280, offset: 0)
+        
+        // Recommen Title
         recommendTitle.alignAndFillWidth(align: .underCentered, relativeTo: popularCollection, padding: 0, height: 70, offset: 0)
         recommendSeparator.alignAndFillWidth(align: .underCentered, relativeTo: recommendTitle, padding: 0, height: 0.5)
         recommendSubtitle.alignAndFillWidth(align: .underCentered, relativeTo: recommendSeparator, padding: 0, height: 40)
@@ -70,36 +66,31 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         scrollView.fitToContent()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "HomeToItemDetail" {
-            if let vc = segue.destination as? BaseViewController {
-                vc.state = state
-            }
-        }
+    
+    //MARK: - Lazy initionlization views
+    private func addSubViews(){
+        scrollView.addSubview(popularTitle)
+        scrollView.addSubview(popularSeparator)
+        scrollView.addSubview(popularSubtitle)
+        scrollView.addSubview(popularCollection)
+        scrollView.addSubview(recommendTitle)
+        scrollView.addSubview(recommendSeparator)
+        scrollView.addSubview(recommendSubtitle)
+        scrollView.addSubview(recommendCollectionLeft)
+        scrollView.addSubview(recommendCollectionRight)
         
-        if let barcodeScannerVC = segue.destination as? BarcodeScannerViewController {
-            barcodeScannerVC.codeDelegate = self
-            barcodeScannerVC.errorDelegate = self
-            barcodeScannerVC.dismissalDelegate = self
-            barcodeScannerVC.title = "Scan a barcode"
-            barcodeScannerVC.messageViewController.messages.processingText = "Looking for your book"
-        }
+        view.addSubview(scrollView)
+        view.addSubview(scanBarcodeButton)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isTranslucent = true
-    }
-    
-    private func setupNavigationBar() {
-        navigationItem.title = Constants.NavigationBarTitle.HomeTitle
-    }
-    
+
     // UI are initialized by closure for compactness.
     // This technique simplify the method in viewDidLoad(), as well as eliminating Optionals.
     
     // IMPORTANT: remember to put unowned self to avoid retaining strong cycles if self is referenced in closure!
     lazy var scrollView: UIScrollView = { [unowned self] in
         let this = UIScrollView(frame: view.bounds)
+        this.delegate = self
         return this
         }()
     
@@ -267,8 +258,26 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
+    //MARK: - Helper methods
     @objc func openBarcodeScanner() {
         self.performSegue(withIdentifier: "HomeToBarcodeScanner", sender: self)
+    }
+    
+    //MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "HomeToItemDetail" {
+            if let vc = segue.destination as? BaseViewController {
+                vc.state = state
+            }
+        }
+        
+        if let barcodeScannerVC = segue.destination as? BarcodeScannerViewController {
+            barcodeScannerVC.codeDelegate = self
+            barcodeScannerVC.errorDelegate = self
+            barcodeScannerVC.dismissalDelegate = self
+            barcodeScannerVC.title = "Scan a barcode"
+            barcodeScannerVC.messageViewController.messages.processingText = "Looking for your book"
+        }
     }
 
 }
