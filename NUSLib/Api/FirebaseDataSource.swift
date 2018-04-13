@@ -43,18 +43,19 @@ class FirebaseDataSource: AppDataSource {
     
     func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void) {
         let userReviews = database.child("Reviews")
-        userReviews.observeSingleEvent(of: .value) { (snapshot) in
+        userReviews.observe(.value) { (snapshot) in
             var reviews = [Review]()
             if snapshot.exists() {
                 print(snapshot)
                 let data = snapshot.value as? NSDictionary
                 for value in (data?.allValues)! {
                     let current = value as! NSDictionary
-                    let bookid = current["bookid"] as! String
+                    let bookid = current["bookid"] as? String
                     if bookid == bookId {
-                        let text = current["text"] as! String
-                        let rating = current["rating"] as! Int
-                        reviews.append(Review(reviewText: text, rating: rating))
+                        if let text = current["text"] as? String,
+                            let rating = current["rating"] as? Int {
+                            reviews.append(Review(reviewText: text, rating: rating))
+                        }
                     }
                 }
             } else {

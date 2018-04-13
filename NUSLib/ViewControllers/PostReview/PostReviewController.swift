@@ -17,6 +17,7 @@ import RxGesture
 class PostReviewController: BaseViewController {
     
     let datasource: AppDataSource = FirebaseDataSource()
+    var state: StateController?
     
     override func viewWillLayoutSubviews() {
         reviewTitle.anchorAndFillEdge(.top, xPad: 25, yPad: 25, otherSize: 25)
@@ -48,7 +49,8 @@ class PostReviewController: BaseViewController {
             return
         }
         
-        datasource.addReview(by: userId, for: bookId, review: reviewTextArea.text, rating: Int(ratingView.rating))
+
+        datasource.addReview(by: userId, for: state?.postReview?.id ?? "", review: reviewTextArea.text, rating: Int(ratingView.rating))
         
         self.dismiss(animated: true)
     }

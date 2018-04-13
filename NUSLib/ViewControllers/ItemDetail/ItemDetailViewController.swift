@@ -177,6 +177,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             
             // bind result to collection view
             .bind(to: self.googleRecommendationCollection.rx.items(cellIdentifier: self.bookCollectionViewCellID, cellType: BookCollectionViewCell.self)) { index, model, cell in
+                cell.data = model
                 cell.title.text = model.title
                 cell.subtitle.text = model.author
                 cell.thumbnail.kf.setImage(with: model.thumbnail, options: [.transition(.fade(0.2))])
@@ -190,8 +191,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 guard !reviews.isEmpty else {
                     self.reviewCollection.displayEmptyResult()
                     return
-                }
-
+                }                
+                self.reviewCollection.backgroundView = nil
                 self.reviewCollection.data = reviews
                 self.reviewCollection.reloadData()
             }
@@ -199,19 +200,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         .disposed(by: disposeBag)
         
     }
-        
+    
     private func getSimilarMedia(byAuthor keyword: String) -> Observable<[BookItem]> {
         return Observable<String>
             .just(keyword)
             .flatMapLatest { self.api.getBooks(byAuthor: $0) }
-    }
-    
-    private func chooseRandomWord(fromSentence sentence: String) -> String {
-        let keywords = sentence.components(separatedBy: " ")
-        
-        let randomIndex = Int(arc4random_uniform(UInt32(keywords.count)))
-        
-        return keywords[randomIndex]
     }
     
     private func setupSimilarMediaTapAction() {
@@ -227,6 +220,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         if scrollView.contentOffset.x != 0 {
             scrollView.contentOffset.x = 0
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as? PostReviewController
+        destination?.state = state
     }
     
     @objc func shareToFacebook() {
@@ -499,6 +497,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
+                self.state?.postReview = self.state?.itemDetail
                 self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
             })
             .disposed(by: disposeBag)
@@ -588,6 +587,23 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: bookCollectionViewCellID)
         this.backgroundColor = UIColor.clear
         this.showsHorizontalScrollIndicator = false
+
+        this.rx.itemSelected.subscribe(onNext: { (index) in
+            if let cell = this.cellForItem(at: index) as? BookCollectionViewCell,
+                let item = cell.data as? DisplayableItem,
+                let link = item.infoLink{
+                
+                let alert = UIAlertController(title: "External Weblink", message: "This will open the link in your browser.", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Yes", style: .default) { action in
+                    UIApplication.shared.open(link, options: [:], completionHandler: nil)
+                })
+                
+                self.present(alert, animated: true)
+                
+            }
+        }).disposed(by: disposeBag)
         
         return this
     }()

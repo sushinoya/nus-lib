@@ -8,6 +8,7 @@
 
 class StateController {    
     var itemDetail: DisplayableItem?
+    var postReview: DisplayableItem?
     
     var popularBooks: [BookItem]?
     var recommendedBooks: [BookItem]?

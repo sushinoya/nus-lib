@@ -23,7 +23,7 @@ class SplashViewController: UIViewController {
                 let popular: Variable<[BookItem]> = Variable(popularItems)
                 
                 Observable
-                    .zip(popular.asObservable(), self.api.getBooks(byTitle: "university"))
+                    .zip(popular.asObservable(), self.api.getBooks(byTitle: "amphibians"))
                     .subscribe(onNext: { (popularBooks, recommendedBooks) in
                         self.state.popularBooks = popularBooks
                         self.state.recommendedBooks = recommendedBooks
