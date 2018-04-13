@@ -10,7 +10,7 @@ import UIKit
 import Neon
 
 protocol FilterLauncherDelegate: class {
-    func update(text: Int)
+    func filterByTitle(_ length: Int)
 }
 
 
@@ -142,7 +142,7 @@ class FilterLauncher: UIViewController {
             }
            
         }
-        delegate?.update(text: length)
+        delegate?.filterByTitle(length)
         baseView.removeFromSuperview()
         blackView.removeFromSuperview()
     }

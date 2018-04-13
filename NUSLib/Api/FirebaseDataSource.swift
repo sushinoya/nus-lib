@@ -123,10 +123,6 @@ class FirebaseDataSource: AppDataSource {
         }
     }
     
-    func addReview(by authorid: String, about bookid: String, text: String) {
-        
-    }
-    
     func isUserSignedIn() -> Bool {
         if Auth.auth().currentUser != nil {
             return true

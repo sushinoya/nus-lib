@@ -16,9 +16,17 @@ import RxGesture
 
 class PostReviewController: UIViewController {
     
+    //MARK: - Variables
     let disposeBag = DisposeBag()
     let datasource: AppDataSource = FirebaseDataSource()
     var state: StateController?
+    
+    //MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addSubViews()
+        
+    }
     
     override func viewWillLayoutSubviews() {
         reviewTitle.anchorAndFillEdge(.top, xPad: 25, yPad: 25, otherSize: 25)
@@ -34,25 +42,14 @@ class PostReviewController: UIViewController {
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    //MARK: - Lazy initionlization views
+    private func addSubViews() {
         view.addSubview(reviewTitle)
         view.addSubview(reviewTextArea)
         view.addSubview(reviewSeparator)
         view.addSubview(ratingView)
         view.addSubview(submit)
         view.addSubview(cancel)
-    }
-    
-    func submitReview(){
-        guard let userId = datasource.getCurrentUser()?.getUserID() else {
-            return
-        }
-        
-        datasource.addReview(by: userId, for: state?.postReview?.id ?? "", review: reviewTextArea.text, rating: Int(ratingView.rating))
-        
-        self.dismiss(animated: true)
     }
     
     private(set) lazy var reviewTitle: UILabel = {
@@ -136,4 +133,15 @@ class PostReviewController: UIViewController {
         
         return this
         }()
+    
+    //MARK: - Helper methods
+    func submitReview(){
+        guard let userId = datasource.getCurrentUser()?.getUserID() else {
+            return
+        }
+        
+        datasource.addReview(by: userId, for: state?.postReview?.id ?? "", review: reviewTextArea.text, rating: Int(ratingView.rating))
+        
+        self.dismiss(animated: true)
+    }
 }
