@@ -19,4 +19,5 @@ protocol DisplayableItem {
     var thumbnail: URL? { get }
     var rating: Int? { get }
     var author: String? { get }
+    var infoLink: URL? { get }
 }

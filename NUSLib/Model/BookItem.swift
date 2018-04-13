@@ -17,6 +17,7 @@ class BookItem: DisplayableItem, Mappable {
     var rating: Int?
     var author: String?
     var location: String?
+    var infoLink: URL?
     
     required init?(map: Map) {
         

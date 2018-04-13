@@ -115,6 +115,7 @@ class CentralLibrary: LibraryAPI {
                         $0.title = volume.volumeInfo.title
                         $0.author = volume.volumeInfo.authors.first
                         $0.thumbnail = volume.volumeInfo.imageLinks?.thumbnail
+                        $0.infoLink = volume.volumeInfo.infoLink
                     }
                 })
             })
@@ -133,6 +134,7 @@ class CentralLibrary: LibraryAPI {
                         $0.title = volume.volumeInfo.title
                         $0.author = volume.volumeInfo.authors.first
                         $0.thumbnail = volume.volumeInfo.imageLinks?.thumbnail
+                        
                     }
                 }).first
             })
