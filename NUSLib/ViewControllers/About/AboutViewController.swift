@@ -12,42 +12,49 @@ import ZFRippleButton
 
 class AboutViewController: BaseViewController {
     
-        let datasource: AppDataSource = FirebaseDataSource()
+    //MARK: - Variables
+    let datasource: AppDataSource = FirebaseDataSource()
+    
+    //MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+        addSubviews()
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.AboutTitle
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-//        aboutTitle.center.x = self.view.center.x
-//        aboutTitle.center.y = self.view.center.y
-//
-//        aboutTitle.alignAndFillWidth(align: .underCentered, relativeTo: self.view, padding: 50, height: 50)
 
+        //About Title
         aboutTitle.anchorToEdge(.top, padding: 40, width: view.width, height: 25)
         
+        //Developer
         developersTitle.alignAndFillWidth(align: .underCentered, relativeTo: aboutTitle, padding: 70, height: 25)
-
         developersDescription.align(.underCentered, relativeTo: developersTitle, padding: 10, width: view.width - 200, height: 150)
         
+        //Library
         libraryTitle.alignAndFillWidth(align: .underCentered, relativeTo: developersDescription, padding: 70, height: 25)
-        
         libraryDescription.align(.underCentered, relativeTo: libraryTitle, padding: 10, width: view.width - 200, height: 200)
         
+        //Feedback Button
         sendFeedback.align(.underCentered, relativeTo: libraryDescription, padding: 50, width: 250, height: 50)
 
     }
     
+    //MARK: - Lazy initionlization views
     private func addSubviews(){
-        self.view.addSubview(self.aboutTitle)
-        self.view.addSubview(self.developersTitle)
-        self.view.addSubview(self.developersDescription)
-        self.view.addSubview(self.libraryTitle)
-        self.view.addSubview(self.libraryDescription)
-        self.view.addSubview(self.sendFeedback)
+        view.addSubview(aboutTitle)
+        view.addSubview(developersTitle)
+        view.addSubview(developersDescription)
+        view.addSubview(libraryTitle)
+        view.addSubview(libraryDescription)
+        view.addSubview(sendFeedback)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.addSubviews()
-    }
 
     private(set) lazy var aboutTitle: UILabel = {
         let this = UILabel()
@@ -128,6 +135,7 @@ class AboutViewController: BaseViewController {
         return this
     }()
     
+    //MARK: - Helper methods
     @objc func showInputDialog() {
         //Creating UIAlertController and
         //Setting title and message for the alert dialog

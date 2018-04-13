@@ -21,7 +21,9 @@ struct Constants {
         static let SearchTitle = "Search"
         static let FavouriteTitle = "Favourite"
         static let LoginTitle = "Login"
+        static let AccountTitle = "Account"
         static let HomeTitle = "Home"
+        static let AboutTitle = "About"
     }
     
     enum resetPasswordState: String {

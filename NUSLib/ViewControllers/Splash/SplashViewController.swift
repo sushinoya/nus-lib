@@ -11,10 +11,12 @@ import RxSwift
 
 class SplashViewController: UIViewController {
 
+    //MARK: - Variables
     let api: LibraryAPI = CentralLibrary()
     let disposeBag = DisposeBag()
     let state = StateController()
     
+    //MARK: - Lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
         
@@ -34,12 +36,14 @@ class SplashViewController: UIViewController {
         })
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    //MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = (segue.destination as? UINavigationController)?.viewControllers.first as? HomeViewController
         destination?.state = state
     }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+
 }

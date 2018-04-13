@@ -24,10 +24,26 @@ import DCAnimationKit
 
 class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     
+    //MARK: - Variables
     let bookCollectionViewCellID = "bookCollectionViewCell"
+    var bookId = ""
     let api: LibraryAPI = CentralLibrary()
     var similarTitleText: Variable<String> = Variable("")
-    var bookId = ""
+   
+    
+    //MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+        bookId = state?.itemDetail?.id ?? "1000002"
+        view.addSubview(loading)
+        loading.startAnimating()
+        setupData()
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.NavigationBarTitle.ItemDetailTitle
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -40,84 +56,56 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         previewImage.anchorInCorner(.topLeft, xPad: 50, yPad: 50, width: 250, height: 417)
         previewImageShadow.frame = previewImage.frame
         
+        //Preview Title
         previewTitle.alignAndFillWidth(align: .toTheRightMatchingTop, relativeTo: previewImage, padding: 50, height: previewTitle.height)
         
+        //PreviewSubtitle
         previewSubtitle.alignAndFillWidth(align: .toTheRightMatchingTop, relativeTo: previewImage, padding: 50, height: 25, offset: previewTitle.height)
         previewSubtitle.sizeToFit()
         
+        //Location
         location.alignAndFillWidth(align: .toTheRightCentered, relativeTo: previewImage, padding: 50, height: 25, offset: -50)
+        
+        //Buttons
         favourite.align(.toTheRightCentered, relativeTo: previewImage, padding: 50, width: 50, height: 50, offset: 25)
         facebookButton.align(.toTheRightCentered, relativeTo: favourite, padding: 20, width: 50, height: 50, offset: 0)
         twitterButton.align(.toTheRightCentered, relativeTo: facebookButton, padding: 20, width: 50, height: 50, offset: 0)
         
+        //Sypnosis
         sypnosisTitle.alignAndFillWidth(align: .underCentered, relativeTo: overlay, padding: 0, height: 25, offset: 0)
         sypnosisTitle.frame = sypnosisTitle.frame.offsetBy(dx: 50, dy: 125)
-        
         sypnosisContent.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisTitle, padding: 50, height: 25)
         sypnosisContent.frame = sypnosisContent.frame.offsetBy(dx: 0, dy: -25)
         sypnosisContent.sizeToFit()
         
+        //Review
         reviewTitle.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisContent, padding: 50, height: 25)
         reviewTitle.sizeToFit()
-        
         reviewButton.align(.toTheRightCentered, relativeTo: reviewTitle, padding: 15, width: 30, height: 30)
-        
         reviewCollection.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 0, height: 200)
         reviewCollection.frame = reviewCollection.frame.offsetBy(dx: 0, dy: 25)
         
+        //Similar books
         similarTitle.alignAndFillWidth(align: .underCentered, relativeTo: reviewCollection, padding: 0, height: 25)
         similarTitle.frame = similarTitle.frame.offsetBy(dx: 50, dy: 25)
-        
         similarCollection.alignAndFillWidth(align: .underCentered, relativeTo: similarTitle, padding: 0, height: 320)
         similarCollection.frame = similarCollection.frame.offsetBy(dx: 0, dy: 25)
-        
         loadingSimilarCollection.align(.underCentered, relativeTo: similarTitle, padding: 0, width: 50, height: 50)
         loadingSimilarCollection.frame = loadingSimilarCollection.frame.offsetBy(dx: -50, dy: 100)
         
+        //Recommendation
         googleRecommendationTitle.alignAndFillWidth(align: .underCentered, relativeTo: similarCollection, padding: 0, height: 25)
         googleRecommendationTitle.frame = googleRecommendationTitle.frame.offsetBy(dx: 50, dy: 25)
-        
         googleRecommendationCollection.alignAndFillWidth(align: .underCentered, relativeTo: googleRecommendationTitle, padding: 0, height: 320)
         googleRecommendationCollection.frame = googleRecommendationCollection.frame.offsetBy(dx: 0, dy: 25)
-        
         loadingGoogleRecommendation.align(.underCentered, relativeTo: googleRecommendationTitle, padding: 0, width: 50, height: 50)
         loadingGoogleRecommendation.frame = loadingGoogleRecommendation.frame.offsetBy(dx: 0, dy: 50)
         
         scrollView.fitToContent()
     }
     
-    private func addSubviews(){
-        self.view.addSubview(self.scrollView)
-        
-        self.scrollView.addSubview(self.overlay)
-        self.scrollView.addSubview(self.previewImageShadow)
-        self.scrollView.addSubview(self.previewImage)
-        self.scrollView.addSubview(self.previewTitle)
-        self.scrollView.addSubview(self.previewSubtitle)
-        self.scrollView.addSubview(self.location)
-        self.scrollView.addSubview(self.favourite)
-        self.scrollView.addSubview(self.sypnosisTitle)
-        self.scrollView.addSubview(self.sypnosisContent)
-        self.scrollView.addSubview(self.reviewTitle)
-        self.scrollView.addSubview(self.reviewButton)
-        self.scrollView.addSubview(self.reviewCollection)
-        self.scrollView.addSubview(self.similarTitle)
-        self.scrollView.addSubview(self.similarCollection)
-        self.scrollView.addSubview(self.loadingSimilarCollection)
-        self.scrollView.addSubview(self.googleRecommendationTitle)
-        self.scrollView.addSubview(self.googleRecommendationCollection)
-        self.scrollView.addSubview(self.loadingGoogleRecommendation)
-        self.scrollView.addSubview(self.facebookButton)
-        self.scrollView.addSubview(self.twitterButton)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        bookId = state?.itemDetail?.id ?? "1000002"
-        view.addSubview(loading)
-        loading.startAnimating()
-        
+    //MARK: - Setup Data
+    private func setupData() {
         // get the book by id
         let book = api.getBook(byId: bookId)
             // add views and update labels after the book item is returned
@@ -143,17 +131,17 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                     self.loadingGoogleRecommendation.startAnimating()
             })
             .share(replay: 1, scope: .forever)
-            
+        
         // send the api request to get books by same author
         book.flatMapLatest{ self.getSimilarMedia(byAuthor: $0.author ?? "Unknown Author") }
-        
+            
             // if the request produces any error, return empty array
             .catchErrorJustReturn([])
             
             // if no books are found, show no result message
             .do(onNext: { $0.isEmpty ? self.similarCollection.displayEmptyResult() : () },
                 
-            // stop the spinner
+                // stop the spinner
                 onCompleted: { self.loadingSimilarCollection.stopAnimating() })
             
             // bind result to collection view
@@ -191,107 +179,40 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 guard !reviews.isEmpty else {
                     self.reviewCollection.displayEmptyResult()
                     return
-                }                
+                }
                 self.reviewCollection.backgroundView = nil
                 self.reviewCollection.data = reviews
                 self.reviewCollection.reloadData()
             }
         })
-        .disposed(by: disposeBag)
-        
-    }
-    
-    private func getSimilarMedia(byAuthor keyword: String) -> Observable<[BookItem]> {
-        return Observable<String>
-            .just(keyword)
-            .flatMapLatest { self.api.getBooks(byAuthor: $0) }
-    }
-    
-    private func setupSimilarMediaTapAction() {
-        similarCollection.rx.modelSelected(BookItem.self)
-            .subscribe(onNext: { model in
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "itemDetail") as! ItemDetailViewController
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
             .disposed(by: disposeBag)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.x != 0 {
-            scrollView.contentOffset.x = 0
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destination = segue.destination as? PostReviewController
-        destination?.state = state
-    }
-    
-    @objc func shareToFacebook() {
-
-        let loginManager = LoginManager()
+    //MARK: - Lazy initionlization views
+    private func addSubviews(){
+        self.view.addSubview(self.scrollView)
         
-        
-        if AccessToken.current != nil {
-//            loginManager.logOut()
-            self.postToFaceBook()
-        } else {
-            loginManager.logIn(publishPermissions: [.publishActions], viewController: self, completion: { (loginResult) in
-                switch loginResult {
-                case .failed(let error): print(error)
-                case .cancelled: print("User cancelled login")
-                case .success(grantedPermissions: _, declinedPermissions:  _, token: _):
-                    
-                    let alert = self.setupAlertController(title: "Facebook", message: "You can share now")
-                    
-                    self.present(alert, animated: false, completion: nil)
-                }
-            })
-        }
+        self.scrollView.addSubview(self.overlay)
+        self.scrollView.addSubview(self.previewImageShadow)
+        self.scrollView.addSubview(self.previewImage)
+        self.scrollView.addSubview(self.previewTitle)
+        self.scrollView.addSubview(self.previewSubtitle)
+        self.scrollView.addSubview(self.location)
+        self.scrollView.addSubview(self.favourite)
+        self.scrollView.addSubview(self.sypnosisTitle)
+        self.scrollView.addSubview(self.sypnosisContent)
+        self.scrollView.addSubview(self.reviewTitle)
+        self.scrollView.addSubview(self.reviewButton)
+        self.scrollView.addSubview(self.reviewCollection)
+        self.scrollView.addSubview(self.similarTitle)
+        self.scrollView.addSubview(self.similarCollection)
+        self.scrollView.addSubview(self.loadingSimilarCollection)
+        self.scrollView.addSubview(self.googleRecommendationTitle)
+        self.scrollView.addSubview(self.googleRecommendationCollection)
+        self.scrollView.addSubview(self.loadingGoogleRecommendation)
+        self.scrollView.addSubview(self.facebookButton)
+        self.scrollView.addSubview(self.twitterButton)
     }
-    
-    @objc func shareToTwitter() {
-        print("Twitter pressed")
-        if (TWTRTwitter.sharedInstance().sessionStore.hasLoggedInUsers()) {
-            // App must have at least one logged-in user to compose a Tweet
-            let composer = TWTRComposerViewController.emptyComposer()
-            present(composer, animated: true, completion: nil)
-        } else {
-            // Log in, and then check again
-            TWTRTwitter.sharedInstance().logIn { session, error in
-                if session != nil { // Log in succeeded
-                    let composer = TWTRComposerViewController.emptyComposer()
-                    self.present(composer, animated: true, completion: nil)
-                } else {
-                    
-                    let alert = self.setupAlertController(title: "No Twitter Accounts Available", message: "You must log in before presenting a composer.")
-                    
-                    self.present(alert, animated: false, completion: nil)
-                }
-            }
-        }
-    }
-    
-    private func postToFaceBook() {
-        let content = LinkShareContent(url: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!, quote: "Title")
-        let shareDialog = ShareDialog(content: content)
-        shareDialog.mode = .automatic
-        shareDialog.failsOnInvalidData = true
-        shareDialog.completion = { result in
-            // Handle share results
-            print(result)
-        }
-        
-        do {
-            try shareDialog.show()
-        } catch {
-            print(error)
-        }
-    }
-    
-    /**********/
-    /*   UI   */
-    /**********/
     
     private(set) lazy var loading: NVActivityIndicatorView = {
         let this = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 100, height: 100)), type: .ballGridPulse, color: UIColor.primary, padding: 0)
@@ -394,8 +315,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         if let user = ds.getCurrentUser() {
             let uid = user.getUserID()
             
-            var isMarked = false
-            
             ds.getFavourite(by: uid, bookid: bookId, completionHandler: { (isMarked) in
                 if isMarked {
                     this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
@@ -435,17 +354,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         
         return this
     }()
-    
-    private func setupAlertController(title: String, message: String) -> UIAlertController {
-        let alert = UIAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.", preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
-            alert.dismiss(animated: true, completion: nil)
-        })
-        
-        alert.addAction(okAction)
-        return alert
-    }
     
     private(set) lazy var sypnosisTitle: UILabel = {
         let this = UILabel()
@@ -619,6 +527,107 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.addTarget(self, action: #selector(shareToTwitter), for: .touchUpInside)
         return this
     }()
+    
+    //MARK: - Helper methods
+    private func getSimilarMedia(byAuthor keyword: String) -> Observable<[BookItem]> {
+        return Observable<String>
+            .just(keyword)
+            .flatMapLatest { self.api.getBooks(byAuthor: $0) }
+    }
+    
+    private func setupSimilarMediaTapAction() {
+        similarCollection.rx.modelSelected(BookItem.self)
+            .subscribe(onNext: { model in
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "itemDetail") as! ItemDetailViewController
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.x != 0 {
+            scrollView.contentOffset.x = 0
+        }
+    }
+    
+    @objc func shareToFacebook() {
+        
+        let loginManager = LoginManager()
+        
+        
+        if AccessToken.current != nil {
+            //            loginManager.logOut()
+            self.postToFaceBook()
+        } else {
+            loginManager.logIn(publishPermissions: [.publishActions], viewController: self, completion: { (loginResult) in
+                switch loginResult {
+                case .failed(let error): print(error)
+                case .cancelled: print("User cancelled login")
+                case .success(grantedPermissions: _, declinedPermissions:  _, token: _):
+                    
+                    let alert = self.setupAlertController(title: "Facebook", message: "You can share now")
+                    
+                    self.present(alert, animated: false, completion: nil)
+                }
+            })
+        }
+    }
+    
+    @objc func shareToTwitter() {
+        print("Twitter pressed")
+        if (TWTRTwitter.sharedInstance().sessionStore.hasLoggedInUsers()) {
+            // App must have at least one logged-in user to compose a Tweet
+            let composer = TWTRComposerViewController.emptyComposer()
+            present(composer, animated: true, completion: nil)
+        } else {
+            // Log in, and then check again
+            TWTRTwitter.sharedInstance().logIn { session, error in
+                if session != nil { // Log in succeeded
+                    let composer = TWTRComposerViewController.emptyComposer()
+                    self.present(composer, animated: true, completion: nil)
+                } else {
+                    
+                    let alert = self.setupAlertController(title: "No Twitter Accounts Available", message: "You must log in before presenting a composer.")
+                    
+                    self.present(alert, animated: false, completion: nil)
+                }
+            }
+        }
+    }
+    
+    private func postToFaceBook() {
+        let content = LinkShareContent(url: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!, quote: "Title")
+        let shareDialog = ShareDialog(content: content)
+        shareDialog.mode = .automatic
+        shareDialog.failsOnInvalidData = true
+        shareDialog.completion = { result in
+            // Handle share results
+            print(result)
+        }
+        
+        do {
+            try shareDialog.show()
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func setupAlertController(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            alert.dismiss(animated: true, completion: nil)
+        })
+        
+        alert.addAction(okAction)
+        return alert
+    }
+    
+    //MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as? PostReviewController
+        destination?.state = state
+    }
 }
 
 
