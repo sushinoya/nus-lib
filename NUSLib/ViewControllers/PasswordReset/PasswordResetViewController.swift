@@ -24,8 +24,8 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         addSubviews()
-        self.newPasswordField = newPasswordRetyped
-        self.newPasswordFieldRetyped = newPasswordRetyped
+        newPasswordField = newPasswordRetyped
+        newPasswordFieldRetyped = newPasswordRetyped
         
     }
     

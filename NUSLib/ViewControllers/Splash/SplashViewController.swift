@@ -19,7 +19,16 @@ class SplashViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
-        
+        setupData()
+       
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    //MARK: - Setup Data
+    private func setupData() {
         FirebaseDataSource().getPopularItems(completionHandler: {ids in
             self.api.getBooks(byIds: ids, completionHandler: { (popularItems) in
                 let popular: Variable<[BookItem]> = Variable(popularItems)
@@ -34,10 +43,6 @@ class SplashViewController: UIViewController {
                     .disposed(by: self.disposeBag)
             })
         })
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
     
     //MARK: - Segue

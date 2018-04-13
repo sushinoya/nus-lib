@@ -34,7 +34,7 @@ class SearchViewController: BaseViewController {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         setupNavigationBar()
-        setupViews()
+        addSubviews()
         setupData()
         setupRxSwfitSearch()
         self.definesPresentationContext = true
@@ -81,7 +81,7 @@ class SearchViewController: BaseViewController {
     
     
     //MARK: - Lazy initionlization views
-    private func setupViews() {
+    private func addSubviews() {
         view.addSubview(collectionView)
         collectionView.addSubview(searchController.searchBar)
     }

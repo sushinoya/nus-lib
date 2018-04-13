@@ -16,6 +16,9 @@ import SideMenu
 import Kingfisher
 import BarcodeScanner
 
+/**
+ This class manages HomePage UI as well as the interactions between UI and the data.
+ */
 class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
     //MARK: - Variables

@@ -12,8 +12,6 @@ import ZFRippleButton
 import FirebaseDatabase
 import NVActivityIndicatorView
 
-
-
 class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
     
     // Constants

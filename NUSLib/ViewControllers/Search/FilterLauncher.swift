@@ -9,6 +9,7 @@
 import UIKit
 import Neon
 
+
 protocol FilterLauncherDelegate: class {
     func filterByTitle(_ length: Int)
 }
@@ -19,8 +20,12 @@ protocol FilterLauncherDelegate: class {
 
 class FilterLauncher: UIViewController {
     
+    //MARK: - Variables
     let blackView = UIView()
+    var y: CGFloat = 0
+    weak var delegate: FilterLauncherDelegate?
     
+    //Mark: - Setup Views
     let baseView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = UIColor.white
@@ -47,10 +52,7 @@ class FilterLauncher: UIViewController {
         return button
     }()
     
-    
-    var y: CGFloat = 0
-    weak var delegate: FilterLauncherDelegate?
-    
+    //MARK: - Helper methods
     func showFilters() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -149,6 +151,7 @@ class FilterLauncher: UIViewController {
     
 }
 
+//Mark: - UITextFieldDelegate
 extension FilterLauncher: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
