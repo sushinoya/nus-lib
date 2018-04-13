@@ -9,7 +9,6 @@
 import UIKit
 import Neon
 
-
 protocol FilterLauncherDelegate: class {
     func update(text: Int)
 }
@@ -91,8 +90,8 @@ class FilterLauncher: UIViewController {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.blackView.alpha = 1
                 self.baseView.frame = CGRect(x: 0, y: self.y, width: self.baseView.width, height: baseViewHeight)
-                self.titleLengthLabel.frame = CGRect(x: 0, y: 0, width: 120, height: titleLengthHeight)
-                self.titleLengthTextField.frame = CGRect(x: 120, y: 0, width: self.baseView.width, height: titleLengthHeight)
+                self.titleLengthLabel.frame = CGRect(x: 20, y: 0, width: 120, height: titleLengthHeight)
+                self.titleLengthTextField.frame = CGRect(x: 140, y: 0, width: self.baseView.width - 20, height: titleLengthHeight)
                 self.submitButton.frame = CGRect(x: 0, y: 0 + titleLengthHeight, width: window.frame.width, height: buttonHeight)
             }, completion: nil)
         }
@@ -108,6 +107,8 @@ class FilterLauncher: UIViewController {
                 self.titleLengthTextField.frame = CGRect(x: 120, y: window.frame.height, width: self.baseView.width, height: self.titleLengthTextField.height)
                 self.submitButton.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: self.submitButton.height)
                 self.titleLengthTextField.resignFirstResponder()
+                self.baseView.removeFromSuperview()
+                self.blackView.removeFromSuperview()
             }
         }
     }
@@ -132,10 +133,10 @@ class FilterLauncher: UIViewController {
     }
     
     @objc func handleSubmit() {
-        var length = 100
+        var length = 1000
         if let text = titleLengthTextField.text {
             if text.isEmpty {
-                length = 100
+                length = 1000
             } else {
                 length = Int(text)!
             }
@@ -144,7 +145,6 @@ class FilterLauncher: UIViewController {
         delegate?.update(text: length)
         baseView.removeFromSuperview()
         blackView.removeFromSuperview()
-        
     }
     
 }

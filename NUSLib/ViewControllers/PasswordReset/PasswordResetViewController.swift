@@ -114,7 +114,6 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
             // Ask user to match passwords
         }
 
-
     }
 
     func resetResult(result: Constants.resetPasswordState) {

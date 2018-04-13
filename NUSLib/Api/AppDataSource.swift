@@ -31,5 +31,6 @@ protocol AppDataSource {
     func deleteFavourite(by userId: String, bookid: String, completionHandler: @escaping () -> ())
     func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> Void)
     func getFavouriteBookListForUser(userID: String, completionHandler: @escaping ([String]) -> Void)
-    func updateCount(bookid: String, value: Int) 
+    func updateCount(bookid: String, value: Int)
+    func addFeedback(by userId: String, feedback: String)
 }

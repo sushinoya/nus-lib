@@ -27,6 +27,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     let bookCollectionViewCellID = "bookCollectionViewCell"
     let api: LibraryAPI = CentralLibrary()
     var similarTitleText: Variable<String> = Variable("")
+    var bookId = ""
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -113,11 +114,12 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bookId = state?.itemDetail?.id ?? "1000002"
         view.addSubview(loading)
         loading.startAnimating()
         
         // get the book by id
-        let book = api.getBook(byId: state?.itemDetail?.id ?? "1000002")
+        let book = api.getBook(byId: bookId)
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
                 
@@ -185,12 +187,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             .disposed(by: disposeBag)
         
         book.subscribe(onNext: { (bookItem) in
-            FirebaseDataSource().getReviewsForBook(bookId: bookItem.id ?? "") { (reviews) in
+            FirebaseDataSource().getReviewsForBook(bookId: self.bookId) { (reviews) in
                 guard !reviews.isEmpty else {
                     self.reviewCollection.displayEmptyResult()
                     return
-                }
-                
+                }                
                 self.reviewCollection.backgroundView = nil
                 self.reviewCollection.data = reviews
                 self.reviewCollection.reloadData()
@@ -381,8 +382,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleBackgroundColor = UIColor.clear
         
         let ds: AppDataSource = FirebaseDataSource()
-        let bookid = String(Int(arc4random_uniform(10) + 1000001))
-        let ref = database.child("FavouritesCount").child("\(bookid)")
+        let ref = database.child("FavouritesCount").child(bookId)
 
         ref.observe(.value, with: { (snapshot) in
             let favourite = snapshot.value as? [String : AnyObject] ?? [:]
@@ -396,7 +396,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             
             var isMarked = false
             
-            ds.getFavourite(by: uid, bookid: bookid, completionHandler: { (isMarked) in
+            ds.getFavourite(by: uid, bookid: bookId, completionHandler: { (isMarked) in
                 if isMarked {
                     this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
                 } 
@@ -407,14 +407,14 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 .when(.recognized)
                 .subscribe(onNext: { result in
                     
-                    ds.addToFavourite(by: uid, bookid: bookid, bookTitle: self.previewTitle.text ?? "Unknown Book" ){ isSuccess in
+                    ds.addToFavourite(by: uid, bookid: self.bookId, bookTitle: self.previewTitle.text ?? "Unknown Book" ){ isSuccess in
                         
                         if isSuccess {
-                            ds.updateCount(bookid: bookid, value: -1)
+                            ds.updateCount(bookid: self.bookId, value: -1)
                             this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
                         } else {
-                            ds.deleteFavourite(by: uid, bookid: bookid, completionHandler: {
-                                ds.updateCount(bookid: bookid, value: 1)
+                            ds.deleteFavourite(by: uid, bookid: self.bookId, completionHandler: {
+                                ds.updateCount(bookid: self.bookId, value: 1)
                                 this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
                             })
                         }
@@ -619,6 +619,14 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.addTarget(self, action: #selector(shareToTwitter), for: .touchUpInside)
         return this
     }()
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ItemDetailToPostReview" {
+            if let vc = segue.destination as? BaseViewController {
+                vc.state = state
+            }
+        }
+    }
 }
 
 

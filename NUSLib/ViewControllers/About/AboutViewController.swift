@@ -12,6 +12,8 @@ import ZFRippleButton
 
 class AboutViewController: BaseViewController {
     
+        let datasource: AppDataSource = FirebaseDataSource()
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 //        aboutTitle.center.x = self.view.center.x
@@ -27,7 +29,7 @@ class AboutViewController: BaseViewController {
         
         libraryTitle.alignAndFillWidth(align: .underCentered, relativeTo: developersDescription, padding: 70, height: 25)
         
-        libraryDescription.align(.underCentered, relativeTo: libraryTitle, padding: 10, width: view.width - 200, height: 150)
+        libraryDescription.align(.underCentered, relativeTo: libraryTitle, padding: 10, width: view.width - 200, height: 200)
         
         sendFeedback.align(.underCentered, relativeTo: libraryDescription, padding: 50, width: 250, height: 50)
 
@@ -72,7 +74,11 @@ class AboutViewController: BaseViewController {
     
     private(set) lazy var developersDescription: UILabel = {
         let this = UILabel()
-        this.text = "Bacon ipsum dolor amet ribeye ham hock bacon, short ribs capicola t-bone meatloaf ham fatback ball tip cow drumstick cupim. Chuck capicola ground round biltong. Cow tail biltong tenderloin buffalo beef pork chop corned beef turkey ground round bacon shoulder chuck tri-tip ball tip. Short loin tail ham, pork loin shankle ribeye sirloin pig kielbasa. Porchetta rump pig kevin burgdoggen cow turducken filet mignon kielbasa."
+        this.text = "CS3217 TEAM Hyena \n"
+                + "Cao Liang @https://github.com/caoliangnus\n"
+                + "Kang Fei @https://github.com/kfwong\n"
+                + "Ram @https://github.com/ramjanarthan\n"
+                + "Suyash @https://github.com/sushinoya"
         this.textColor = UIColor.primary
         this.textAlignment = .left
         this.font = UIFont.content
@@ -92,14 +98,16 @@ class AboutViewController: BaseViewController {
         return this
     }()
     
-    private(set) lazy var libraryDescription: UILabel = {
-        let this = UILabel()
-        this.text = "Bacon ipsum dolor amet ribeye ham hock bacon, short ribs capicola t-bone meatloaf ham fatback ball tip cow drumstick cupim. Chuck capicola ground round biltong. Cow tail biltong tenderloin buffalo beef pork chop corned beef turkey ground round bacon shoulder chuck tri-tip ball tip. Short loin tail ham, pork loin shankle ribeye sirloin pig kielbasa. Porchetta rump pig kevin burgdoggen cow turducken filet mignon kielbasa."
+    private(set) lazy var libraryDescription: UITextView = {
+        let this = UITextView()
+        this.text = "Central Library is a multi-disciplinary library serving all NUS staff and students and primarily those from the Faculty of Arts and Social Sciences, the Faculty of Engineering, the School of Computing and the School of Design and Environment.\n" + "Opening Hours \n" +
+            "Monday to Friday : 8.30am to 7pm \n" +
+            "Saturday: 10am to 5pm \n" +
+            "Sunday & Public Holidays: Closed"
         this.textColor = UIColor.primary
         this.textAlignment = .left
         this.font = UIFont.content
-        this.lineBreakMode = .byWordWrapping
-        this.numberOfLines = 0
+        this.isEditable = false
         return this
     }()
     
@@ -115,9 +123,44 @@ class AboutViewController: BaseViewController {
         this.layer.masksToBounds = false
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
+        this.addTarget(self, action: #selector(showInputDialog), for: .touchUpInside)
         
         return this
     }()
     
+    @objc func showInputDialog() {
+        //Creating UIAlertController and
+        //Setting title and message for the alert dialog
+        let alertController = UIAlertController(title: "Feedback details", message: "Enter your feedback", preferredStyle: .alert)
+        
+        //the confirm action taking the inputs
+        let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
+            
+            guard let userId = self.datasource.getCurrentUser()?.getUserID() else {
+                return
+            }
+            
+            //getting the input values from user
+            if let feedback = alertController.textFields?[0].text {
+                self.datasource.addFeedback(by: userId, feedback: feedback)
+            }
+
+        }
+        
+        //the cancel action doing nothing
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        
+        //adding textfields to our dialog box
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Enter Feedback"
+        }
+        
+        //adding the action to dialogbox
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        //finally presenting the dialog box
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 
