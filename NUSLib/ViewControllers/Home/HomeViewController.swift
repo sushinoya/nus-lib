@@ -92,7 +92,6 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
     private func setupNavigationBar() {
         navigationItem.title = Constants.NavigationBarTitle.HomeTitle
-        
     }
     
     // UI are initialized by closure for compactness.
@@ -183,12 +182,13 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     }()
     
     lazy var recommendCollectionLeft: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
+        
         let this = VerticalCollectionView<ThumbnailCell> {
             $0.cellWidth = self.view.width/2
             $0.cellHeight = 600
             $0.cellSpacing = 20
             $0.columnPadding =  UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 10)
-            $0.data = self.state?.recommendedBooks ?? []
+            $0.data = self.state?.recommendedBooks?.oddEntries ?? []
             $0.onDequeue = { cell, data, index in
                 let items = data.map{ $0 as! BookItem }
                 
@@ -224,7 +224,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
             $0.cellHeight = 600
             $0.cellSpacing = 20
             $0.columnPadding =  UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 20)
-            $0.data = self.state?.recommendedBooks ?? []
+            $0.data = self.state?.recommendedBooks?.evenEntries ?? []
             $0.onDequeue = { cell, data, index in
                 let items = data.map{ $0 as! BookItem }
                 
