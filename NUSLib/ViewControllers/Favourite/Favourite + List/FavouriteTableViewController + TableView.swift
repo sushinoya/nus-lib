@@ -32,7 +32,19 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !tableView.isEditing {
+            self.state?.itemDetail = getBookItem(at: indexPath)
+            print("book selected \(self.state?.itemDetail) ..... \(getBookItem(at: indexPath))")
             self.performSegue(withIdentifier: "detail", sender: self)
+        }
+    }
+    
+    //MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail" {
+            if let vc = segue.destination as? BaseViewController {
+                print("performed segue with \(state?.itemDetail )")
+                vc.state = state
+            }
         }
     }
     

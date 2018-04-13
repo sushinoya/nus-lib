@@ -47,7 +47,7 @@ extension FavouriteCollectionViewController: UICollectionViewDelegate, UICollect
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !isEditingMode {
-            //selectedItem = getBookItem(at: indexPath)
+            self.state?.itemDetail = getBookItem(at: indexPath)
             self.performSegue(withIdentifier: "FavouriteToItemDetail", sender: self)
         }
     }
@@ -62,6 +62,21 @@ extension FavouriteCollectionViewController: UICollectionViewDelegate, UICollect
         bookLists[destinationIndexPath.section].insert(book, at: destinationIndexPath.item)
 
     }
+
+    //MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "FavouriteToItemDetail" {
+            if let vc = segue.destination as? BaseViewController {
+                vc.state = state
+            }
+        }
+        if segue.identifier == "CollectionToList" {
+            if let vc = segue.destination as? BaseViewController {
+                vc.state = StateController()
+            }
+        }
+    }
+    
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
