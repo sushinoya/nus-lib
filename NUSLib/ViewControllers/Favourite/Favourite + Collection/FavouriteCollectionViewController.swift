@@ -68,6 +68,18 @@ class FavouriteCollectionViewController: BaseViewController {
     //MARK: - Setup Data
     private func setupData() {
         self.view.isUserInteractionEnabled = false
+        
+        if !FirebaseDataSource().isUserSignedIn() {
+            let alert = UIAlertController(title: "Favourite", message: "You must log in before view favourite.", preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                self.navigationController?.popViewController(animated: true)
+            })
+
+            alert.addAction(okAction)
+            self.present(alert, animated: false, completion: nil)
+        }
+        
         let books = [BookItem]()
         
         bookLists.removeAll()
@@ -75,14 +87,12 @@ class FavouriteCollectionViewController: BaseViewController {
         
         //2 sections for bookLists
         bookLists.append(books)
-        bookLists.append(books)
-        filteredLists.append(books)
         filteredLists.append(books)
         
         if let user = ds.getCurrentUser() {
             ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (ids) in
                 self.library.getBooks(byIds: ids, completionHandler: { (items) in
-                    self.bookLists[0] = items
+                    self.bookLists[0] = items.sorted(by: {$0.title ?? ""  < $1.title ?? ""})
                     self.collectionview.reloadData()
                     self.filter(searchTerm: self.searchBar.text!)
                     self.view.isUserInteractionEnabled = true
