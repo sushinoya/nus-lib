@@ -11,21 +11,17 @@ import Foundation
 class CacheManager {
     static let shared = CacheManager()
     
-    private var cache = [String: DisplayableItem]()
+    private var cache: NSCache<NSString, BookItem>
     
-    func addToCache(itemID: String, item: DisplayableItem) {
-        cache[itemID] = item
+    func addToCache(itemID: String, item: BookItem) {
+        cache.setObject(item, forKey: itemID as NSString)
     }
 
-    func retrieveFromCache(itemID: String) -> DisplayableItem? {
-        return cache[itemID]
-    }
-
-    func clearCache() {
-        cache = [:]
+    func retrieveFromCache(itemID: String) -> BookItem? {
+        return cache.object(forKey: itemID as NSString)
     }
 
     private init() {
-        
+        cache = NSCache<NSString, BookItem>()
     }
 }
