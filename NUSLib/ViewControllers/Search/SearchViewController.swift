@@ -119,11 +119,15 @@ class SearchViewController: BaseViewController {
         
         searchController.searchBar.rx.text
             .orEmpty
+            .map{ $0.isEmpty ? "top" : $0.lowercased() }
             .distinctUntilChanged()
             .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
-            .bind(to: searchValue)
-            .disposed(by: disposeBag)
+            .flatMapLatest{ self.api.getBooks(byTitle: $0)}
+            .map{ $0.map{ $0 as DisplayableItem }}
+            .bind(to: self.searchResult)
+            .disposed(by: self.disposeBag)
         
+        /*
         searchValueObservable.subscribe(onNext: { [unowned self] (value) in
             self.isSearching = true
             if value.isEmpty {
@@ -141,7 +145,7 @@ class SearchViewController: BaseViewController {
                     .bind(to: self.searchResult)
                     .disposed(by: self.disposeBag)
             }
-        }).disposed(by: disposeBag)
+        }).disposed(by: disposeBag)*/
         
         searchResultObservable.bind(to: collectionView.rx.items(cellIdentifier: topSearchCollectionViewCellID, cellType: TopSeachCollectionViewCell.self)) {index, model, cell in
             cell.topSearchLabel.text = model.title
