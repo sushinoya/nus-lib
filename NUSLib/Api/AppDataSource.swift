@@ -18,7 +18,7 @@ protocol AppDataSource {
     func getPopularItems(completionHandler: @escaping ([String]) -> Void)
     func getMostViewedItems() -> [DisplayableItem]
     
-    func addReview(by userId: String,for bookid: String, review: String, rating: Int)
+    func addReview(by userId: String, userName: String, for bookid: String, review: String, rating: Int)
     func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void)
     func getReviewsByUser(userID: String, completionHandler: @escaping ([Review]) -> Void)
 

@@ -52,8 +52,9 @@ class FirebaseDataSource: AppDataSource {
                     let bookid = current["bookid"] as? String
                     if bookid == bookId {
                         if let text = current["text"] as? String,
-                            let rating = current["rating"] as? Int {
-                            reviews.append(Review(reviewText: text, rating: rating))
+                            let rating = current["rating"] as? Int,
+                            let authorName = current["author"] as? String {
+                            reviews.append(Review(author: authorName, reviewText: text, rating: rating))
                         }
                     }
                 }
@@ -76,8 +77,9 @@ class FirebaseDataSource: AppDataSource {
                     let authid = current["authid"] as! String
                     if authid == userID {
                         if let text = current["text"] as? String,
-                            let rating = current["rating"] as? Int {
-                            reviews.append(Review(reviewText: text, rating: rating))
+                            let rating = current["rating"] as? Int,
+                            let authorName = current["author"] as? String {
+                            reviews.append(Review(author: authorName, reviewText: text, rating: rating))
                         }
                     }
                 }
@@ -88,12 +90,13 @@ class FirebaseDataSource: AppDataSource {
         }
     }
 
-    func addReview(by userId: String,for bookid: String, review: String, rating: Int) {
+    func addReview(by userId: String, userName: String, for bookid: String, review: String, rating: Int) {
         let newReview = database.child("Reviews").childByAutoId()
         newReview.child("authid").setValue(userId)
         newReview.child("bookid").setValue(bookid)
         newReview.child("rating").setValue(rating)
         newReview.child("text").setValue(review)
+        newReview.child("author").setValue(userName)
     }
     
     func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)  {
@@ -161,7 +164,7 @@ class FirebaseDataSource: AppDataSource {
     
     func addToFavourite(by userId: String, bookid: String, bookTitle: String, completionHandler: @escaping (Bool) -> ()) {
         let userFavourite = database.child("UserFavourites").child(userId)
-        
+
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
             var isSuccess = false
             if snapshot.exists() {

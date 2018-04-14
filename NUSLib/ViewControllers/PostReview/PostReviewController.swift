@@ -136,11 +136,11 @@ class PostReviewController: UIViewController {
     
     //MARK: - Helper methods
     func submitReview(){
-        guard let userId = datasource.getCurrentUser()?.getUserID() else {
+        guard let user = datasource.getCurrentUser() else {
             return
         }
         
-        datasource.addReview(by: userId, for: state?.postReview?.id ?? "", review: reviewTextArea.text, rating: Int(ratingView.rating))
+        datasource.addReview(by: user.getUserID(), userName: user.getUsername(), for: state?.postReview?.id ?? "", review: reviewTextArea.text, rating: Int(ratingView.rating))
         
         self.dismiss(animated: true)
     }
