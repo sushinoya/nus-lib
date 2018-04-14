@@ -57,13 +57,11 @@ extension SidebarTableViewController {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath == IndexPath(row: 0, section: 0) {
             sequeToAccountOrLogin()
+        }else if indexPath == IndexPath(row: 4, section: 0){
+
         }
     }
     
