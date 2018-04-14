@@ -140,7 +140,11 @@ class PostReviewController: UIViewController {
             return
         }
         
-        datasource.addReview(by: user.getUserID(), userName: user.getUsername(), for: state?.postReview?.id ?? "", review: reviewTextArea.text, rating: Int(ratingView.rating))
+        guard let bookTitle = self.state?.itemDetail?.title else {
+            return
+        }
+        
+        datasource.addReview(by: user.getUserID(), userName: user.getUsername(), for: state?.postReview?.id ?? "", title: bookTitle, review: reviewTextArea.text, rating: Int(ratingView.rating))
         
         self.dismiss(animated: true)
     }

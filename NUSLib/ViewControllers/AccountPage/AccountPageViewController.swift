@@ -156,9 +156,10 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
             $0.onDequeue = { cell, data, index in
                 let items = data.map{ $0 as! Review }
                 
-                cell.author.text = "who the fuck"
+                cell.author.text = items[index].author
                 cell.content.text = items[index].reviewText
                 cell.rating.rating = Double(items[index].rating)
+                cell.bookTitle.text = items[index].book
 
             }
         }

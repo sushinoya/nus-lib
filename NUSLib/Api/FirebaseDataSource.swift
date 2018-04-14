@@ -53,8 +53,9 @@ class FirebaseDataSource: AppDataSource {
                     if bookid == bookId {
                         if let text = current["text"] as? String,
                             let rating = current["rating"] as? Int,
-                            let authorName = current["author"] as? String {
-                            reviews.append(Review(author: authorName, reviewText: text, rating: rating))
+                            let authorName = current["author"] as? String,
+                            let bookName = current["book"] as? String {
+                            reviews.append(Review(author: authorName, book: bookName, reviewText: text, rating: rating))
                         }
                     }
                 }
@@ -78,8 +79,9 @@ class FirebaseDataSource: AppDataSource {
                     if authid == userID {
                         if let text = current["text"] as? String,
                             let rating = current["rating"] as? Int,
-                            let authorName = current["author"] as? String {
-                            reviews.append(Review(author: authorName, reviewText: text, rating: rating))
+                            let authorName = current["author"] as? String,
+                            let bookName = current["book"] as? String{
+                            reviews.append(Review(author: authorName, book: bookName, reviewText: text, rating: rating))
                         }
                     }
                 }
@@ -90,13 +92,14 @@ class FirebaseDataSource: AppDataSource {
         }
     }
 
-    func addReview(by userId: String, userName: String, for bookid: String, review: String, rating: Int) {
+    func addReview(by userId: String, userName: String, for bookid: String, title: String, review: String, rating: Int) {
         let newReview = database.child("Reviews").childByAutoId()
         newReview.child("authid").setValue(userId)
         newReview.child("bookid").setValue(bookid)
         newReview.child("rating").setValue(rating)
         newReview.child("text").setValue(review)
         newReview.child("author").setValue(userName)
+        newReview.child("book").setValue(title)
     }
     
     func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)  {

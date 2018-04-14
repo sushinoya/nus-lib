@@ -11,6 +11,7 @@ import Foundation
 struct Review {
 
     var author: String
+    var book: String
     var reviewText: String
     var rating: Int
 
