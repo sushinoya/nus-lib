@@ -24,5 +24,4 @@ class CacheManager {
     private init() {
         cache = NSCache<NSString, BookItem>()
     }
-    
 }

@@ -116,6 +116,9 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         self.previewTitle.text = bookItem.title
         self.previewSubtitle.text = (bookItem.author?.isEmpty ?? true) ? "Unknown Author" : bookItem.author
         self.location.text = (bookItem.location?.isEmpty ?? true) ? "Central Library Level 2" : bookItem.location
+        
+        self.previewImageShadow.expand(into: self.scrollView, finished: nil)
+        self.previewImage.expand(into: self.scrollView, finished: nil)
     }
     
     private func setupData() {
@@ -131,9 +134,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 if !isBookLoaded {      //If cache has not loaded book already
                     self.setupDataFromBook(bookItem)
                 }
-                CacheManager.shared.addToCache(itemID: self.bookId, item: bookItem)
-                self.previewImageShadow.expand(into: self.scrollView, finished: nil)
-                self.previewImage.expand(into: self.scrollView, finished: nil) },
+                CacheManager.shared.addToCache(itemID: self.bookId, item: bookItem) //Update the cached version of the book
+            },
                 
                 // showing the loading spinner notifying user it is going to load the similar media
                 onCompleted: {

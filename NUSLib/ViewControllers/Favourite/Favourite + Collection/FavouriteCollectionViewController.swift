@@ -35,7 +35,6 @@ class FavouriteCollectionViewController: BaseViewController {
         addSubViews()
         setUpGesture()
         self.definesPresentationContext = true
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +67,7 @@ class FavouriteCollectionViewController: BaseViewController {
     
     //MARK: - Setup Data
     private func setupData() {
+        self.view.isUserInteractionEnabled = false
         let books = [BookItem]()
         
         bookLists.removeAll()
@@ -85,6 +85,7 @@ class FavouriteCollectionViewController: BaseViewController {
                     self.bookLists[0] = items
                     self.collectionview.reloadData()
                     self.filter(searchTerm: self.searchBar.text!)
+                    self.view.isUserInteractionEnabled = true
                 })
             })
         }
