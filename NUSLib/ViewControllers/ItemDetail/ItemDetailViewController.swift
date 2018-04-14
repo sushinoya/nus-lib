@@ -414,14 +414,27 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
         
-        this.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { _ in
-                self.state?.postReview = self.state?.itemDetail
-                self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
-            })
-            .disposed(by: disposeBag)
-        
+        let ds: AppDataSource = FirebaseDataSource()
+
+        if let user = ds.getCurrentUser() {
+            let uid = user.getUserID()
+            this.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { _ in
+                    self.state?.postReview = self.state?.itemDetail
+                    self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
+                })
+                .disposed(by: disposeBag)
+        } else {
+            this.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { result in
+                    
+                    let alert = self.setupAlertController(title: "Review", message: "You must log in before writing reviews.")
+                    
+                    self.present(alert, animated: false, completion: nil)
+                }).disposed(by: disposeBag)
+        }
         return this
     }()
     
@@ -434,7 +447,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             $0.onDequeue = { cell, data, index in
                 let items = data.map{ $0 as! Review }
                 
-                cell.author.text = "who the fuck"
+                cell.author.text = items[index].author
                 cell.content.text = items[index].reviewText
                 cell.rating.rating = Double(items[index].rating)
             }
@@ -625,7 +638,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     private func setupAlertController(title: String, message: String) -> UIAlertController {
-        let alert = UIAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.", preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
             alert.dismiss(animated: true, completion: nil)
