@@ -18,15 +18,9 @@ class SearchViewController: BaseViewController {
     var isSearching = false
     
     var searchValue: Variable<String> = Variable("")
-    var topSearchList: Variable<[DisplayableItem]> = Variable([])
     var filterResult: Variable<[DisplayableItem]> = Variable([])
     var searchResult: Variable<[DisplayableItem]> = Variable([])
-    
-    lazy var searchValueObservable: Observable<String> = self.searchValue.asObservable()
-    lazy var topSearchListObservable: Observable<[DisplayableItem]> = self.topSearchList.asObservable()
-    lazy var filterResultObservable: Observable<[DisplayableItem]> = self.filterResult.asObservable()
-    lazy var searchResultObservable: Observable<[DisplayableItem]> = self.searchResult.asObservable()
-    
+        
     let api = CentralLibrary()
     
     //MARK: - Lifecycle
@@ -35,7 +29,6 @@ class SearchViewController: BaseViewController {
         self.hideKeyboardWhenTappedAround()
         setupNavigationBar()
         addSubviews()
-        setupData()
         setupRxSwfitSearch()
         self.definesPresentationContext = true
     }
@@ -69,16 +62,6 @@ class SearchViewController: BaseViewController {
         super.viewWillLayoutSubviews()
         collectionView.anchorToEdge(.top, padding: 60, width: view.frame.width, height: view.frame.height)
     }
-    
-    //MARK: - Setup Data
-    private func setupData() {
-        topSearchList.value.append(BookItem {
-            $0.id = "1000001"
-            $0.title = "CS3217"
-            $0.author = "Ben Leong"
-        })
-    }
-    
     
     //MARK: - Lazy initionlization views
     private func addSubviews() {
@@ -127,27 +110,7 @@ class SearchViewController: BaseViewController {
             .bind(to: self.searchResult)
             .disposed(by: self.disposeBag)
         
-        /*
-        searchValueObservable.subscribe(onNext: { [unowned self] (value) in
-            self.isSearching = true
-            if value.isEmpty {
-                self.topSearchListObservable.bind(to: self.searchResult).disposed(by: self.disposeBag)
-            } else {
-                self.searchValueObservable
-                    .map { $0.lowercased() }
-                    .distinctUntilChanged()
-                    .asObservable()
-                    .flatMapLatest { request -> Observable<[BookItem]> in
-                        print(request)
-                        return self.api.getBooks(byTitle: request)
-                    }
-                    .map{ $0.map{ $0 as DisplayableItem }}
-                    .bind(to: self.searchResult)
-                    .disposed(by: self.disposeBag)
-            }
-        }).disposed(by: disposeBag)*/
-        
-        searchResultObservable.bind(to: collectionView.rx.items(cellIdentifier: topSearchCollectionViewCellID, cellType: TopSeachCollectionViewCell.self)) {index, model, cell in
+        searchResult.asObservable().bind(to: collectionView.rx.items(cellIdentifier: topSearchCollectionViewCellID, cellType: TopSeachCollectionViewCell.self)) {index, model, cell in
             cell.topSearchLabel.text = model.title
             cell.author.text = model.author
             }

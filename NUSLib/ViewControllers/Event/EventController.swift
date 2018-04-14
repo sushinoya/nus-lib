@@ -11,7 +11,6 @@ import UIKit
 
 class EventViewController: BaseViewController{
     
-    
     override func viewWillLayoutSubviews() {
         webview.fillSuperview()
     }
