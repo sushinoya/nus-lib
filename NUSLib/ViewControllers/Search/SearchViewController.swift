@@ -120,8 +120,8 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.rx.text
             .orEmpty
             .map{ $0.isEmpty ? "top" : $0.lowercased() }
-            .distinctUntilChanged()
             .debounce(1, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+            .distinctUntilChanged()
             .flatMapLatest{ self.api.getBooks(byTitle: $0)}
             .map{ $0.map{ $0 as DisplayableItem }}
             .bind(to: self.searchResult)
