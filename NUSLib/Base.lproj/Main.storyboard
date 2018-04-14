@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,7 +32,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Ta5-gc-91U">
-                            <rect key="frame" x="0.0" y="340" width="375" height="0.0"/>
+                            <rect key="frame" x="0.0" y="400" width="375" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -152,7 +153,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJA-Vm-tlC">
-                                                    <rect key="frame" x="70" y="18.5" width="50" height="23.5"/>
+                                                    <rect key="frame" x="70" y="18" width="50" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                     <color key="textColor" red="0.12941176469999999" green="0.2156862745" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
@@ -168,6 +169,31 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <segue destination="OiS-cl-QTP" kind="show" id="brs-hS-tGS"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="8az-kU-iv6">
+                                        <rect key="frame" x="0.0" y="340" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8az-kU-iv6" id="OB5-QQ-U2c">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfg-Gk-9Lr">
+                                                    <rect key="frame" x="16" y="11" width="343" height="38"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Dfg-Gk-9Lr" secondAttribute="trailing" id="ICi-DB-CN5"/>
+                                                <constraint firstItem="Dfg-Gk-9Lr" firstAttribute="top" secondItem="OB5-QQ-U2c" secondAttribute="topMargin" id="LY7-ME-HaI"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Dfg-Gk-9Lr" secondAttribute="bottom" id="UY5-Su-fzK"/>
+                                                <constraint firstItem="Dfg-Gk-9Lr" firstAttribute="leading" secondItem="OB5-QQ-U2c" secondAttribute="leadingMargin" id="tRX-Be-ZVx"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="ayj-W4-1h7" kind="show" id="Ilv-Rx-VeF"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -214,6 +240,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qgG-Eg-yv1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3388" y="1012"/>
+        </scene>
+        <!--Event View Controller-->
+        <scene sceneID="2EN-bJ-eZ8">
+            <objects>
+                <viewController id="ayj-W4-1h7" customClass="EventViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RQ8-lm-qt9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="wxL-DH-97u"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fTK-GC-EAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5913" y="-1146"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="imG-tI-rRT">
@@ -455,6 +496,20 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbM-Kg-V3L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1505" y="1012"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ggi-PJ-lah">
+            <objects>
+                <viewController id="Jhu-pt-PiJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7kc-EW-pna">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="Ii4-0p-IM2"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="it9-1U-ORR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
