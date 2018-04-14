@@ -34,7 +34,6 @@ target 'NUSLib' do
   pod 'DCAnimationKit'
   pod 'Cosmos', '~> 15.0'
   pod 'GoogleBooksApiClient'
-  pod 'SwiftSoup'
 
   target 'NUSLibTests' do
     inherit! :search_paths
