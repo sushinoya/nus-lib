@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -178,18 +177,25 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfg-Gk-9Lr">
-                                                    <rect key="frame" x="16" y="11" width="343" height="38"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="event" translatesAutoresizingMaskIntoConstraints="NO" id="3P2-SH-lGa">
+                                                    <rect key="frame" x="15" y="9" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="6RD-uA-y99"/>
+                                                        <constraint firstAttribute="width" constant="40" id="OMm-qb-QZw"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfg-Gk-9Lr">
+                                                    <rect key="frame" x="70" y="18" width="53" height="23.5"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                                    <color key="textColor" red="0.12941176469999999" green="0.2156862745" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Dfg-Gk-9Lr" secondAttribute="trailing" id="ICi-DB-CN5"/>
-                                                <constraint firstItem="Dfg-Gk-9Lr" firstAttribute="top" secondItem="OB5-QQ-U2c" secondAttribute="topMargin" id="LY7-ME-HaI"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Dfg-Gk-9Lr" secondAttribute="bottom" id="UY5-Su-fzK"/>
-                                                <constraint firstItem="Dfg-Gk-9Lr" firstAttribute="leading" secondItem="OB5-QQ-U2c" secondAttribute="leadingMargin" id="tRX-Be-ZVx"/>
+                                                <constraint firstItem="3P2-SH-lGa" firstAttribute="leading" secondItem="OB5-QQ-U2c" secondAttribute="leading" constant="15" id="mGA-Fz-i97"/>
+                                                <constraint firstItem="Dfg-Gk-9Lr" firstAttribute="leading" secondItem="3P2-SH-lGa" secondAttribute="trailing" constant="15" id="pVW-Gk-pCS"/>
+                                                <constraint firstItem="Dfg-Gk-9Lr" firstAttribute="centerY" secondItem="OB5-QQ-U2c" secondAttribute="centerY" id="s5e-Gv-W0J"/>
+                                                <constraint firstItem="3P2-SH-lGa" firstAttribute="centerY" secondItem="OB5-QQ-U2c" secondAttribute="centerY" id="snd-pD-HD7"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -515,6 +521,7 @@
     <resources>
         <image name="Library" width="134" height="36"/>
         <image name="account" width="32" height="32"/>
+        <image name="event" width="32" height="32"/>
         <image name="favourite" width="32" height="32"/>
         <image name="information-outline" width="32" height="32"/>
         <image name="search" width="32" height="32"/>
