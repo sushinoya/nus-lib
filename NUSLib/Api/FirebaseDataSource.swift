@@ -75,9 +75,10 @@ class FirebaseDataSource: AppDataSource {
                     let current = value as! NSDictionary
                     let authid = current["authid"] as! String
                     if authid == userID {
-                        let text = current["text"] as! String
-                        let rating = current["rating"] as! Int
-                        reviews.append(Review(reviewText: text, rating: rating))
+                        if let text = current["text"] as? String,
+                            let rating = current["rating"] as? Int {
+                            reviews.append(Review(reviewText: text, rating: rating))
+                        }
                     }
                 }
             } else {
