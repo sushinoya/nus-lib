@@ -55,6 +55,7 @@
 		8240A6742077DA6D00A5151E /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6732077DA6D00A5151E /* AboutViewController.swift */; };
 		8240A6762079362A00A5151E /* UserReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6752079362A00A5151E /* UserReviewCell.swift */; };
 		8240A6792079411600A5151E /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6782079411600A5151E /* PasswordResetViewController.swift */; };
+		82B5393F20833DAA00AEFDD9 /* BookNotFoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5393E20833DAA00AEFDD9 /* BookNotFoundViewController.swift */; };
 		82BF2F16206BD5E2001996A0 /* BarcodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */; };
 		82F05471206E915D00FCAF0A /* SocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F05470206E915D00FCAF0A /* SocialButton.swift */; };
 		82FABA33206F4DEF0017482E /* TwitterCredentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82FABA32206F4DEF0017482E /* TwitterCredentials.json */; };
@@ -151,6 +152,7 @@
 		8240A6732077DA6D00A5151E /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		8240A6752079362A00A5151E /* UserReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReviewCell.swift; sourceTree = "<group>"; };
 		8240A6782079411600A5151E /* PasswordResetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
+		82B5393E20833DAA00AEFDD9 /* BookNotFoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookNotFoundViewController.swift; sourceTree = "<group>"; };
 		82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanner.swift; sourceTree = "<group>"; };
 		82F05470206E915D00FCAF0A /* SocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialButton.swift; sourceTree = "<group>"; };
 		82FABA32206F4DEF0017482E /* TwitterCredentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TwitterCredentials.json; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 		4AE79FBC205AAA6300309D02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				82B5393D20833D8B00AEFDD9 /* BookNotFound */,
 				4A374CB42081F0E600D3B82A /* Event */,
 				4A2E7F8C207B41EE0046FA79 /* Splash */,
 				8240A677207940F600A5151E /* PasswordReset */,
@@ -420,6 +423,14 @@
 				8240A6782079411600A5151E /* PasswordResetViewController.swift */,
 			);
 			path = PasswordReset;
+			sourceTree = "<group>";
+		};
+		82B5393D20833D8B00AEFDD9 /* BookNotFound */ = {
+			isa = PBXGroup;
+			children = (
+				82B5393E20833DAA00AEFDD9 /* BookNotFoundViewController.swift */,
+			);
+			path = BookNotFound;
 			sourceTree = "<group>";
 		};
 		82BF2F12206BAF75001996A0 /* BarcodeScanner */ = {
@@ -886,6 +897,7 @@
 				4AF347A3206122FC00B576C2 /* ItemDetailViewController.swift in Sources */,
 				4AB8BEE62077F22400224699 /* GoogleBooksApi+RxSwift.swift in Sources */,
 				42DD1DFD207F3FCF0066771F /* CacheManager.swift in Sources */,
+				82B5393F20833DAA00AEFDD9 /* BookNotFoundViewController.swift in Sources */,
 				4A729C392064DEE800B62D9F /* HorizontalCollectionView.swift in Sources */,
 				4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */,
 				42758D5D20598BA8007C5629 /* DisplayableItem.swift in Sources */,

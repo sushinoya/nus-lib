@@ -325,6 +325,21 @@
             </objects>
             <point key="canvasLocation" x="5913" y="293"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="c4d-Td-War">
+            <objects>
+                <viewController id="vbP-UO-PPR" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="A90-KD-PZ4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="POH-fL-6xg"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pa8-VT-8q4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6804" y="293"/>
+        </scene>
         <!--Barcode Scanner View Controller-->
         <scene sceneID="VUm-8s-wQ8">
             <objects>
@@ -502,20 +517,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbM-Kg-V3L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1505" y="1012"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="ggi-PJ-lah">
-            <objects>
-                <viewController id="Jhu-pt-PiJ" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="7kc-EW-pna">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <viewLayoutGuide key="safeArea" id="Ii4-0p-IM2"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="it9-1U-ORR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>
