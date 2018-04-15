@@ -26,7 +26,7 @@
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Library" adjustsImageSizeForAccessibilityContentSizeCategory="YES" id="3nn-tk-GQq">
+                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Library" adjustsImageSizeForAccessibilityContentSizeCategory="YES" id="3nn-tk-GQq">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
