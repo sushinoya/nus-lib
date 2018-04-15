@@ -58,7 +58,7 @@ class LoginViewController: BaseViewController {
         
     }
     
-    //MARK: - Lazy initionlization views
+    //MARK: - Lazy initialisation views
     private func addSubViews(){
         view.backgroundColor = UIColor.primary
         view.addSubview(texture)

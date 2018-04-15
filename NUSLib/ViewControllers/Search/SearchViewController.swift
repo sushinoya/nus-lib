@@ -63,7 +63,7 @@ class SearchViewController: BaseViewController {
         collectionView.anchorToEdge(.top, padding: 60, width: view.frame.width, height: view.frame.height)
     }
     
-    //MARK: - Lazy initionlization views
+    //MARK: - Lazy initialisation views
     private func addSubviews() {
         view.addSubview(collectionView)
         collectionView.addSubview(searchController.searchBar)

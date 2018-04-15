@@ -70,7 +70,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     
-    //MARK: - Lazy initionlization views
+    //MARK: - Lazy initialisation views
     private func addSubViews(){
         scrollView.addSubview(popularTitle)
         scrollView.addSubview(popularSeparator)

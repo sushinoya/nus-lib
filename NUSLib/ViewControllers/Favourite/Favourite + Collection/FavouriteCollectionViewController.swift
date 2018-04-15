@@ -101,7 +101,7 @@ class FavouriteCollectionViewController: BaseViewController {
         }
     }
     
-    //MARK: - Lazy initionlization views
+    //MARK: - Lazy initialisation views
     private func addSubViews() {
         view.addSubview(collectionview)
         view.addSubview(searchBar)

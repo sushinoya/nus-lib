@@ -44,7 +44,7 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         resetButton.align(.underCentered, relativeTo: newPasswordRetyped, padding: 50, width: 200, height: 50)
     }
     
-   //MARK: - Lazy initionlization views
+   //MARK: - Lazy initialisation views
     private func addSubviews(){
         view.addSubview(newPassword)
         view.addSubview(newPasswordRetyped)

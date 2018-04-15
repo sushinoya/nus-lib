@@ -45,7 +45,7 @@ class AboutViewController: BaseViewController {
 
     }
     
-    //MARK: - Lazy initionlization views
+    //MARK: - Lazy initialisation views
     private func addSubviews(){
         view.addSubview(aboutTitle)
         view.addSubview(developersTitle)

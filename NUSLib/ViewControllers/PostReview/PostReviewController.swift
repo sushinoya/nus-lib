@@ -42,7 +42,7 @@ class PostReviewController: UIViewController {
         
     }
     
-    //MARK: - Lazy initionlization views
+    //MARK: - Lazy initialisation views
     private func addSubViews() {
         view.addSubview(reviewTitle)
         view.addSubview(reviewTextArea)

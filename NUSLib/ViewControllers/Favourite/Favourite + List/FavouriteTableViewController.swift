@@ -75,7 +75,7 @@ class FavouriteTableViewController: BaseViewController {
         }
     }
     
-    //MARK: - Lazy initionlization views
+    //MARK: - Lazy initialisation views
     private func addSubViews() {
         view.addSubview(tableView)
         tableView.tableHeaderView = searchController.searchBar

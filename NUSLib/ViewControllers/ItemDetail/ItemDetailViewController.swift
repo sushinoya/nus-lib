@@ -200,7 +200,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             .disposed(by: disposeBag)
     }
     
-    //MARK: - Lazy initionlization views
+    //MARK: - Lazy initialisation views
     private func addSubviews(){
         self.view.addSubview(self.scrollView)
         
