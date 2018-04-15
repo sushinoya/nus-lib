@@ -17,11 +17,11 @@ enum SierraApi {
 }
 
 extension SierraApi: TargetType, AccessTokenAuthorizable {
-    
+
     var baseURL: URL {
         return URL(string: "https://sandbox.iii.com/iii/sierra-api/v3")!
     }
-    
+
     var path: String {
         switch self {
         case .bib(let id): return "/bibs/\(id)"
@@ -31,14 +31,14 @@ extension SierraApi: TargetType, AccessTokenAuthorizable {
         case .items(_): return "/items"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .bib, .bibs, .bibsSearch, .branches, .items:
             return .get
         }
     }
-    
+
     var sampleData: Data {
         switch self {
         case .bib(_): return "bib.".data(using: .utf8)!
@@ -48,7 +48,7 @@ extension SierraApi: TargetType, AccessTokenAuthorizable {
         case .items(_): return "items.".data(using: .utf8)!
         }
     }
-    
+
     var task: Task {
         switch self {
         case .bib(_): return .requestParameters(parameters: [:], encoding: URLEncoding.queryString)
@@ -58,16 +58,16 @@ extension SierraApi: TargetType, AccessTokenAuthorizable {
         case let .items(limit, offset): return .requestParameters(parameters: ["limit": limit, "offset": offset], encoding: URLEncoding.queryString)
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         switch self {
         default:
             return ["Content-Type": "application/x-www-form-urlencoded"]
         }
     }
-    
+
     var authorizationType: AuthorizationType {
         return .bearer
     }
-    
+
 }

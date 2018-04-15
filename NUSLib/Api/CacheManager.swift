@@ -10,9 +10,9 @@ import Foundation
 
 class CacheManager {
     static let shared = CacheManager()
-    
+
     private var cache: NSCache<NSString, BookItem>
-    
+
     func addToCache(itemID: String, item: BookItem) {
         cache.setObject(item, forKey: itemID as NSString)
     }

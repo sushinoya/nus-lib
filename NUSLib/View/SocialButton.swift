@@ -11,7 +11,7 @@ import UIKit
 import ZFRippleButton
 
 class SocialButton: ZFRippleButton {
-    
+
     init(type: SocialButtonType) {
         super.init(frame: CGRect(x: 160, y: 100, width: 50, height: 50))
         self.setImage(imageForButton(type: type), for: .normal)
@@ -29,12 +29,11 @@ class SocialButton: ZFRippleButton {
         self.rippleBackgroundColor = UIColor.clear
         self.imageEdgeInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
+
     func imageForButton(type: SocialButtonType) -> UIImage {
         switch type {
         case .facebook:
@@ -43,7 +42,7 @@ class SocialButton: ZFRippleButton {
             return UIImage(named: "twitter-white")!
         }
     }
-    
+
     func colorForButton(type: SocialButtonType) -> UIColor {
         switch type {
         case .facebook:

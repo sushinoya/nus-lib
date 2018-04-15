@@ -14,13 +14,12 @@ import BarcodeScanner
 extension HomeViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
         let bookISBN = code
-        
+
         // Make request to library API here.
-        
+
         print("ISBN: \(bookISBN)")
         print("Type: \(type)")
-        
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             controller.performSegue(withIdentifier: "BarcodeToItemDetail", sender: self)
             controller.reset()
@@ -42,4 +41,3 @@ extension HomeViewController: BarcodeScannerDismissalDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
-

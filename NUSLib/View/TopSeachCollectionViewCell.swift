@@ -9,36 +9,35 @@
 import UIKit
 
 class TopSeachCollectionViewCell: UICollectionViewCell {
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         contentView.fillSuperview()
-        
+
         thumbnail.anchorAndFillEdge(.left, xPad: 25, yPad: 25, otherSize: 125)
         thumbnailShadow.anchorAndFillEdge(.left, xPad: 25, yPad: 25, otherSize: thumbnail.height)
-        
+
         topSearchLabel.align(.toTheRightMatchingTop, relativeTo: thumbnail, padding: 15, width: 170, height: 25)
         topSearchLabel.sizeToFit()
-        
+
         author.align(.underMatchingLeft, relativeTo: topSearchLabel, padding: 0, width: 170, height: 25)
         author.sizeToFit()
-        
+
         abstract.align(.underMatchingLeft, relativeTo: author, padding: 0, width: 170, height: 25)
         abstract.sizeToFit()
-        
-        
+
     }
-    
+
     private func setupViews() {
         contentView.addSubview(thumbnailShadow)
         contentView.addSubview(thumbnail)
@@ -46,7 +45,7 @@ class TopSeachCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(author)
         contentView.addSubview(abstract)
     }
-    
+
     private(set) lazy var thumbnail: UIImageView = {
         let this = UIImageView()
         this.kf.setImage(with: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover\(Int(arc4random_uniform(30)+1)).jpg"),
@@ -55,10 +54,10 @@ class TopSeachCollectionViewCell: UICollectionViewCell {
         this.layer.masksToBounds = true
         this.layer.cornerRadius = 20
         this.clipsToBounds = true
-        
+
         return this
     }()
-    
+
     private(set) lazy var thumbnailShadow: UIView = {
         let this = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 125, height: 125)))
         this.backgroundColor = UIColor.clear
@@ -71,7 +70,7 @@ class TopSeachCollectionViewCell: UICollectionViewCell {
         this.layer.shouldRasterize = true
         return this
     }()
-    
+
     private(set) lazy var topSearchLabel: UILabel = {
         let this = UILabel()
         this.textAlignment = .left
@@ -79,10 +78,10 @@ class TopSeachCollectionViewCell: UICollectionViewCell {
         this.numberOfLines = 0
         this.lineBreakMode = .byWordWrapping
         this.textColor = .primary
-        
+
         return this
     }()
-    
+
     private(set) lazy var author: UILabel = {
         let this = UILabel()
         this.textAlignment = .left
@@ -90,10 +89,10 @@ class TopSeachCollectionViewCell: UICollectionViewCell {
         this.numberOfLines = 0
         this.lineBreakMode = .byWordWrapping
         this.textColor = .gray
-        
+
         return this
     }()
-    
+
     private(set) lazy var abstract: UILabel = {
         let this = UILabel()
         this.textAlignment = .left
@@ -102,7 +101,7 @@ class TopSeachCollectionViewCell: UICollectionViewCell {
         this.lineBreakMode = .byWordWrapping
         this.textColor = .lightGray
         this.text = "Spare ribs fatback biltong brisket beef tri-tip salami leberkas ball tip hamburger shank beef ribs doner flank."
-        
+
         return this
     }()
 }

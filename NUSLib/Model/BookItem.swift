@@ -10,7 +10,7 @@ import UIKit
 import ObjectMapper
 
 class BookItem: DisplayableItem, Mappable {
-    
+
     var id: String?
     var title: String?
     var thumbnail: URL?
@@ -18,18 +18,18 @@ class BookItem: DisplayableItem, Mappable {
     var author: String?
     var location: String?
     var infoLink: URL?
-    
+
     required init?(map: Map) {
-        
+
     }
-    
+
     func mapping(map: Map) {
         id      <- map["id"]
         title   <- map["title"]
         author  <- map["author"]
         location <- map["locations.0.name"]
     }
-    
+
     init(build: (BookItem) -> Void) {
         build(self)
     }

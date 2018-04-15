@@ -15,12 +15,12 @@ import RxSwift
 import RxCocoa
 
 class LoginViewController: BaseViewController {
-    
-    //MARK: - Variables
+
+    // MARK: - Variables
     var nameField: SkyFloatingLabelTextFieldWithIcon?
     var passwordField: SkyFloatingLabelTextFieldWithIcon?
-    
-    //MARK: - Lifecycle
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
@@ -28,38 +28,38 @@ class LoginViewController: BaseViewController {
 
         addSubViews()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isTranslucent = false
     }
-    
+
     private func setupNavigationBar() {
         navigationItem.title = Constants.NavigationBarTitle.LoginTitle
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+
         texture.fillSuperview()
         overlay.anchorInCenter(width: 500, height: 500)
-        
+
         // align in the center, then offset by 100px upwards
         logo.anchorInCenter(width: 300, height: 202)
         logo.frame = logo.frame.offsetBy(dx: 0, dy: -150)
 
         //Student ID
         studentId.align(.underCentered, relativeTo: logo, padding: 15, width: 400, height: 50)
-        
+
         //Student Password
         studentPassword.align(.underCentered, relativeTo: studentId, padding: 15, width: 400, height: 50)
-        
+
         //Login button
         loginButton.align(.underCentered, relativeTo: studentPassword, padding: 30, width: 200, height: 50)
-        
+
     }
-    
-    //MARK: - Lazy initionlization views
-    private func addSubViews(){
+
+    // MARK: - Lazy initialisation views
+    private func addSubViews() {
         view.backgroundColor = UIColor.primary
         view.addSubview(texture)
         view.sendSubview(toBack: texture)
@@ -69,31 +69,31 @@ class LoginViewController: BaseViewController {
         view.addSubview(studentPassword)
         view.addSubview(loginButton)
     }
-    
+
     lazy var texture: UIImageView = {
         let texture = UIImageView()
         texture.image = #imageLiteral(resourceName: "spashscreenv1")
         return texture
     }()
-    
+
     lazy var overlay: UIVisualEffectView = {
         let effect = UIBlurEffect(style: UIBlurEffectStyle.light)
-        
+
         let this = UIVisualEffectView(effect: effect)
         this.layer.cornerRadius = 25
         this.clipsToBounds = true
         this.alpha = 0.8
-        
+
         return this
     }()
-    
+
     lazy var logo: UIImageView = {
         let logo = UIImageView()
         logo.image = #imageLiteral(resourceName: "Library")
         logo.contentMode = .center
         return logo
     }()
-    
+
     lazy var studentId: SkyFloatingLabelTextFieldWithIcon = { [unowned self] in
         let studentId = SkyFloatingLabelTextFieldWithIcon()
         studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
@@ -113,7 +113,7 @@ class LoginViewController: BaseViewController {
         nameField = studentId
         return studentId
     }()
-    
+
     lazy var studentPassword: SkyFloatingLabelTextFieldWithIcon = { [unowned self] in
         let studentPassword = SkyFloatingLabelTextFieldWithIcon()
         studentPassword.iconFont = UIFont.fontAwesome(ofSize: 15)
@@ -132,7 +132,7 @@ class LoginViewController: BaseViewController {
         passwordField = studentPassword
         return studentPassword
     }()
-    
+
     lazy var loginButton: ZFRippleButton = {
         let loginButton = ZFRippleButton()
         loginButton.setTitle("LOGIN", for: .normal)
@@ -149,7 +149,7 @@ class LoginViewController: BaseViewController {
         return loginButton
     }()
 
-    //MARK: - Helper methods
+    // MARK: - Helper methods
     @objc func loginUser() {
         let username = nameField?.text?.lowercased()
         let password = passwordField?.text

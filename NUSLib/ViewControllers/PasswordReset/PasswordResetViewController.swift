@@ -15,27 +15,27 @@ import RxSwift
 import RxCocoa
 
 class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
-    //MARK: - Variables
+    // MARK: - Variables
     var newPasswordField: SkyFloatingLabelTextFieldWithIcon?
     var newPasswordFieldRetyped: SkyFloatingLabelTextFieldWithIcon?
 
-    //MARK: - Lifecycle
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         addSubviews()
         newPasswordField = newPasswordRetyped
         newPasswordFieldRetyped = newPasswordRetyped
-        
+
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+
         //Title
         titleLabel.anchorInCenter(width: 300, height: 50)
         titleLabel.center.y -= 150
-        
+
         //New Password
         newPassword.align(.underCentered, relativeTo: titleLabel, padding: 40, width: 300, height: 50)
         //Re-Type Password
@@ -43,15 +43,15 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         //Reset Button
         resetButton.align(.underCentered, relativeTo: newPasswordRetyped, padding: 50, width: 200, height: 50)
     }
-    
-   //MARK: - Lazy initionlization views
-    private func addSubviews(){
+
+   // MARK: - Lazy initialisation views
+    private func addSubviews() {
         view.addSubview(newPassword)
         view.addSubview(newPasswordRetyped)
         view.addSubview(resetButton)
         view.addSubview(titleLabel)
     }
-    
+
     lazy var titleLabel: UILabel = {
         let this = UILabel()
         this.text = "RESET PASSWORD"
@@ -62,7 +62,7 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         this.numberOfLines = 0
         return this
     }()
-    
+
     lazy var newPassword: SkyFloatingLabelTextFieldWithIcon = { [unowned self] in
         let this = SkyFloatingLabelTextFieldWithIcon()
         this.iconFont = UIFont.fontAwesome(ofSize: 15)
@@ -76,10 +76,10 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         this.isSecureTextEntry = true
         this.tag = 1
         this.delegate = self
-        
+
         return this
     }()
-    
+
     lazy var newPasswordRetyped: SkyFloatingLabelTextFieldWithIcon = { [unowned self] in
         let this = SkyFloatingLabelTextFieldWithIcon()
         this.iconFont = UIFont.fontAwesome(ofSize: 15)
@@ -95,7 +95,7 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         this.delegate = self
         return this
     }()
-    
+
     lazy var resetButton: ZFRippleButton = {
         let this = ZFRippleButton()
         this.setTitle("Reset Password", for: .normal)
@@ -111,12 +111,12 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         this.addTarget(self, action: #selector(resetUserPassword), for: .touchUpInside)
         return this
     }()
-    
-    //MARK: - Helper methods
+
+    // MARK: - Helper methods
     @objc func resetUserPassword() {
         let newPassword = newPasswordField?.text
         let newPasswordRetyped = newPasswordFieldRetyped?.text
-        
+
         if newPassword == newPasswordRetyped {
             // Reset password here
             let ds: AppDataSource = FirebaseDataSource()
@@ -135,8 +135,8 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         }))
         alert.message = result.rawValue
         print(result.rawValue)
-        
+
         self.present(alert, animated: true, completion: nil)
     }
-    
+
 }

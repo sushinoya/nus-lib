@@ -21,16 +21,16 @@ import UIKit
  */
 class SierraApiClient {
     static let shared = SierraApiClient()
-    
+
     final let NO_ACCESSTOKEN_FOUND = "no accesstoken found"
     final let CANNOT_READ_CREDENTIALS = "cannot read credentials"
-    
+
     private let accessTokenStore = OAuthAccessTokenKeychainStore(service: "SierraApi")
     private let accessTokenUrl = URL(string: "https://sandbox.iii.com/iii/sierra-api/v3/token")!
-    
+
     private var accessTokenLastRequested: Date = Date(timeIntervalSince1970: 0)
     private var accessTokenTimeToLive: TimeInterval = 60 * 5
-    
+
     private lazy var credentials: OAuthClientCredentials? = {
         // read from external resource SierraApi.json
         if let url = Bundle.main.url(forResource: "SierraApi", withExtension: "json"),
@@ -39,25 +39,25 @@ class SierraApiClient {
             let clientId = jsonResult?["client_id"], let clientSecret = jsonResult?["client_secret"] {
             return OAuthClientCredentials(id: clientId, secret: clientSecret)
         }
-        
+
         print(CANNOT_READ_CREDENTIALS)
-        
+
         return nil
     }()
-    
+
     private var accessToken: String {
         return accessTokenStore.retrieveAccessToken()?.accessToken ?? NO_ACCESSTOKEN_FOUND
     }
-    
+
     private lazy var accessTokenPlugin = AccessTokenPlugin(tokenClosure: self.accessToken)
-    
+
     lazy var provider: MoyaProvider<SierraApi> = MoyaProvider<SierraApi>( requestClosure: { (endpoint, done) in
         guard Date().timeIntervalSince(self.accessTokenLastRequested) > self.accessTokenTimeToLive  else {
             log.debug("Accesstoken not expired yet. Skipping.")
             done(Result<URLRequest, MoyaError>(value: try! endpoint.urlRequest()))
             return
         }
-        
+
         Heimdallr(tokenURL: self.accessTokenUrl, credentials: self.credentials, accessTokenStore: self.accessTokenStore)
             .requestAccessToken(grantType: "client_credentials", parameters: [:]) { result in
                 log.debug("Requested new accesstoken.")
@@ -66,12 +66,12 @@ class SierraApiClient {
                 done(Result<URLRequest, MoyaError>(value: try! endpoint.urlRequest()))
         }
     }, stubClosure: MoyaProvider.neverStub, plugins: [accessTokenPlugin])
-    
-    private init(){
+
+    private init() {
         // singleton to restrict creating multiple instances of this class
     }
-    
-    public static func configure(){
+
+    public static func configure() {
         Heimdallr(tokenURL: shared.accessTokenUrl, credentials: shared.credentials, accessTokenStore: shared.accessTokenStore)
             .requestAccessToken(grantType: "client_credentials", parameters: [:]) { result in
                 log.debug("Initialized new accesstoken.")

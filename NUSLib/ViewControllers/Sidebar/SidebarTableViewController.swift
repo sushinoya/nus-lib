@@ -9,20 +9,20 @@
 import UIKit
 
 class SidebarTableViewController: UITableViewController {
-    
-    //MARK: - Variables
+
+    // MARK: - Variables
 
     @IBOutlet var accountActionLabel: UILabel!
     @IBOutlet var accountActionImage: UIImageView!
     let dataSource = FirebaseDataSource()
-    
-    //MARK: - Lifecycle
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setLoginCellImageAndText()
     }
-    
-    //MARK: - Helper methods
+
+    // MARK: - Helper methods
     func setLoginCellImageAndText() {
         if let user = dataSource.getCurrentUser() {
             accountActionLabel.text = user.getUsername()
@@ -41,8 +41,7 @@ class SidebarTableViewController: UITableViewController {
         }
     }
 
-
-    //MARK: - Segue
+    // MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? BaseViewController {
             vc.state = StateController()
@@ -56,15 +55,15 @@ extension SidebarTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath == IndexPath(row: 0, section: 0) {
             sequeToAccountOrLogin()
-        }else if indexPath == IndexPath(row: 4, section: 0){
+        } else if indexPath == IndexPath(row: 4, section: 0) {
 
         }
     }
-    
+
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return false

@@ -11,14 +11,14 @@ import ChainableAnimations
 import Heimdallr
 
 extension UIView {
-    
+
     func animateFadeIn() {
-        self.alpha = 0        
+        self.alpha = 0
         ChainableAnimator(view: self)
             .make(alpha: 1)
             .animate(t: 0.5)
     }
-    
+
     func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         let mask = CAShapeLayer()

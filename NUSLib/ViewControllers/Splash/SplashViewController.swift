@@ -11,28 +11,28 @@ import RxSwift
 
 class SplashViewController: UIViewController {
 
-    //MARK: - Variables
+    // MARK: - Variables
     let api: LibraryAPI = CentralLibrary()
     let disposeBag = DisposeBag()
     let state = StateController()
-    
-    //MARK: - Lifecycle
-    override func viewDidLoad(){
+
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupData()
-       
+
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-    //MARK: - Setup Data
+
+    // MARK: - Setup Data
     private func setupData() {
         FirebaseDataSource().getPopularItems(completionHandler: {ids in
             self.api.getBooks(byIds: ids, completionHandler: { (popularItems) in
                 let popular: Variable<[BookItem]> = Variable(popularItems)
-                
+
                 Observable
                     .zip(popular.asObservable(), self.api.getBooks(byTitle: "amphibians"))
                     .subscribe(onNext: { (popularBooks, recommendedBooks) in
@@ -44,8 +44,8 @@ class SplashViewController: UIViewController {
             })
         })
     }
-    
-    //MARK: - Segue
+
+    // MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = (segue.destination as? UINavigationController)?.viewControllers.first as? HomeViewController
         destination?.state = state
