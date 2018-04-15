@@ -26,6 +26,7 @@ class BaseViewController: UIViewController{
     internal var database: DatabaseReference!
     internal var state: StateController?
     
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
