@@ -56,6 +56,7 @@
 		8240A6762079362A00A5151E /* UserReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6752079362A00A5151E /* UserReviewCell.swift */; };
 		8240A6792079411600A5151E /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240A6782079411600A5151E /* PasswordResetViewController.swift */; };
 		82B5393F20833DAA00AEFDD9 /* BookNotFoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5393E20833DAA00AEFDD9 /* BookNotFoundViewController.swift */; };
+		82B539412083C10800AEFDD9 /* BaseModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B539402083C10800AEFDD9 /* BaseModalViewController.swift */; };
 		82BF2F16206BD5E2001996A0 /* BarcodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */; };
 		82F05471206E915D00FCAF0A /* SocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F05470206E915D00FCAF0A /* SocialButton.swift */; };
 		82FABA33206F4DEF0017482E /* TwitterCredentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82FABA32206F4DEF0017482E /* TwitterCredentials.json */; };
@@ -153,6 +154,7 @@
 		8240A6752079362A00A5151E /* UserReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReviewCell.swift; sourceTree = "<group>"; };
 		8240A6782079411600A5151E /* PasswordResetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		82B5393E20833DAA00AEFDD9 /* BookNotFoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookNotFoundViewController.swift; sourceTree = "<group>"; };
+		82B539402083C10800AEFDD9 /* BaseModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModalViewController.swift; sourceTree = "<group>"; };
 		82BF2F15206BD5E2001996A0 /* BarcodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanner.swift; sourceTree = "<group>"; };
 		82F05470206E915D00FCAF0A /* SocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialButton.swift; sourceTree = "<group>"; };
 		82FABA32206F4DEF0017482E /* TwitterCredentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TwitterCredentials.json; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				4AE79FC2205AAB6E00309D02 /* Home */,
 				4AF347A420614B3E00B576C2 /* BaseViewController.swift */,
 				4A0881D0206BD5AE007E5EBA /* StateController.swift */,
+				82B539402083C10800AEFDD9 /* BaseModalViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -927,6 +930,7 @@
 				4232C36D206EA21500B969F5 /* Review.swift in Sources */,
 				4AB8BEE42077DB7500224699 /* UICollectionView.swift in Sources */,
 				4A374CB32081F0E100D3B82A /* EventController.swift in Sources */,
+				82B539412083C10800AEFDD9 /* BaseModalViewController.swift in Sources */,
 				4A729C3B2064ECDD00B62D9F /* VerticalCollectionView.swift in Sources */,
 				4A6150022057E6FC005AA59B /* AppDelegate.swift in Sources */,
 				4251F6D82062A95400F5687B /* LibraryAPI.swift in Sources */,
