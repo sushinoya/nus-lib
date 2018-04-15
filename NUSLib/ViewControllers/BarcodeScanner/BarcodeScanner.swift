@@ -16,17 +16,39 @@ extension HomeViewController: BarcodeScannerCodeDelegate {
         let bookISBN = code
         
         // Make request to library API here.
-        
+        self.bookISBN = bookISBN
         print("ISBN: \(bookISBN)")
         print("Type: \(type)")
         
+        let api: LibraryAPI = CentralLibrary()
+        
+        let bookFromISBN = api.getBook(byISBN: bookISBN)
+        
+        bookFromISBN.map({
+            if let name = $0.title {
+                self.api.getBooks(byTitle: name).do(onNext: {
+                    if let item = $0.first {
+                        self.state?.itemDetail = item
+                        self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+                    } else {
+                        self.bookTitle = name
+                        self.performSegue(withIdentifier: "BarcodeToBookNotFound", sender: self)
+                    }
+                })
+            } else {
+                print("Title is nil")
+                 controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
+
+            }
+        })
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            controller.performSegue(withIdentifier: "BarcodeToItemDetail", sender: self)
+            controller.performSegue(withIdentifier: "BarcodeToBookNotFound", sender: self)
             controller.reset()
             // controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
         }
     }
+    
 }
 
 // MARK: - BarcodeScannerErrorDelegate
