@@ -18,9 +18,9 @@ let log = XCGLogger.default
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+
     var window: UIWindow?
-    
+
     private lazy var twitterCreds: OAuthClientCredentials? = {
         // read from external resource TwitterCredentials.json
         if let url = Bundle.main.url(forResource: "TwitterCredentials", withExtension: "json"),
@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+
         // configure firebase
         FirebaseApp.configure()
 
@@ -42,10 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let twitterCreds = twitterCreds {
             TWTRTwitter.sharedInstance().start(withConsumerKey:twitterCreds.id, consumerSecret:twitterCreds.secret!)
         }
-        
+
         // configure sierra client
         SierraApiClient.configure()
-        
+
         // configure logger
         log.setup(level: .debug,
                   showLogIdentifier: false,
@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                   showFileNames: true,
                   showLineNumbers: true,
                   showDate: true)
-        
+
         let emojiLogFormatter = PrePostFixLogFormatter()
         emojiLogFormatter.apply(prefix: "🗯🗯🗯 ", to: .verbose)
         emojiLogFormatter.apply(prefix: "🔹🔹🔹 ", to: .debug)
@@ -63,11 +63,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         emojiLogFormatter.apply(prefix: "⚠️⚠️⚠️ ", to: .warning)
         emojiLogFormatter.apply(prefix: "‼️‼️‼️ ", to: .error)
         emojiLogFormatter.apply(prefix: "💣💣💣 ", to: .severe)
-        
+
         log.formatters = [emojiLogFormatter]
-    
+
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
+
         return true
     }
 
@@ -93,11 +93,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
 
         return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as! String, annotation: options[.annotation])
     }
 
 }
-

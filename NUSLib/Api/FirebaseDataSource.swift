@@ -9,20 +9,19 @@
 import Foundation
 import Firebase
 
-
 class FirebaseDataSource: AppDataSource {
-    
+
     private var database: DatabaseReference
-    
+
     init() {
         self.database = Database.database().reference()
     }
 
     func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
-        
+
         database.child("FavouritesCount").queryOrdered(byChild: "count").queryLimited(toFirst: 10)
             .observe( .value) { (snapshot) in
-            
+
             if snapshot.exists() {
                 var bookIds = [String]()
 
@@ -36,11 +35,11 @@ class FirebaseDataSource: AppDataSource {
             }
         }
     }
-    
+
     func getMostViewedItems() -> [DisplayableItem] {
         return []
     }
-    
+
     func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void) {
         let userReviews = database.child("Reviews")
         userReviews.observe(.value) { (snapshot) in
@@ -64,9 +63,9 @@ class FirebaseDataSource: AppDataSource {
             }
             completionHandler(reviews)
         }
-        
+
     }
-    
+
     func getReviewsByUser(userID: String, completionHandler: @escaping ([Review]) -> Void) {
         let userReviews = database.child("Reviews")
         userReviews.observe( .value) { (snapshot) in
@@ -80,7 +79,7 @@ class FirebaseDataSource: AppDataSource {
                         if let text = current["text"] as? String,
                             let rating = current["rating"] as? Int,
                             let authorName = current["author"] as? String,
-                            let bookName = current["book"] as? String{
+                            let bookName = current["book"] as? String {
                             reviews.append(Review(author: authorName, book: bookName, reviewText: text, rating: rating))
                         }
                     }
@@ -101,8 +100,8 @@ class FirebaseDataSource: AppDataSource {
         newReview.child("author").setValue(userName)
         newReview.child("book").setValue(title)
     }
-    
-    func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void)  {
+
+    func authenticateUser(email: String, password: String, completionHandler: @escaping (UserProfile?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             var currentUser: UserProfile?
             if let successUser = user {
@@ -129,7 +128,7 @@ class FirebaseDataSource: AppDataSource {
             print("failed to signout")
         }
     }
-    
+
     func isUserSignedIn() -> Bool {
         if Auth.auth().currentUser != nil {
             return true
@@ -164,8 +163,8 @@ class FirebaseDataSource: AppDataSource {
             return nil
         }
     }
-    
-    func addToFavourite(by userId: String, bookid: String, bookTitle: String, completionHandler: @escaping (Bool) -> ()) {
+
+    func addToFavourite(by userId: String, bookid: String, bookTitle: String, completionHandler: @escaping (Bool) -> Void) {
         let userFavourite = database.child("UserFavourites").child(userId)
 
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
@@ -182,8 +181,8 @@ class FirebaseDataSource: AppDataSource {
             completionHandler(isSuccess)
         }
     }
-    
-    func deleteFavourite(by userId: String, bookid: String, completionHandler: @escaping () -> ()) {
+
+    func deleteFavourite(by userId: String, bookid: String, completionHandler: @escaping () -> Void) {
         let userFavourite = database.child("UserFavourites").child(userId)
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshots) in
             if snapshots.exists() {
@@ -198,14 +197,14 @@ class FirebaseDataSource: AppDataSource {
             }
         }
     }
-    
+
     func getFavourite(by userId: String, bookid: String, completionHandler: @escaping (Bool) -> Void) {
         let userFavourite = database.child("UserFavourites").child(userId)
         userFavourite.queryOrdered(byChild: "bookid").queryEqual(toValue: "\(bookid)").observeSingleEvent(of: .value) { (snapshot) in
             completionHandler(snapshot.exists())
         }
     }
-    
+
     func getFavouriteBookListForUser(userID: String, completionHandler: @escaping ([String]) -> Void) {
         let ref = database.child("UserFavourites").child(userID)
         ref.observeSingleEvent(of: .value) { (snapshot) in
@@ -223,21 +222,21 @@ class FirebaseDataSource: AppDataSource {
             }
         }
     }
-    
+
     func updateCount(bookid: String, value: Int) {
-        
+
         database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
             if var bibs = data.value as? [String: AnyObject] {
-                
+
                 var dummyVal = bibs["count"] as? Int ?? 0
-                
+
                 dummyVal = dummyVal + value
-                
+
                 bibs["count"] = dummyVal as AnyObject?
-                
+
                 data.value = bibs
             }
-            
+
             return TransactionResult.success(withValue: data)
         }) { (error, committed, snapshot) in
             if let error = error {
@@ -245,8 +244,7 @@ class FirebaseDataSource: AppDataSource {
             }
         }
     }
-    
-    
+
     func addFeedback(by userId: String, feedback: String) {
         let newReview = database.child("Feedback").childByAutoId()
         newReview.child("authid").setValue(userId)

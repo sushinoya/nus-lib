@@ -13,46 +13,46 @@ import FontAwesome_swift
 import ZFRippleButton
 
 class LoginViewController: UIViewController {
-    
+
     let texture = UIView()
     let logo = UIImageView()
-    
+
     let loginTitle = UILabel()
-    
+
     let studentId = SkyFloatingLabelTextFieldWithIcon()
     let studentPassword = SkyFloatingLabelTextFieldWithIcon()
-    
+
     let loginButton = ZFRippleButton()
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+
         texture.fillSuperview()
-        
+
         // align in the center, then offset by 100px upwards
         logo.anchorInCenter(width: 300, height: 202)
         logo.frame = logo.frame.offsetBy(dx: 0, dy: -150)
-        
+
         studentId.align(.underCentered, relativeTo: logo, padding: 15, width: 400, height: 50)
         studentPassword.align(.underCentered, relativeTo: studentId, padding: 15, width: 400, height: 50)
-        
+
         loginButton.align(.underCentered, relativeTo: studentPassword, padding: 30, width: 200, height: 50)
-        
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.hideKeyboardWhenTappedAround()
 
         view.backgroundColor = UIColor(Constants.Colors.backgroundColor)
-        
+
         view.addSubview(texture)
         texture.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "crissxcross"))
-        
+
         view.addSubview(logo)
         logo.image = #imageLiteral(resourceName: "logo")
-        
+
         view.addSubview(studentId)
         studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentId.iconText = String.fontAwesomeIcon(name: .idCard)
@@ -66,7 +66,7 @@ class LoginViewController: UIViewController {
         studentId.selectedLineColor = UIColor(Constants.Colors.titleColor)
         studentId.delegate = self
         studentId.tag = 0
-        
+
         view.addSubview(studentPassword)
         studentPassword.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentPassword.iconText = String.fontAwesomeIcon(name: .lock)
@@ -79,7 +79,7 @@ class LoginViewController: UIViewController {
         studentPassword.isSecureTextEntry = true
         studentPassword.delegate = self
         studentPassword.tag = 1
-        
+
         view.addSubview(loginButton)
         loginButton.setTitle("LOGIN", for: .normal)
         loginButton.backgroundColor = UIColor("#213753")
@@ -122,16 +122,15 @@ extension UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 }
 
 extension UIViewController: UITextFieldDelegate {
-    
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool
-    {
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Try to find next responder
         if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
             nextField.becomeFirstResponder()

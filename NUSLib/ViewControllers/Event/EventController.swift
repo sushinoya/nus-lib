@@ -8,17 +8,16 @@
 
 import UIKit
 
+class EventViewController: BaseViewController {
 
-class EventViewController: BaseViewController{
-    
     override func viewWillLayoutSubviews() {
         webview.fillSuperview()
     }
-    
+
     override func viewDidLoad() {
         self.view.addSubview(webview)
     }
-    
+
     private(set) lazy var webview: UIWebView = {
         let this = UIWebView()
         var request = URLRequest(url: URL(string: "https://libportal.nus.edu.sg/frontend/newsroom")!)

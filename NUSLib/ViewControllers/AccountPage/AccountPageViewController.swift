@@ -13,28 +13,28 @@ import FirebaseDatabase
 import NVActivityIndicatorView
 
 class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
-    
+
     // Constants
     let profilePicDiameter: CGFloat = 140
     let overlayHeightFraction: CGFloat = 3/20
-    
-    //MARK: - Variables
+
+    // MARK: - Variables
     let user = FirebaseDataSource().getCurrentUser()
     let menuList = ["Username", "Email"]
     let menuCellIdentifier = "AccountMenuCell"
-    
-    //MARK: - Lifecycle
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         addSubviews()
         setupData()
     }
-    
+
     private func setupNavigationBar() {
         navigationItem.title = Constants.NavigationBarTitle.AccountTitle
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         scrollView.fillSuperview()
@@ -44,7 +44,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         // Banner
         overlay.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: overlayHeight)
         view.sendSubview(toBack: overlay)
-        
+
         // Name and profile picture
         profilePicture.anchorToEdge(.top, padding: overlayHeight - profilePicDiameter / 2, width: profilePicDiameter, height: profilePicDiameter)
 
@@ -52,36 +52,35 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
 
         // Information Table
         infoTable.alignAndFillWidth(align: .underMatchingLeft, relativeTo: nameLabel, padding: 0, height: 100)
-        
+
         // Your Reviews
         reviewTitle.alignAndFillWidth(align: .underMatchingLeft, relativeTo: infoTable, padding: 0, height: 10, offset: 15)
         reviewTitle.sizeToFit()
-        
+
         reviewCollection.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 0, height: 200)
         reviewCollection.frame = reviewCollection.frame.offsetBy(dx: 0, dy: 25)
 
         // Account settings buttons
-        
+
         reviewCollection.groupAndAlign(group: .horizontal, andAlign: .underCentered, views: [resetPassword, logoutAccount], relativeTo: reviewCollection, padding: 25, width: 200, height: 50)
 
         scrollView.fitToContent()
     }
-    
+
     //Mark: - Setup Data
     private func setupData() {
-        
+
         if let user = FirebaseDataSource().getCurrentUser() {
             FirebaseDataSource().getReviewsByUser(userID: user.getUserID()) { (reviews) in
                 self.reviewCollection.data = reviews
                 self.reviewCollection.reloadData()
             }
         }
-        
-       
+
     }
-    
-    //MARK: - Lazy initialisation views
-    private func addSubviews(){
+
+    // MARK: - Lazy initialisation views
+    private func addSubviews() {
         self.view.addSubview(self.scrollView)
 
         self.scrollView.addSubview(self.overlay)
@@ -93,21 +92,20 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         self.scrollView.addSubview(self.resetPassword)
         self.scrollView.addSubview(self.logoutAccount)
     }
-    
-   
+
     private(set) lazy var scrollView: UIScrollView = { [unowned self] in
         let this = UIScrollView(frame: view.bounds)
         this.showsHorizontalScrollIndicator = false
         this.delegate = self
         return this
     }()
-    
+
     private(set) lazy var overlay: UIView = {
         let this = UIView()
         this.backgroundColor = UIColor.primary
         return this
     }()
-    
+
     private(set) lazy var profilePicture: UIImageView = {
         let this = UIImageView()
         this.image = UIImage(named: "contact")
@@ -120,8 +118,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
 
         return this
     }()
-    
-    
+
     private(set) lazy var nameLabel: UILabel = {
         let this = UILabel()
         //        this.text = user?.getUsername()
@@ -133,7 +130,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         this.numberOfLines = 0
         return this
     }()
-    
+
     private(set) lazy var reviewTitle: UILabel = {
         let this = UILabel()
         this.text = "YOUR REVIEWS"
@@ -144,18 +141,17 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         this.numberOfLines = 0
         return this
     }()
-    
-    
+
     private(set) lazy var reviewCollection: HorizontalCollectionView<UserReviewCell> = { [unowned self] in
-        
+
         let this = HorizontalCollectionView<UserReviewCell> {
             $0.cellSize = CGSize(width: 350, height: 200)
             $0.cellSpacing = 25
             $0.sectionPadding =  UIEdgeInsets(top: 0, left: 25, bottom: 25, right: 0)
             $0.data = self.state?.popularBooks ?? []
             $0.onDequeue = { cell, data, index in
-                let items = data.map{ $0 as! Review }
-                
+                let items = data.map { $0 as! Review }
+
                 cell.author.text = items[index].author
                 cell.content.text = items[index].reviewText
                 cell.rating.rating = Double(items[index].rating)
@@ -163,28 +159,27 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
 
             }
         }
-        
+
         this.showsVerticalScrollIndicator = false
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
         this.isPagingEnabled = true
-        
+
         this.rx
             .itemSelected
             .subscribe(onNext: { index in
                 guard let book = this.data[index.row] as? BookItem else {
                     return
                 }
-                
+
                 self.state?.itemDetail = book
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)
-        
+
         return this
         }()
-    
-    
+
     private(set) lazy var infoTable: UITableView = {
         let this = UITableView(frame: .zero, style: UITableViewStyle.plain)
         this.dataSource = self
@@ -194,7 +189,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         this.register(UITableViewCell.self, forCellReuseIdentifier: menuCellIdentifier)
         return this
     }()
-    
+
     private(set) lazy var resetPassword: ZFRippleButton = { [unowned self] in
         let this = ZFRippleButton()
         this.setTitle("FAVOURITE (0)", for: .normal)
@@ -209,11 +204,10 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleBackgroundColor = UIColor.clear
         this.addTarget(self, action: #selector(resetPasswordHandler), for: .touchUpInside)
         this.setTitle("Reset Password", for: .normal)
-        
+
         return this
     }()
 
-    
     private(set) lazy var logoutAccount: ZFRippleButton = { [unowned self] in
         let this = ZFRippleButton()
         this.backgroundColor = UIColor.accent1
@@ -227,30 +221,28 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleBackgroundColor = UIColor.clear
         this.addTarget(self, action: #selector(logoutAccountHandler), for: .touchUpInside)
         this.setTitle("Logout", for: .normal)
-        
+
         return this
         }()
-    
-    
-    //MARK: - Helper methods
+
+    // MARK: - Helper methods
     @objc func resetPasswordHandler() {
         performSegue(withIdentifier: "AccountToPasswordReset", sender: self)
     }
-    
+
     @objc func logoutAccountHandler() {
-        
+
         let alert = UIAlertController(title: "Confirm",
                                       message: "Are you sure you want to logout", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
             FirebaseDataSource().signOut()
             self.navigationController?.popToRootViewController(animated: true)
         }))
-        
+
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
 
         self.present(alert, animated: true, completion: nil)
-        
-       
+
     }
 }
 
@@ -259,17 +251,17 @@ extension AccountPageViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuList.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let userAttributes = [user?.getUsername(), user?.getEmail()]
-        
+
         let cell = UITableViewCell(style: .value1, reuseIdentifier: menuCellIdentifier)
-        
+
         cell.textLabel?.text = menuList[indexPath.row]
-        
+
         cell.detailTextLabel?.text = userAttributes[indexPath.row]
         cell.detailTextLabel?.textAlignment = .right
-        
+
         return cell
     }
 }

@@ -10,7 +10,7 @@ extension Array {
     var evenEntries: [Element] {
         return stride(from: 0, to: self.count, by: 2).map { self[$0] }
     }
-    
+
     var oddEntries: [Element] {
         return stride(from: 1, to: self.count, by: 2).map { self[$0] }
     }
