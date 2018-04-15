@@ -54,7 +54,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         infoTable.alignAndFillWidth(align: .underMatchingLeft, relativeTo: nameLabel, padding: 0, height: 100)
 
         // Your Reviews
-        reviewTitle.alignAndFillWidth(align: .underMatchingLeft, relativeTo: infoTable, padding: 0, height: 10, offset: 15)
+        reviewTitle.alignAndFillWidth(align: .underMatchingLeft, relativeTo: infoTable, padding: 30, height: 10, offset: 15)
         reviewTitle.sizeToFit()
 
         reviewCollection.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 0, height: 200)
