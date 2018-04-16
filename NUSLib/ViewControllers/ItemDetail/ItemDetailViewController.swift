@@ -563,6 +563,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         similarCollection.rx.modelSelected(BookItem.self)
             .subscribe(onNext: { model in
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "itemDetail") as! ItemDetailViewController
+                self.state?.itemDetail = model
+                vc.state = self.state
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
@@ -648,7 +650,10 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
 
     // MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destination = segue.destination as? PostReviewController
-        destination?.state = state
+        if segue.identifier == "itemDetail" || segue.identifier == "ItemDetailToPostReview" {
+            if let vc = segue.destination as? BaseViewController {
+                vc.state = state
+            }
+        }
     }
 }
