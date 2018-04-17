@@ -272,7 +272,16 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "HomeToItemDetail" {
             if let vc = segue.destination as? BaseViewController {
+                
+                print("Setting state...")
+                print(vc.state?.itemDetail?.title)
+                                
                 vc.state = state
+                
+                print("Set state already.")
+
+                print(vc.state?.itemDetail?.title)
+
             }
         }
         
