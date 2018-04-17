@@ -81,13 +81,9 @@ class AboutViewController: BaseViewController {
     
     private(set) lazy var developersDescription: UILabel = {
         let this = UILabel()
-        this.text = "CS3217 TEAM Hyena \n"
-                + "Cao Liang @https://github.com/caoliangnus\n"
-                + "Kang Fei @https://github.com/kfwong\n"
-                + "Ram @https://github.com/ramjanarthan\n"
-                + "Suyash @https://github.com/sushinoya"
+        this.text = "NUSLib is the result of the hardwork and dedication of Team Hyena which consists of four members - Kang Fei, Cao, Liang, Suyash Shekhar and Ram Janarthan. This application was built for their Computing module, CS3217. Other notable people who have helped in making this app better are their professor, Prof. Wai Kay and their design consultant, Yeap Seong Kee. Many open-source libraries have been integrated well into the app to make it a pleasure not only to use it but also to read and extend the source code. The team hopes to continue improving the app to make it more user-friendly and elegant."
         this.textColor = UIColor.primary
-        this.textAlignment = .left
+        this.textAlignment = .justified
         this.font = UIFont.content
         this.lineBreakMode = .byWordWrapping
         this.numberOfLines = 0
@@ -107,12 +103,9 @@ class AboutViewController: BaseViewController {
     
     private(set) lazy var libraryDescription: UITextView = {
         let this = UITextView()
-        this.text = "Central Library is a multi-disciplinary library serving all NUS staff and students and primarily those from the Faculty of Arts and Social Sciences, the Faculty of Engineering, the School of Computing and the School of Design and Environment.\n" + "Opening Hours \n" +
-            "Monday to Friday : 8.30am to 7pm \n" +
-            "Saturday: 10am to 5pm \n" +
-            "Sunday & Public Holidays: Closed"
+        this.text = "NUS Library is a multi-disciplinary library serving all NUS staff and students and primarily those from the Faculty of Arts and Social Sciences, the Faculty of Engineering, the School of Computing and the School of Design and Environment. The library provides its users, various physical and eletronic services such as access to online journals and past-year papers. The Library also hosts various events to further spread the joy of reading and acquiring knowledge amongst the staff and students of NUS."
         this.textColor = UIColor.primary
-        this.textAlignment = .left
+        this.textAlignment = .justified
         this.font = UIFont.content
         this.isEditable = false
         return this
