@@ -14,17 +14,92 @@ import BarcodeScanner
 extension HomeViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
         let bookISBN = code
-
-        // Make request to library API here.
-
+        
         print("ISBN: \(bookISBN)")
         print("Type: \(type)")
+        
+        // If not a valid ISBN barcode
+        if type != "org.gs1.EAN-13" {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
+            }
+        } else {
+            let api: LibraryAPI = CentralLibrary()
+            let bookFromISBN = api.getBook(byISBN: bookISBN)
+            .subscribe(onNext: { (bookItem) in
+                self.scannedBookTitle = bookItem.title
+                self.scannedBookISBN = bookISBN
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            controller.performSegue(withIdentifier: "BarcodeToItemDetail", sender: self)
-            controller.reset()
-            // controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.performSegue(withIdentifier: "HomeToBookNotFound", sender: self)
+                    controller.reset()
+                }
+            })
         }
+        
+        
+// TO BE CLEARED AFTER STePS with the proper implementation for querying the Google and Sierra API
+        
+//        let bookFromISBN = api.getBook(byISBN: bookISBN)
+//            .takeWhile {$0.title != ""}
+////            .flatMapLatest{ api.getBooks(byTitle: $0)}
+//            .subscribe(onNext: { (bookItem) in
+//                if bookItem.title == "" {
+//                    print("no result")
+//                    controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
+//                } else {
+//                    print(bookItem.title)
+//                    print(bookItem.author)
+//
+//                    print("--------------------")
+//                    print(bookItem.title)
+//                    print(bookItem.author)
+//                    print("--------------------")
+//
+//
+//                    self.scannedBookTitle = bookItem.title
+//                    self.scannedBookISBN = bookISBN
+//
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+//                        self.performSegue(withIdentifier: "HomeToBookNotFound", sender: self)
+//                        controller.reset()
+//                    }
+//
+//                }
+//            }, onCompleted: { () -> Void in
+//                print("completed")
+//            })
+        
+        
+//                let bookFromISBN = api.getBook(byISBN: bookISBN)
+//                    .subscribe(onNext: { (bookItem) in
+//                        self.state?.itemDetail = bookItem
+//                        self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+//                    })
+//
+//        
+//                let bookFromISBN = api.getBook(byISBN: bookISBN)
+//                    .map{ $0.title}
+//                    .filterNil()
+//                    .takeWhile {!$0.isEmpty}
+//                    .flatMapLatest{ api.getBooks(byTitle: $0)}
+//                    .subscribe(onNext: { (bookItems) in
+//                        if bookItems.isEmpty {
+//                            print("no result")
+//                        } else {
+//                            print(bookItems.first?.title)
+//                        }
+//                    }, onCompleted: { () -> Void in
+//                        print("completed")
+//                    })
+
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+//            controller.performSegue(withIdentifier: "BarcodeToBookNotFound", sender: self)
+//            controller.reset()
+//            controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
+//        }
+    
     }
 }
 

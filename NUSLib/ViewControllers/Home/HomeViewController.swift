@@ -23,6 +23,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
 
     // MARK: - Variables
     let api: LibraryAPI = CentralLibrary()
+    internal var scannedBookTitle: String?
+    internal var scannedBookISBN: String?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -269,6 +271,13 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         if segue.identifier == "HomeToItemDetail" {
             if let vc = segue.destination as? BaseViewController {
                 vc.state = state
+            }
+        }
+
+        if segue.identifier == "HomeToBookNotFound" {
+            if let vc = segue.destination as? BookNotFoundViewController {
+                vc.bookISBN = scannedBookISBN
+                vc.bookTitle = scannedBookTitle
             }
         }
 

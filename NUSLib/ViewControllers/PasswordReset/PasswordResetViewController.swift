@@ -14,7 +14,8 @@ import ZFRippleButton
 import RxSwift
 import RxCocoa
 
-class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
+
+class PasswordResetViewController: BaseModalViewController, UITextFieldDelegate {
     // MARK: - Variables
     var newPasswordField: SkyFloatingLabelTextFieldWithIcon?
     var newPasswordFieldRetyped: SkyFloatingLabelTextFieldWithIcon?
@@ -26,7 +27,6 @@ class PasswordResetViewController: BaseViewController, UITextFieldDelegate {
         addSubviews()
         newPasswordField = newPasswordRetyped
         newPasswordFieldRetyped = newPasswordRetyped
-
     }
 
     override func viewWillLayoutSubviews() {
