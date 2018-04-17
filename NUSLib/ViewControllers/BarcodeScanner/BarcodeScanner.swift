@@ -116,4 +116,3 @@ extension HomeViewController: BarcodeScannerDismissalDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
-

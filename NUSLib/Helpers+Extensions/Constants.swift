@@ -15,7 +15,7 @@ struct Constants {
         static let titleColor = "#F2C777"
         static let backgroundColor = "#092140"
     }
-    
+
     enum NavigationBarTitle {
         static let ItemDetailTitle = "Item Detail"
         static let SearchTitle = "Search"
@@ -25,37 +25,37 @@ struct Constants {
         static let HomeTitle = "Home"
         static let AboutTitle = "About"
     }
-    
+
     enum resetPasswordState: String {
         case success = "Successfully reset password!"
         case loginTimeOut = "It seems you have not logged in recently enough to complete this reset"
         case weakPassword = "The new password is too weak"
         case error = "Could not complete this request at the moment"
     }
-    
+
     static let cacheFileName: String = "mycache.plist"
 }
 
 // app theme & color branding
-extension UIColor{
+extension UIColor {
     // primary
     static let navyBlue = UIColor("#092140")
     static let primary = UIColor.navyBlue
-    
+
     // primary tint
     static let navyBlueTint1 = UIColor("#213753")
     static let primaryTint1 = UIColor.navyBlueTint1
-    
+
     // accents
     static let elfGreen = UIColor("#024959")
     static let accent1 = UIColor.elfGreen
-    
+
     static let custardYellow = UIColor("#F2C777")
     static let accent2 = UIColor.custardYellow
-    
+
     static let milkyWhite = UIColor("#E6E7E8")
     static let accent3 = UIColor.milkyWhite
-    
+
     static let lipstickRed = UIColor("#BF2A2A")
     static let accent4 = UIColor.lipstickRed
     
@@ -67,7 +67,7 @@ extension UIColor{
     static let googleSocial = UIColor("#EDEDED")
 }
 
-extension UIFont{
+extension UIFont {
     static let primary = UIFont(name: "Avenir-Heavy", size: 32)
     static let secondary = UIFont(name: "Avenir-Heavy", size: 28)
     static let title = UIFont(name: "Avenir-Heavy", size: 16)

@@ -8,12 +8,12 @@
 
 import UIKit
 
-//MARK: - UITableViewDelegate and UITableViewDataSource
+// MARK: - UITableViewDelegate and UITableViewDataSource
 extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return bookLists.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering {
             return filteredLists[section].count
@@ -21,15 +21,15 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
             return bookLists[section].count
         }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: bookTableViewCellID, for: indexPath) as! BookTableViewCell
-        
-        let book = getBookItem(at: indexPath)        
+
+        let book = getBookItem(at: indexPath)
         cell.textLabel?.text = book.title
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !tableView.isEditing {
             self.state?.itemDetail = getBookItem(at: indexPath)
@@ -37,8 +37,8 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
             self.performSegue(withIdentifier: "detail", sender: self)
         }
     }
-    
-    //MARK: - Segue
+
+    // MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detail" {
             if let vc = segue.destination as? BaseViewController {
@@ -47,18 +47,18 @@ extension FavouriteTableViewController: UITableViewDelegate, UITableViewDataSour
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 300
     }
-    
+
     /*
         Set to true so that the cell can move
      */
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
+
     /*
         Move the cell from sourceIndexPath to destinationIndexPath
      */

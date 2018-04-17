@@ -9,11 +9,11 @@
 import UIKit
 
 extension UIScrollView {
-    
+
     // this method will calculate the optimal dimension to fit to its content
     func fitToContent() {
         var contentRect = CGRect.zero
-        
+
         for view in self.subviews {
             //print("scrollview: \(view.frame.size)" )
             contentRect = contentRect.union(view.frame)
