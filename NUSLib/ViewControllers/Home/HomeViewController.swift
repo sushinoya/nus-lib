@@ -23,8 +23,8 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     
     //MARK: - Variables
     let api: LibraryAPI = CentralLibrary()
-    internal var bookTitle: String?
-    internal var bookISBN: String?
+    internal var scannedBookTitle: String?
+    internal var scannedBookISBN: String?
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -272,26 +272,17 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "HomeToItemDetail" {
             if let vc = segue.destination as? BaseViewController {
-                
-                print("Setting state...")
-                print(vc.state?.itemDetail?.title)
-                                
                 vc.state = state
-                
-                print("Set state already.")
-
-                print(vc.state?.itemDetail?.title)
-
             }
         }
-        
+
         if segue.identifier == "HomeToBookNotFound" {
             if let vc = segue.destination as? BookNotFoundViewController {
-                vc.bookISBN = self.bookISBN
-                vc.bookTitle = self.bookTitle
+                vc.bookISBN = scannedBookISBN
+                vc.bookTitle = scannedBookTitle
             }
         }
-        
+
         if let barcodeScannerVC = segue.destination as? BarcodeScannerViewController {
             barcodeScannerVC.codeDelegate = self
             barcodeScannerVC.errorDelegate = self

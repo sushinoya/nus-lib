@@ -15,38 +15,60 @@ extension HomeViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
         let bookISBN = code
         
-        // Make request to library API here.
-        self.bookISBN = bookISBN
         print("ISBN: \(bookISBN)")
         print("Type: \(type)")
         
-        let api: LibraryAPI = CentralLibrary()
-        
-        let bookFromISBN = api.getBook(byISBN: bookISBN)
-//            .map{ $0.title}
-//            .filterNil()
-//            .takeWhile {!$0.isEmpty}
-//            .flatMapLatest{ api.getBooks(byTitle: $0)}
+        // If not a valid ISBN barcode
+        if type != "org.gs1.EAN-13" {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
+            }
+        } else {
+            let api: LibraryAPI = CentralLibrary()
+            let bookFromISBN = api.getBook(byISBN: bookISBN)
             .subscribe(onNext: { (bookItem) in
-                if bookItem.title == "" {
-                    print("no result")
-                } else {
-                    print(bookItem)
-                    
-                    print("--------------------")
-                    print(bookItem.title)
-                    print(bookItem.author)
-                    print("--------------------")
+                self.scannedBookTitle = bookItem.title
+                self.scannedBookISBN = bookISBN
 
-                    
-                    self.state = StateController()
-                    self.state?.itemDetail = bookItem
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.performSegue(withIdentifier: "HomeToBookNotFound", sender: self)
+                    controller.reset()
                 }
-            }, onCompleted: { () -> Void in
-                print("completed")
-                controller.reset()
-                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
+        }
+        
+        
+// TO BE CLEARED AFTER STePS with the proper implementation for querying the Google and Sierra API
+        
+//        let bookFromISBN = api.getBook(byISBN: bookISBN)
+//            .takeWhile {$0.title != ""}
+////            .flatMapLatest{ api.getBooks(byTitle: $0)}
+//            .subscribe(onNext: { (bookItem) in
+//                if bookItem.title == "" {
+//                    print("no result")
+//                    controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
+//                } else {
+//                    print(bookItem.title)
+//                    print(bookItem.author)
+//
+//                    print("--------------------")
+//                    print(bookItem.title)
+//                    print(bookItem.author)
+//                    print("--------------------")
+//
+//
+//                    self.scannedBookTitle = bookItem.title
+//                    self.scannedBookISBN = bookISBN
+//
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+//                        self.performSegue(withIdentifier: "HomeToBookNotFound", sender: self)
+//                        controller.reset()
+//                    }
+//
+//                }
+//            }, onCompleted: { () -> Void in
+//                print("completed")
+//            })
         
         
 //                let bookFromISBN = api.getBook(byISBN: bookISBN)
@@ -77,8 +99,8 @@ extension HomeViewController: BarcodeScannerCodeDelegate {
 //            controller.reset()
 //            controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
 //        }
-    }
     
+    }
 }
 
 // MARK: - BarcodeScannerErrorDelegate

@@ -328,7 +328,7 @@
         <!--Book Not Found View Controller-->
         <scene sceneID="c4d-Td-War">
             <objects>
-                <viewController modalPresentationStyle="pageSheet" id="vbP-UO-PPR" customClass="BookNotFoundViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="formSheet" id="vbP-UO-PPR" customClass="BookNotFoundViewController" customModule="NUSLib" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="A90-KD-PZ4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -338,7 +338,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pa8-VT-8q4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2453.5999999999999" y="2874.5127436281859"/>
+            <point key="canvasLocation" x="3387" y="293"/>
         </scene>
         <!--Barcode Scanner View Controller-->
         <scene sceneID="VUm-8s-wQ8">
@@ -351,14 +351,10 @@
                         <viewLayoutGuide key="safeArea" id="B2Q-88-wh9"/>
                     </view>
                     <navigationItem key="navigationItem" id="hn6-Rv-Ryv"/>
-                    <connections>
-                        <segue destination="hgM-Xp-iER" kind="show" identifier="BarcodeToItemDetail" id="m8I-Uq-QiV"/>
-                        <segue destination="vbP-UO-PPR" kind="presentation" identifier="BarcodeToBookNotFound" modalPresentationStyle="formSheet" id="tPz-kh-LkU"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AcR-sk-fAI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2454" y="1961"/>
+            <point key="canvasLocation" x="3387" y="-448"/>
         </scene>
         <!--Favourite Collection View Controller-->
         <scene sceneID="JgE-Rr-qv8">
@@ -377,7 +373,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3W9-GT-9DW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5433" y="1952"/>
+            <point key="canvasLocation" x="5432" y="1952"/>
         </scene>
         <!--Favourite Table View Controller-->
         <scene sceneID="Lal-4K-DSg">
@@ -395,7 +391,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4b-6x-AgF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6324" y="1961"/>
+            <point key="canvasLocation" x="6603" y="1952"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="CAT-MI-p47">
@@ -446,7 +442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9wZ-A5-8Aa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6095" y="2875"/>
+            <point key="canvasLocation" x="5432" y="2874"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="G74-ul-bfu">
@@ -468,6 +464,7 @@
                     <connections>
                         <segue destination="hgM-Xp-iER" kind="show" identifier="HomeToItemDetail" id="QvA-Nw-R9e"/>
                         <segue destination="OmE-eT-PmI" kind="show" identifier="HomeToBarcodeScanner" id="gXF-Lb-IfQ"/>
+                        <segue destination="vbP-UO-PPR" kind="presentation" identifier="HomeToBookNotFound" id="bG4-Gc-xk9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yjZ-SO-jba" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -530,6 +527,6 @@
         <image name="spashscreenv1" width="341" height="455"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="m8I-Uq-QiV"/>
+        <segue reference="imQ-cf-fBl"/>
     </inferredMetricsTieBreakers>
 </document>
