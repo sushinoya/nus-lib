@@ -71,15 +71,15 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         facebookButton.align(.toTheRightCentered, relativeTo: favourite, padding: 20, width: 50, height: 50, offset: 0)
         twitterButton.align(.toTheRightCentered, relativeTo: facebookButton, padding: 20, width: 50, height: 50, offset: 0)
         
-        //Sypnosis
-        sypnosisTitle.alignAndFillWidth(align: .underCentered, relativeTo: overlay, padding: 0, height: 25, offset: 0)
-        sypnosisTitle.frame = sypnosisTitle.frame.offsetBy(dx: 50, dy: 125)
-        sypnosisContent.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisTitle, padding: 50, height: 25)
-        sypnosisContent.frame = sypnosisContent.frame.offsetBy(dx: 0, dy: -25)
-        sypnosisContent.sizeToFit()
+        //synopsis
+        synopsisTitle.alignAndFillWidth(align: .underCentered, relativeTo: overlay, padding: 0, height: 25, offset: 0)
+        synopsisTitle.frame = synopsisTitle.frame.offsetBy(dx: 50, dy: 125)
+        synopsisContent.alignAndFillWidth(align: .underCentered, relativeTo: synopsisTitle, padding: 50, height: 25)
+        synopsisContent.frame = synopsisContent.frame.offsetBy(dx: 0, dy: -25)
+        synopsisContent.sizeToFit()
         
         //Review
-        reviewTitle.alignAndFillWidth(align: .underCentered, relativeTo: sypnosisContent, padding: 50, height: 25)
+        reviewTitle.alignAndFillWidth(align: .underCentered, relativeTo: synopsisContent, padding: 50, height: 25)
         reviewTitle.sizeToFit()
         reviewButton.align(.toTheRightCentered, relativeTo: reviewTitle, padding: 15, width: 30, height: 30)
         reviewCollection.alignAndFillWidth(align: .underCentered, relativeTo: reviewTitle, padding: 0, height: 200)
@@ -211,8 +211,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         self.scrollView.addSubview(self.previewSubtitle)
         self.scrollView.addSubview(self.location)
         self.scrollView.addSubview(self.favourite)
-        self.scrollView.addSubview(self.sypnosisTitle)
-        self.scrollView.addSubview(self.sypnosisContent)
+        self.scrollView.addSubview(self.synopsisTitle)
+        self.scrollView.addSubview(self.synopsisContent)
         self.scrollView.addSubview(self.reviewTitle)
         self.scrollView.addSubview(self.reviewButton)
         self.scrollView.addSubview(self.reviewCollection)
@@ -223,7 +223,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         self.scrollView.addSubview(self.googleRecommendationCollection)
         self.scrollView.addSubview(self.loadingGoogleRecommendation)
         self.scrollView.addSubview(self.facebookButton)
-        self.scrollView.addSubview(self.twitterButton)
+//        self.scrollView.addSubview(self.twitterButton)
     }
     
     private(set) lazy var loading: NVActivityIndicatorView = {
@@ -367,9 +367,9 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    private(set) lazy var sypnosisTitle: UILabel = {
+    private(set) lazy var synopsisTitle: UILabel = {
         let this = UILabel()
-        this.text = "SYPNOSIS"
+        this.text = "SYNOPSIS"
         this.textColor = UIColor.primary
         this.textAlignment = .left
         this.font = UIFont.secondary
@@ -378,7 +378,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
     
-    private(set) lazy var sypnosisContent: UILabel = {
+    private(set) lazy var synopsisContent: UILabel = {
         let this = UILabel()
         this.text = "Bacon ipsum dolor amet ribeye ham hock bacon, short ribs capicola t-bone meatloaf ham fatback ball tip cow drumstick cupim. Chuck capicola ground round biltong. Cow tail biltong tenderloin buffalo beef pork chop corned beef turkey ground round bacon shoulder chuck tri-tip ball tip. Short loin tail ham, pork loin shankle ribeye sirloin pig kielbasa. Porchetta rump pig kevin burgdoggen cow turducken filet mignon kielbasa."
         this.textColor = UIColor.primary
