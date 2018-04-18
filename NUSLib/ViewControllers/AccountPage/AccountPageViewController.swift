@@ -187,6 +187,7 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         this.tableFooterView = UIView(frame: .zero)
         this.tableFooterView?.isHidden = true
         this.register(UITableViewCell.self, forCellReuseIdentifier: menuCellIdentifier)
+        this.allowsSelection = false
         return this
     }()
 
