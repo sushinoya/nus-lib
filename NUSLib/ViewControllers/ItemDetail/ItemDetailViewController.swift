@@ -654,6 +654,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             if let vc = segue.destination as? BaseViewController {
                 vc.state = state
             }
+            
+            if let vc = segue.destination as? PostReviewController {
+                vc.state = state
+            }
         }
+    
     }
 }
