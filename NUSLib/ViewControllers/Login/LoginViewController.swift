@@ -99,8 +99,8 @@ class LoginViewController: BaseViewController {
         studentId.iconFont = UIFont.fontAwesome(ofSize: 15)
         studentId.iconText = String.fontAwesomeIcon(name: .idCard)
         studentId.iconColor = UIColor.primaryTint1
-        studentId.placeholder = "Matric Number"
-        studentId.title = "Matric Number"
+        studentId.placeholder = "Email"
+        studentId.title = "Email"
         studentId.tintColor = UIColor.primary // the color of the blinking cursor
         studentId.textColor = UIColor.primary
         studentId.lineColor = UIColor.primary
