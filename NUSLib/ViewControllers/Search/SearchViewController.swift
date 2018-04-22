@@ -11,6 +11,10 @@ import Neon
 import RxSwift
 import RxCocoa
 
+/*
+    The controller manages the UI for Search Page. Allowing user to search book title.
+ */
+
 class SearchViewController: BaseViewController {
 
     // MARK: - Variables
@@ -41,6 +45,9 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.resignFirstResponder()
     }
 
+    /*
+        It set up Navigation Bar to be displayed in this view
+     */
     func setupNavigationBar() {
         let sortButton = UIButton(type: .system)
 
@@ -64,6 +71,10 @@ class SearchViewController: BaseViewController {
     }
 
     // MARK: - Lazy initialisation views
+    
+    /*
+     It set up UI subviews to be displayed in this view
+     */
     private func addSubviews() {
         view.addSubview(collectionView)
         collectionView.addSubview(searchController.searchBar)
@@ -91,14 +102,13 @@ class SearchViewController: BaseViewController {
         }()
 
     // MARK: - Helper methods
+   
     /*
-     SearchBar input will be stored into searchValue
-     searchValueObservable will listen to the searchValue change
-     When there is a change in the searchValue, either topSearchListObservable will be stored into filterResultBook or the result fetched from database
-     Filterresultbook will then bind the data to table
+     It set up Reactive Search which allowing user to query library api "as-user-is-typing"
      */
     func setupRxSwfitSearch() {
 
+        //Perform search based on searchBar text
         searchController.searchBar.rx.text
             .orEmpty
             .map { $0.isEmpty ? "top" : $0.lowercased() }
@@ -109,12 +119,14 @@ class SearchViewController: BaseViewController {
             .bind(to: self.searchResult)
             .disposed(by: self.disposeBag)
 
+        //Then bind result from Library API to collectionView
         searchResult.asObservable().bind(to: collectionView.rx.items(cellIdentifier: topSearchCollectionViewCellID, cellType: TopSeachCollectionViewCell.self)) {index, model, cell in
             cell.topSearchLabel.text = model.title
             cell.author.text = model.author
             }
             .disposed(by: disposeBag)
 
+        //So when the cell is selected, navigate to ItemDetail
         collectionView.rx.modelSelected(BookItem.self).subscribe(onNext: {
             model in
 
@@ -128,12 +140,18 @@ class SearchViewController: BaseViewController {
 
     }
 
+    /*
+     It sort the searched result by title in alphabetically order
+     */
     @objc func performSort() {
         searchResult.value.sort(by: {$0.title! < $1.title!})
     }
 
     let filterLauncher = FilterLauncher()
 
+    /*
+     It filter the searched result by certain criteria. Eg. title length
+     */
     @objc func performFilter() {
         //When user is searching, then need to reset filterResult value
         //Else, user is just trying to filter current searchResult
@@ -159,6 +177,9 @@ class SearchViewController: BaseViewController {
 
 //Mark: - FilterLauncherDelegate
 extension SearchViewController: FilterLauncherDelegate {
+    /*
+     It filter the searched result such that only title length less than the user-specified value will be displayed
+     */
     func filterByTitle(_ length: Int) {
         let temp = filterResult.value
         searchResult.value = filterResult.value.filter({$0.title!.count <= length})

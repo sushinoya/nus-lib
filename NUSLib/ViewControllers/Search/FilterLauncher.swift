@@ -9,13 +9,18 @@
 import UIKit
 import Neon
 
+
+/*
+ It defines a list of methods that suit the filter task
+ */
 protocol FilterLauncherDelegate: class {
     func filterByTitle(_ length: Int)
 }
 
-//Prevent Fat Controller:
-//Instead of putting all the code inside SearchViewController, we should separate into a different class. Because displaying Filter Screen is not the job for SearchViewController
 
+/*
+ The controller manages the UI for Filter Page. Allowing user to perform filter by title length.
+ */
 class FilterLauncher: UIViewController {
 
     // MARK: - Variables
@@ -51,6 +56,10 @@ class FilterLauncher: UIViewController {
     }()
 
     // MARK: - Helper methods
+    
+    /*
+     It set up views for Filter
+     */
     func showFilters() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -98,6 +107,9 @@ class FilterLauncher: UIViewController {
 
     }
 
+    /*
+     It dismiss the Filter page with an animation
+     */
     @objc func handleDismiss() {
         UIView.animate(withDuration: 0.5) {
             self.blackView.alpha = 0
@@ -113,6 +125,9 @@ class FilterLauncher: UIViewController {
         }
     }
 
+    /*
+     It shows the keyboard by moving the Filter page up when user taps onto filter textfield
+     */
     @objc func keyboardDidShow(notification: Notification) {
         guard let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return
@@ -126,12 +141,18 @@ class FilterLauncher: UIViewController {
         }, completion: nil)
     }
 
+    /*
+     It hide keyboard and move filter page to its original position
+     */
     @objc func keyboardWillHide(notification: Notification) {
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
             self.baseView.frame = CGRect(x: 0, y: self.y, width: self.baseView.frame.width, height: self.baseView.frame.height)
         }, completion: nil)
     }
 
+    /*
+     It will let its deletage handle the filter method and then removes filter page from view
+     */
     @objc func handleSubmit() {
         var length = 1000
         if let text = titleLengthTextField.text {
