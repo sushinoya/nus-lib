@@ -58,11 +58,11 @@ extension UIColor {
 
     static let lipstickRed = UIColor("#BF2A2A")
     static let accent4 = UIColor.lipstickRed
-    
+
     // social buttons
     static let facebookSocial = UIColor("#3B5998")
     static let twitterSocial = UIColor("#00ACED")
-    
+
     static let goodreadsSocial = UIColor("#F2F0E6")
     static let googleSocial = UIColor("#EDEDED")
 }

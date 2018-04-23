@@ -14,7 +14,6 @@ import ZFRippleButton
 import RxSwift
 import RxCocoa
 
-
 class PasswordResetViewController: BaseModalViewController, UITextFieldDelegate {
     // MARK: - Variables
     var newPasswordField: SkyFloatingLabelTextFieldWithIcon?
