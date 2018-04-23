@@ -27,6 +27,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     // MARK: - Variables
     let bookCollectionViewCellID = "bookCollectionViewCell"
     var bookId = ""
+    var bookTitle : String?
     let api: LibraryAPI = CentralLibrary()
     var similarTitleText: Variable<String> = Variable("")
 
@@ -35,6 +36,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         setupNavigationBar()
         bookId = state?.itemDetail?.id ?? "1000002"
+        bookTitle = state?.itemDetail?.title
         view.addSubview(loading)
         loading.startAnimating()
         setupData()
@@ -222,7 +224,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         self.scrollView.addSubview(self.googleRecommendationCollection)
         self.scrollView.addSubview(self.loadingGoogleRecommendation)
         self.scrollView.addSubview(self.facebookButton)
-//        self.scrollView.addSubview(self.twitterButton)
+        self.scrollView.addSubview(self.twitterButton)
     }
 
     private(set) lazy var loading: NVActivityIndicatorView = {
@@ -600,25 +602,35 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
 
     @objc func shareToTwitter() {
         print("Twitter pressed")
-        if (TWTRTwitter.sharedInstance().sessionStore.hasLoggedInUsers()) {
+        if (Twitter.sharedInstance().sessionStore.hasLoggedInUsers()) {
             // App must have at least one logged-in user to compose a Tweet
-            let composer = TWTRComposerViewController.emptyComposer()
-            present(composer, animated: true, completion: nil)
+            self.displayTweet()
         } else {
             // Log in, and then check again
-            TWTRTwitter.sharedInstance().logIn { session, error in
+            Twitter.sharedInstance().logIn { session, error in
                 if session != nil { // Log in succeeded
-                    let composer = TWTRComposerViewController.emptyComposer()
-                    self.present(composer, animated: true, completion: nil)
+                    self.displayTweet()
                 } else {
-
                     let alert = self.setupAlertController(title: "No Twitter Accounts Available", message: "You must log in before presenting a composer.")
-
                     self.present(alert, animated: false, completion: nil)
                 }
             }
         }
     }
+    
+    func displayTweet() {
+        let composer = TWTRComposer()
+            composer.setText("Check out \(bookTitle ?? "this book") at NUS Libraries!")
+            composer.setURL(URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!)
+            composer.show(from: self) { result in
+            if ( result == .done) {
+                print("Successfully composed Tweet")
+            } else {
+                print("Must have cancelled...")
+            }
+        }
+    }
+
 
     private func postToFaceBook() {
         let content = LinkShareContent(url: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!, quote: "Title")
