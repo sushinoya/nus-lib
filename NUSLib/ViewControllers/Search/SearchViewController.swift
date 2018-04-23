@@ -71,7 +71,7 @@ class SearchViewController: BaseViewController {
     }
 
     // MARK: - Lazy initialisation views
-    
+
     /*
      It set up UI subviews to be displayed in this view
      */
@@ -102,7 +102,7 @@ class SearchViewController: BaseViewController {
         }()
 
     // MARK: - Helper methods
-   
+
     /*
      It set up Reactive Search which allowing user to query library api "as-user-is-typing"
      */

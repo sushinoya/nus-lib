@@ -14,10 +14,10 @@ import BarcodeScanner
 extension HomeViewController: BarcodeScannerCodeDelegate {
     func scanner(_ controller: BarcodeScannerViewController, didCaptureCode code: String, type: String) {
         let bookISBN = code
-        
+
         print("ISBN: \(bookISBN)")
         print("Type: \(type)")
-        
+
         // If not a valid ISBN barcode
         if type != "org.gs1.EAN-13" {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -36,10 +36,9 @@ extension HomeViewController: BarcodeScannerCodeDelegate {
                 }
             })
         }
-        
-        
+
 // TO BE CLEARED AFTER STePS with the proper implementation for querying the Google and Sierra API
-        
+
 //        let bookFromISBN = api.getBook(byISBN: bookISBN)
 //            .takeWhile {$0.title != ""}
 ////            .flatMapLatest{ api.getBooks(byTitle: $0)}
@@ -69,8 +68,7 @@ extension HomeViewController: BarcodeScannerCodeDelegate {
 //            }, onCompleted: { () -> Void in
 //                print("completed")
 //            })
-        
-        
+
 //                let bookFromISBN = api.getBook(byISBN: bookISBN)
 //                    .subscribe(onNext: { (bookItem) in
 //                        self.state?.itemDetail = bookItem
@@ -93,13 +91,12 @@ extension HomeViewController: BarcodeScannerCodeDelegate {
 //                        print("completed")
 //                    })
 
-        
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
 //            controller.performSegue(withIdentifier: "BarcodeToBookNotFound", sender: self)
 //            controller.reset()
 //            controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
 //        }
-    
+
     }
 }
 

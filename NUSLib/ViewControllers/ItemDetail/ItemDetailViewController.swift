@@ -27,7 +27,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     // MARK: - Variables
     let bookCollectionViewCellID = "bookCollectionViewCell"
     var bookId = ""
-    var bookTitle : String?
+    var bookTitle: String?
     let api: LibraryAPI = CentralLibrary()
     var similarTitleText: Variable<String> = Variable("")
 
@@ -71,7 +71,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         favourite.align(.toTheRightCentered, relativeTo: previewImage, padding: 50, width: 50, height: 50, offset: 25)
         facebookButton.align(.toTheRightCentered, relativeTo: favourite, padding: 20, width: 50, height: 50, offset: 0)
         twitterButton.align(.toTheRightCentered, relativeTo: facebookButton, padding: 20, width: 50, height: 50, offset: 0)
-        
+
         //Synopsis
         synopsisTitle.alignAndFillWidth(align: .underCentered, relativeTo: overlay, padding: 0, height: 25, offset: 0)
         synopsisTitle.frame = synopsisTitle.frame.offsetBy(dx: 50, dy: 125)
@@ -367,7 +367,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
 
         return this
     }()
-    
+
     private(set) lazy var synopsisTitle: UILabel = {
         let this = UILabel()
         this.text = "SYNOPSIS"
@@ -617,7 +617,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             }
         }
     }
-    
+
     func displayTweet() {
         let composer = TWTRComposer()
             composer.setText("Check out \(bookTitle ?? "this book") at NUS Libraries!")
@@ -630,7 +630,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             }
         }
     }
-
 
     private func postToFaceBook() {
         let content = LinkShareContent(url: URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!, quote: "Title")
@@ -666,11 +665,11 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             if let vc = segue.destination as? BaseViewController {
                 vc.state = state
             }
-            
+
             if let vc = segue.destination as? PostReviewController {
                 vc.state = state
             }
         }
-    
+
     }
 }

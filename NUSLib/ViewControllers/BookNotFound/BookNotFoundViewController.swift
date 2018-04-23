@@ -10,9 +10,8 @@ import UIKit
 import Neon
 import ZFRippleButton
 
-
 class BookNotFoundViewController: BaseModalViewController {
-    
+
     var bookTitle: String?
     var bookISBN: String?
 
@@ -20,26 +19,26 @@ class BookNotFoundViewController: BaseModalViewController {
         super.viewDidLoad()
         addSubviews()
     }
-    
-    //MARK: - Lazy initialisation of views
+
+    // MARK: - Lazy initialisation of views
     private func addSubviews() {
         self.view.addSubview(titleLabel)
         self.view.addSubview(descLabel)
         self.view.addSubview(goodreadsButton)
         self.view.addSubview(googleButton)
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+
         //Title
         titleLabel.anchorInCenter(width: 400, height: 150)
         titleLabel.center.y -= 150
-        
+
         descLabel.align(.underCentered, relativeTo: titleLabel, padding: 10, width: 400, height: 200)
-        
+
         descLabel.groupAndAlign(group: .horizontal, andAlign: .underCentered, views: [goodreadsButton, googleButton], relativeTo: descLabel, padding: 25, width: 200, height: 50)
-        
+
     }
 
     lazy var titleLabel: UILabel = {
@@ -52,7 +51,7 @@ class BookNotFoundViewController: BaseModalViewController {
         this.numberOfLines = 0
         return this
     }()
-    
+
     lazy var descLabel: UILabel = {
         let this = UILabel()
         this.text = "However, you may find it on other platforms:"
@@ -63,7 +62,7 @@ class BookNotFoundViewController: BaseModalViewController {
         this.numberOfLines = 0
         return this
     }()
-    
+
     lazy var goodreadsButton: ZFRippleButton = {
         let this = ZFRippleButton()
         this.setTitle("Goodreads", for: .normal)
@@ -82,7 +81,7 @@ class BookNotFoundViewController: BaseModalViewController {
         this.addTarget(self, action: #selector(openBookInGoodReads), for: .touchUpInside)
         return this
     }()
-    
+
     lazy var googleButton: ZFRippleButton = {
         let this = ZFRippleButton()
         this.setTitle("Google Books", for: .normal)
@@ -101,29 +100,29 @@ class BookNotFoundViewController: BaseModalViewController {
         this.addTarget(self, action: #selector(openBookInGoogleBooks), for: .touchUpInside)
         return this
     }()
-    
+
     @objc func openBookInGoogleBooks() {
         if let bookISBN = bookISBN {
             let urlString = "https://books.google.com.sg/books?vid=ISBN\(bookISBN)"
-            
+
             if let url = URL(string: urlString) {
                 UIApplication.shared.open(url, options: [:])
             }
         }
-        
+
         self.dismiss(animated: true)
     }
-    
+
     @objc func openBookInGoodReads() {
         if let bookTitle = bookTitle {
             let query = bookTitle.replacingOccurrences(of: " ", with: "+")
             let urlString = "https://www.goodreads.com/search?q=\(query)"
-            
+
             if let url = URL(string: urlString) {
                 UIApplication.shared.open(url, options: [:])
             }
         }
-        
+
         self.dismiss(animated: true)
     }
 }

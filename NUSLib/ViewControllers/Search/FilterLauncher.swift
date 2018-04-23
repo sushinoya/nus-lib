@@ -9,14 +9,12 @@
 import UIKit
 import Neon
 
-
 /*
  It defines a list of methods that suit the filter task
  */
 protocol FilterLauncherDelegate: class {
     func filterByTitle(_ length: Int)
 }
-
 
 /*
  The controller manages the UI for Filter Page. Allowing user to perform filter by title length.
@@ -56,7 +54,7 @@ class FilterLauncher: UIViewController {
     }()
 
     // MARK: - Helper methods
-    
+
     /*
      It set up views for Filter
      */
