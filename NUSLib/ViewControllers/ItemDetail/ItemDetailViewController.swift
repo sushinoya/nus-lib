@@ -336,7 +336,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         dbFavouriteCount.observe(.value, with: { (snapshot) in
             let favourite = snapshot.value as? [String: AnyObject] ?? [:]
             let favouriteCount = favourite["count"] as? Int ?? 0
-            
             self.dbFavouriteCount.child("count").setValue(favouriteCount)
         })
     }
