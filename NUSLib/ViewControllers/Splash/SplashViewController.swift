@@ -29,12 +29,18 @@ class SplashViewController: UIViewController {
 
     // MARK: - Setup Data
     private func setupData() {
+        
+        // request for popular statistics from firebase
         FirebaseDataSource().getPopularItems(completionHandler: {ids in
+            // request book resources from sierra
             self.api.getBooks(byIds: ids, completionHandler: { (popularItems) in
                 let popular: Variable<[BookItem]> = Variable(popularItems)
 
                 Observable
+                    // zip two observable sequences into one 
                     .zip(popular.asObservable(), self.api.getBooks(byTitle: "amphibians"))
+                    
+                    // perform segue when the sequences are completed
                     .subscribe(onNext: { (popularBooks, recommendedBooks) in
                         self.state.popularBooks = popularBooks
                         self.state.recommendedBooks = recommendedBooks

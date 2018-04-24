@@ -29,7 +29,7 @@ class SierraApiClient {
     private let accessTokenUrl = URL(string: "https://sandbox.iii.com/iii/sierra-api/v3/token")!
 
     private var accessTokenLastRequested: Date = Date(timeIntervalSince1970: 0)
-    private var accessTokenTimeToLive: TimeInterval = 60 * 5
+    private var accessTokenTimeToLive: TimeInterval = 60 * 5 // 5 minutes
 
     private lazy var credentials: OAuthClientCredentials? = {
         // read from external resource SierraApi.json
@@ -40,7 +40,7 @@ class SierraApiClient {
             return OAuthClientCredentials(id: clientId, secret: clientSecret)
         }
 
-        print(CANNOT_READ_CREDENTIALS)
+        log.error(CANNOT_READ_CREDENTIALS)
 
         return nil
     }()
@@ -58,6 +58,7 @@ class SierraApiClient {
             return
         }
 
+        // OAuth process to request for new accesstoken
         Heimdallr(tokenURL: self.accessTokenUrl, credentials: self.credentials, accessTokenStore: self.accessTokenStore)
             .requestAccessToken(grantType: "client_credentials", parameters: [:]) { result in
                 log.debug("Requested new accesstoken.")
@@ -71,6 +72,7 @@ class SierraApiClient {
         // singleton to restrict creating multiple instances of this class
     }
 
+    // this method has to be called at least once. Preferrably in AppDelegate
     public static func configure() {
         Heimdallr(tokenURL: shared.accessTokenUrl, credentials: shared.credentials, accessTokenStore: shared.accessTokenStore)
             .requestAccessToken(grantType: "client_credentials", parameters: [:]) { result in

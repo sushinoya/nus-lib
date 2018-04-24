@@ -25,17 +25,22 @@ import DCAnimationKit
 class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
 
     // MARK: - Variables
+    let defaultBookId = "1000002"
+    let unknownAuthor = "Unknown Author"
+    let unknownLocation = "Unknown Location"
     let bookCollectionViewCellID = "bookCollectionViewCell"
     var bookId = ""
     var bookTitle: String?
     let api: LibraryAPI = CentralLibrary()
     var similarTitleText: Variable<String> = Variable("")
+    let datasource: AppDataSource = FirebaseDataSource()
+    lazy var dbFavouriteCount = database.child("FavouritesCount").child(bookId)
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        bookId = state?.itemDetail?.id ?? "1000002"
+        bookId = state?.itemDetail?.id ?? defaultBookId
         bookTitle = state?.itemDetail?.title
         view.addSubview(loading)
         loading.startAnimating()
@@ -115,8 +120,8 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         self.scrollView.animateFadeIn()
 
         self.previewTitle.text = bookItem.title
-        self.previewSubtitle.text = (bookItem.author?.isEmpty ?? true) ? "Unknown Author" : bookItem.author
-        self.location.text = (bookItem.location?.isEmpty ?? true) ? "Central Library Level 2" : bookItem.location
+        self.previewSubtitle.text = (bookItem.author?.isEmpty ?? true) ? unknownAuthor : bookItem.author
+        self.location.text = (bookItem.location?.isEmpty ?? true) ? unknownLocation : bookItem.location
 
         self.previewImageShadow.expand(into: self.scrollView, finished: nil)
         self.previewImage.expand(into: self.scrollView, finished: nil)
@@ -132,12 +137,12 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         let book = api.getBook(byId: bookId)
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
-                if !isBookLoaded {      //If cache has not loaded book already
-                    self.setupDataFromBook(bookItem)
-                }
-                CacheManager.shared.addToCache(itemID: self.bookId, item: bookItem) //Update the cached version of the book
-            },
-
+                //If cache has not loaded book already
+                if !isBookLoaded { self.setupDataFromBook(bookItem) }
+                    
+                //Update the cached version of the book
+                CacheManager.shared.addToCache(itemID: self.bookId, item: bookItem)},
+                
                 // showing the loading spinner notifying user it is going to load the similar media
                 onCompleted: {
                     self.loadingSimilarCollection.startAnimating()
@@ -146,14 +151,13 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             .share(replay: 1, scope: .forever)
 
         // send the api request to get books by same author
-        book.flatMapLatest { self.getSimilarMedia(byAuthor: $0.author ?? "Unknown Author") }
+        book.flatMapLatest { self.getSimilarMedia(byAuthor: $0.author ?? self.unknownAuthor) }
 
             // if the request produces any error, return empty array
             .catchErrorJustReturn([])
 
             // if no books are found, show no result message
             .do(onNext: { $0.isEmpty ? self.similarCollection.displayEmptyResult() : () },
-
                 // stop the spinner
                 onCompleted: { self.loadingSimilarCollection.stopAnimating() })
 
@@ -166,13 +170,13 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             }
             .disposed(by: disposeBag)
 
+        // send the api request to get books recommendation
         book.flatMapLatest { self.api.getBooksRecommendation(byTitle: $0.title ?? "") }
             // if the request produces any error, return empty array
             .catchErrorJustReturn([])
 
             // if no books are found, show no result message
             .do(onNext: { $0.isEmpty ? self.googleRecommendationCollection.displayEmptyResult() : () },
-
                 // stop the spinner
                 onCompleted: { self.loadingGoogleRecommendation.stopAnimating() })
 
@@ -187,6 +191,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
             }
             .disposed(by: disposeBag)
 
+        // get reviews data from firebase
         book.subscribe(onNext: { (bookItem) in
             FirebaseDataSource().getReviewsForBook(bookId: self.bookId) { (reviews) in
                 guard !reviews.isEmpty else {
@@ -198,7 +203,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
                 self.reviewCollection.reloadData()
             }
         })
-            .disposed(by: disposeBag)
+        .disposed(by: disposeBag)
     }
 
     // MARK: - Lazy initialisation views
@@ -315,58 +320,68 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
 
-        let ds: AppDataSource = FirebaseDataSource()
-        let ref = database.child("FavouritesCount").child(bookId)
-
-        ref.observe(.value, with: { (snapshot) in
-            let favourite = snapshot.value as? [String: AnyObject] ?? [:]
-            let favouriteCount = favourite["count"] as? Int ?? 0
-
-            ref.child("count").setValue(favouriteCount)
-        })
-
-        if let user = ds.getCurrentUser() {
-            let uid = user.getUserID()
-
-            ds.getFavourite(by: uid, bookid: bookId, completionHandler: { (isMarked) in
-                if isMarked {
-                    this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
-                }
-
-            })
-
-            this.rx.tapGesture()
-                .when(.recognized)
-                .subscribe(onNext: { result in
-
-                    ds.addToFavourite(by: uid, bookid: self.bookId, bookTitle: self.previewTitle.text ?? "Unknown Book" ) { isSuccess in
-
-                        if isSuccess {
-                            ds.updateCount(bookid: self.bookId, value: -1)
-                            this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
-                        } else {
-                            ds.deleteFavourite(by: uid, bookid: self.bookId, completionHandler: {
-                                ds.updateCount(bookid: self.bookId, value: 1)
-                                this.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
-                            })
-                        }
-                    }
-                })
-                .disposed(by: disposeBag)
+        if let uid = datasource.getCurrentUser()?.getUserID() {
+            checkHasFavourited(uid)
+            setupValidFavouriteTapAction(uid)
         } else {
-
-            this.rx.tapGesture()
-                .when(.recognized)
-                .subscribe(onNext: { result in
-
-                    let alert = self.setupAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.")
-
-                    self.present(alert, animated: false, completion: nil)
-            }).disposed(by: disposeBag)
+            setupInvalidFavouriteTapAction()
         }
+        
+        setupFavouriteCounter()
 
         return this
     }()
+    
+    func setupFavouriteCounter(){
+        dbFavouriteCount.observe(.value, with: { (snapshot) in
+            let favourite = snapshot.value as? [String: AnyObject] ?? [:]
+            let favouriteCount = favourite["count"] as? Int ?? 0
+            
+            self.dbFavouriteCount.child("count").setValue(favouriteCount)
+        })
+    }
+    
+    // mark the heart with red if this item has been favourited before
+    func checkHasFavourited(_ uid: String) {
+        datasource.getFavourite(by: uid, bookid: bookId, completionHandler: { (isMarked) in
+            if isMarked {
+                self.favourite.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
+            }
+            
+        })
+    }
+    
+    // setup valid tap action given valid uid
+    func setupValidFavouriteTapAction(_ uid: String) {
+        favourite.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { result in
+                self.datasource.addToFavourite(by: uid, bookid: self.bookId, bookTitle: self.previewTitle.text ?? "Unknown Book" ) { isSuccess in
+                    if isSuccess {
+                        self.datasource.updateCount(bookid: self.bookId, value: -1)
+                        self.favourite.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .lipstickRed, size: CGSize(width: 40, height: 40)), for: .normal)
+                    } else {
+                        self.datasource.deleteFavourite(by: uid, bookid: self.bookId, completionHandler: {
+                            self.datasource.updateCount(bookid: self.bookId, value: 1)
+                            self.favourite.setImage(UIImage.fontAwesomeIcon(name: .heart, textColor: .white, size: CGSize(width: 40, height: 40)), for: .normal)
+                        })
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    // setup invalid tap action if user has not logged in
+    func setupInvalidFavouriteTapAction() {
+        favourite.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { result in
+                
+                let alert = self.setupAlertController(title: "Favourite", message: "You must log in before adding to your favourite list.")
+                
+                self.present(alert, animated: false, completion: nil)
+            }).disposed(by: disposeBag)
+    }
 
     private(set) lazy var synopsisTitle: UILabel = {
         let this = UILabel()
@@ -415,29 +430,35 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
 
-        let ds: AppDataSource = FirebaseDataSource()
-
-        if let user = ds.getCurrentUser() {
-            let uid = user.getUserID()
-            this.rx.tapGesture()
-                .when(.recognized)
-                .subscribe(onNext: { _ in
-                    self.state?.postReview = self.state?.itemDetail
-                    self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
-                })
-                .disposed(by: disposeBag)
+        if let uid = datasource.getCurrentUser()?.getUserID() {
+            setupValidReviewTapAction(uid)
         } else {
-            this.rx.tapGesture()
-                .when(.recognized)
-                .subscribe(onNext: { result in
-
-                    let alert = self.setupAlertController(title: "Review", message: "You must log in before writing reviews.")
-
-                    self.present(alert, animated: false, completion: nil)
-                }).disposed(by: disposeBag)
+            setupInvalidFavouriteTapAction()
         }
+        
         return this
     }()
+    
+    func setupValidReviewTapAction(_ uid: String) {
+        reviewButton.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                self.state?.postReview = self.state?.itemDetail
+                self.performSegue(withIdentifier: "ItemDetailToPostReview", sender: self)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func setupInvalidReviewTapAction() {
+        reviewButton.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { result in
+                
+                let alert = self.setupAlertController(title: "Review", message: "You must log in before writing reviews.")
+                
+                self.present(alert, animated: false, completion: nil)
+            }).disposed(by: disposeBag)
+    }
 
     private(set) lazy var reviewCollection: HorizontalCollectionView<ReviewCell> = {
         let this = HorizontalCollectionView<ReviewCell> {

@@ -39,7 +39,6 @@ class AccountPageViewController: BaseViewController, UIScrollViewDelegate {
         super.viewWillLayoutSubviews()
         scrollView.fillSuperview()
         let overlayHeight = view.bounds.height * overlayHeightFraction
-        let buttonPadding =  view.frame.width / 7
 
         // Banner
         overlay.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: overlayHeight)

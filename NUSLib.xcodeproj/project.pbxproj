@@ -43,7 +43,7 @@
 		4AB8BEE62077F22400224699 /* GoogleBooksApi+RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB8BEE52077F22400224699 /* GoogleBooksApi+RxSwift.swift */; };
 		4AB8BEE9207837B800224699 /* PostReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB8BEE8207837B800224699 /* PostReviewController.swift */; };
 		4AC1C15D20764C3900521CAB /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC1C15C20764C3900521CAB /* ReviewCell.swift */; };
-		4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */; };
+		4AE79FC0205AAAD400309D02 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FBE205AAAD400309D02 /* UIColor+Hex.swift */; };
 		4AE79FC5205AAB9000309D02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FC4205AAB9000309D02 /* HomeViewController.swift */; };
 		4AE79FC8205AABAD00309D02 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FC6205AABAD00309D02 /* LoginViewController.swift */; };
 		4AE79FC9205AABAD00309D02 /* LoginViewController+FormResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE79FC7205AABAD00309D02 /* LoginViewController+FormResponder.swift */; };
@@ -139,7 +139,7 @@
 		4AB8BEE52077F22400224699 /* GoogleBooksApi+RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoogleBooksApi+RxSwift.swift"; sourceTree = "<group>"; };
 		4AB8BEE8207837B800224699 /* PostReviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewController.swift; sourceTree = "<group>"; };
 		4AC1C15C20764C3900521CAB /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
-		4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
+		4AE79FBE205AAAD400309D02 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		4AE79FC4205AAB9000309D02 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		4AE79FC6205AABAD00309D02 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4AE79FC7205AABAD00309D02 /* LoginViewController+FormResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginViewController+FormResponder.swift"; sourceTree = "<group>"; };
@@ -342,13 +342,13 @@
 		4AE79FC1205AAAD900309D02 /* Helpers+Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				4A2F02E520808BFE0014F1D0 /* Array.swift */,
 				4275CD0B20598FFD00943195 /* Constants.swift */,
-				4AE79FBE205AAAD400309D02 /* UIColor+Helper.swift */,
+				4AB8BEE52077F22400224699 /* GoogleBooksApi+RxSwift.swift */,
+				4AE79FBE205AAAD400309D02 /* UIColor+Hex.swift */,
 				4A729C3C20655F7B00B62D9F /* UIScrollView+FitToContent.swift */,
 				4A5B589E20691DD200BACA73 /* UIView.swift */,
 				4AB8BEE32077DB7500224699 /* UICollectionView.swift */,
-				4AB8BEE52077F22400224699 /* GoogleBooksApi+RxSwift.swift */,
-				4A2F02E520808BFE0014F1D0 /* Array.swift */,
 			);
 			path = "Helpers+Extensions";
 			sourceTree = "<group>";
@@ -913,7 +913,7 @@
 				8240A66E2077D96E00A5151E /* AccountPageViewController.swift in Sources */,
 				EC6CD12F2064A2FE0058CA5A /* FavouriteTableViewController + TableView.swift in Sources */,
 				EC6CD1412064DE9B0058CA5A /* TopSeachCollectionViewCell.swift in Sources */,
-				4AE79FC0205AAAD400309D02 /* UIColor+Helper.swift in Sources */,
+				4AE79FC0205AAAD400309D02 /* UIColor+Hex.swift in Sources */,
 				4232C36F206FEA0B00B969F5 /* AppDataSource.swift in Sources */,
 				EC6CD1392064D6E20058CA5A /* ItemDetailTitlePictureTableCell.swift in Sources */,
 				EC6CD13B2064D6E20058CA5A /* ItemDetailSimilarBookTableCell.swift in Sources */,

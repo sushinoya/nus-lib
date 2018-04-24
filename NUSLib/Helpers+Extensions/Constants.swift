@@ -11,11 +11,6 @@ import UIKit
 
 struct Constants {
 
-    enum Colors {
-        static let titleColor = "#F2C777"
-        static let backgroundColor = "#092140"
-    }
-
     enum NavigationBarTitle {
         static let ItemDetailTitle = "Item Detail"
         static let SearchTitle = "Search"
