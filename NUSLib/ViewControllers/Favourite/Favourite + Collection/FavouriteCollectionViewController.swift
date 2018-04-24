@@ -96,9 +96,12 @@ class FavouriteCollectionViewController: BaseViewController {
                         self.bookLists[0].append(book)
                     }
                 }
+                var hasDataLoadedFromCache = false
                 if self.bookLists[0].count > 0 {
+                    hasDataLoadedFromCache = true
                     self.bookLists[0] = self.bookLists[0].sorted(by: {$0.title ?? ""  < $1.title ?? ""})
                     self.collectionview.reloadData()
+                    self.view.isUserInteractionEnabled = true
                 }
                 
                 self.library.getBooks(byIds: ids, completionHandler: { (items) in
@@ -107,12 +110,11 @@ class FavouriteCollectionViewController: BaseViewController {
                     }
                     self.bookLists[0] = items.sorted(by: {$0.title ?? ""  < $1.title ?? ""})
                     self.filter(searchTerm: self.searchBar.text!)
-                    self.view.isUserInteractionEnabled = true
+                    if !hasDataLoadedFromCache {
+                        self.view.isUserInteractionEnabled = true
+                        self.collectionview.reloadData()
+                    }
                 })
-                
-                if self.bookLists[0].count == 0 {
-                    self.collectionview.reloadData()
-                }
             })
         }
     }
