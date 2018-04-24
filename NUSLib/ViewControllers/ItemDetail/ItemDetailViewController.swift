@@ -26,11 +26,12 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
 
     // MARK: - Variables
     let defaultBookId = "1000002"
+    let unknownTitle = "Unknown Title"
     let unknownAuthor = "Unknown Author"
     let unknownLocation = "Unknown Location"
     let bookCollectionViewCellID = "bookCollectionViewCell"
-    var bookId = ""
-    var bookTitle: String?
+    lazy var bookId: String = state?.itemDetail?.id ?? defaultBookId
+    lazy var bookTitle: String = state?.itemDetail?.title ?? unknownTitle
     let api: LibraryAPI = CentralLibrary()
     var similarTitleText: Variable<String> = Variable("")
     let datasource: AppDataSource = FirebaseDataSource()
@@ -39,12 +40,25 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupNavigationBar()
-        bookId = state?.itemDetail?.id ?? defaultBookId
-        bookTitle = state?.itemDetail?.title
-        view.addSubview(loading)
-        loading.startAnimating()
+        
         setupData()
+        
+    }
+    
+    private func setupGestures(){
+        setupSimilarMediaTapAction()
+        setupRecommendTapAction()
+        
+        if let uid = datasource.getCurrentUser()?.getUserID() {
+            setupValidReviewTapAction(uid)
+            checkHasFavourited(uid)
+            setupValidFavouriteTapAction(uid)
+        } else {
+            setupInvalidReviewTapAction()
+            setupInvalidFavouriteTapAction()
+        }
     }
 
     private func setupNavigationBar() {
@@ -111,34 +125,42 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
     }
 
     // MARK: - Setup Data
-    fileprivate func setupDataFromBook(_ bookItem: (BookItem)) {
-        self.addSubviews()
-
-        self.setupSimilarMediaTapAction()
-
-        self.loading.stopAnimating()
-        self.scrollView.animateFadeIn()
-
+    fileprivate func setupData(for bookItem: (BookItem)) {
+        
         self.previewTitle.text = bookItem.title
         self.previewSubtitle.text = (bookItem.author?.isEmpty ?? true) ? unknownAuthor : bookItem.author
         self.location.text = (bookItem.location?.isEmpty ?? true) ? unknownLocation : bookItem.location
 
         self.previewImageShadow.expand(into: self.scrollView, finished: nil)
         self.previewImage.expand(into: self.scrollView, finished: nil)
+        
     }
 
     private func setupData() {
+        
         var isBookLoaded = false
         // get the book by id
         if let book = CacheManager.shared.retrieveFromCache(itemID: bookId) {
-            setupDataFromBook(book)
+            setupData(for: book)
             isBookLoaded = true
         }
+        
         let book = api.getBook(byId: bookId)
             // add views and update labels after the book item is returned
             .do(onNext: { bookItem in
+                self.view.addSubview(self.loading)
+                self.loading.startAnimating()
+                
                 //If cache has not loaded book already
-                if !isBookLoaded { self.setupDataFromBook(bookItem) }
+                if !isBookLoaded { self.setupData(for: bookItem) }
+                
+                self.addSubviews()
+                self.setupGestures()
+                
+                self.setupFavouriteCounter()
+                
+                self.loading.stopAnimating()
+                self.scrollView.animateFadeIn()
                     
                 //Update the cached version of the book
                 CacheManager.shared.addToCache(itemID: self.bookId, item: bookItem)},
@@ -320,15 +342,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
 
-        if let uid = datasource.getCurrentUser()?.getUserID() {
-            checkHasFavourited(uid)
-            setupValidFavouriteTapAction(uid)
-        } else {
-            setupInvalidFavouriteTapAction()
-        }
-        
-        setupFavouriteCounter()
-
         return this
     }()
     
@@ -429,12 +442,6 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.layer.masksToBounds = false
         this.rippleColor = UIColor.white.withAlphaComponent(0.2)
         this.rippleBackgroundColor = UIColor.clear
-
-        if let uid = datasource.getCurrentUser()?.getUserID() {
-            setupValidReviewTapAction(uid)
-        } else {
-            setupInvalidFavouriteTapAction()
-        }
         
         return this
     }()
@@ -543,25 +550,27 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
         this.backgroundColor = UIColor.clear
         this.showsHorizontalScrollIndicator = false
 
-        this.rx.itemSelected.subscribe(onNext: { (index) in
-            if let cell = this.cellForItem(at: index) as? BookCollectionViewCell,
+        return this
+    }()
+    
+    func setupRecommendTapAction() {
+        googleRecommendationCollection.rx.itemSelected.subscribe(onNext: { (index) in
+            if let cell = self.googleRecommendationCollection.cellForItem(at: index) as? BookCollectionViewCell,
                 let item = cell.data as? DisplayableItem,
                 let link = item.infoLink {
-
+                
                 let alert = UIAlertController(title: "External Weblink", message: "This will open the link in your browser.", preferredStyle: .alert)
-
+                
                 alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
                 alert.addAction(UIAlertAction(title: "Yes", style: .default) { action in
                     UIApplication.shared.open(link, options: [:], completionHandler: nil)
                 })
-
+                
                 self.present(alert, animated: true)
-
+                
             }
         }).disposed(by: disposeBag)
-
-        return this
-    }()
+    }
 
     private(set) lazy var facebookButton: SocialButton = { [unowned self] in
         let this = SocialButton(type: .facebook)
@@ -641,7 +650,7 @@ class ItemDetailViewController: BaseViewController, UIScrollViewDelegate {
 
     func displayTweet() {
         let composer = TWTRComposer()
-            composer.setText("Check out \(bookTitle ?? "this book") at NUS Libraries!")
+            composer.setText("Check out \(bookTitle) at NUS Libraries!")
             composer.setURL(URL(string: "https://res.cloudinary.com/national-university-of-singapore/image/upload/v1521804170/NUSLib/BookCover1.jpg")!)
             composer.show(from: self) { result in
             if ( result == .done) {

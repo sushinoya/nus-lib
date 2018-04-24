@@ -30,6 +30,9 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupNavigationBar()
+        self.setupPopularItemSelectedAction()
+        self.setupRecommendCollectionLeftSelectedAction()
+        self.setupRecommendCollectionRightSelectedAction()
         self.addSubViews()
     }
 
@@ -120,7 +123,7 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         return this
     }()
 
-    lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = { [unowned self] in
+    lazy var popularCollection: HorizontalCollectionView<ThumbnailCell> = {
 
         let this = HorizontalCollectionView<ThumbnailCell> {
             $0.cellSize = CGSize(width: 320, height: 240)
@@ -139,10 +142,9 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
         this.isPagingEnabled = true
-        
-        setupPopularItemSelectedAction()
 
         return this
+        
         }()
     
     func setupPopularItemSelectedAction (){
@@ -203,8 +205,6 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.backgroundColor = UIColor.white
         this.isScrollEnabled = false
 
-        setupRecommendCollectionLeftSelectedAction()
-
         return this
     }()
     
@@ -242,8 +242,6 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
         this.isScrollEnabled = false
-
-        setupRecommendCollectionRightSelectedAction()
 
         return this
     }()
