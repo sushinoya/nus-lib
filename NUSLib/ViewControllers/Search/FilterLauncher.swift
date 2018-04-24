@@ -152,18 +152,12 @@ class FilterLauncher: UIViewController {
      It will let its deletage handle the filter method and then removes filter page from view
      */
     @objc func handleSubmit() {
-        var length = 1000
-        if let text = titleLengthTextField.text {
-            if text.isEmpty {
-                length = 1000
-            } else {
-                length = Int(text)!
-            }
-
+        
+        if let length = Int(titleLengthTextField.text ?? "1000") {
+            delegate?.filterByTitle(length)
+            baseView.removeFromSuperview()
+            blackView.removeFromSuperview()
         }
-        delegate?.filterByTitle(length)
-        baseView.removeFromSuperview()
-        blackView.removeFromSuperview()
     }
 
 }

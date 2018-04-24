@@ -19,14 +19,14 @@ class SearchViewController: BaseViewController {
 
     // MARK: - Variables
     var topSearchCollectionViewCellID = "topSearchCollectionViewCell"
-    var isSearching = false
 
     var searchValue: Variable<String> = Variable("")
     var filterResult: Variable<[DisplayableItem]> = Variable([])
     var searchResult: Variable<[DisplayableItem]> = Variable([])
 
     let api = CentralLibrary()
-
+    let filterLauncher = FilterLauncher()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,7 +118,7 @@ class SearchViewController: BaseViewController {
             .map { $0.map { $0 as DisplayableItem }}
             .bind(to: self.searchResult)
             .disposed(by: self.disposeBag)
-
+        
         //Then bind result from Library API to collectionView
         searchResult.asObservable().bind(to: collectionView.rx.items(cellIdentifier: topSearchCollectionViewCellID, cellType: TopSeachCollectionViewCell.self)) {index, model, cell in
             cell.topSearchLabel.text = model.title
@@ -147,19 +147,14 @@ class SearchViewController: BaseViewController {
         searchResult.value.sort(by: {$0.title! < $1.title!})
     }
 
-    let filterLauncher = FilterLauncher()
-
     /*
      It filter the searched result by certain criteria. Eg. title length
      */
     @objc func performFilter() {
         //When user is searching, then need to reset filterResult value
         //Else, user is just trying to filter current searchResult
-        if isSearching {
-            filterResult.value = searchResult.value
-            isSearching = false
-        }
 
+        filterResult.value = searchResult.value
         searchController.searchBar.resignFirstResponder()
         filterLauncher.delegate = self
         filterLauncher.showFilters()
@@ -182,7 +177,10 @@ extension SearchViewController: FilterLauncherDelegate {
      */
     func filterByTitle(_ length: Int) {
         let temp = filterResult.value
-        searchResult.value = filterResult.value.filter({$0.title!.count <= length})
+        searchResult.value = filterResult.value.filter({
+            print(length, print($0.title!.count))
+            return $0.title!.count <= length
+        })
         filterResult.value = temp
     }
 }
