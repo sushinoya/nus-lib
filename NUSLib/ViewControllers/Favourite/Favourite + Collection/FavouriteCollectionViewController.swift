@@ -91,12 +91,28 @@ class FavouriteCollectionViewController: BaseViewController {
 
         if let user = ds.getCurrentUser() {
             ds.getFavouriteBookListForUser(userID: user.getUserID(), completionHandler: { (ids) in
-                self.library.getBooks(byIds: ids, completionHandler: { (items) in
-                    self.bookLists[0] = items.sorted(by: {$0.title ?? ""  < $1.title ?? ""})
+                for id in ids {
+                    if let book = CacheManager.shared.retrieveFromCache(itemID: id) {
+                        self.bookLists[0].append(book)
+                    }
+                }
+                if self.bookLists[0].count > 0 {
+                    self.bookLists[0] = self.bookLists[0].sorted(by: {$0.title ?? ""  < $1.title ?? ""})
                     self.collectionview.reloadData()
+                }
+                
+                self.library.getBooks(byIds: ids, completionHandler: { (items) in
+                    for item in items {
+                        CacheManager.shared.addToCache(itemID: item.id!, item: item)
+                    }
+                    self.bookLists[0] = items.sorted(by: {$0.title ?? ""  < $1.title ?? ""})
                     self.filter(searchTerm: self.searchBar.text!)
                     self.view.isUserInteractionEnabled = true
                 })
+                
+                if self.bookLists[0].count == 0 {
+                    self.collectionview.reloadData()
+                }
             })
         }
     }

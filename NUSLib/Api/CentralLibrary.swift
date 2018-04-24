@@ -28,19 +28,16 @@ class CentralLibrary: LibraryAPI {
                     let data = moyaResponse.data
                     do {
                         let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
-
                         let book = BookItem {
                             $0.id = jsonObject["id"] as? String
                             $0.title = jsonObject["title"] as? String
                             $0.author = jsonObject["author"] as? String
                         }
-
                         books.append(book)
                         myGroup.leave()
                     } catch {
                         print(error)
                     }
-
                 case let .failure(error):
                     print(error)
                     return

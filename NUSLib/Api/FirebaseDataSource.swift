@@ -18,13 +18,10 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
-
         database.child("FavouritesCount").queryOrdered(byChild: "count").queryLimited(toFirst: 10)
             .observe( .value) { (snapshot) in
-
             if snapshot.exists() {
                 var bookIds = [String]()
-
                 for child in snapshot.children.reversed() {
                     let snap = child as! DataSnapshot
                     bookIds.append(snap.key)
@@ -34,10 +31,6 @@ class FirebaseDataSource: AppDataSource {
                 print("No popular books")
             }
         }
-    }
-
-    func getMostViewedItems() -> [DisplayableItem] {
-        return []
     }
 
     func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void) {
@@ -224,19 +217,13 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func updateCount(bookid: String, value: Int) {
-
         database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
             if var bibs = data.value as? [String: AnyObject] {
-
-                var dummyVal = bibs["count"] as? Int ?? 0
-
-                dummyVal = dummyVal + value
-
-                bibs["count"] = dummyVal as AnyObject?
-
+                var currentValue = bibs["count"] as? Int ?? 0
+                currentValue = currentValue + value
+                bibs["count"] = currentValue as AnyObject?
                 data.value = bibs
             }
-
             return TransactionResult.success(withValue: data)
         }) { (error, committed, snapshot) in
             if let error = error {
