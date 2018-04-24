@@ -18,13 +18,10 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func getPopularItems(completionHandler: @escaping ([String]) -> Void) {
-
         database.child("FavouritesCount").queryOrdered(byChild: "count").queryLimited(toFirst: 10)
             .observe( .value) { (snapshot) in
-
             if snapshot.exists() {
                 var bookIds = [String]()
-
                 for child in snapshot.children.reversed() {
                     let snap = child as! DataSnapshot
                     bookIds.append(snap.key)
@@ -34,10 +31,6 @@ class FirebaseDataSource: AppDataSource {
                 print("No popular books")
             }
         }
-    }
-
-    func getMostViewedItems() -> [DisplayableItem] {
-        return []
     }
 
     func getReviewsForBook(bookId: String, completionHandler: @escaping ([Review]) -> Void) {
