@@ -217,19 +217,13 @@ class FirebaseDataSource: AppDataSource {
     }
 
     func updateCount(bookid: String, value: Int) {
-
         database.child("FavouritesCount").child("\(bookid)").runTransactionBlock({ (data) -> TransactionResult in
             if var bibs = data.value as? [String: AnyObject] {
-
-                var dummyVal = bibs["count"] as? Int ?? 0
-
-                dummyVal = dummyVal + value
-
-                bibs["count"] = dummyVal as AnyObject?
-
+                var currentValue = bibs["count"] as? Int ?? 0
+                currentValue = currentValue + value
+                bibs["count"] = currentValue as AnyObject?
                 data.value = bibs
             }
-
             return TransactionResult.success(withValue: data)
         }) { (error, committed, snapshot) in
             if let error = error {
