@@ -139,21 +139,25 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.showsHorizontalScrollIndicator = false
         this.backgroundColor = UIColor.white
         this.isPagingEnabled = true
+        
+        setupPopularItemSelectedAction()
 
-        this.rx
+        return this
+        }()
+    
+    func setupPopularItemSelectedAction (){
+        popularCollection.rx
             .itemSelected
             .subscribe(onNext: { index in
-                guard let book = this.data[index.row] as? BookItem else {
+                guard let book = self.popularCollection.data[index.row] as? BookItem else {
                     return
                 }
-
+                
                 self.state?.itemDetail = book
                 self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
             })
             .disposed(by: disposeBag)
-
-        return this
-        }()
+    }
 
     lazy var recommendTitle: UILabel = {
         let this = UILabel()
@@ -199,21 +203,25 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.backgroundColor = UIColor.white
         this.isScrollEnabled = false
 
-        this.rx
-            .itemSelected
-            .subscribe(onNext: { index in
-                guard let book = this.data[index.row] as? BookItem else {
-                    return
-                }
-
-                self.state?.itemDetail = book
-
-                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
-            })
-            .disposed(by: disposeBag)
+        setupRecommendCollectionLeftSelectedAction()
 
         return this
     }()
+    
+    func setupRecommendCollectionLeftSelectedAction(){
+        recommendCollectionLeft.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                guard let book = self.recommendCollectionLeft.data[index.row] as? BookItem else {
+                    return
+                }
+                
+                self.state?.itemDetail = book
+                
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+    }
 
     lazy var recommendCollectionRight: VerticalCollectionView<ThumbnailCell> = { [unowned self] in
         let this = VerticalCollectionView<ThumbnailCell> {
@@ -235,21 +243,25 @@ class HomeViewController: BaseViewController, UIScrollViewDelegate {
         this.backgroundColor = UIColor.white
         this.isScrollEnabled = false
 
-        this.rx
-            .itemSelected
-            .subscribe(onNext: { index in
-                guard let book = this.data[index.row] as? BookItem else {
-                    return
-                }
-
-                self.state?.itemDetail = book
-
-                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
-            })
-            .disposed(by: disposeBag)
+        setupRecommendCollectionRightSelectedAction()
 
         return this
     }()
+    
+    func setupRecommendCollectionRightSelectedAction(){
+        recommendCollectionRight.rx
+            .itemSelected
+            .subscribe(onNext: { index in
+                guard let book = self.recommendCollectionRight.data[index.row] as? BookItem else {
+                    return
+                }
+                
+                self.state?.itemDetail = book
+                
+                self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+    }
 
     lazy var scanBarcodeButton: UIButton = {
         let this = UIButton()
