@@ -27,8 +27,6 @@ struct Constants {
         case weakPassword = "The new password is too weak"
         case error = "Could not complete this request at the moment"
     }
-
-    static let cacheFileName: String = "mycache.plist"
 }
 
 // app theme & color branding
