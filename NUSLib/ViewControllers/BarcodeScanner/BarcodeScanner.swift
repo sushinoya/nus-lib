@@ -37,66 +37,6 @@ extension HomeViewController: BarcodeScannerCodeDelegate {
             })
         }
 
-// TO BE CLEARED AFTER STePS with the proper implementation for querying the Google and Sierra API
-
-//        let bookFromISBN = api.getBook(byISBN: bookISBN)
-//            .takeWhile {$0.title != ""}
-////            .flatMapLatest{ api.getBooks(byTitle: $0)}
-//            .subscribe(onNext: { (bookItem) in
-//                if bookItem.title == "" {
-//                    print("no result")
-//                    controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
-//                } else {
-//                    print(bookItem.title)
-//                    print(bookItem.author)
-//
-//                    print("--------------------")
-//                    print(bookItem.title)
-//                    print(bookItem.author)
-//                    print("--------------------")
-//
-//
-//                    self.scannedBookTitle = bookItem.title
-//                    self.scannedBookISBN = bookISBN
-//
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-//                        self.performSegue(withIdentifier: "HomeToBookNotFound", sender: self)
-//                        controller.reset()
-//                    }
-//
-//                }
-//            }, onCompleted: { () -> Void in
-//                print("completed")
-//            })
-
-//                let bookFromISBN = api.getBook(byISBN: bookISBN)
-//                    .subscribe(onNext: { (bookItem) in
-//                        self.state?.itemDetail = bookItem
-//                        self.performSegue(withIdentifier: "HomeToItemDetail", sender: self)
-//                    })
-//
-//        
-//                let bookFromISBN = api.getBook(byISBN: bookISBN)
-//                    .map{ $0.title}
-//                    .filterNil()
-//                    .takeWhile {!$0.isEmpty}
-//                    .flatMapLatest{ api.getBooks(byTitle: $0)}
-//                    .subscribe(onNext: { (bookItems) in
-//                        if bookItems.isEmpty {
-//                            print("no result")
-//                        } else {
-//                            print(bookItems.first?.title)
-//                        }
-//                    }, onCompleted: { () -> Void in
-//                        print("completed")
-//                    })
-
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-//            controller.performSegue(withIdentifier: "BarcodeToBookNotFound", sender: self)
-//            controller.reset()
-//            controller.resetWithError(message: "No book found with ISBN: \(bookISBN)")
-//        }
-
     }
 }
 
