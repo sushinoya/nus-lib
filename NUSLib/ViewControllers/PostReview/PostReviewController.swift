@@ -14,12 +14,10 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-class PostReviewController: UIViewController {
+class PostReviewController: BaseModalViewController {
 
     // MARK: - Variables
-    let disposeBag = DisposeBag()
     let datasource: AppDataSource = FirebaseDataSource()
-    var state: StateController?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
