@@ -119,14 +119,14 @@ class SearchViewController: BaseViewController {
             .bind(to: self.searchResult)
             .disposed(by: self.disposeBag)
         
-        //Then bind result from Library API to collectionView
+        //Then bind search result obtained from Library API to collectionView
         searchResult.asObservable().bind(to: collectionView.rx.items(cellIdentifier: topSearchCollectionViewCellID, cellType: TopSeachCollectionViewCell.self)) {index, model, cell in
             cell.topSearchLabel.text = model.title
             cell.author.text = model.author
             }
             .disposed(by: disposeBag)
 
-        //So when the cell is selected, navigate to ItemDetail
+        //Now when the cell is selected, navigate to ItemDetail
         collectionView.rx.modelSelected(BookItem.self).subscribe(onNext: {
             model in
 

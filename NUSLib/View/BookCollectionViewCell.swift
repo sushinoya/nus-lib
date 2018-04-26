@@ -67,7 +67,6 @@ class BookCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         // layout must come after adding ui to the scene
         thumbnail.frame = bounds
-//        thumbnail.fillSuperview()
         overlay.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: 75)
         subtitle.anchorAndFillEdge(.bottom, xPad: 10, yPad: 10, otherSize: 25)
         title.alignAndFillWidth(align: .aboveCentered, relativeTo: subtitle, padding: 0, height: 25)

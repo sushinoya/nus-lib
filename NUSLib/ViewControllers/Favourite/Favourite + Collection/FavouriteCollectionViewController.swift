@@ -70,14 +70,7 @@ class FavouriteCollectionViewController: BaseViewController {
         self.view.isUserInteractionEnabled = false
 
         if !FirebaseDataSource().isUserSignedIn() {
-            let alert = UIAlertController(title: "Favourite", message: "You must log in before view favourite.", preferredStyle: .alert)
-
-            let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
-                self.navigationController?.popViewController(animated: true)
-            })
-
-            alert.addAction(okAction)
-            self.present(alert, animated: false, completion: nil)
+           showAlert()
         }
 
         let books = [BookItem]()
@@ -227,5 +220,16 @@ class FavouriteCollectionViewController: BaseViewController {
             }
             self.collectionview.deleteItems(at: indexpaths)
         }
+    }
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "Favourite", message: "You must log in before view favourite.", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            self.navigationController?.popViewController(animated: true)
+        })
+        
+        alert.addAction(okAction)
+        self.present(alert, animated: false, completion: nil)
     }
 }

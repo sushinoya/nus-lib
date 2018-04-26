@@ -21,7 +21,7 @@ class CentralLibrary: LibraryAPI {
 
         var books = [BookItem]()
         for id in ids {
-            myGroup.enter()
+            myGroup.enter()     //Keep track number of task to complete
             SierraApiClient.shared.provider.request(.bib(id: id)) { result in
                 switch result {
                 case let .success(moyaResponse):
@@ -34,7 +34,7 @@ class CentralLibrary: LibraryAPI {
                             $0.author = jsonObject["author"] as? String
                         }
                         books.append(book)
-                        myGroup.leave()
+                        myGroup.leave()     //When one task complete, reduce number of task
                     } catch {
                         print(error)
                     }
@@ -45,7 +45,7 @@ class CentralLibrary: LibraryAPI {
             }
         }
 
-        myGroup.notify(queue: .main) {
+        myGroup.notify(queue: .main) {      //When all the tasks have completed
             completionHandler(books)
         }
 
